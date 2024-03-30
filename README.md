@@ -7,7 +7,7 @@
     <tr>
         <td align="center">
             <a href="https://github.com/luccameds">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/63163895?v=4" width="150px;"/>
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/63163895?v=4" width="160px;"/>
                 <h5 class="text-center">Lucca M. Silva</h5>
             </a>
         </td>
@@ -19,7 +19,7 @@
         </td>
         <td align="center">
             <a href="https://github.com/antonioscarvalho">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/135462889?v=4" width="150px;"/>
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/135462889?v=4" width="140px;"/>
                 <h5 class="text-center">Antonio A. de S. Carvalho </h5>
             </a>
         </td>
@@ -32,7 +32,7 @@
         </td>
         <td align="center">
             <a href="https://github.com/TulioCeleri">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/122989234?v=4" width="160px;"/>
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/122989234?v=4" width="170px;"/>
                 <h5 class="text-center">Túlio A. Celeri</h5>
             </a>
         </td>
@@ -44,7 +44,7 @@
         </td>
           <td align="center">
             <a href="https://github.com/FelipeRibeirooo">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/143733331?v=4" width="160px;"/>
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/143733331?v=4" width="170px;"/>
                 <h5 class="text-center">Felipe R. de O. França </h5>
             </a>
         </td>
