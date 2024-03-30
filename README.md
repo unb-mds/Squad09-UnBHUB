@@ -1,6 +1,6 @@
 # 2024-1-Squad09
 
-## Desenvolvedores
+## Developers
 
 <center>
 <table style="margin-left: auto; margin-right: auto;">
@@ -32,7 +32,7 @@
         </td>
         <td align="center">
             <a href="https://github.com/TulioCeleri">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/122989234?v=4" width="150px;"/>
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/122989234?v=4" width="160px;"/>
                 <h5 class="text-center">Túlio A. Celeri</h5>
             </a>
         </td>
@@ -44,7 +44,7 @@
         </td>
           <td align="center">
             <a href="https://github.com/FelipeRibeirooo">
-                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/143733331?v=4" width="150px;"/>
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/143733331?v=4" width="160px;"/>
                 <h5 class="text-center">Felipe R. de O. França </h5>
             </a>
         </td>
