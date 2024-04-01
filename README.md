@@ -37,8 +37,8 @@
             </a>
         </td>
           <td align="center">
-            <a href="anacarolinamfialho@gmail.com">
-                <img style="border-radius: 50%;" src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fpt.vecteezy.com%2Fpng-gratis%2Fusuario&psig=AOvVaw1wcHSicz3WIpNsRx1Oa8yE&ust=1711896349122000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOj5t4KdnIUDFQAAAAAdAAAAABAE" width="150px;"/>
+            <a href="https://github.com/anawcarol">
+                <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/122827734?v=4" width="150px;"/>
                 <h5 class="text-center">Ana Carolina M. Fialho</h5>
             </a>
         </td>
