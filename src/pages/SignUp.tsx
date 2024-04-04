@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function SingUpScream() {
-  return <div>SignUp</div>;
+export default function SignUpScreen() {
+  return <div>SignUpScreen</div>;
 }
