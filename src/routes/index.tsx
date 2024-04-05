@@ -13,6 +13,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+    {
+      path: '/SignIn',
+      element: <SignInScreen/>
+    }
 ]);
 
 export default router;
