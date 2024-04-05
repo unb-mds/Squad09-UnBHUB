@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function SignInScreens() {
-  return <div>SignIScreensn</div>;
+export default function SignInScreen() {
+  return <div>SignInScreen</div>;
 }
