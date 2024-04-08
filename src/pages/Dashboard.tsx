@@ -8,6 +8,7 @@ export default function DashboardScreen() {
       <div>
         <Outlet />
       </div>
+      <h1>Testando Commit Inicial</h1>
     </div>
   );
 }
