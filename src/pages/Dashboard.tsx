@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import SideBarComponent from '../components/SideBar';
+import Navbar from '../components/Navbar';
 
 export default function DashboardScreen() {
   return (
@@ -8,7 +9,7 @@ export default function DashboardScreen() {
       <div>
         <Outlet />
       </div>
-      <h1>Testando Commit Inicial</h1>
+      <Navbar></Navbar>
     </div>
   );
 }
