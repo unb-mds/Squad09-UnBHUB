@@ -8,27 +8,12 @@ export default function SignInScreens() {
         <div className="surface-card p-4 shadow-2 border-round lg:w-4">
           <div className="text-center mb-5">
             <div className="text-900 text-3xl font-medium mb-3">
-              Welcome Back
+              Entre no UnBHUB
             </div>
-            <span className="text-600 font-medium line-height-3">
-              Don't have an account?
-            </span>
-            <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
-              Create today!
-            </a>
+            <div>Conecte-se para explorar sua vida univerditária</div>
           </div>
-
           <div>
-            <label htmlFor="email" className="block text-900 font-medium mb-2">
-              Email
-            </label>
-            <input
-              id="email"
-              type="text"
-              placeholder="Email address"
-              className="w-full mb-3"
-            />
-
+            <InputComponent label="Endereço de E-mail" />
             <InputComponent label="Senha" />
 
             <div className="flex align-items-center justify-content-between mb-6">
@@ -41,6 +26,12 @@ export default function SignInScreens() {
             </div>
 
             <Button className="py-3 px-8 w-full text-white" label="Entrar" />
+            <span className="text-600 font-medium line-height-3">
+              Don't have an account?
+            </span>
+            <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
+              Create today!
+            </a>
           </div>
         </div>
       </div>
