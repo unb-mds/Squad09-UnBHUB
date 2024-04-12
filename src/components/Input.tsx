@@ -10,7 +10,7 @@ export default function InputComponent(props: InputProps) {
   const [value, setValue] = useState('');
 
   return (
-    <div className="flex justify-content-center">
+    <div className="flex justify-content-center my-2">
       <FloatLabel className="flex w-full">
         <InputText
           id={props.label}
