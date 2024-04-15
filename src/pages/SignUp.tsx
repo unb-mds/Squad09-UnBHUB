@@ -1,5 +1,9 @@
-import React from 'react';
+import SignUpCardComponent from '../components/SignUpCard';
 
 export default function SignUpScreen() {
-  return <div>SignUpScreen</div>;
+  return (
+    <div>
+      <SignUpCardComponent />
+    </div>
+  );
 }
