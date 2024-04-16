@@ -1,28 +1,33 @@
-import { Badge } from 'primereact/badge';
+import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
 import { InputText } from 'primereact/inputtext';
 
 export default function Navbar() {
   return (
-    <div className="flex justify-content-between ">
+    <div className="flex justify-content-between align-items-center surface-50">
       <div>
         <InputText type="text" placeholder="Buscar"></InputText>
       </div>
-      <div className="gap-5">
-        <i className="pi pi-bell p-overlay-badge" style={{ fontSize: '2rem' }}>
-          <Badge></Badge>
-        </i>
-        <i className="pi pi-inbox p-overlay-badge" style={{ fontSize: '2rem' }}>
-          <Badge></Badge>
-        </i>
-        <i>
+      <div className="flex align-items-center">
+        <Button
+          icon="pi pi-bell p-overlay-badge"
+          rounded
+          text
+          size="large"
+          badge="2"
+          badgeClassName="p-badge-danger"
+        />
+
+        <Button icon="pi pi-inbox p-overlay-badge" rounded text size="large" />
+
+        <Button className="" rounded text>
           <Avatar
             image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
             size="large"
             className="mr-2"
             shape="circle"
           />
-        </i>
+        </Button>
       </div>
     </div>
   );
