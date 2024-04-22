@@ -1,1 +1,1 @@
-Arquivo txt utilizado para testar o fechamento de uma issue a partir de um commit. Deletar mais tarde!
+Arquivo txt utilizado para testar o fechamento de uma issue a partir de um commit na branch dashboard. Deletar mais tarde!
