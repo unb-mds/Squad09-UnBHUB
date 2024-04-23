@@ -10,15 +10,14 @@ export default function SignUpCardComponent() {
         </div>
         <div>Registro gratuito para começar a aproveitar! </div>
       </div>
-      <div>
+      <div className="flex gap-2 flex-column">
         <InputComponent label="Endereço de E-mail" />
         <InputComponent label="Username" />
         <InputComponent label="Senha" />
         <InputComponent label="Senha novamente" />
         <div className="flex align-items-center justify-content-between mb-6"></div>
-
         <Button
-          className="py-3 px-8 w-full text-white my-3"
+          className="py-3 px-8 w-full text-white my-0"
           label="Cadastre-se"
         />
       </div>
