@@ -5,6 +5,8 @@ theme:
   name: material
 nav:
   - Início: index.md
+  - Releases:
+    - Release 1: Releases/Release1.md
   - Requisitos: Requisitos.md
   - Arquitetura: Arquitetura.md
   - Reuniões:
