@@ -1,6 +1,23 @@
-# 2024-1-Squad09
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+![Stars](https://img.shields.io/github/stars/unb-mds/Squad09-UnBHUB)
+[![GitHub contributors](https://img.shields.io/github/contributors/unb-mds/2023-2-SuaGradeUnB)](https://img.shields.io/github/contributors/unb-mds/Squad09-UnBHUB)
+# [UnBHUB - Squad09_2024.1](https://github.com/unb-mds/Squad09-UnBHUB)
 
-## Developers
+Website com a tecnologia Typescript/Firebase que tem o intuito de aprimorar a experiência dos alunos da UnB. Possui algumas funcionalidades especiais como cardápio do RU, estruturação de organização semanal de acordo com a grade do estudante e caléndario mensal. Seu principal objetivo é disponibilizar uma plataforma otimizada, que cumpra a solucionar "dores dos clientes", que são os próprios alunos.
+
+## 📃 Sumário
+- [UnBHUB - Squad09_2024.1](https://github.com/unb-mds/Squad09-UnBHUB)
+  - [📃 Sumário](#-sumário)
+  - [💻 Technologies](#-technologies)
+  - [👥 Developers](#-developers)
+
+## 💻 Technologies 
+
+| 💾 Database | 🎨 Design | 📋Languages |
+| :---         |     :---:    |         ---: |
+| ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)  | ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)    | ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)      |  
+
+## 👥 Developers
 
 <center>
 <table style="margin-left: auto; margin-right: auto;">
