@@ -22,6 +22,7 @@ Website com a tecnologia Typescript/Firebase que tem o intuito de aprimorar a ex
 | ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)  | ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)    | ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)      |  
 
 ## 🖼️ Atividades
+
 #### Para acessar o mural de atividades do nosso squad, clique no seguinte badge para abrir a plataforma Miro:
 [![Miro](https://img.shields.io/badge/Miro-F7C922?style=for-the-badge&logo=Miro&logoColor=050036)](https://miro.com/app/board/uXjVKQTq3Zw=/)
  
