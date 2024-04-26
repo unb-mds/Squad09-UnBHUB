@@ -11,6 +11,6 @@
 Reunião destinada ao monitoramento do progresso de cada sub-grupo quanto as páginas de login, sign up e dashboard. 
 
 ## Encaminhamentos
-# Todos: Continuar a implementação do front-end das páginas.
+### Todos: Continuar a implementação do front-end das páginas.
     
 
