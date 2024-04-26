@@ -11,8 +11,9 @@ Website com a tecnologia Typescript/Firebase que tem o intuito de aprimorar a ex
 - [UnBHUB - Squad09_2024.1](https://github.com/unb-mds/Squad09-UnBHUB)
   - [📃 Sumário](#-sumário)
   - [💻 Tecnologias](#-tecnologias)
-  - [👥 Desenvolvedores](#-desenvolvedores)
   - [🖼️ Atividades](#-atividades)
+  - [👥 Desenvolvedores](#-desenvolvedores)
+
 
 ## 💻 Tecnologias 
 
