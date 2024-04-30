@@ -21,6 +21,3 @@
 
 ### XP (Extreme Programming)
 - [PDF da UFPE](https://www.cin.ufpe.br/~gamr/FAFICA/Desenvolvimento%20de%20sistemas/XP.pdf)
-
-
-[] Estudar CSS
