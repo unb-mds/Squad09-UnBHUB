@@ -1,12 +1,11 @@
 import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
-import { InputText } from 'primereact/inputtext';
 
-export default function Navbar() {
+export default function NavbarComponent() {
   return (
     <div className="flex justify-content-between align-items-center surface-50">
-      <div>
-        <InputText type="text" placeholder="Buscar"></InputText>
+      <div className="flex justify-content-between w-9 px-6">
+        <h2>👋 Bem-Vindo!</h2>
       </div>
       <div className="flex align-items-center">
         <a href="http://localhost:5173/Messages">
