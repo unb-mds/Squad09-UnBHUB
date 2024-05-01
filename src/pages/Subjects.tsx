@@ -1,9 +1,9 @@
 import SideBarComponent from '../components/SideBar';
 
-export default function SubjectsPage() {
+export default function SubjectsScreen() {
   return (
     <>
-      <SideBarComponent></SideBarComponent>
+      <SideBarComponent />
     </>
   );
 }

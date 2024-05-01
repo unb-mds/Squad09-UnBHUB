@@ -2,9 +2,9 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 
-export default function Exams() {
+export default function ExamsComponent() {
   return (
-    <div className="flex flex-column">
+    <div className="flex flex-column mx-3 my-3">
       <div className="flex justify-content-between align-items-center">
         <p className="flex w-4 h-1rem gap-2 align-items-center">
           <i className="pi pi-file"></i>
