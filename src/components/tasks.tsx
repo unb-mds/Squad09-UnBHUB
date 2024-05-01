@@ -3,32 +3,39 @@ import { Button } from 'primereact/button';
 
 export default function Tasks() {
   return (
-    <div className="flex flex-column gap-3">
+    <div className="flex flex-column">
       <div className="flex justify-content-between">
-        <p>Tarefas</p>
-        <Button
-          label="Ver Tudo"
-          icon="pi pi-angle-right"
-          iconPos="right"
-          size="small"
-          text
-        />
+        <p className="flex w-4 h-1rem gap-2 align-items-center">
+          <i className="pi pi-clipboard"></i>
+          Tarefas
+        </p>
+        <a href="http://localhost:5173/Subjects">
+          <Button
+            label="Ver Tudo"
+            icon="pi pi-angle-right"
+            iconPos="right"
+            size="small"
+            text
+          />
+        </a>
       </div>
-      <Card title="Tarefa 01">
-        <p className="m-0">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-      </Card>
-      <Card title="Tarefa 02">
-        <p className="m-0">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-      </Card>
-      <Card title="Tarefa 03">
-        <p className="m-0">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-      </Card>
+      <div className="flex flex-column gap-2">
+        <Card title="Tarefa 01">
+          <p className="m-0">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          </p>
+        </Card>
+        <Card title="Tarefa 02">
+          <p className="m-0">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          </p>
+        </Card>
+        <Card title="Tarefa 03">
+          <p className="m-0">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          </p>
+        </Card>
+      </div>
     </div>
   );
 }
