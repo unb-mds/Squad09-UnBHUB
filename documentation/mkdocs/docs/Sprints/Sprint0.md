@@ -34,9 +34,29 @@ Na primeira reunião, discutiu-se a organização do grupo, abordando questões 
 
 - **Todos:** Iniciar o estudo sobre Git/GitHub.
 
+### 2ª Reunião
+
+#### Data: 01/04/2024
+
+- **Horário:** 20:00 - 21:37
+- **Local:** Discord
+- **Participantes:** Antonio, Carol, Cristiano, Felipe, Lucca, Pedro, Tulio
+
+#### Ata
+
+Na reunião realizada em 01-04-2024, dedicamos nosso tempo à definição do tema do projeto, que consistirá em um site de organização da vida acadêmica para os alunos da FGA. Durante a discussão, detalhamos as funcionalidades essenciais do site, que incluirão:
+
+- Exibição do cardápio semanal do Restaurante Universitário (RU).
+- Calendário acadêmico, para visualização de datas importantes como feriados, períodos de prova, etc.
+- Criação e exibição de eventos relevantes para a comunidade acadêmica.
+- Adição de disciplinas do semestre, com a possibilidade de armazenar notas e datas de avaliações.
+
+#### Encaminhamentos
+
+- **Todos:** Continuar os estudos das sprints passadas e iniciar a prototipagem das páginas pelo Figma, visando dar forma às funcionalidades discutidas e garantir uma base sólida para o desenvolvimento futuro do projeto.
+
 ---
 
 ## Conclusão
 
 A Sprint foi concluída com sucesso, atingindo todos os objetivos estabelecidos e preparando o terreno para o desenvolvimento subsequente do projeto.
-
