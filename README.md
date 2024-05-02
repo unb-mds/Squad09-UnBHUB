@@ -14,7 +14,6 @@ Website com a tecnologia Typescript/Firebase que tem o intuito de aprimorar a ex
   - [🖼️ Atividades](#-atividades)
   - [👥 Desenvolvedores](#-desenvolvedores)
 
-
 ## 💻 Tecnologias 
 
 | 💾 Banco de Dados | 🎨 Prototipação | 📋 Linguagens |
