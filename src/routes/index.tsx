@@ -1,6 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
-import DashboardScreen from '../pages/Dashboard';
 import CalendarComponent from '../components/Calendar';
+import DashboardScreen from '../pages/Dashboard';
+import MessagesPage from '../pages/Messages';
+import SubjectsScreen from '../pages/Subjects';
 
 const router = createBrowserRouter([
   {
@@ -12,6 +14,14 @@ const router = createBrowserRouter([
         element: <CalendarComponent />,
       },
     ],
+  },
+  {
+    path: '/Subjects',
+    element: <SubjectsScreen />,
+  },
+  {
+    path: '/Messages',
+    element: <MessagesPage />,
   },
 ]);
 
