@@ -1,0 +1,31 @@
+site_name: Documentação UnbHub
+theme:
+  favicon: assets/logo.svg
+  logo: assets/logo.svg
+  name: material
+nav:
+  - Início: index.md
+  - Releases:
+    - Release 1: Releases/Release1.md
+  - Requisitos: Requisitos.md
+  - Arquitetura: Arquitetura.md
+  - Reuniões:
+      - Reuniao X: Reunioes/Reuniao_modelo.md
+      - Reunião 1: Reunioes/Reuniao1.md
+      - Reunião 2: Reunioes/Reuniao2.md
+      - Reunião 3: Reunioes/Reuniao3.md
+      - Reunião 4: Reunioes/Reuniao4.md
+      - Reunião 5: Reunioes/Reuniao5.md
+      - Reunião 6: Reunioes/Reuniao6.md
+      - Reunião 7: Reunioes/Reuniao7.md
+      - Reunião 8: Reunioes/Reuniao8.md
+      - Reunião 9: Reunioes/Reuniao9.md
+  - Sprints:
+      - Sprint 0: Sprints/Sprint0.md
+      - Sprint 1: Sprints/Sprint1.md
+      - Sprint 2: Sprints/Sprint2.md
+      - Sprint 3: Sprints/Sprint3.md
+      - Sprint 4: Sprints/Sprint4.md
+  - Referências: Referencias.md
+
+
