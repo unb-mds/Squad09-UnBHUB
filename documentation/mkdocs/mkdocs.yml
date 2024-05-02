@@ -7,7 +7,7 @@ nav:
   - Início: index.md
   - Releases:
     - Release 1: Releases/Release1.md
-  - Requisitos: Requisitos.md
+  - Análise de Requisitos: Requisitos.md
   - Arquitetura: Arquitetura.md
   - Protótipos: Prototipos.md
   - Reuniões:
