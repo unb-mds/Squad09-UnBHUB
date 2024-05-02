@@ -20,19 +20,8 @@ Nesta Sprint, a equipe concentrou-se em estabelecer as bases para o projeto, ded
 
 ### 1ª Reunião 
 
-#### Data: 20/03/2024
-
-- **Horário:** 20:00 - 21:00
-- **Local:** Discord
-- **Participantes:** Antonio, Carol, Cristiano, Felipe, Lucca, Pedro, Tulio
-
-#### Ata
-
-Na primeira reunião, discutiu-se a organização do grupo, abordando questões relacionadas à disciplina, disponibilidade de horários para as reuniões e escolha das plataformas de comunicação. Também foi decidido que todos os membros do grupo dariam início ao estudo sobre Git/GitHub, reconhecendo sua importância como ferramenta fundamental para o compartilhamento e versionamento de código.
-
-#### Encaminhamentos
-
-- **Todos:** Iniciar o estudo sobre Git/GitHub.
+- Na primeira reunião da Sprint #0, o grupo focou na organização, definindo horários para reuniões e escolhendo plataformas de comunicação. Além disso, foi acordado que todos os membros iniciariam o estudo sobre Git/GitHub, reconhecendo sua importância para o projeto.
+- Mais informações e detalhes sobre esta reunião no repositório de reuniões.
 
 ---
 
