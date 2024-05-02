@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     element: <MessagesPage />,
   },
   {
-   path: '/SignIn',
+    path: '/SignIn',
     element: <SignInScreen />,
   },
   {
