@@ -20,7 +20,7 @@ Nesta Sprint, a equipe concentrou-se em estabelecer as bases para o projeto, ded
 
 ### 1ª Reunião 
 
-- Na primeira reunião da Sprint #0, o grupo focou na organização, definindo horários para reuniões e escolhendo plataformas de comunicação. Além disso, foi acordado que todos os membros iniciariam o estudo sobre Git/GitHub, reconhecendo sua importância para o projeto.
+- Na primeira reunião da Sprint 0, no dia 20/03/2024, o grupo focou na organização, definindo horários para reuniões e escolhendo plataformas de comunicação. Além disso, foi acordado que todos os membros iniciariam o estudo sobre Git/GitHub, reconhecendo sua importância para o projeto.
 - Mais informações e detalhes sobre esta reunião no repositório de reuniões.
 
 ---
