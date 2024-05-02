@@ -13,4 +13,4 @@ Reunião para alinhar compatibilidades com tarefas sendo realizadas e foi começ
 
 ## Encaminhamentos
 
-### Membros que irão apresentar devem se organizar e todos devem continuar realizando suas respectivas tarefas.
+### Membros que irão apresentar na pré-Release1 devem se organizar e todos devem continuar realizando suas respectivas tarefas.
