@@ -5,7 +5,7 @@ import NavbarComponent from '../components/Navbar';
 import PanelDashboardComponent from '../components/PanelDashboard';
 import SideBarComponent from '../components/SideBar';
 import SubjectsComponent from '../components/Subjects';
-import TasksComponent from '../components/Tasks';
+import TasksComponent from '../components/Task';
 
 export default function DashboardScreen() {
   return (
