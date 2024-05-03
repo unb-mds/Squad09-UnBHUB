@@ -12,5 +12,6 @@ Reunião destinada ao monitoramento do progresso de cada sub-grupo quanto as pá
 
 ## Encaminhamentos
 ### **Todos**: Continuar a implementação do front-end das páginas.
+
     
 
