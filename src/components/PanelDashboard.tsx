@@ -2,7 +2,7 @@ import { Button } from 'primereact/button';
 
 export default function PanelDashboardComponent() {
   return (
-    <div className="flex flex-column surface-50 gap-2 px-6 mx-3 my-3">
+    <div className="flex flex-column surface-50 gap-2 px-6 mx-3 align-items-center justify-content-center border-round-xl">
       <div className="flex flex-row">
         <div className="flex flex-column">
           <h2>Envolva-se-Entre em Grupos de Estudos e Monitoria!</h2>
