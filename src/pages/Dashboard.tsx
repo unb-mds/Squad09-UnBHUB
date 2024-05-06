@@ -18,7 +18,6 @@ export default function DashboardScreen() {
         <NavbarComponent />
         <div className="flex flex-row">
           <PanelDashboardComponent />
-          <CalendarDashboardComponent />
         </div>
         <div className="flex flex-row">
           <div className="flex flex-column w-9">
