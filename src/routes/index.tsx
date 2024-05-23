@@ -5,6 +5,7 @@ import MessagesPage from '../pages/Messages';
 import SubjectsScreen from '../pages/Subjects';
 import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
+import LandingPage from '../pages/Landing';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: '/SignUp',
     element: <SignUpScreen />,
+  },
+  {
+    path: '/Landing',
+    element: <LandingPage />,
   },
 ]);
 
