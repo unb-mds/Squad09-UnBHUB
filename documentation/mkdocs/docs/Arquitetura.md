@@ -1,6 +1,6 @@
 # Arquitetura do Projeto
 
-![Architecture](https://github.com/unb-mds/Squad09-UnBHUB/assets/63163895/47ea2321-c03c-46a7-a300-d8573fffa414)
+![Architecture](./assets/architecture.png)
 Link para melhor visualização: https://miro.com/app/board/uXjVKQTq3Zw=/
 
 ## Visão Geral
