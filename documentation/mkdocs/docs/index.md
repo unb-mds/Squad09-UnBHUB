@@ -2,6 +2,8 @@
 ---
 ## UNBHUB - Squad 09
 
+![UnbHub](./assets/Logo_UNBHUB.jpg)
+
 Projeto da disciplina Métodos de Desenvolvimento de Software cujo intuito é auxiliar os alunos da Faculdade do Gama na organização de suas atividades acadêmicas. A página permite ao usuário registrar sua grade e informações específicas de cada matéria, como datas das provas e notas dos trabalhos, ajudando-os a se manterem em dia com cada matéria.
 
 ## Tecnologias Utilizadas
