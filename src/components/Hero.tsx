@@ -2,11 +2,11 @@ import { Button } from 'primereact/button';
 
 export default function Hero() {
   return (
-    <div className="grid grid-nogutter surface-section text-800 justify-content-center ">
+    <div className="grid grid-nogutter surface-section text-800 justify-content-center">
       <div className="col-12 md:col-6 p-6 text-center md:text-center flex align-items-center justify-content-center">
         <section>
           <span className="mt-6 block text-6xl font-bold mb-1">
-            Venha fazer parte do UnbHub{' '}
+            Venha fazer parte do UnbHub
           </span>
           <div className="text-6xl text-primary font-bold mb-3">
             e aproveite todas as suas vantagens
@@ -20,14 +20,13 @@ export default function Hero() {
           </p>
 
           <Button
-            value="Saiba Mais"
+            label="Saiba Mais"
             type="button"
             className="mt-6 mb-8 mr-3 ui-button-raised"
-          >
-            Saiba Mais
-          </Button>
+            onClick={() => window.location.href = 'https://unb-mds.github.io/Squad09-UnBHUB/'}
+          />
         </section>
       </div>
-    </div> // Add a closing curly brace here
+    </div>
   );
 }
