@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import { Button } from 'primereact/button';
+import SignUpFunction from '../functions/SignUp';
 
 import * as Yup from 'yup';
 import InputComponent from '../components/Input';
@@ -19,6 +20,12 @@ export default function SignUpCardComponent() {
       .oneOf([Yup.ref('Senha'), ''], 'Senhas precisam combinar')
       .required('Requerido'),
   });
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    SignUpFunction({ email: values.email, password: values.Senha }); // Chama a função SignUpFunction
+    // Adicione aqui qualquer lógica adicional de manipulação de formulário, se necessário
+    setSubmitting(false);
+  };
 
   return (
     <Formik
