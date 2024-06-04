@@ -7,14 +7,12 @@ import InputComponent from '../components/Input';
 export default function SignUpCardComponent() {
   const schema = Yup.object().shape({
     name: Yup.string()
-      .min(3, 'Username must be at least 3 characters long')
-      .required('Required'),
+      .min(3, 'Username precisa ter no mínimo 3 caractéres')
+      .required('Requerido'),
     email: Yup.string()
-      .email('Please enter a valid email')
-      .required('Required'),
+      .email('Por favor, forneça um email válido')
+      .required('Requerido'),
   });
-
-  const handleSubmit = () => {};
 
   return (
     <Formik
@@ -23,6 +21,8 @@ export default function SignUpCardComponent() {
       initialValues={{
         name: '',
         email: '',
+        Senha: '',
+        SenhaNovamente: '',
       }}
     >
       {({ handleChange, handleSubmit, values, errors }) => (
@@ -37,22 +37,31 @@ export default function SignUpCardComponent() {
             <InputComponent
               label="Endereço de E-mail"
               value={values.email}
-              onChange={handleChange('email')}
+              setValue={handleChange('email')}
             />
             {errors.email ? <div>{errors.email}</div> : null}
 
             <InputComponent
               label="Username"
               value={values.name}
-              onChange={handleChange('name')}
+              setValue={handleChange('name')}
             />
             {errors.name ? <div>{errors.name}</div> : null}
-
-            <InputComponent label="Senha" />
-            <InputComponent label="Senha novamente" />
+            <InputComponent
+              label="Senha"
+              value={values.Senha}
+              setValue={handleChange('Senha')}
+            />
+            {errors.Senha ? <div>{errors.Senha}</div> : null}
+            <InputComponent
+              label="Senha novamente"
+              value={values.SenhaNovamente}
+              setValue={handleChange('SenhaNovamente')}
+            />
+            {errors.SenhaNovamente ? <div>{errors.SenhaNovamente}</div> : null}
             <div className="flex align-items-center justify-content-between mb-6"></div>
             <Button
-              onClick={() => handleSubmit}
+              onClick={() => handleSubmit()}
               className="py-3 px-8 w-full text-white my-0"
               label="Cadastre-se"
             />
