@@ -12,6 +12,12 @@ export default function SignUpCardComponent() {
     email: Yup.string()
       .email('Por favor, forneça um email válido')
       .required('Requerido'),
+    Senha: Yup.string()
+      .min(6, 'A senha precisa de no mínimo 6 caractéres')
+      .required('Requerido'),
+    SenhaNovamente: Yup.string()
+      .oneOf([Yup.ref('Senha'), ''], 'Senhas precisam combinar')
+      .required('Requerido'),
   });
 
   return (
