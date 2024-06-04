@@ -1,73 +1,59 @@
-import { Formik } from 'formik';
 import { Button } from 'primereact/button';
+import { Image } from 'primereact/image';
+import { useState } from 'react';
 
-import * as Yup from 'yup';
+import CheckboxComponent from '../components/Checkbox';
 import InputComponent from '../components/Input';
+import SignInFunction from '../functions/SignIn';
 
-export default function SignUpCardComponent() {
-  const schema = Yup.object().shape({
-    name: Yup.string()
-      .min(3, 'Username precisa ter no mínimo 3 caractéres')
-      .required('Requerido'),
-    email: Yup.string()
-      .email('Por favor, forneça um email válido')
-      .required('Requerido'),
-  });
+export default function SignInCardComponent() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onSubmitSignIn = () => {
+    SignInFunction({ email, password });
+  };
 
   return (
-    <Formik
-      validationSchema={schema}
-      onSubmit={handleSubmit}
-      initialValues={{
-        name: '',
-        email: '',
-        Senha: '',
-        SenhaNovamente: '',
-      }}
-    >
-      {({ handleChange, handleSubmit, values, errors }) => (
-        <div className="flex flex-column surface-card p-6 shadow-2 relative w-full border-round lg:w-5 h-screen justify-content-center">
-          <div className="text-center mb-5">
-            <div className="text-900 text-3xl font-medium mb-3">
-              Crie sua conta e conecte-se!
-            </div>
-            <div>Registro gratuito para começar a aproveitar! </div>
-          </div>
-          <div className="flex gap-2 flex-column">
-            <InputComponent
-              label="Endereço de E-mail"
-              value={values.email}
-              setValue={handleChange('email')}
-            />
-            {errors.email ? <div>{errors.email}</div> : null}
-
-            <InputComponent
-              label="Username"
-              value={values.name}
-              setValue={handleChange('name')}
-            />
-            {errors.name ? <div>{errors.name}</div> : null}
-            <InputComponent
-              label="Senha"
-              value={values.Senha}
-              setValue={handleChange('Senha')}
-            />
-            {errors.Senha ? <div>{errors.Senha}</div> : null}
-            <InputComponent
-              label="Senha novamente"
-              value={values.SenhaNovamente}
-              setValue={handleChange('SenhaNovamente')}
-            />
-            {errors.SenhaNovamente ? <div>{errors.SenhaNovamente}</div> : null}
-            <div className="flex align-items-center justify-content-between mb-6"></div>
-            <Button
-              onClick={() => handleSubmit()}
-              className="py-3 px-8 w-full text-white my-0"
-              label="Cadastre-se"
-            />
-          </div>
+    <div className="flex flex-column surface-card p-4 shadow-2 border-round lg:w-4 absolute h-screen justify-content-center">
+      <div className="text-center mb-5">
+        <Image src="/images/logo.svg" width="100" height="100" alt="UnBHUB" />
+        <div className="text-900 text-3xl font-medium mb-3">
+          Entre no UnBHUB
         </div>
-      )}
-    </Formik>
+        <div>Conecte-se para explorar sua vida universitária</div>
+      </div>
+      <div>
+        <InputComponent
+          label="Endereço de E-mail"
+          value={email}
+          setValue={setEmail}
+        />
+        <InputComponent label="Senha" value={password} setValue={setPassword} />
+
+        <div className="flex align-items-center justify-content-between mb-6">
+          <div className="flex align-items-center">
+            <CheckboxComponent />
+          </div>
+          <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">
+            Esqueceu sua senha?
+          </a>
+        </div>
+
+        <Button
+          className="py-3 px-8 w-full text-white my-3"
+          label="Entrar"
+          onClick={onSubmitSignIn}
+        />
+        <div className="flex justify-content-center align-content-center my-3">
+          <span className="text-600 font-medium ">
+            Ainda não tem uma conta?
+          </span>
+          <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
+            Cadastrar-se
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
