@@ -1,10 +1,8 @@
 import { Formik } from 'formik';
 import { Button } from 'primereact/button';
 import SignUpFunction from '../functions/SignUp';
-
 import * as Yup from 'yup';
 import InputComponent from '../components/Input';
-
 
 interface InputProps {
   label: string;
@@ -30,7 +28,6 @@ export default function SignUpCardComponent() {
 
   const handleSubmit = (values, { setSubmitting }) => {
     SignUpFunction({ email: values.email, password: values.Senha }); // Chama a função SignUpFunction
-    // Adicione aqui qualquer lógica adicional de manipulação de formulário, se necessário
     setSubmitting(false);
   };
 
@@ -45,7 +42,7 @@ export default function SignUpCardComponent() {
         SenhaNovamente: '',
       }}
     >
-      {({ handleChange, handleSubmit, values, errors }) => (
+      {({ handleChange, handleSubmit, values, errors, touched }) => (
         <div className="flex flex-column surface-card p-6 shadow-2 relative w-full border-round lg:w-5 h-screen justify-content-center">
           <div className="text-center mb-5">
             <div className="text-900 text-3xl font-medium mb-3">
@@ -59,29 +56,34 @@ export default function SignUpCardComponent() {
               value={values.email}
               setValue={handleChange('email')}
             />
-            {errors.email ? <div>{errors.email}</div> : null}
+            {touched.email && errors.email ? <div>{errors.email}</div> : null}
 
             <InputComponent
               label="Username"
               value={values.name}
               setValue={handleChange('name')}
             />
-            {errors.name ? <div>{errors.name}</div> : null}
+            {touched.name && errors.name ? <div>{errors.name}</div> : null}
+
             <InputComponent
               label="Senha"
               value={values.Senha}
               setValue={handleChange('Senha')}
             />
-            {errors.Senha ? <div>{errors.Senha}</div> : null}
+            {touched.Senha && errors.Senha ? <div>{errors.Senha}</div> : null}
+
             <InputComponent
               label="Senha novamente"
               value={values.SenhaNovamente}
               setValue={handleChange('SenhaNovamente')}
             />
-            {errors.SenhaNovamente ? <div>{errors.SenhaNovamente}</div> : null}
+            {touched.SenhaNovamente && errors.SenhaNovamente ? (
+              <div>{errors.SenhaNovamente}</div>
+            ) : null}
+
             <div className="flex align-items-center justify-content-between mb-6"></div>
             <Button
-              onClick={() => handleSubmit()}
+              onClick={handleSubmit}
               className="py-3 px-8 w-full text-white my-0"
               label="Cadastre-se"
             />
