@@ -5,6 +5,13 @@ import SignUpFunction from '../functions/SignUp';
 import * as Yup from 'yup';
 import InputComponent from '../components/Input';
 
+
+interface InputProps {
+  label: string;
+  value: string;
+  setValue: (value: string) => void;
+}
+
 export default function SignUpCardComponent() {
   const schema = Yup.object().shape({
     name: Yup.string()
