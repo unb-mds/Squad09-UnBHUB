@@ -14,7 +14,6 @@ Website com a tecnologia Typescript/Firebase que tem o intuito de aprimorar a ex
   - [🖼️ Atividades](#-atividades)
   - [👥 Desenvolvedores](#-desenvolvedores)
 
-
 ## 💻 Tecnologias 
 
 | 💾 Banco de Dados | 🎨 Prototipação | 📋 Linguagens |
@@ -24,6 +23,7 @@ Website com a tecnologia Typescript/Firebase que tem o intuito de aprimorar a ex
 |         |       |  ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)    | 
 
 ## 🖼️ Atividades
+
 #### Para acessar o mural de atividades do nosso squad, clique no seguinte badge para abrir a plataforma Miro:
 [![Miro](https://img.shields.io/badge/Miro-F7C922?style=for-the-badge&logo=Miro&logoColor=050036)](https://miro.com/app/board/uXjVKQTq3Zw=/)
  
