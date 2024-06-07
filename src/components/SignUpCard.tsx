@@ -1,13 +1,15 @@
 import { Formik } from 'formik';
 import { Button } from 'primereact/button';
-import SignUpFunction from '../functions/SignUp';
 import * as Yup from 'yup';
+
 import InputComponent from '../components/Input';
+import SignUpFunction from '../functions/SignUp';
 
 interface InputProps {
-  label: string;
-  value: string;
-  setValue: (value: string) => void;
+  name: string;
+  email: string;
+  password: string;
+  confirm_password: string;
 }
 
 export default function SignUpCardComponent() {
@@ -18,17 +20,16 @@ export default function SignUpCardComponent() {
     email: Yup.string()
       .email('Por favor, forneça um email válido')
       .required('Requerido'),
-    Senha: Yup.string()
+    password: Yup.string()
       .min(6, 'A senha precisa de no mínimo 6 caractéres')
       .required('Requerido'),
-    SenhaNovamente: Yup.string()
-      .oneOf([Yup.ref('Senha'), ''], 'Senhas precisam combinar')
+    confirm_password: Yup.string()
+      .oneOf([Yup.ref('password'), ''], 'Senhas precisam combinar')
       .required('Requerido'),
   });
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    SignUpFunction({ email: values.email, password: values.Senha }); // Chama a função SignUpFunction
-    setSubmitting(false);
+  const handleSubmit = (values: InputProps) => {
+    SignUpFunction({ email: values.email, password: values.password }); // Chama a função SignUpFunctioalse);
   };
 
   return (
@@ -38,56 +39,60 @@ export default function SignUpCardComponent() {
       initialValues={{
         name: '',
         email: '',
-        Senha: '',
-        SenhaNovamente: '',
+        password: '',
+        confirm_password: '',
       }}
     >
-      {({ handleChange, handleSubmit, values, errors, touched }) => (
+      {({ handleChange, values, errors, touched, handleSubmit }) => (
         <div className="flex flex-column surface-card p-6 shadow-2 relative w-full border-round lg:w-5 h-screen justify-content-center">
-          <div className="text-center mb-5">
-            <div className="text-900 text-3xl font-medium mb-3">
-              Crie sua conta e conecte-se!
+          <form onSubmit={handleSubmit}>
+            <div className="text-center mb-5">
+              <div className="text-900 text-3xl font-medium mb-3">
+                Crie sua conta e conecte-se!
+              </div>
+              <div>Registro gratuito para começar a aproveitar! </div>
             </div>
-            <div>Registro gratuito para começar a aproveitar! </div>
-          </div>
-          <div className="flex gap-2 flex-column">
-            <InputComponent
-              label="Endereço de E-mail"
-              value={values.email}
-              setValue={handleChange('email')}
-            />
-            {touched.email && errors.email ? <div>{errors.email}</div> : null}
+            <div className="flex gap-2 flex-column">
+              <InputComponent
+                label="Endereço de E-mail"
+                value={values.email}
+                setValue={handleChange('email')}
+                errors={errors.email}
+                touched={touched.email}
+              />
 
-            <InputComponent
-              label="Username"
-              value={values.name}
-              setValue={handleChange('name')}
-            />
-            {touched.name && errors.name ? <div>{errors.name}</div> : null}
+              <InputComponent
+                label="Username"
+                value={values.name}
+                setValue={handleChange('name')}
+                errors={errors.name}
+                touched={touched.name}
+              />
 
-            <InputComponent
-              label="Senha"
-              value={values.Senha}
-              setValue={handleChange('Senha')}
-            />
-            {touched.Senha && errors.Senha ? <div>{errors.Senha}</div> : null}
+              <InputComponent
+                label="Senha"
+                value={values.password}
+                setValue={handleChange('password')}
+                errors={errors.password}
+                touched={touched.password}
+              />
 
-            <InputComponent
-              label="Senha novamente"
-              value={values.SenhaNovamente}
-              setValue={handleChange('SenhaNovamente')}
-            />
-            {touched.SenhaNovamente && errors.SenhaNovamente ? (
-              <div>{errors.SenhaNovamente}</div>
-            ) : null}
+              <InputComponent
+                label="Senha novamente"
+                value={values.confirm_password}
+                setValue={handleChange('confirm_password')}
+                errors={errors.confirm_password}
+                touched={touched.confirm_password}
+              />
 
-            <div className="flex align-items-center justify-content-between mb-6"></div>
-            <Button
-              onClick={handleSubmit}
-              className="py-3 px-8 w-full text-white my-0"
-              label="Cadastre-se"
-            />
-          </div>
+              <div className="flex align-items-center justify-content-between mb-6"></div>
+              <Button
+                type="submit"
+                className="py-3 px-8 w-full text-white my-0"
+                label="Cadastre-se"
+              />
+            </div>
+          </form>
         </div>
       )}
     </Formik>
