@@ -1,7 +1,7 @@
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 
-export default function SubjectsComponent() {
+export default function DashboardSubjectsComponent() {
   return (
     <div className="flex flex-column mx-3 my-3">
       <div className="flex justify-content-between">
