@@ -4,6 +4,8 @@ interface InputProps {
   label: string;
   value: string;
   setValue: (value: string) => void;
+  errors: string | undefined;
+  touched: boolean | undefined;
 }
 
 export default function InputComponent(props: InputProps) {
@@ -16,6 +18,9 @@ export default function InputComponent(props: InputProps) {
         onChange={(e) => props.setValue(e.target.value)}
         className="w-full"
       />
+      {props.errors && props.touched && (
+        <div className="text-red-500 text-sm">{props.errors}</div>
+      )}
     </div>
   );
 }

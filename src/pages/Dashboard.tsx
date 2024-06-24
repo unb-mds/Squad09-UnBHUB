@@ -1,10 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import CalendarDashboardComponent from '../components/CalendarDashboard';
 import ExamsComponent from '../components/Exams';
 import NavbarComponent from '../components/Navbar';
 import PanelDashboardComponent from '../components/PanelDashboard';
 import SideBarComponent from '../components/SideBar';
-import SubjectsComponent from '../components/Subjects';
+import DashboardSubjectsComponent from '../components/DashboardSubjects';
 import TasksComponent from '../components/Task';
 
 export default function DashboardScreen() {
@@ -18,11 +17,10 @@ export default function DashboardScreen() {
         <NavbarComponent />
         <div className="flex flex-row">
           <PanelDashboardComponent />
-          <CalendarDashboardComponent />
         </div>
         <div className="flex flex-row">
           <div className="flex flex-column w-9">
-            <SubjectsComponent />
+            <DashboardSubjectsComponent />
             <ExamsComponent />
           </div>
           <div className="flex flex-column w-3 pl-3">
