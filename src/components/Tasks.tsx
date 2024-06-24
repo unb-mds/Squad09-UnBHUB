@@ -1,16 +1,9 @@
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { ProgressBar } from 'primereact/progressbar';
 
 export default function TasksComponent() {
   return (
     <div className="flex flex-column mx-3 my-3">
-      <div className="flex flex-column my-3 px-3">
-        <p className="text-lg">
-          Semestre <b>3</b> de 10
-        </p>
-        <ProgressBar value={50}></ProgressBar>
-      </div>
       <div className="flex justify-content-between">
         <p className="flex w-4 h-1rem gap-2 align-items-center">
           <i className="pi pi-clipboard"></i>
