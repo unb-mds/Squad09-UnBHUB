@@ -15,9 +15,7 @@ export default function DashboardScreen() {
       </div>
       <div className="flex flex-column pl-1 gap-1">
         <NavbarComponent />
-        <div className="flex flex-row">
-          <PanelDashboardComponent />
-        </div>
+        <div className="flex flex-row">{/* <PanelDashboardComponent /> */}</div>
         <div className="flex flex-row">
           <div className="flex flex-column w-9">
             <DashboardSubjectsComponent />
