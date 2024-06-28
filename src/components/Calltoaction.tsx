@@ -15,7 +15,7 @@ export default function Calltoaction() {
           className="no-underline text-blue-600"
         >
           <i className="pi pi-github" />
-          &#160;POWERED BY SQUAD 9
+          &#160;CRIADO POR SQUAD 9
         </a>
       </div>
     </div>

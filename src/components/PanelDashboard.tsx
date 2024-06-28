@@ -5,7 +5,7 @@ export default function PanelDashboardComponent() {
     <div className="flex flex-1 flex-column surface-50 gap-2 py-5 px-6 my-3 mx-3 align-items-center justify-content-center border-round-xl">
       <div className="flex flex-row">
         <div className="flex flex-column">
-          <h2>Envolva-se-Entre em Grupos de Estudos e Monitoria!</h2>
+          <h2>Envolva-se entre em Grupos de Estudos e Monitoria!</h2>
           <p className="text-justify w-6">
             Explore seus interesses e conheça estudantes que pensam como você
             ingressando em um de nossos muitos clubes. Quer você goste de

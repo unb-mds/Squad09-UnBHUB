@@ -8,7 +8,7 @@ import React from 'react';
 export default function SideBarComponent() {
   const toast = React.useRef(null);
 
-  let items: MenuItem[] = [
+  const items: MenuItem[] = [
     {
       template: () => {
         return (
@@ -33,25 +33,57 @@ export default function SideBarComponent() {
           life: 3000,
         });
       },
-      template: (item, options) => {
+      template: (options) => {
         return (
-          <button
-            onClick={(e) => options.onClick(e)}
-            className={classNames(
-              options.className,
-              'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
-            )}
-          >
-            <Avatar
-              image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-              className="mr-2"
-              shape="circle"
-            />
-            <div className="flex flex-column align">
-              <span className="font-bold">Nome do Usuário</span>
-              <span className="text-sm">Estudante</span>
-            </div>
-          </button>
+          <div>
+            <button
+              onClick={(e) => options.onClick(e)}
+              className={classNames(
+                options.className,
+                'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
+              )}
+            >
+              <i className="pi pi-fw pi-calendar mr-2"></i>
+              <span>Cronograma</span>
+            </button>
+            <button
+              onClick={(e) => options.onClick(e)}
+              className={classNames(
+                options.className,
+                'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
+              )}
+            >
+              <i className="pi pi-fw pi-bookmark mr-2" />
+              <span>Matérias</span>
+            </button>
+            <button
+              onClick={(e) => options.onClick(e)}
+              className={classNames(
+                options.className,
+                'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
+              )}
+            >
+              <i className="pi pi-fw pi-clipboard mr-2" />
+              <span>Tarefas</span>
+            </button>
+            <button
+              onClick={(e) => options.onClick(e)}
+              className={classNames(
+                options.className,
+                'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
+              )}
+            >
+              <Avatar
+                image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+                className="mr-2"
+                shape="circle"
+              />
+              <div className="flex flex-column align">
+                <span className="font-bold">Nome do Usuário</span>
+                <span className="text-sm">Estudante</span>
+              </div>
+            </button>
+          </div>
         );
       },
     },

@@ -6,18 +6,14 @@ import InputComponent from '../components/Input';
 
 export default function SignUpCardComponent() {
   const schema = Yup.object().shape({
-    name: Yup.string()
-      .min(3, 'Username must be at least 3 characters long')
-      .required('Required'),
+    name: Yup.string().required('O campo de nome é obrigatório.'),
     email: Yup.string()
-      .email('Please enter a valid email')
-      .required('Required'),
-    Senha: Yup.string()
-      .min(6, 'Password must be at least 6 characters long')
-      .required('Required'),
-    SenhaNovamente: Yup.string()
-      .oneOf([Yup.ref('Senha'), ''], 'Passwords must match')
-      .required('Required'),
+      .email('E-mail inválido.')
+      .required('O campo de e-mail é obrigatório.'),
+    password: Yup.string().required('O campo de senha é obrigatório.'),
+    confirm_password: Yup.string()
+      .oneOf([Yup.ref('password'), ''], 'As senhas devem ser iguais.')
+      .required('O campo de confirmação de senha é obrigatório.'),
   });
 
   const handleSubmit = () => {};
@@ -29,44 +25,50 @@ export default function SignUpCardComponent() {
       initialValues={{
         name: '',
         email: '',
-        Senha: '',
-        SenhaNovamente: '',
+        password: '',
+        confirm_password: '',
       }}
     >
-      {({ handleChange, handleSubmit, values, errors }) => (
+      {({ handleChange, handleSubmit, values, errors, touched }) => (
         <div className="flex flex-column surface-card p-6 shadow-2 relative w-full border-round lg:w-5 h-screen justify-content-center">
           <div className="text-center mb-5">
+            <img src="/images/logo.svg" alt="Logo" width={150} height={150} />
             <div className="text-900 text-3xl font-medium mb-3">
               Crie sua conta e conecte-se!
             </div>
-            <div>Registro gratuito para começar a aproveitar! </div>
+            <div className="font-light">
+              Registro gratuito para começar a aproveitar!{' '}
+            </div>
           </div>
           <div className="flex gap-2 flex-column">
             <InputComponent
               label="Endereço de E-mail"
               value={values.email}
               setValue={handleChange('email')}
+              errors={errors.email}
+              touched={touched.email}
             />
-            {errors.email ? <div>{errors.email}</div> : null}
-
             <InputComponent
-              label="Username"
+              label="Nome Completo"
               value={values.name}
               setValue={handleChange('name')}
+              errors={errors.name}
+              touched={touched.name}
             />
-            {errors.name ? <div>{errors.name}</div> : null}
             <InputComponent
               label="Senha"
-              value={values.Senha}
-              setValue={handleChange('Senha')}
+              value={values.password}
+              setValue={handleChange('password')}
+              errors={errors.password}
+              touched={touched.password}
             />
-            {errors.Senha ? <div>{errors.Senha}</div> : null}
             <InputComponent
               label="Senha novamente"
-              value={values.SenhaNovamente}
-              setValue={handleChange('SenhaNovamente')}
+              value={values.confirm_password}
+              setValue={handleChange('confirm_password')}
+              errors={errors.confirm_password}
+              touched={touched.confirm_password}
             />
-            {errors.SenhaNovamente ? <div>{errors.SenhaNovamente}</div> : null}
             <div className="flex align-items-center justify-content-between mb-6"></div>
             <Button
               onClick={() => handleSubmit()}

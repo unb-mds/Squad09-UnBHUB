@@ -13,7 +13,7 @@ export default function TasksComponent() {
       </div>
       <div className="flex justify-content-between">
         <p className="flex w-4 h-1rem gap-2 align-items-center">
-          <i className="pi pi-clipboard"></i>
+          <i className="pi pi-clipboard" />
           Tarefas
         </p>
         <a href="http://localhost:5173/Subjects">
