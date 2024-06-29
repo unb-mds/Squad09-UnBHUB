@@ -46,16 +46,19 @@ export default function SideBarComponent() {
               <i className="pi pi-fw pi-calendar mr-2"></i>
               <span>Cronograma</span>
             </button>
-            <button
-              onClick={(e) => options.onClick(e)}
-              className={classNames(
-                options.className,
-                'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
-              )}
-            >
-              <i className="pi pi-fw pi-bookmark mr-2" />
-              <span>Matérias</span>
-            </button>
+            <a href="http://localhost:5173/Subjects">
+              <button
+                onClick={(e) => options.onClick(e)}
+                className={classNames(
+                  options.className,
+                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
+                )}
+              >
+                <i className="pi pi-fw pi-bookmark mr-2" />
+                <span>Matérias</span>
+              </button>
+            </a>
+
             <button
               onClick={(e) => options.onClick(e)}
               className={classNames(
