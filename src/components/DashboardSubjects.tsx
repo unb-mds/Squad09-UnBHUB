@@ -21,7 +21,7 @@ export default function DashboardSubjectsComponent() {
         </a>
       </div>
 
-      <div className="flex flex-row justify-content-between gap-2">
+      <div className="flex flex-row justify-content-between gap-2 font-light">
         <Card title="Matéria 01">
           <p className="m-0 text-justify">
             Lorem ipsum dolor sit amet. Quo repellat voluptas vel praesentium

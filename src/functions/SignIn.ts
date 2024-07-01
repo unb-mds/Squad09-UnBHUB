@@ -1,13 +1,8 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 
-interface SignInProps {
-  email: string;
-  password: string;
-}
-
-export default function SignInFunction(props: SignInProps) {
-  return signInWithEmailAndPassword(auth, props.email, props.password)
+export default function SignInFunction(email: string, password: string) {
+  return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
       console.log(user);

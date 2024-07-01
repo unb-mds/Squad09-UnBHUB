@@ -2,7 +2,9 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
 
-export default function SubjectsComponent() {
+export default function SubjectsComponent(props: {
+  setVisible: (visible: boolean) => void;
+}) {
   return (
     <div className="flex flex-column mx-3 my-3 gap-2 w-full">
       <div className="flex align-items-center justify-content-between surface-50 border-round-lg">
@@ -52,6 +54,7 @@ export default function SubjectsComponent() {
             size="small"
             text
             link
+            onClick={() => props.setVisible(true)}
           />
         </a>
       </div>
