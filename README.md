@@ -5,28 +5,51 @@
 ![]((https://img.shields.io/github/issues/unb-mds/Squad09-UnBHUB))
 ![](https://img.shields.io/github/issues-closed/unb-mds/Squad09-UnBHUB.svg)
 
-Website com a tecnologia Typescript/Firebase que tem o intuito de aprimorar a experiência dos alunos da UnB. Possui algumas funcionalidades especiais como cardápio do RU, estruturação de organização semanal de acordo com a grade do estudante e caléndario mensal. Seu principal objetivo é disponibilizar uma plataforma otimizada, que cumpra a solucionar "dores dos clientes", que são os próprios alunos.
+## UNBHUB - Squad 09
+![UnbHub](./documentation/mkdocs/docs/assets/Logo_UNBHUB.jpg)
 
-## 📃 Sumário
-- [UnBHUB - Squad09_2024.1](https://github.com/unb-mds/Squad09-UnBHUB)
-  - [📃 Sumário](#-sumário)
-  - [💻 Tecnologias](#-tecnologias)
-  - [🖼️ Atividades](#-atividades)
-  - [👥 Desenvolvedores](#-desenvolvedores)
+Projeto da disciplina Métodos de Desenvolvimento de Software cujo intuito é auxiliar os alunos da Faculdade do Gama na organização de suas atividades acadêmicas. A página permite ao usuário registrar sua grade e informações específicas de cada matéria, como datas das provas e notas dos trabalhos, ajudando-os a se manterem em dia com cada matéria.
 
 ## 💻 Tecnologias 
 
-| 💾 Banco de Dados | 🎨 Prototipação | 📋 Linguagens |
-|      :---:    |     :---:    |    :---:     |
-| ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)  | ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)    | ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)      |  
-|         |       |    ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)   |
-|         |       |  ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)    | 
+- 💾 **Banco de Dados:**  ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)
+- 🎨 **Prototipação:**  ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)  
+- 📋 **Linguagens:**  ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+- 🖼️ **Framework Web:**  ![ReactJs](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=for-the-badge)
 
-## 🖼️ Atividades
+## 🗃️ Documentação
+Para acessar a página web da nossa documentação [Clique aqui](https://unb-mds.github.io/Squad09-UnBHUB/)
 
-#### Para acessar o mural de atividades do nosso squad, clique no seguinte badge para abrir a plataforma Miro:
+### StoryMap
 [![Miro](https://img.shields.io/badge/Miro-F7C922?style=for-the-badge&logo=Miro&logoColor=050036)](https://miro.com/app/board/uXjVKQTq3Zw=/)
- 
+
+## 🎬 Execução
+
+### Pré-Requisitos
+- Yarn
+- NodeJs
+- Credendeciais no FireBase
+
+### Como Rodar
+1. Primeiro deve-se criar um projeto dentro do FireBase
+2. Após descompactar o arquivo zip da release, deve-se criar um arquivo com o nome ".env" e prencher as seguintes credenciais com dados fornecidos no firebase que estão no ".env.test":
+```
+VITE_API_KEY=
+VITE_AUTH_DOMAIN=
+VITE_PROJECT_ID=
+VITE_STORAGE_BUCKET=
+VITE_MESSAGING_SENDER_ID=
+VITE_APP_ID=
+```
+3. Deve-se então rodar o seguinte comando para baixar as dependêcias do projeto:
+```
+yarn
+```
+4. Por fim para executar a página localmente em um navegador basta rodar o seguinte comando:
+```
+yarn run dev
+```
+
 ## 👥 Desenvolvedores
 
 <center>
