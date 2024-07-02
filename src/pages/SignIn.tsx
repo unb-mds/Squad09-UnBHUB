@@ -6,7 +6,7 @@ export default function SignInScreens() {
       <div
         className="flex bg-center w-full h-screen absolute"
         style={{
-          backgroundImage: "url('public/images/imagemlogin.jpg')",
+          backgroundImage: "url('/images/imagemlogin.jpg')",
         }}
       ></div>
       <SignInCardComponent />
