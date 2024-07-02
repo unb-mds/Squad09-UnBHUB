@@ -6,6 +6,7 @@ interface InputProps {
   setValue: (value: string) => void;
   errors: string | undefined;
   touched: boolean | undefined;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function InputComponent(props: InputProps) {

@@ -66,6 +66,7 @@ export default function Feature() {
         </div>
         <div className="col-12 md:col-4 md:mb-4 mb-0 px-3">
           <span className="p-3 shadow-2 mb-3 inline-block surface-card">
+
             <i className="pi pi-calendar text-4xl text-blue-500" />
           </span>
           <div className="text-900 mb-3 font-medium">

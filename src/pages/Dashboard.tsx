@@ -1,8 +1,10 @@
 import { Outlet } from 'react-router-dom';
+
 import ExamsComponent from '../components/Exams';
 import NavbarComponent from '../components/Navbar';
 import PanelDashboardComponent from '../components/PanelDashboard';
 import SideBarComponent from '../components/SideBar';
+
 import DashboardSubjectsComponent from '../components/DashboardSubjects';
 import TasksComponent from '../components/Task';
 
