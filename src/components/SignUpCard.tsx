@@ -14,18 +14,14 @@ interface InputProps {
 
 export default function SignUpCardComponent() {
   const schema = Yup.object().shape({
-    name: Yup.string()
-      .min(3, 'Username precisa ter no mínimo 3 caractéres')
-      .required('Requerido'),
+    name: Yup.string().required('O campo de nome é obrigatório.'),
     email: Yup.string()
-      .email('Por favor, forneça um email válido')
-      .required('Requerido'),
-    password: Yup.string()
-      .min(6, 'A senha precisa de no mínimo 6 caractéres')
-      .required('Requerido'),
+      .email('E-mail inválido.')
+      .required('O campo de e-mail é obrigatório.'),
+    password: Yup.string().required('O campo de senha é obrigatório.'),
     confirm_password: Yup.string()
-      .oneOf([Yup.ref('password'), ''], 'Senhas precisam combinar')
-      .required('Requerido'),
+      .oneOf([Yup.ref('password'), ''], 'As senhas devem ser iguais.')
+      .required('O campo de confirmação de senha é obrigatório.'),
   });
 
   const handleSubmit = (values: InputProps) => {
@@ -47,6 +43,7 @@ export default function SignUpCardComponent() {
         <div className="flex flex-column surface-card p-6 shadow-2 relative w-full border-round lg:w-5 h-screen justify-content-center">
           <form onSubmit={handleSubmit}>
             <div className="text-center mb-5">
+              <img src="/images/logo.svg" alt="Logo" width={150} height={150} />
               <div className="text-900 text-3xl font-medium mb-3">
                 Crie sua conta e conecte-se!
               </div>
@@ -62,7 +59,7 @@ export default function SignUpCardComponent() {
               />
 
               <InputComponent
-                label="Username"
+                label="Nome"
                 value={values.name}
                 setValue={handleChange('name')}
                 errors={errors.name}

@@ -59,16 +59,18 @@ export default function SideBarComponent() {
               </button>
             </a>
 
-            <button
-              onClick={(e) => options.onClick(e)}
-              className={classNames(
-                options.className,
-                'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
-              )}
-            >
-              <i className="pi pi-fw pi-clipboard mr-2" />
-              <span>Tarefas</span>
-            </button>
+            <a href="http://localhost:5173/Tasks">
+              <button
+                onClick={(e) => options.onClick(e)}
+                className={classNames(
+                  options.className,
+                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
+                )}
+              >
+                <i className="pi pi-fw pi-clipboard mr-2" />
+                <span>Tarefas</span>
+              </button>
+            </a>
             <button
               onClick={(e) => options.onClick(e)}
               className={classNames(
