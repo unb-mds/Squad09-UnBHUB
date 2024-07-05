@@ -1,9 +1,15 @@
-export default function ProfilePage() {
+import NavbarComponent3 from '../components/Navbar3';
+import SideBarComponent from '../components/SideBar';
+import User from '../components/UserInfo';
+
+export default function DashboardScreen() {
   return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Hic facilis at
-      ducimus ipsum fugiat impedit provident libero ipsam iste quae praesentium
-      fuga magnam, mollitia tempore repudiandae ut blanditiis nihil eum.
+    <div className="flex">
+      <SideBarComponent />
+      <div className="flex flex-column w-full ml-2">
+        <NavbarComponent3 />
+        <User />
+      </div>
     </div>
   );
 }
