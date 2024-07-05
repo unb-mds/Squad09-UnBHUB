@@ -13,10 +13,14 @@ export default function User() {
           style={{ width: '120px', height: '120px' }}
         />
         <div className="flex flex-column">
-          <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>Nome de usuário</span>
+          <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>
+            Nome de usuário
+          </span>
+          <span style={{ fontSize: '1.5rem', color: 'gray' }}>
+            teste@gmail.com
+          </span>
           <span style={{ fontSize: '1.5rem', color: 'gray' }}>Curso</span>
           <span style={{ fontSize: '1rem', color: 'gray' }}>2024.1</span>
-
         </div>
       </div>
       <div className="flex flex-column my-3">
