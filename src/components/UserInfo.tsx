@@ -1,5 +1,7 @@
 import { Avatar } from 'primereact/avatar';
 import { ProgressBar } from 'primereact/progressbar';
+import HeadlessDemo from '../components/Headless';
+import { Button } from 'primereact/button';
 
 export default function User() {
   return (
@@ -28,6 +30,15 @@ export default function User() {
           Semestre <b>5</b> de 10
         </p>
         <ProgressBar value={50}></ProgressBar>
+      </div>
+      <div className="flex align-items-center">
+        <HeadlessDemo />
+        <Button
+          type="submit"
+          icon="pi pi-sign-out"
+          className=" text-black mx-2 px-8"
+          label="Sair"
+        />
       </div>
     </div>
   );
