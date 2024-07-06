@@ -57,28 +57,28 @@ export default function ActivitiesComponent() {
       </div>
 
       <div className="flex flex-row justify-content-between gap-2">
-        <Card title="FGA0138 - MDS" className="w-12">
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #3498db'}}>
           <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #3498db'}}>
           <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #3498db'}}>
           <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #3498db'}}>
           <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
       </div>
@@ -98,28 +98,24 @@ export default function ActivitiesComponent() {
       </div>
 
       <div className="flex flex-row justify-content-between gap-2">
-        <Card title="FGA0138 - MDS" className="w-12">
-          <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #e41223'}}>          <div className="flex flex-column w-12">
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
-          <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #e41223'}}>          <div className="flex flex-column w-12">
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
-          <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #e41223'}}>          <div className="flex flex-column w-12">
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
-          <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #e41223'}}>          <div className="flex flex-column w-12">
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
       </div>
@@ -139,28 +135,24 @@ export default function ActivitiesComponent() {
       </div>
 
       <div className="flex flex-row justify-content-between gap-2">
-        <Card title="FGA0138 - MDS" className="w-12">
-          <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #12e42b'}}>          <div className="flex flex-column w-12">
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
-          <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #12e42b'}}>          <div className="flex flex-column w-12">
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
-          <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #12e42b'}}>          <div className="flex flex-column w-12">
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
-        <Card title="FGA0138 - MDS" className="w-12">
-          <div className="flex flex-column w-12">
-            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
-            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
+        <Card title="FGA0138 - MDS" className="w-12" style={{color: 'black', backgroundColor:'white',border: '2px solid #12e42b'}}>          <div className="flex flex-column w-12">
+            <i className="pi pi-book mb-2" style={{color: 'black'}} > Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2" style={{color: 'black'}}> Quarta-feira</p>
           </div>
         </Card>
       </div>
