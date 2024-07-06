@@ -59,34 +59,26 @@ export default function ActivitiesComponent() {
       <div className="flex flex-row justify-content-between gap-2">
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
       </div>
@@ -108,34 +100,26 @@ export default function ActivitiesComponent() {
       <div className="flex flex-row justify-content-between gap-2">
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
       </div>
@@ -157,40 +141,31 @@ export default function ActivitiesComponent() {
       <div className="flex flex-row justify-content-between gap-2">
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
         <Card title="FGA0138 - MDS" className="w-12">
           <div className="flex flex-column w-12">
-            <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-            <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-            <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-            <p className="pi pi-map-marker">LAB MOCAP</p>
+            <i className="pi pi-book mb-2"> Tarefa: Protótipo Figma</i>
+            <p className="pi pi-calendar mb-2"> Quarta-feira</p>
           </div>
         </Card>
       </div>
 
-      <div className="flex flex-row justify-content-between gap-2">
-      </div>
+      <div className="flex flex-row justify-content-between gap-2"></div>
     </div>
   );
 }
