@@ -1,11 +1,7 @@
-import ExercisesComponent from '../components/Exercises';
-import SideBarComponent from '../components/SideBar';
+import React from 'react';
+import ActivitiesComponent from "../components/ActivitiesComponent";
 
-export default function TaskScreen() {
-  return (
-    <div className="flex flex-row">
-      <SideBarComponent />
-      <ExercisesComponent />
-    </div>
-  );
+
+export default function Activities() {
+  return(<div> <ActivitiesComponent/> </div>)    
 }

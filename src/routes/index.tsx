@@ -6,7 +6,7 @@ import SubjectsScreen from '../pages/Subjects';
 import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
 import LandingPage from '../pages/Landing';
-import TaskScreen from '../pages/Tasks';
+import Activities from "../pages/Tasks";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/Tasks',
-    element: <TaskScreen />,
+    element: <Activities />,
   },
 ]);
 
