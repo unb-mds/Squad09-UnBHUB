@@ -1,61 +1,39 @@
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import { Avatar } from 'primereact/avatar';
 import { Splitter, SplitterPanel } from 'primereact/splitter';
+import { Divider } from "primereact/divider";import { Menu } from 'primereact/menu';
 
 export default function ActivitiesComponent() {
   return (
-    <Splitter style={{ height: '850px' }}>
+  <div className="" style={{backgroundColor:'white'}}>
+    <Splitter style={{ height: '850px' , backgroundColor:'white'}}>
       <SplitterPanel
-        className="flex align-items-center justify-content-center"
         size={25}
-        minSize={10}
+        minSize={20}
       >
-        Panel 1
+      <div className="flex-column align-itens-center justify-content-center" style={{backgroundColor:'white'}}>
+      <h2 className="" style={{color:'black'}}>UTOPIA</h2>
+      <Divider></Divider>
+
+      <Button
+        className="py-3 px-15 w-full text-white my-3" 
+        label="Entrar"
+        ></Button></div>
       </SplitterPanel>
       <SplitterPanel
         className="flex align-items-center justify-content-center"
-        size={75}
-      >
+        size={80}
+        minSize={75}
+             >
         <div className="flex flex-column mx-3 my-3 gap-2 w-full">
           <div className="flex align-items-center justify-content-between surface-50 border-round-lg">
             <div className="flex h-1rem gap-2 align-items-center surface-50 px-6 py-5">
-              <i className="pi pi-book text-4xl"> </i>
-              <h1>Tarefas</h1>
-            </div>
-            <div className="flex align-items-center">
-              <a href="http://localhost:5173/Messages">
-                <Button
-                  icon="pi pi-bell p-overlay-badge"
-                  rounded
-                  text
-                  size="large"
-                  badge="2"
-                  badgeClassName="p-badge-danger"
-                  link
-                />
-              </a>
-              <a href="http://localhost:5173/Messages">
-                <Button
-                  icon="pi pi-inbox p-overlay-badge"
-                  rounded
-                  text
-                  size="large"
-                  link
-                />
-              </a>
-              <Button className="" rounded text>
-                <Avatar
-                  image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-                  size="large"
-                  className="mr-2"
-                  shape="circle"
-                />
-              </Button>
+            <i className="pi pi-book text-4xl" style={{color:'black'}}> </i>
+            <h1 className="" style={{color:'black'}} >Tarefas</h1>
             </div>
           </div>
 
-          <div className="flex h-3rem gap-2 justify-content-between align-items-center surface-50 px-6 border-round-lg">
+          <div className="flex h-3rem gap-2 justify-content-between align-items-center surface-50 px-6 border-round-lg" style={{color:'black'}}>
             Em progresso
             <a>
               <Button
@@ -152,8 +130,8 @@ export default function ActivitiesComponent() {
             </Card>
           </div>
 
-          <div className="flex h-3rem gap-2 justify-content-between align-items-center surface-50 px-6 border-round-lg">
-            Atrasadas
+          <div className="flex h-3rem gap-2 justify-content-between align-items-center surface-50 px-6 border-round-lg" style={{color:'black'}}>
+            Atrasadas           
             <a>
               <Button
                 label="Adicionar"
@@ -249,7 +227,7 @@ export default function ActivitiesComponent() {
             </Card>
           </div>
 
-          <div className="flex h-3rem gap-2 justify-content-between align-items-center surface-50 px-6 border-round-lg">
+          <div className="flex h-3rem gap-2 justify-content-between align-items-center surface-50 px-6 border-round-lg" style={{color:'black'}}>
             Finalizadas
             <a>
               <Button
@@ -351,5 +329,6 @@ export default function ActivitiesComponent() {
         ;
       </SplitterPanel>
     </Splitter>
+    </div>
   );
 }
