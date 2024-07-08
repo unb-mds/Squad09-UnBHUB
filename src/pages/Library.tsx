@@ -1,11 +1,11 @@
-import ExercisesComponent from '../components/Exercises';
+import LibraryScreen1 from '../components/LibraryScreen';
 import SideBarComponent from '../components/SideBar';
 
-export default function TaskScreen() {
+export default function LibraryScreen() {
   return (
     <div className="flex flex-row">
       <SideBarComponent />
-      <ExercisesComponent />
+      <LibraryScreen1 />
     </div>
   );
 }

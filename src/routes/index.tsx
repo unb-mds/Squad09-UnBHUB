@@ -7,6 +7,7 @@ import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
 import LandingPage from '../pages/Landing';
 import TaskScreen from '../pages/Tasks';
+import LibraryScreen from '../pages/Library';
 
 const router = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
   {
     path: '/Library',
     element: <LibraryScreen />,
-  }
+  },
 ]);
 
 export default router;
