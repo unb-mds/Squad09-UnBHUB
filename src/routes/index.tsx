@@ -43,6 +43,10 @@ const router = createBrowserRouter([
     path: '/Tasks',
     element: <TaskScreen />,
   },
+  {
+    path: '/Library',
+    element: <LibraryScreen />,
+  }
 ]);
 
 export default router;
