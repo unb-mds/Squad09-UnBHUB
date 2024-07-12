@@ -2,6 +2,7 @@ import { Avatar } from 'primereact/avatar';
 import { ProgressBar } from 'primereact/progressbar';
 import HeadlessDemo from '../components/Headless';
 import { Button } from 'primereact/button';
+import Stats from '../components/Stats';
 
 export default function User() {
   return (
@@ -31,7 +32,10 @@ export default function User() {
         </p>
         <ProgressBar value={50}></ProgressBar>
       </div>
-      <div className="flex align-items-center">
+      <div className="my-6">
+        <Stats />
+      </div>
+      <div className="flex justify-content-center flex-wrap">
         <HeadlessDemo />
         <Button
           type="submit"
