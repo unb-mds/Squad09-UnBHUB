@@ -2,7 +2,9 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 
-export default function LibraryScreen1() {
+export default function LibraryScreen1(props: {
+  setVisible: (visible: boolean) => void;
+}) {
   return (
     <div className="flex flex-column mx-3 my-3 gap-0 w-full">
       <div className="flex align-items-center justify-content-between border-round-lg">
@@ -31,6 +33,7 @@ export default function LibraryScreen1() {
             size="small"
             text
             link
+            onClick={() => props.setVisible(true)}
           />
         </a>
       </div>
@@ -133,6 +136,7 @@ export default function LibraryScreen1() {
             size="small"
             text
             link
+            onClick={() => props.setVisible(true)}
           />
         </a>
       </div>
