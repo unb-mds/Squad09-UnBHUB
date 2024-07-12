@@ -8,8 +8,8 @@ export default function Activities() {
   const [visible, setVisible] = useState<boolean>(false);
   return (
     <div className="flex flex-row">
-      <SideBarComponent /> <ActivitiesComponent />
-      {''}
+      <SideBarComponent />
+      <ActivitiesComponent visible={visible} setVisible={setVisible} />
       <CreateActivityComponent visible={visible} setVisible={setVisible} />
     </div>
   );

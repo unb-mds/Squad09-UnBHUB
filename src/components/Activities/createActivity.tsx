@@ -100,6 +100,10 @@ export default function CreateActivityComponent(props: {
               <label htmlFor="username">Dia de entrega</label>
             </FloatLabel>
 
+            {errors.deliveryDay && touched.deliveryDay ? (
+              <div className="text-red-500 my-5">{errors.deliveryDay}</div>
+            ) : null}
+
             {/* Botões para cancelar ou confirmar a operação. */}
             <div className="flex justify-content-between flex-wrap">
               <Button
