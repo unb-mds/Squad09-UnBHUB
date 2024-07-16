@@ -1,11 +1,34 @@
+import { useState, useEffect } from 'react';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
 import { Divider } from 'primereact/divider';
+import { db } from '../../config/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
-export default function SubjectsComponent(props: {
-  setVisible: (visible: boolean) => void;
-}) {
+const CardSubjectComponent = ({ subject }) => (
+  <div className="flex flex-column w-12">
+    <p className="pi pi-user mt-0 mb-2">{subject.professor}</p>
+    <p className="pi pi-calendar mb-2">{subject.weekDays}</p>
+    <p className="pi pi-clock mb-2">{subject.schedule}</p>
+    <p className="pi pi-map-marker">{subject.local}</p>
+  </div>
+);
+
+export default function SubjectsComponent(props) {
+  const [subjects, setSubjects] = useState([]);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const querySnapshot = await getDocs(collection(db, 'Users'));
+      const userDataArray = querySnapshot.docs.map((doc) => doc.data());
+      if (userDataArray.length > 0 && userDataArray[0].subjects) {
+        setSubjects(userDataArray[0].subjects);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <div className="flex flex-column mx-3 my-3 w-full">
       <div className="flex align-items-center justify-content-between border-round-lg">
@@ -64,183 +87,45 @@ export default function SubjectsComponent(props: {
       </div>
       <Divider className="mb-4"></Divider>
 
-      <div className="flex flex-row justify-content-between gap-2">
-        <a
-          href="http://localhost:5173/SpecificSubject"
-          className="w-12"
-          style={{ textDecoration: 'none' }}
-        >
-          <Card
-            title="FGA0138 - MDS"
-            style={{
-              color: 'white',
-              border: '2px solid #3498db',
-            }}
+      <div className="flex align-items-center flex-wrap">
+        {subjects.map((subject, index) => (
+          <a
+            href="http://localhost:5173/SpecificSubject"
+            className="w-3"
+            style={{ textDecoration: 'none' }}
+            key={index}
           >
-            <div className="flex flex-column w-12">
-              <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-              <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-              <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-              <p className="pi pi-map-marker">LAB MOCAP</p>
-            </div>
-          </Card>
-        </a>
-        <a
-          href="http://localhost:5173/SpecificSubject"
-          className="w-12"
-          style={{ textDecoration: 'none' }}
-        >
-          <Card
-            title="FGA0138 - MDS"
-            style={{
-              color: 'white',
-              border: '2px solid #3498db',
-            }}
-          >
-            <div className="flex flex-column w-12">
-              <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-              <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-              <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-              <p className="pi pi-map-marker">LAB MOCAP</p>
-            </div>
-          </Card>
-        </a>
-        <a
-          href="http://localhost:5173/SpecificSubject"
-          className="w-12"
-          style={{ textDecoration: 'none' }}
-        >
-          <Card
-            title="FGA0138 - MDS"
-            style={{
-              color: 'white',
-              border: '2px solid #3498db',
-            }}
-          >
-            <div className="flex flex-column w-12">
-              <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-              <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-              <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-              <p className="pi pi-map-marker">LAB MOCAP</p>
-            </div>
-          </Card>
-        </a>
-        <a
-          href="http://localhost:5173/SpecificSubject"
-          className="w-12"
-          style={{ textDecoration: 'none' }}
-        >
-          <Card
-            title="FGA0138 - MDS"
-            style={{
-              color: 'white',
-              border: '2px solid #3498db',
-            }}
-          >
-            <div className="flex flex-column w-12">
-              <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-              <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-              <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-              <p className="pi pi-map-marker">LAB MOCAP</p>
-            </div>
-          </Card>
-        </a>
+            <Card
+              title={subject.codeSubject + ' - ' + subject.nameSubject}
+              className="h-20rem my-1"
+              style={{
+                color: 'white',
+                border: '2px solid #3498db',
+              }}
+            >
+              <CardSubjectComponent subject={subject} />
+            </Card>
+          </a>
+        ))}
       </div>
-
-      <div className="flex mt-3 align-items-center px-6">
+      <div className="flex justify-content-between align-items-center px-6">
         <div>
-          <i className="pi pi-check mb-2 mx-3" style={{ color: 'green' }} />
+          <i className="pi pi-check my-3 mx-3" style={{ color: 'green' }} />
           Finalizadas
         </div>
+        <a>
+          <Button
+            label="Adicionar"
+            icon="pi pi-plus"
+            iconPos="left"
+            size="small"
+            text
+            link
+            onClick={() => props.setVisible(true)}
+          />
+        </a>
       </div>
       <Divider className="mb-4"></Divider>
-
-      <div className="flex flex-row justify-content-between gap-2">
-        <a
-          href="http://localhost:5173/SpecificSubject"
-          className="w-12"
-          style={{ textDecoration: 'none' }}
-        >
-          <Card
-            title="FGA0138 - MDS"
-            className="w-12"
-            style={{
-              color: 'white',
-              border: '2px solid #12e42b',
-            }}
-          >
-            <div className="flex flex-column w-12">
-              <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-              <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-              <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-              <p className="pi pi-map-marker">LAB MOCAP</p>
-            </div>
-          </Card>
-        </a>
-        <a
-          href="http://localhost:5173/SpecificSubject"
-          className="w-12"
-          style={{ textDecoration: 'none' }}
-        >
-          <Card
-            title="FGA0138 - MDS"
-            className="w-12"
-            style={{
-              color: 'white',
-              border: '2px solid #12e42b',
-            }}
-          >
-            <div className="flex flex-column w-12">
-              <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-              <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-              <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-              <p className="pi pi-map-marker">LAB MOCAP</p>
-            </div>
-          </Card>
-        </a>
-        <a
-          href="http://localhost:5173/SpecificSubject"
-          className="w-12"
-          style={{ textDecoration: 'none' }}
-        >
-          <Card
-            title="FGA0138 - MDS"
-            className="w-12"
-            style={{
-              color: 'white',
-              border: '2px solid #12e42b',
-            }}
-          >
-            <div className="flex flex-column w-12">
-              <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-              <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-              <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-              <p className="pi pi-map-marker">LAB MOCAP</p>
-            </div>
-          </Card>
-        </a>
-        <a
-          href="http://localhost:5173/SpecificSubject"
-          className="w-12"
-          style={{ textDecoration: 'none' }}
-        >
-          <Card
-            title="FGA0138 - MDS"
-            className="w-12"
-            style={{
-              color: 'white',
-              border: '2px solid #12e42b',
-            }}
-          >
-            <div className="flex flex-column w-12">
-              <p className="pi pi-user mt-0 mb-2">Carla Rocha</p>
-              <p className="pi pi-calendar mb-2">Quarta & Sexta</p>
-              <p className="pi pi-clock mb-2">10:00 - 11:50</p>
-              <p className="pi pi-map-marker">LAB MOCAP</p>
-            </div>
-          </Card>
-        </a>
-      </div>
     </div>
   );
 }

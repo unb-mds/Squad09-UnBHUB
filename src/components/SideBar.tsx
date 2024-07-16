@@ -46,7 +46,10 @@ export default function SideBarComponent() {
               <i className="pi pi-fw pi-calendar mr-2"></i>
               <span>Cronograma</span>
             </button>
-            <a href="http://localhost:5173/Subjects">
+            <a
+              href="http://localhost:5173/Subjects"
+              style={{ textDecoration: 'none' }}
+            >
               <button
                 onClick={(e) => options.onClick(e)}
                 className={classNames(
@@ -59,7 +62,10 @@ export default function SideBarComponent() {
               </button>
             </a>
 
-            <a href="http://localhost:5173/Tasks">
+            <a
+              href="http://localhost:5173/Tasks"
+              style={{ textDecoration: 'none' }}
+            >
               <button
                 onClick={(e) => options.onClick(e)}
                 className={classNames(
