@@ -9,12 +9,12 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 //Função para criar um novo componente de matéria
-import CreateActivityFunction from '../../functions/CreateActivity';
+import EditActivityFunction from '../../functions/EditActivity.tsx';
 
 // Define um componente funcional React chamado CreateActivityComponent.
-export default function CreateActivityComponent(props: {
-  visibleCreate: boolean; // Propriedade visível que determina se o diálogo está visível ou não.
-  CreatesetVisible: (visibleCreate: boolean) => void; // Função para definir a visibilidade do diálogo.
+export default function EditActivityComponent(props: {
+  visibleEdit: boolean; // Propriedade visível que determina se o diálogo está visível ou não.
+  EditsetVisible: (visibleEdit: boolean) => void; // Função para definir a visibilidade do diálogo.
 }) {
   return (
     <Formik
@@ -24,8 +24,8 @@ export default function CreateActivityComponent(props: {
         deliveryDay: '',
       }}
       onSubmit={(values) => {
-        CreateActivityFunction(values).then(() => {
-          props.CreatesetVisible(false);
+        EditActivityFunction(values).then(() => {
+          props.EditsetVisible(false);
         });
       }}
       validationSchema={Yup.object().shape({
@@ -51,9 +51,9 @@ export default function CreateActivityComponent(props: {
           {/* Componente de diálogo que é exibido ou não com base no valor de props.visible. */}
           <Dialog
             header="Cadastrar matéria" // Título do diálogo.
-            visible={props.visibleCreate} // Define a visibilidade do diálogo.
+            visible={props.visibleEdit} // Define a visibilidade do diálogo.
             style={{ width: '30vw' }} // Define a largura do diálogo.
-            onHide={() => props.CreatesetVisible(false)} // Função para esconder o diálogo quando for fechado.
+            onHide={() => props.EditsetVisible(false)} // Função para esconder o diálogo quando for fechado.
           >
             {/* Campo de entrada para o código da matéria com um rótulo flutuante. */}
             <FloatLabel>
@@ -113,7 +113,25 @@ export default function CreateActivityComponent(props: {
                   borderColor: '#ff6060',
                   color: '#ff6060',
                 }}
-                onClick={() => props.CreatesetVisible(false)}
+                onClick={() => props.EditsetVisible(false)}
+              />
+              <Button
+                outlined
+                label="Editar"
+                style={{
+                  borderColor: '#ff6060',
+                  color: '#ff6060',
+                }}
+                onClick={() =>props.EditsetVisible( false)}
+              />
+              <Button
+                outlined
+                label="Excluir"
+                style={{
+                  borderColor: '#ff6060',
+                  color: '#ff6060',
+                }}
+                onClick={() =>props.EditsetVisible( false)}
               />
               {/* Botão de cancelar. */}
               <Button onClick={handleSubmit} label="Confirmar" />

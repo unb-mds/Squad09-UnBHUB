@@ -3,7 +3,8 @@ import { Divider } from 'primereact/divider';
 import React from 'react';
 
 export default function ActivitiesComponent(props: {
-  setVisible: (visible: boolean) => void;
+  CreatesetVisible: (visibleCreate: boolean) => void;
+  EditsetVisible: (visibleEdit: boolean) => void;
 }) {
   const cardButtonStyles: React.CSSProperties = {
     color: 'white',
@@ -42,7 +43,7 @@ export default function ActivitiesComponent(props: {
           size="small"
           text
           link
-          onClick={() => props.setVisible(true)}
+          onClick={() => props.CreatesetVisible(true)}
         />
       </div>
 
@@ -52,6 +53,7 @@ export default function ActivitiesComponent(props: {
         <Button
           className="w-12 my-0"
           style={{ ...cardButtonStyles, borderColor: '#3498db' }}
+          onClick={() => props.EditsetVisible(true)}
         >
           <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
             FGA0138 - MDS
@@ -70,6 +72,7 @@ export default function ActivitiesComponent(props: {
         <Button
           className="w-12 my-0"
           style={{ ...cardButtonStyles, borderColor: '#3498db' }}
+          onClick={() => props.EditsetVisible(true)}
         >
           <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
             FGA0138 - MDS
@@ -88,6 +91,7 @@ export default function ActivitiesComponent(props: {
         <Button
           className="w-12 my-0"
           style={{ ...cardButtonStyles, borderColor: '#3498db' }}
+          onClick={() => props.EditsetVisible(true)}
         >
           <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
             FGA0138 - MDS
@@ -106,6 +110,7 @@ export default function ActivitiesComponent(props: {
         <Button
           className="w-12 my-0"
           style={{ ...cardButtonStyles, borderColor: '#3498db' }}
+          onClick={() => props.EditsetVisible(true)}
         >
           <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
             FGA0138 - MDS
