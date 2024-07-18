@@ -1,10 +1,20 @@
-import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
+import React from 'react';
 
 export default function ActivitiesComponent(props: {
   setVisible: (visible: boolean) => void;
 }) {
+  const cardButtonStyles: React.CSSProperties = {
+    color: 'white',
+    border: '2px solid',
+    padding: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+  };
+
   return (
     <div className="flex flex-column mx-3 my-3 gap-0 w-full">
       <div className="flex align-items-center justify-content-between border-round-lg">
@@ -39,14 +49,13 @@ export default function ActivitiesComponent(props: {
       <Divider className="my-0"></Divider>
 
       <div className="flex flex-row justify-content-between gap-2 my-4">
-        <Card
-          title="FGA0138 - MDS"
+        <Button
           className="w-12 my-0"
-          style={{
-            color: 'white',
-            border: '2px solid #3498db',
-          }}
+          style={{ ...cardButtonStyles, borderColor: '#3498db' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -57,15 +66,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #3498db',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#3498db' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -76,15 +84,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #3498db',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#3498db' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -95,15 +102,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #3498db',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#3498db' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -114,7 +120,7 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
+        </Button>
       </div>
 
       <div
@@ -125,30 +131,18 @@ export default function ActivitiesComponent(props: {
           <i className="pi pi-clock mb-2 mx-3" style={{ color: 'red' }} />
           Atrasadas
         </div>
-        <a>
-          <Button
-            label="Adicionar"
-            icon="pi pi-plus"
-            iconPos="left"
-            size="small"
-            text
-            link
-            onClick={() => props.setVisible(true)}
-          />
-        </a>
       </div>
 
       <Divider className="my-0"></Divider>
 
       <div className="flex flex-row justify-content-between gap-2 my-4">
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #e41223',
-          }}
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#e41223' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -159,15 +153,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #e41223',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#e41223' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -178,15 +171,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #e41223',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#e41223' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -197,15 +189,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #e41223',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#e41223' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -216,7 +207,7 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
+        </Button>
       </div>
 
       <div
@@ -227,31 +218,18 @@ export default function ActivitiesComponent(props: {
           <i className="pi pi-check mb-2 mx-3" style={{ color: 'green' }} />
           Finalizadas
         </div>
-
-        <a>
-          <Button
-            label="Adicionar"
-            icon="pi pi-plus"
-            iconPos="left"
-            size="small"
-            text
-            link
-            onClick={() => props.setVisible(true)}
-          />
-        </a>
       </div>
 
       <Divider className="my-0"></Divider>
 
       <div className="flex flex-row justify-content-between gap-2 my-4">
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #12e42b',
-          }}
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#12e42b' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -262,15 +240,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #12e42b',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#12e42b' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -281,15 +258,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #12e42b',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#12e42b' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -300,15 +276,14 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
-        <Card
-          title="FGA0138 - MDS"
-          className="w-12"
-          style={{
-            color: 'white',
-            border: '2px solid #12e42b',
-          }}
+        </Button>
+        <Button
+          className="w-12 my-0"
+          style={{ ...cardButtonStyles, borderColor: '#12e42b' }}
         >
+          <h3 style={{ color: 'white', marginBottom: '0.5rem' }}>
+            FGA0138 - MDS
+          </h3>
           <div className="flex flex-column w-12">
             <i className="pi pi-book mb-2" style={{ color: 'white' }}>
               {' '}
@@ -319,10 +294,8 @@ export default function ActivitiesComponent(props: {
               Quarta-feira
             </p>
           </div>
-        </Card>
+        </Button>
       </div>
-
-      <div className="flex flex-row justify-content-between gap-2"></div>
     </div>
   );
 }
