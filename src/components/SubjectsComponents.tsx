@@ -17,12 +17,17 @@ const CardSubjectComponent = ({ subject }) => (
 
 export default function SubjectsComponent(props) {
   const [subjects, setSubjects] = useState([]);
+  const [completedSubject, setCompletedSubject] = useState([]);
+
   useEffect(() => {
     const fetchUserData = async () => {
       const querySnapshot = await getDocs(collection(db, 'Users'));
       const userDataArray = querySnapshot.docs.map((doc) => doc.data());
       if (userDataArray.length > 0 && userDataArray[0].subjects) {
         setSubjects(userDataArray[0].subjects);
+      }
+      if (userDataArray.length > 0 && userDataArray[0].completedSubject) {
+        setCompletedSubject(userDataArray[0].completedSubject);
       }
     };
 
@@ -126,6 +131,28 @@ export default function SubjectsComponent(props) {
         </a>
       </div>
       <Divider className="mb-4"></Divider>
+
+      <div className="flex align-items-center flex-wrap">
+        {completedSubject.map((subject, index) => (
+          <a
+            href="http://localhost:5173/SpecificSubject"
+            className="w-3"
+            style={{ textDecoration: 'none' }}
+            key={index}
+          >
+            <Card
+              title={subject.codeSubject + ' - ' + subject.nameSubject}
+              className="h-20rem my-1"
+              style={{
+                color: 'white',
+                border: '2px solid #3498db',
+              }}
+            >
+              <CardSubjectComponent subject={subject} />
+            </Card>
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
