@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import CalendarComponent from '../components/Calendar';
+import CalendarScreen from '../pages/Calendar';
 import DashboardScreen from '../pages/Dashboard';
 import LandingPage from '../pages/Landing';
 import LibraryScreen from '../pages/Library';
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
   {
     path: '/Menu',
     element: <MenuScreen />,
+  },
+  {
+    path: '/CalendarPage',
+    element: <CalendarScreen />,
   },
 ]);
 
