@@ -15,7 +15,10 @@ const CardSubjectComponent = ({ subject }) => (
   </div>
 );
 
-export default function SubjectsComponent(props) {
+export default function SubjectsComponent(props: {
+  setVisible: (visible: boolean) => void;
+  setVisibleSubject: (visibleSubject: boolean) => void;
+}) {
   const [subjects, setSubjects] = useState([]);
   const [completedSubject, setCompletedSubject] = useState([]);
 
@@ -95,7 +98,7 @@ export default function SubjectsComponent(props) {
       <div className="flex align-items-center flex-wrap">
         {subjects.map((subject, index) => (
           <a
-            href="http://localhost:5173/SpecificSubject"
+            onClick={() => props.setVisibleSubject(true)}
             className="w-3"
             style={{ textDecoration: 'none' }}
             key={index}
@@ -135,7 +138,7 @@ export default function SubjectsComponent(props) {
       <div className="flex align-items-center flex-wrap">
         {completedSubject.map((subject, index) => (
           <a
-            href="http://localhost:5173/SpecificSubject"
+            onClick={() => props.setVisibleSubject(true)}
             className="w-3"
             style={{ textDecoration: 'none' }}
             key={index}
