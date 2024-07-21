@@ -1,6 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
 import CalendarComponent from '../components/Calendar';
-import CalendarScreen from '../pages/Calendar';
 import DashboardScreen from '../pages/Dashboard';
 import LandingPage from '../pages/Landing';
 import LibraryScreen from '../pages/Library';
@@ -11,6 +10,7 @@ import SignUpScreen from '../pages/SignUp';
 import SpecificSubjectPage from '../pages/SpecificSubjectPage';
 import SubjectsScreen from '../pages/Subjects';
 import Activities from '../pages/TaskScreen';
+import CalendarScreen from '../pages/CalendarPage';
 
 const router = createBrowserRouter([
   {
