@@ -7,7 +7,7 @@ import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
 import LandingPage from '../pages/Landing';
 import TaskScreen from '../pages/Tasks';
-import CalendarScreen from '../pages/Calendar';
+import CalendarScreen from '../pages/CalendarPage';
 
 const router = createBrowserRouter([
   {
