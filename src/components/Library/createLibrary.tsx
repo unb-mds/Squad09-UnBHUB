@@ -13,8 +13,8 @@ import CreateLibraryFunction from '../../functions/CreateLibrary';
 
 // Define um componente funcional React chamado CreateSubjectComponent.
 export default function createLibrary(props: {
-  visible: boolean; // Propriedade visível que determina se o diálogo está visível ou não.
-  setVisible: (visible: boolean) => void; // Função para definir a visibilidade do diálogo.
+  visibleCreate1: boolean; // Propriedade visível que determina se o diálogo está visível ou não.
+  CreatesetVisible1: (visibleCreate: boolean) => void; // Função para definir a visibilidade do diálogo.
 }) {
   return (
     <Formik
@@ -24,7 +24,7 @@ export default function createLibrary(props: {
       }}
       onSubmit={(values) => {
         CreateLibraryFunction(values).then(() => {
-          props.setVisible(false);
+          props.CreatesetVisible1(false);
         });
       }}
       validationSchema={Yup.object().shape({
@@ -47,9 +47,9 @@ export default function createLibrary(props: {
           {/* Componente de diálogo que é exibido ou não com base no valor de props.visible. */}
           <Dialog
             header="Cadastrar livro" // Título do diálogo.
-            visible={props.visible} // Define a visibilidade do diálogo.
+            visible={props.visibleCreate1} // Define a visibilidade do diálogo.
             style={{ width: '30vw' }} // Define a largura do diálogo.
-            onHide={() => props.setVisible(false)} // Função para esconder o diálogo quando for fechado.
+            onHide={() => props.CreatesetVisible1(false)} // Função para esconder o diálogo quando for fechado.
           >
             {/* Campo de entrada para o código da matéria com um rótulo flutuante. */}
             <FloatLabel>
@@ -92,7 +92,7 @@ export default function createLibrary(props: {
                   borderColor: '#ff6060',
                   color: '#ff6060',
                 }}
-                onClick={() => props.setVisible(false)}
+                onClick={() => props.CreatesetVisible1(false)}
               />
               {/* Botão de cancelar. */}
               <Button onClick={handleSubmit} label="Confirmar" />
