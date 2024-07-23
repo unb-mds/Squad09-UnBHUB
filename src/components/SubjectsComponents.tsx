@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { Avatar } from 'primereact/avatar';
+import { Button } from 'primereact/button';
+import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
-import { db } from '../../config/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { auth, db } from '../../config/firebase';
 
 const CardSubjectComponent = ({ subject }) => (
   <div className="flex flex-column w-12">
@@ -16,25 +17,24 @@ const CardSubjectComponent = ({ subject }) => (
 );
 
 export default function SubjectsComponent(props: {
+  setSubject: (subject: any) => void;
   setVisible: (visible: boolean) => void;
   setVisibleSubject: (visibleSubject: boolean) => void;
 }) {
   const [subjects, setSubjects] = useState([]);
-  const [completedSubject, setCompletedSubject] = useState([]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'Users'));
-      const userDataArray = querySnapshot.docs.map((doc) => doc.data());
-      if (userDataArray.length > 0 && userDataArray[0].subjects) {
-        setSubjects(userDataArray[0].subjects);
-      }
-      if (userDataArray.length > 0 && userDataArray[0].completedSubject) {
-        setCompletedSubject(userDataArray[0].completedSubject);
-      }
-    };
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const unsub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
+          if (doc.exists()) {
+            setSubjects(doc.data().subjects);
+          }
+        });
 
-    fetchUserData();
+        return () => unsub();
+      }
+    });
   }, []);
 
   return (
@@ -96,25 +96,32 @@ export default function SubjectsComponent(props: {
       <Divider className="mb-4"></Divider>
 
       <div className="flex align-items-center flex-wrap">
-        {subjects.map((subject, index) => (
-          <a
-            onClick={() => props.setVisibleSubject(true)}
-            className="w-3"
-            style={{ textDecoration: 'none' }}
-            key={index}
-          >
-            <Card
-              title={subject.codeSubject + ' - ' + subject.nameSubject}
-              className="h-20rem my-1"
-              style={{
-                color: 'white',
-                border: '2px solid #3498db',
-              }}
-            >
-              <CardSubjectComponent subject={subject} />
-            </Card>
-          </a>
-        ))}
+        {Object.values(subjects).map((subject, index) => {
+          if (subject.status === 'Active') {
+            return (
+              <a
+                className="w-3 cursor-pointer"
+                style={{ textDecoration: 'none' }}
+                onClick={() => {
+                  props.setSubject(subject);
+                  props.setVisibleSubject(true);
+                }}
+                key={index}
+              >
+                <Card
+                  title={subject.codeSubject + ' - ' + subject.nameSubject}
+                  className="h-20rem my-1"
+                  style={{
+                    color: 'white',
+                    border: '2px solid #3498db',
+                  }}
+                >
+                  <CardSubjectComponent subject={subject} />
+                </Card>
+              </a>
+            );
+          }
+        })}
       </div>
       <div className="flex justify-content-between align-items-center px-6">
         <div>
@@ -135,27 +142,7 @@ export default function SubjectsComponent(props: {
       </div>
       <Divider className="mb-4"></Divider>
 
-      <div className="flex align-items-center flex-wrap">
-        {completedSubject.map((subject, index) => (
-          <a
-            onClick={() => props.setVisibleSubject(true)}
-            className="w-3"
-            style={{ textDecoration: 'none' }}
-            key={index}
-          >
-            <Card
-              title={subject.codeSubject + ' - ' + subject.nameSubject}
-              className="h-20rem my-1"
-              style={{
-                color: 'white',
-                border: '2px solid #3498db',
-              }}
-            >
-              <CardSubjectComponent subject={subject} />
-            </Card>
-          </a>
-        ))}
-      </div>
+      <div className="flex align-items-center flex-wrap"></div>
     </div>
   );
 }

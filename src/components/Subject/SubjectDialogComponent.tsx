@@ -1,7 +1,9 @@
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
+import DeleteSubjectFunction from '../../functions/DeleteSubject';
 
 export default function SubjectDialogComponent(props: {
+  subject: any;
   visibleSubject: boolean;
   setVisibleSubject: (visibleSubject: boolean) => void;
 }) {
@@ -28,6 +30,10 @@ export default function SubjectDialogComponent(props: {
             style={{
               borderColor: '#ff6060',
               backgroundColor: '#ff6060',
+            }}
+            onClick={() => {
+              DeleteSubjectFunction(props.subject.id);
+              props.setVisibleSubject(false);
             }}
           />
         </div>
