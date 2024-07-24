@@ -30,13 +30,16 @@ export default function LibraryComponent(props: {
       <h2 style={{ color: 'white' }}>{title}</h2>
       <div
         className="flex flex-column w-12"
-        style={{ alignItems: 'flex-start' }}
+        style={{ alignItems: 'flex-start', textAlign: 'left' }} // Adicionando textAlign: 'left'
       >
-        <i className="pi pi-book mb-2" style={{ color: 'white' }}>
+        <i className="pi pi-book mb-3" style={{ color: 'white' }}>
           {' '}
           Métodos de desenvolvimento de Software
         </i>
-        <p className="pi pi-calendar mb-3" style={{ color: 'white' }}>
+        <p
+          className="pi pi-calendar mb-3"
+          style={{ color: 'white', margin: 0 }}
+        >
           {' '}
           Devolução: {returnDate}
         </p>
