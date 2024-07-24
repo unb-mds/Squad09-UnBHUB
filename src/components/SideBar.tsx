@@ -1,9 +1,12 @@
+import React from 'react';
+
 import { Avatar } from 'primereact/avatar';
 import { Image } from 'primereact/image';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
 import { classNames } from 'primereact/utils';
-import React from 'react';
+
+import { auth } from '../../config/firebase';
 
 export default function SideBarComponent() {
   const toast = React.useRef(null);
@@ -93,6 +96,13 @@ export default function SideBarComponent() {
                 <span className="font-bold">Nome do Usuário</span>
                 <span className="text-sm">Estudante</span>
               </div>
+            </button>
+            <button
+              className="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround"
+              onClick={() => auth.signOut()}
+            >
+              <i className="pi pi-fw pi-power-off mr-2"></i>
+              <span>Sair</span>
             </button>
           </div>
         );

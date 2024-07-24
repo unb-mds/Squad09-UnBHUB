@@ -1,7 +1,8 @@
+import { withAuth } from '../../utils/auth';
 import ExercisesComponent from '../components/Exercises';
 import SideBarComponent from '../components/SideBar';
 
-export default function TaskScreen() {
+function TaskScreen() {
   return (
     <div className="flex flex-row">
       <SideBarComponent />
@@ -9,3 +10,6 @@ export default function TaskScreen() {
     </div>
   );
 }
+
+const Tasks = withAuth(TaskScreen);
+export default Tasks;

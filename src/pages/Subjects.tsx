@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { withAuth } from '../../utils/auth';
+
 import SideBarComponent from '../components/SideBar';
 import CreateSubjectComponent from '../components/Subject/createSubject';
-import SubjectsComponent from '../components/SubjectsComponents';
 import SubjectDialogComponent from '../components/Subject/SubjectDialogComponent';
+import SubjectsComponent from '../components/SubjectsComponents';
 
-export default function SubjectsScreen() {
+function SubjectsScreen() {
   const [subject, setSubject] = useState({});
   const [visible, setVisible] = useState<boolean>(false);
   const [visibleSubject, setVisibleSubject] = useState<boolean>(false);
@@ -28,3 +30,6 @@ export default function SubjectsScreen() {
     </>
   );
 }
+
+const Subjects = withAuth(SubjectsScreen);
+export default Subjects;
