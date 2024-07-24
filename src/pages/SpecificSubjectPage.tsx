@@ -1,8 +1,9 @@
 import SpecificSubjectComponents from '../components/SpecificSubjectComponents';
 import SideBarComponent from '../components/SideBar';
 import { useState } from 'react';
+import { withAuth } from '../../utils/auth';
 
-export default function SpecificSubjectPage() {
+function SpecificSubjectPage() {
   const [visible, setVisible] = useState<boolean>(false);
 
   return (
@@ -12,3 +13,6 @@ export default function SpecificSubjectPage() {
     </div>
   );
 }
+
+const specificSubject = withAuth(SpecificSubjectPage);
+export default specificSubject;

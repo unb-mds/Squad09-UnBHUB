@@ -1,9 +1,13 @@
 import SideBarComponent from '../components/SideBar';
 
-export default function MessagesPage() {
+import { withAuth } from '../../utils/auth';
+
+function MessagesPage() {
   return (
     <>
       <SideBarComponent />
     </>
   );
 }
+const messages = withAuth(MessagesPage);
+export default messages;
