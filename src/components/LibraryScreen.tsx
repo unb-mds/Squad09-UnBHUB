@@ -4,7 +4,11 @@ import React from 'react';
 
 export default function LibraryComponent(props: {
   CreatesetVisible1: (visibleCreate1: boolean) => void;
-  EditsetVisible1: (visibleEdit1: boolean) => void;
+  EditsetVisible1: (bookData: {
+    codeBook: string;
+    nameBook: string;
+    deliveryDay: string;
+  }) => void;
 }) {
   const cardButtonStyles: React.CSSProperties = {
     color: 'white',
@@ -12,29 +16,39 @@ export default function LibraryComponent(props: {
     padding: '1rem',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start', // Alinha os itens à esquerda
+    alignItems: 'flex-start',
     width: '100%',
-    backgroundColor: '#2c3e50', // Define uma cor de fundo padrão
+    backgroundColor: '#2c3e50',
   };
 
+  // Atualize esta função com dados reais do livro
   const renderCard = (
     borderColor: string,
-    title: string,
+    codeBook: string,
+    nameBook: string,
     returnDate: string
   ) => (
     <Button
       className="w-12 my-0"
       style={{ ...cardButtonStyles, borderColor }}
-      onClick={() => props.EditsetVisible1(true)}
+      onClick={() => {
+        console.log('Edit button clicked for:', nameBook);
+        const bookData = {
+          codeBook,
+          nameBook,
+          deliveryDay: returnDate,
+        };
+        props.EditsetVisible1(bookData); // Passando os dados do livro
+      }}
     >
-      <h2 style={{ color: 'white' }}>{title}</h2>
+      <h2 style={{ color: 'white' }}>{codeBook}</h2>
       <div
         className="flex flex-column w-12"
-        style={{ alignItems: 'flex-start', textAlign: 'left' }} // Adicionando textAlign: 'left'
+        style={{ alignItems: 'flex-start', textAlign: 'left' }}
       >
         <i className="pi pi-book mb-3" style={{ color: 'white' }}>
           {' '}
-          Métodos de desenvolvimento de Software
+          Livro: {nameBook}
         </i>
         <p
           className="pi pi-calendar mb-3"
@@ -51,12 +65,8 @@ export default function LibraryComponent(props: {
     <div className="flex flex-column mx-3 my-3 gap-0 w-full">
       <div className="flex align-items-center justify-content-between border-round-lg">
         <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
-          <i className="pi pi-book text-4xl" style={{ color: 'white' }}>
-            {' '}
-          </i>
-          <h1 className="" style={{ color: 'white' }}>
-            Biblioteca
-          </h1>
+          <i className="pi pi-book text-4xl" style={{ color: 'white' }} />
+          <h1 style={{ color: 'white' }}>Biblioteca</h1>
         </div>
       </div>
       <div
@@ -74,17 +84,40 @@ export default function LibraryComponent(props: {
           size="small"
           text
           link
-          onClick={() => props.CreatesetVisible1(true)}
+          onClick={() => {
+            console.log('Adicionar button clicked');
+            props.CreatesetVisible1(true);
+          }}
         />
       </div>
 
-      <Divider className="my-0"></Divider>
+      <Divider className="my-0" />
 
       <div className="flex flex-row justify-content-between gap-2 my-4">
-        {renderCard('#3498db', 'FGA0138 - MDS', '22/07/2025')}
-        {renderCard('#3498db', 'FGA0138 - MDS', '22/07/2025')}
-        {renderCard('#3498db', 'FGA0138 - MDS', '22/07/2025')}
-        {renderCard('#3498db', 'FGA0138 - MDS', '22/07/2025')}
+        {renderCard(
+          '#3498db',
+          'FGA0138 - MDS',
+          'Métodos de desenvolvimento de Software',
+          '22/07/2025'
+        )}
+        {renderCard(
+          '#3498db',
+          'FGA0138 - MDS',
+          'Métodos de desenvolvimento de Software',
+          '22/07/2025'
+        )}
+        {renderCard(
+          '#3498db',
+          'FGA0138 - MDS',
+          'Métodos de desenvolvimento de Software',
+          '22/07/2025'
+        )}
+        {renderCard(
+          '#3498db',
+          'FGA0138 - MDS',
+          'Métodos de desenvolvimento de Software',
+          '22/07/2025'
+        )}
       </div>
 
       <div
@@ -97,13 +130,33 @@ export default function LibraryComponent(props: {
         </div>
       </div>
 
-      <Divider className="my-0"></Divider>
+      <Divider className="my-0" />
 
       <div className="flex flex-row justify-content-between gap-2 my-4">
-        {renderCard('#e41223', 'FGA0138 - MDS', '22/07/2024')}
-        {renderCard('#e41223', 'FGA0138 - MDS', '22/07/2024')}
-        {renderCard('#e41223', 'FGA0138 - MDS', '22/07/2024')}
-        {renderCard('#e41223', 'FGA0138 - MDS', '22/07/2024')}
+        {renderCard(
+          '#e41223',
+          'FGA0138 - MDS',
+          'Métodos de desenvolvimento de Software',
+          '22/07/2024'
+        )}
+        {renderCard(
+          '#e41223',
+          'FGA0138 - MDS',
+          'Métodos de desenvolvimento de Software',
+          '22/07/2024'
+        )}
+        {renderCard(
+          '#e41223',
+          'FGA0138 - MDS',
+          'Métodos de desenvolvimento de Software',
+          '22/07/2024'
+        )}
+        {renderCard(
+          '#e41223',
+          'FGA0138 - MDS',
+          'Métodos de desenvolvimento de Software',
+          '22/07/2024'
+        )}
       </div>
     </div>
   );
