@@ -1,6 +1,7 @@
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import DeleteSubjectFunction from '../../functions/DeleteSubject';
+import FinalizeSubjectFunction from '../../functions/Finalize';
 
 export default function SubjectDialogComponent(props: {
   subject: any;
@@ -15,7 +16,6 @@ export default function SubjectDialogComponent(props: {
         style={{ width: '20vw', height: '23vw' }} // Define a largura do diálogo.
         onHide={() => props.setVisibleSubject(false)} // Função para esconder o diálogo quando for fechado.
       >
-        {/* Botões para cancelar ou confirmar a operação. */}
         <div className="flex flex-column gap-2">
           <Button
             label="Ver detalhes"
@@ -24,7 +24,13 @@ export default function SubjectDialogComponent(props: {
             }
           />
           <Button label="Editar" />
-          <Button label="Finalizar" />
+          <Button
+            label="Finalizar"
+            onClick={() => {
+              FinalizeSubjectFunction(props.subject.id);
+              props.setVisibleSubject(false);
+            }}
+          />
           <Button
             label="Excluir"
             style={{

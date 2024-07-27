@@ -123,26 +123,39 @@ export default function SubjectsComponent(props: {
           }
         })}
       </div>
-      <div className="flex justify-content-between align-items-center px-6">
-        <div>
-          <i className="pi pi-check my-3 mx-3" style={{ color: 'green' }} />
-          Finalizadas
-        </div>
-        <a>
-          <Button
-            label="Adicionar"
-            icon="pi pi-plus"
-            iconPos="left"
-            size="small"
-            text
-            link
-            onClick={() => props.setVisible(true)}
-          />
-        </a>
+      <div className="flex align-items-center px-6">
+        <i className="pi pi-check my-3 mx-3" style={{ color: 'green' }} />
+        Finalizadas
       </div>
       <Divider className="mb-4"></Divider>
-
-      <div className="flex align-items-center flex-wrap"></div>
+      <div className="flex align-items-center flex-wrap">
+        {Object.values(subjects).map((subject, index) => {
+          if (subject.status === 'Finalized') {
+            return (
+              <a
+                className="w-3 cursor-pointer"
+                style={{ textDecoration: 'none' }}
+                onClick={() => {
+                  props.setSubject(subject);
+                  props.setVisibleSubject(true);
+                }}
+                key={index}
+              >
+                <Card
+                  title={subject.codeSubject + ' - ' + subject.nameSubject}
+                  className="h-20rem my-1"
+                  style={{
+                    color: 'white',
+                    border: '2px solid #3498db',
+                  }}
+                >
+                  <CardSubjectComponent subject={subject} />
+                </Card>
+              </a>
+            );
+          }
+        })}
+      </div>
     </div>
   );
 }
