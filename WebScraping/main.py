@@ -1,5 +1,5 @@
-from CALENDARIO.calendar_class import Calendar
-from RU.menu_class import Cardapio
+from MyLibs.calendar_class import Calendar
+from MyLibs.menu_class import Cardapio
 import firebase_admin
 from firebase_admin import credentials, firestore
 
