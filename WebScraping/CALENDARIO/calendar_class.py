@@ -6,38 +6,24 @@ import json
 import os
 import re
 from typing import List, Dict, Any
-import firebase_admin
-from firebase_admin import credentials, firestore
 
 
-class UrlHandler:
-    def __init__(self, url, keyword, base_url, credentials_path):
-        self.url = url
+class Calendar:
+    def __init__(self, calendar_url, keyword, base_url, db):
+        self.url = calendar_url
         self.keyword = keyword
         self.base_url = base_url
-        self.credentials_path = credentials_path
+        self.db = db
         self.addresses = []
-        self.html_content = ''
+        self.html_content = None
         self.closest_date_text = None
         self.closest_date_url = None
-        self.db = None
-
-        self.initialize_firestore()
-
-    def initialize_firestore(self):
-        cred = credentials.Certificate(self.credentials_path)
-        firebase_admin.initialize_app(cred)
-        self.db = firestore.client()
 
     def html_request(self):
         response = requests.get(self.url)
         if response.status_code == 200:
             self.html_content = response.text
-
-            with open('pagina_baixada.html', 'w', encoding='utf-8') as file:
-                file.write(self.html_content)
-
-            print('Arquivo HTML baixado e salvo com sucesso.')
+            print('Página HTML baixada com sucesso.')
         else:
             print(f'Falha ao baixar a página. Status code: {response.status_code}')
 
@@ -46,8 +32,7 @@ class UrlHandler:
         anchors = soup.find_all('a', href=lambda href: href and self.keyword in href)
 
         if anchors:
-            self.addresses = [{anchor.get_text(): self.base_url + anchor['href']} for anchor in anchors]
-
+            self.addresses = [{anchor.get_text(strip=True): self.base_url + anchor['href']} for anchor in anchors]
             print('Endereços encontrados:')
             for address in self.addresses:
                 for text, url in address.items():
@@ -193,36 +178,3 @@ class UrlHandler:
             if os.path.exists(filename):
                 os.remove(filename)
                 print(f'Arquivo {filename} removido com sucesso.')
-
-
-if __name__ == '__main__':
-    url_pagina = 'https://www.saa.unb.br/graduacao/calendario-academico#calendario-por-atividades'
-    palavra_chave = 'Atividades'
-    url_base = 'https://www.saa.unb.br'
-    caminho_credenciais = 'caminho/para/sua/chave.json'
-
-    api_calendar = UrlHandler(
-        url_pagina,
-        palavra_chave,
-        url_base,
-        caminho_credenciais
-    )
-
-    api_calendar.html_request()
-    api_calendar.anchor_finder()
-    text, url = api_calendar.find_closest_date()
-
-    if text and url:
-        pdf_filename = 'calendario.pdf'
-        api_calendar.download_pdf(url, pdf_filename)
-        pdf_text = api_calendar.extract_text_from_pdf(pdf_filename)
-        data = {
-            'text': text,
-            'url': url,
-            'content': pdf_text,
-            'calendar': {}
-        }
-        formatted_data = api_calendar.format_calendar_data(data)
-        api_calendar.save_data_to_json(formatted_data, 'calendario.json')
-        api_calendar.upload_to_firestore(formatted_data)
-        api_calendar.clean_up_files('calendario.pdf', 'calendario.json', 'pagina_baixada.html')
