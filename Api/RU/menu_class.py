@@ -3,12 +3,8 @@ from bs4 import BeautifulSoup
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-# descomente as linha a baixo para desativar os logs do firebase
-# import os
-# os.environ['GRPC_VERBOSITY'] = 'ERROR'
 
-
-class UrlHandler:
+class Cardapio:
     def __init__(self, url, keyword, base_url, cred_path):
         super().__init__()
         self.url = url
@@ -61,7 +57,7 @@ class UrlHandler:
         new_data = {}
         for item in self.addresses:
             for text, url in item.items():
-                if text not in existing_data:
+                if text and url and text not in existing_data:
                     new_data[text] = url
 
         if new_data:
@@ -72,13 +68,12 @@ class UrlHandler:
 
 
 if __name__ == '__main__':
-
     credenciais_firebase = ''   # coloque o caminho para o seu arquivo de credenciais JSON.
     url_pagina = 'https://ru.unb.br/index.php/cardapio-refeitorio'
     palavra_chave = 'Gama'
     url_base = 'https://ru.unb.br'
 
-    api_ru = UrlHandler(
+    api_ru = Cardapio(
         url_pagina,
         palavra_chave,
         url_base,
