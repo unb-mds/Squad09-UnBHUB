@@ -19,9 +19,10 @@ export default function SubjectDialogComponent(props: {
         <div className="flex flex-column gap-2">
           <Button
             label="Ver detalhes"
-            onClick={() =>
-              (window.location.href = 'http://localhost:5173/SpecificSubject')
-            }
+            onClick={() => {
+              localStorage.setItem('subjectId', props.subject.id);
+              window.location.href = 'http://localhost:5173/SpecificSubject';
+            }}
           />
           <Button label="Editar" />
           <Button

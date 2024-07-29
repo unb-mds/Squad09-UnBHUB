@@ -1,35 +1,72 @@
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { auth, db } from '../../config/firebase';
+import { useEffect, useState } from 'react';
+
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 
-export default function SpecificSubjectComponents(props: {
-  setVisible: (examVisible: boolean) => void;
-}) {
+const SubjectDetails = ({ subject }) => (
+  <div className="flex flex-column">
+    <Divider className="mb-2 divider-center"></Divider>
+    <div className="flex h-1rem gap-2 align-items-center py-5">
+      <i className="pi pi-book text-4xl"> </i>
+      <h1>{subject.nameSubject}</h1>
+    </div>
+    <Divider className="mb-1 mt-1"></Divider>
+    <div className="flex align-items-center">
+      <div className="flex flex-column w-12 gap-3 mt-3">
+        <div>
+          <i className="pi pi-user mr-2" />
+          {subject.professor}
+        </div>
+        <div>
+          <i className="pi pi-calendar mr-2" />
+          {subject.weekDays}
+        </div>
+      </div>
+
+      <div className="flex flex-column w-12 gap-3 mt-3">
+        <div>
+          <i className="pi pi-map-marker mr-2" />
+          {subject.local}
+        </div>
+        <div>
+          <i className="pi pi-clock mr-2" />
+          {subject.schedule}
+        </div>
+      </div>
+    </div>
+    <Divider className="mb-2 divider-center"></Divider>
+  </div>
+);
+
+export default function SpecificSubjectComponents() {
+  const [subjects, setSubjects] = useState([]);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const unsub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
+          if (doc.exists()) {
+            setSubjects(doc.data().subjects);
+          }
+        });
+
+        return () => unsub();
+      }
+    });
+  }, []);
   return (
     <div className="flex flex-column mx-4 my-3 w-full">
-      <Divider className="mb-2 divider-center"></Divider>
-      <div className="flex h-1rem gap-2 align-items-center py-5">
-        <i className="pi pi-book text-4xl"> </i>
-        <h1>Nome matéria</h1>{' '}
-      </div>
-      <Divider className="mb-1 mt-1"></Divider>
-
-      <div
-        className="flex align-items-center gap-8"
-        style={{ color: '#57d9dc' }}
-      >
-        <div className="flex flex-column pr-8">
-          <p className="pi pi-user mb-2 text-xl"> Carla Rocha</p>
-          <p className="pi pi-calendar mb-2 text-xl"> Quarta & Sexta</p>
-        </div>
-
-        <div className="flex flex-column pl-6">
-          <p className="pi pi-clock mb-2 text-xl"> 10:00 - 11:50</p>
-          <p className="pi pi-map-marker text-xl"> LAB MOCAP</p>
-        </div>
-      </div>
+      {Object.values(subjects).map((subject) => {
+        if (subject.id === localStorage.getItem('subjectId')) {
+          return <SubjectDetails subject={subject} />;
+        }
+      })}
 
       <div className="flex flex-column my-3">
         <div className="flex justify-content-between align-items-center">
@@ -45,7 +82,6 @@ export default function SpecificSubjectComponents(props: {
             size="small"
             text
             link
-            onClick={() => props.setVisible(true)}
           />
         </div>
         <Divider className="mb-1 mt-1"></Divider>
@@ -67,15 +103,6 @@ export default function SpecificSubjectComponents(props: {
             <i className="pi pi-file mr-2"></i>
             Tarefas
           </p>
-          <Button
-            label="Adicionar"
-            icon="pi pi-plus"
-            iconPos="left"
-            size="small"
-            text
-            link
-            onClick={() => props.setVisible(true)}
-          />
         </div>
         <Divider className="mb-1 mt-1"></Divider>
       </div>
