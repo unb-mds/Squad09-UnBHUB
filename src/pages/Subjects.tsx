@@ -4,7 +4,7 @@ import { withAuth } from '../../utils/auth';
 import SideBarComponent from '../components/SideBar';
 import CreateSubjectComponent from '../components/Subject/createSubject';
 import SubjectDialogComponent from '../components/Subject/SubjectDialogComponent';
-import SubjectsComponent from '../components/SubjectsComponents';
+import SubjectsComponent from '../components/Subject/SubjectsComponents';
 
 function SubjectsScreen() {
   const [subject, setSubject] = useState({});

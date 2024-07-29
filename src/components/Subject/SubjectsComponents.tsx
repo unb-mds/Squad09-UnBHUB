@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
-import { auth, db } from '../../config/firebase';
+import { auth, db } from '../../../config/firebase';
 
 const CardSubjectComponent = ({ subject }) => (
   <div className="flex flex-column w-12">
