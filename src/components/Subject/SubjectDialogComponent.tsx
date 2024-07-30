@@ -1,12 +1,13 @@
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import DeleteSubjectFunction from '../../functions/DeleteSubject';
-import FinalizeSubjectFunction from '../../functions/Finalize';
+import FinalizeSubjectFunction from '../../functions/FinalizeSubject';
 
 export default function SubjectDialogComponent(props: {
-  subject: any;
+  subject: object;
   visibleSubject: boolean;
   setVisibleSubject: (visibleSubject: boolean) => void;
+  setEditVisible: (editVisible: boolean) => void;
 }) {
   return (
     <div className="card flex justify-content-center">
@@ -24,7 +25,13 @@ export default function SubjectDialogComponent(props: {
               window.location.href = 'http://localhost:5173/SpecificSubject';
             }}
           />
-          <Button label="Editar" />
+          <Button
+            label="Editar"
+            onClick={() => {
+              props.setVisibleSubject(false);
+              props.setEditVisible(true);
+            }}
+          />
           <Button
             label="Finalizar"
             onClick={() => {
