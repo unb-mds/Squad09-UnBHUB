@@ -1,13 +1,13 @@
+import { Formik } from 'formik';
 import { Button } from 'primereact/button';
 import { Image } from 'primereact/image';
-import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
-
 
 import CheckboxComponent from '../components/Checkbox';
 import InputComponent from '../components/Input';
 import SignInFunction from '../functions/SignIn';
+
+import { useNavigate } from 'react-router-dom';
 
 interface InputProps {
   email: string;
@@ -24,8 +24,9 @@ export default function SignInCardComponent() {
       .required('Por favor, forneça uma senha.'),
   });
 
+  const navigate = useNavigate();
   const onSubmitSignIn = (values: InputProps) => {
-    SignInFunction(values.email, values.password);
+    SignInFunction(values.email, values.password).then(() => navigate('/'));
   };
 
   return (
