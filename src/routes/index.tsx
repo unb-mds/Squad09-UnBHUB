@@ -7,11 +7,9 @@ import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
 import LandingPage from '../pages/Landing';
 import TaskScreen from '../pages/Tasks';
-<<<<<<< HEAD
+import LibraryScreen from '../pages/Library';
 import SpecificSubjectPage from '../pages/SpecificSubjectPage';
-=======
 import MenuScreen from '../pages/Menu';
->>>>>>> 9c0bf38 (Feat(#65): Criando sistema para redirecionar para o pdf do cardápio)
 
 const router = createBrowserRouter([
   {
@@ -48,16 +46,17 @@ const router = createBrowserRouter([
     path: '/Tasks',
     element: <TaskScreen />,
   },
-<<<<<<< HEAD
-
+  {
+    path: '/Library',
+    element: <LibraryScreen />,
+  },
   {
     path: '/SpecificSubject',
     element: <SpecificSubjectPage />,
-=======
+  },
   {
     path: '/Menu',
     element: <MenuScreen />,
->>>>>>> 9c0bf38 (Feat(#65): Criando sistema para redirecionar para o pdf do cardápio)
   },
 ]);
 
