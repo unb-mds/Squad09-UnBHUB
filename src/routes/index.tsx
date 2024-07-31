@@ -9,6 +9,7 @@ import LandingPage from '../pages/Landing';
 import TaskScreen from '../pages/Tasks';
 import LibraryScreen from '../pages/Library';
 import SpecificSubjectPage from '../pages/SpecificSubjectPage';
+import MenuScreen from '../pages/Menu';
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: '/SpecificSubject',
     element: <SpecificSubjectPage />,
+  },
+  {
+    path: '/Menu',
+    element: <MenuScreen />,
   },
 ]);
 

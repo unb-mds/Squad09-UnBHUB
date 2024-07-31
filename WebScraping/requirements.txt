@@ -1,0 +1,4 @@
+requests>=2.32.2
+beautifulsoup4>=4.12.3
+pdfplumber>=0.11.2
+firebase-admin>=6.5.0
