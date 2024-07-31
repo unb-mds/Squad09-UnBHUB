@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
-import { doc, updateDoc, arrayUnion } from 'firebase/firestore'; // Certifique-se de que arrayUnion está importado
-import { db } from '../../../config/firebase';
+import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
+import React, { useState } from 'react';
+import CreateExamFunction from '../../functions/CreateExam';
 
 interface ExamDialogComponentProps {
   visible: boolean;
   setVisible: (visible: boolean) => void;
-  subjectId: string | null;
+  subjectId: string;
   refreshExams: () => void;
 }
 
@@ -17,7 +16,6 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
   visible,
   setVisible,
   subjectId,
-  refreshExams,
 }) => {
   const [exam, setExam] = useState({
     code: '',
@@ -26,19 +24,6 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
     room: '',
     status: '',
   });
-
-  const handleAddExam = async () => {
-    console.log('exam');
-    if (subjectId) {
-      console.log('id');
-      const subjectRef = doc(db, 'Subjects', subjectId);
-      await updateDoc(subjectRef, {
-        exams: arrayUnion(exam),
-      });
-      refreshExams();
-      setVisible(false);
-    }
-  };
 
   return (
     <Dialog
@@ -89,7 +74,11 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
           />
         </div>
       </div>
-      <Button label="Adicionar" icon="pi pi-check" onClick={handleAddExam} />
+      <Button
+        label="Adicionar"
+        icon="pi pi-check"
+        onClick={() => CreateExamFunction(subjectId, exam)}
+      />
     </Dialog>
   );
 };

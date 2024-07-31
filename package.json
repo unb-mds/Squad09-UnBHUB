@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "firebase": "^10.11.0",
+    "firebase": "^10.12.4",
     "formik": "^2.4.6",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
