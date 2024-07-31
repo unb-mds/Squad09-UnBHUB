@@ -81,7 +81,7 @@ export default function CreateActivityComponent(props: {
                 onChange={handleChange('nameActivity')}
                 onBlur={handleBlur}
               />
-              <label htmlFor="username">Nome da matéria</label>
+              <label htmlFor="username">Nome da atividade</label>
             </FloatLabel>
             {errors.nameActivity && touched.nameActivity ? (
               <div className="text-red-500">{errors.nameActivity}</div>
