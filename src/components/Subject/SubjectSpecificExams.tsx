@@ -24,18 +24,16 @@ export default function SubjectSpecificExams({
     <DataTable value={subject.exams} tableStyle={{ minWidth: '50rem' }}>
       <Column field="code" header="Código"></Column>
       <Column field="score" header="Nota"></Column>
-
-      {/* <Column
+      <Column
         field="date"
         header="Data"
         body={(rowData) => formatDate(rowData.date)}
-      ></Column>
+      />
       <Column
-        field="date"
+        field="time"
         header="Horário"
-        body={(rowData) => formatTime(rowData.date)}
-      ></Column> */}
-
+        body={(rowData) => formatTime(rowData.time)}
+      />
       <Column field="room" header="Sala"></Column>
       <Column field="status" header="Status"></Column>
     </DataTable>

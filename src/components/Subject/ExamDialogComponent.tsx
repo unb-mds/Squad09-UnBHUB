@@ -20,7 +20,8 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
   const [exam, setExam] = useState({
     code: '',
     score: '',
-    date: null as Date | null,
+    date: Date,
+    time: Date,
     room: '',
     status: '',
   });
@@ -53,10 +54,24 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
           <Calendar
             id="date"
             value={exam.date}
+            dateFormat="dd/mm/yy"
             onChange={(e) => setExam({ ...exam, date: e.value as Date | null })}
             showIcon
           />
         </div>
+
+        <div className="field">
+          <label htmlFor="time">Horário</label>
+          <Calendar
+            id="time"
+            value={exam.time}
+            onChange={(e) => setExam({ ...exam, time: e.value as Date | null })}
+            icon={() => <i className="pi pi-clock" />}
+            showIcon
+            timeOnly
+          />
+        </div>
+
         <div className="field">
           <label htmlFor="room">Sala</label>
           <InputText
@@ -77,7 +92,9 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
       <Button
         label="Adicionar"
         icon="pi pi-check"
-        onClick={() => CreateExamFunction(subjectId, exam)}
+        onClick={() =>
+          CreateExamFunction(subjectId, exam).then(() => setVisible(false))
+        }
       />
     </Dialog>
   );
