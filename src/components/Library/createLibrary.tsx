@@ -19,8 +19,9 @@ export default function createLibrary(props: {
   return (
     <Formik
       initialValues={{
-        bookName: '',
-        schedule: '',
+        codeSubject: '',
+        nameBook: '',
+        deliveryDay: '',
       }}
       onSubmit={(values) => {
         CreateLibraryFunction(values).then(() => {
@@ -28,8 +29,11 @@ export default function createLibrary(props: {
         });
       }}
       validationSchema={Yup.object().shape({
-        bookName: Yup.string().required('Obrigatório fornecer nome do livro'),
-        schedule: Yup.string().required('Obrigatório fornecer data'),
+        codeSubject: Yup.string().required(
+          'Obrigatório fornecer nome da matéria'
+        ),
+        nameBook: Yup.string().required('Obrigatório fornecer nome do livro'),
+        deliveryDay: Yup.string().required('Obrigatório fornecer data'),
       })}
     >
       {({
@@ -55,16 +59,26 @@ export default function createLibrary(props: {
             <FloatLabel>
               <InputText
                 className="flex mt-5 mb-5 w-full" // Classe de estilo para o campo de entrada.
+                id="Nome da matéria" // Identificador do campo.
+                value={values.codeSubject} // O valor do campo de entrada é vinculado ao estado codeSubject.
+                onChange={handleChange('codeSubject')} // Atualiza o estado codeSubject quando o valor do campo muda.
+                onBlur={handleBlur} // Função chamada quando o campo perde o foco.
+              />
+              <label htmlFor="username">Nome da matéria</label>
+            </FloatLabel>
+            <FloatLabel>
+              <InputText
+                className="flex mt-5 mb-5 w-full" // Classe de estilo para o campo de entrada.
                 id="Nome do livro" // Identificador do campo.
-                value={values.bookName} // O valor do campo de entrada é vinculado ao estado codeSubject.
-                onChange={handleChange('bookName')} // Atualiza o estado codeSubject quando o valor do campo muda.
+                value={values.nameBook} // O valor do campo de entrada é vinculado ao estado codeSubject.
+                onChange={handleChange('nameBook')} // Atualiza o estado codeSubject quando o valor do campo muda.
                 onBlur={handleBlur} // Função chamada quando o campo perde o foco.
               />
               <label htmlFor="username">Nome do livro</label>
             </FloatLabel>
             <div>
-              {errors.bookName && touched.bookName ? (
-                <div className="text-red-500">{errors.bookName}</div>
+              {errors.nameBook && touched.nameBook ? (
+                <div className="text-red-500">{errors.nameBook}</div>
               ) : null}
             </div>
 
@@ -73,14 +87,14 @@ export default function createLibrary(props: {
               <InputText
                 className="flex mt-5 mb-5 w-full"
                 id="data de devolução"
-                value={values.schedule}
-                onChange={handleChange('schedule')}
+                value={values.deliveryDay}
+                onChange={handleChange('deliveryDay')}
                 onBlur={handleBlur}
               />
               <label htmlFor="username">Data</label>
             </FloatLabel>
-            {errors.schedule && touched.schedule ? (
-              <div className="text-red-500 my-5">{errors.schedule}</div>
+            {errors.deliveryDay && touched.deliveryDay ? (
+              <div className="text-red-500 my-5">{errors.deliveryDay}</div>
             ) : null}
 
             {/* Botões para cancelar ou confirmar a operação. */}
