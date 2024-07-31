@@ -1,15 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
 import CalendarComponent from '../components/Calendar';
 import DashboardScreen from '../pages/Dashboard';
+import LandingPage from '../pages/Landing';
+import LibraryScreen from '../pages/Library';
+import MenuScreen from '../pages/Menu';
 import MessagesPage from '../pages/Messages';
-import SubjectsScreen from '../pages/Subjects';
 import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
-import LandingPage from '../pages/Landing';
-import TaskScreen from '../pages/Tasks';
-import LibraryScreen from '../pages/Library';
 import SpecificSubjectPage from '../pages/SpecificSubjectPage';
-import MenuScreen from '../pages/Menu';
+import SubjectsScreen from '../pages/Subjects';
+import Activities from '../pages/TaskScreen';
 
 const router = createBrowserRouter([
   {
@@ -43,8 +43,8 @@ const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: '/Tasks',
-    element: <TaskScreen />,
+    path: '/TaskScreen',
+    element: <Activities />,
   },
   {
     path: '/Library',
