@@ -9,47 +9,59 @@ import SpecificSubjectTasks from './SpecificSubjectTasks';
 import SubjectDetailsComponent from './SubjectDetailsComponent';
 import SubjectSpecificExams from './SubjectSpecificExams';
 
+// Interface para definir a estrutura de um objeto Exam (prova)
 interface Exam {
-  code: string;
-  score: string;
-  date: Date;
-  room: string;
-  status: string;
+  code: string; // Código da prova
+  score: string; // Nota da prova
+  date: Date; // Data da prova
+  room: string; // Sala onde a prova será realizada
+  status: string; // Status da prova (por exemplo, agendada, realizada, etc.)
 }
 
+// Interface para definir a estrutura de um objeto Subject (matéria)
 interface Subject {
-  id: string;
-  exams: Exam[];
-  // outros campos relevantes
+  id: string; // Identificador único da matéria
+  exams: Exam[]; // Lista de provas associadas à matéria
 }
 
+// Componente funcional que gerencia e exibe os detalhes de uma matéria específica
 export default function SpecificSubjectComponents() {
+  // Estado para armazenar as matérias do usuário. Usa um Map para associar IDs de matérias aos dados das matérias
   const [subjects, setSubjects] = useState<Map<string, Subject>>(new Map());
+  // Estado para controlar a visibilidade do diálogo de adição de prova
   const [dialogVisible, setDialogVisible] = useState(false);
+  // Obtém o ID da matéria armazenado no localStorage. Usado para identificar a matéria atual
   const id = localStorage.getItem('subjectId') || '';
 
+  // Hook de efeito para configurar a escuta de mudanças na autenticação e nos dados do usuário no Firestore
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        // Escuta as mudanças no documento do usuário no Firestore
         const unsub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
           if (doc.exists()) {
             const userData = doc.data();
+            // Se os dados do usuário existem e contém matérias, atualiza o estado com essas matérias
             if (userData && userData.subjects) {
               setSubjects(new Map(Object.entries(userData.subjects)));
             }
           }
         });
 
+        // Limpa a escuta quando o componente é desmontado
         return () => unsub();
       }
     });
   }, []);
 
+  // Função para atualizar as provas de uma matéria específica
   const refreshExams = () => {
     if (id) {
+      // Escuta as mudanças no documento da matéria no Firestore
       const unsub = onSnapshot(doc(db, 'Subjects', id), (doc) => {
         if (doc.exists()) {
           const updatedSubject = doc.data() as Subject;
+          // Atualiza o estado com a matéria atualizada
           setSubjects((prevSubjects) => {
             const updatedMap = new Map(prevSubjects);
             updatedMap.set(id, updatedSubject);
@@ -58,12 +70,14 @@ export default function SpecificSubjectComponents() {
         }
       });
 
+      // Limpa a escuta quando a função é chamada novamente
       return () => unsub();
     }
   };
 
   return (
     <div className="flex flex-column mx-4 my-3 w-full">
+      {/* Renderiza o componente de detalhes da matéria se a matéria existir no estado */}
       {subjects.has(id) && (
         <SubjectDetailsComponent key={id} subject={subjects.get(id)!} />
       )}
@@ -74,6 +88,7 @@ export default function SpecificSubjectComponents() {
             <i className="pi pi-file"></i>
             Provas
           </p>
+          {/* Botão para abrir o diálogo de adição de prova */}
           <Button
             label="Adicionar"
             icon="pi pi-plus"
@@ -85,12 +100,14 @@ export default function SpecificSubjectComponents() {
         </div>
         <Divider className="mb-1 mt-1"></Divider>
         <div className="pt-3 pb-3">
+          {/* Renderiza a tabela de provas da matéria se a matéria existir no estado */}
           {subjects.has(id) && (
             <SubjectSpecificExams key={id} subject={subjects.get(id)!} />
           )}
         </div>
       </div>
 
+      {/* Componente de diálogo para adicionar nova prova */}
       <ExamDialogComponent
         visible={dialogVisible}
         setVisible={setDialogVisible}
@@ -109,6 +126,7 @@ export default function SpecificSubjectComponents() {
       </div>
       <Divider className="my-3 mt-1"></Divider>
       <div className="flex flex-wrap">
+        {/* Renderiza as tarefas ativas da matéria se a matéria existir no estado */}
         {subjects.has(id) && (
           <SpecificSubjectTasks
             key={id}
@@ -123,6 +141,7 @@ export default function SpecificSubjectComponents() {
       </div>
       <Divider className="my-3 mt-1"></Divider>
       <div className="flex flex-wrap">
+        {/* Renderiza as tarefas atrasadas da matéria se a matéria existir no estado */}
         {subjects.has(id) && (
           <SpecificSubjectTasks
             key={id}
@@ -141,6 +160,7 @@ export default function SpecificSubjectComponents() {
       <Divider className="mb-4"></Divider>
 
       <div className="flex flex-wrap">
+        {/* Renderiza as tarefas finalizadas da matéria se a matéria existir no estado */}
         {subjects.has(id) && (
           <SpecificSubjectTasks
             key={id}
