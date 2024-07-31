@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../../config/firebase';
+import { db } from '../../../config/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
 export default function Index() {
