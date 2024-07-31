@@ -63,6 +63,10 @@ const router = createBrowserRouter([
     path: '/CalendarPage',
     element: <CalendarScreen />,
   },
+  {
+    path: '/CalendarPage',
+    element: <CalendarScreen />,
+  },
 ]);
 
 export default router;
