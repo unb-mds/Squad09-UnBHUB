@@ -10,6 +10,7 @@ import SignUpScreen from '../pages/SignUp';
 import SpecificSubjectPage from '../pages/SpecificSubjectPage';
 import SubjectsScreen from '../pages/Subjects';
 import Activities from '../pages/TaskScreen';
+import CalendarScreen from '../pages/CalendarPage';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
   {
     path: '/Menu',
     element: <MenuScreen />,
+  },
+  {
+    path: '/CalendarPage',
+    element: <CalendarScreen />,
+  },
+  {
+    path: '/CalendarPage',
+    element: <CalendarScreen />,
   },
 ]);
 
