@@ -4,142 +4,91 @@ import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 
-//Validadores de formulário
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-
-//Função para criar um novo componente de matéria
-import EditActivityFunction from '../../functions/EditActivity.tsx';
-
 // Define um componente funcional React chamado CreateActivityComponent.
 export default function EditActivityComponent(props: {
-  visibleEdit: boolean; // Propriedade visível que determina se o diálogo está visível ou não.
-  EditsetVisible: (visibleEdit: boolean) => void; // Função para definir a visibilidade do diálogo.
+  visibleEdit: boolean;
+  EditsetVisible: (visibleEdit: boolean) => void;
+  activityData: {
+    codeSubject: string;
+    nameActivity: string;
+    deliveryDay: string;
+  };
 }) {
+  const { activityData, visibleEdit, EditsetVisible } = props;
+  if (!activityData) {
+    return null; // Não renderiza nada se os dados do livro não estiverem disponíveis
+  }
   return (
-    <Formik
-      initialValues={{
-        codeSubject: '',
-        nameActivity: '',
-        deliveryDay: '',
-      }}
-      onSubmit={(values) => {
-        EditActivityFunction(values).then(() => {
-          props.EditsetVisible(false);
-        });
-      }}
-      validationSchema={Yup.object().shape({
-        codeSubject: Yup.string().required('O código da matéria é obrigatório'),
-        nameActivity: Yup.string().required(
-          'O nome da atividade é obrigatório'
-        ),
-        deliveryDay: Yup.string().required('O dia de entrega é obrigatório'),
-      })}
+    <Dialog
+      header="Visualizar Atividade" // Título do diálogo
+      visible={visibleEdit}
+      style={{ width: '40vw', maxWidth: '600px' }} // Ajusta a largura do diálogo
+      onHide={() => EditsetVisible(false)}
     >
-      {({
-        values,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        errors,
-        touched,
-      }) => (
-        <form
-          onSubmit={handleSubmit}
-          className="card flex justify-content-center gap-6"
-        >
-          {/* Componente de diálogo que é exibido ou não com base no valor de props.visible. */}
-          <Dialog
-            header="Cadastrar matéria" // Título do diálogo.
-            visible={props.visibleEdit} // Define a visibilidade do diálogo.
-            style={{ width: '30vw' }} // Define a largura do diálogo.
-            onHide={() => props.EditsetVisible(false)} // Função para esconder o diálogo quando for fechado.
-          >
-            {/* Campo de entrada para o código da matéria com um rótulo flutuante. */}
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full" // Classe de estilo para o campo de entrada.
-                id="Código da matéria" // Identificador do campo.
-                value={values.codeSubject} // O valor do campo de entrada é vinculado ao estado codeSubject.
-                onChange={handleChange('codeSubject')} // Atualiza o estado codeSubject quando o valor do campo muda.
-                onBlur={handleBlur} // Função chamada quando o campo perde o foco.
-              />
-              <label htmlFor="username">Código da matéria</label>
-            </FloatLabel>
-            <div>
-              {errors.codeSubject && touched.codeSubject ? (
-                <div className="text-red-500">{errors.codeSubject}</div>
-              ) : null}
-            </div>
-
-            {/* Campo de entrada para o nome da matéria com um rótulo flutuante. */}
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="Nome da matéria"
-                value={values.nameActivity}
-                onChange={handleChange('nameActivity')}
-                onBlur={handleBlur}
-              />
-              <label htmlFor="username">Nome da matéria</label>
-            </FloatLabel>
-            {errors.nameActivity && touched.nameActivity ? (
-              <div className="text-red-500">{errors.nameActivity}</div>
-            ) : null}
-
-            {/* Capo de entrada para o dia de entrega com um rótulo flutuante. */}
-
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="Dia de entrega"
-                value={values.deliveryDay}
-                onChange={handleChange('deliveryDay')}
-                onBlur={handleBlur}
-              />
-              <label htmlFor="username">Dia de entrega</label>
-            </FloatLabel>
-
-            {errors.deliveryDay && touched.deliveryDay ? (
-              <div className="text-red-500 my-5">{errors.deliveryDay}</div>
-            ) : null}
-
-            {/* Botões para cancelar ou confirmar a operação. */}
-            <div className="flex justify-content-between flex-wrap">
-              <Button
-                outlined
-                label="Fechar"
-                style={{
-                  borderColor: '#ff6060',
-                  color: '#ff6060',
-                }}
-                onClick={() => props.EditsetVisible(false)}
-              />
-              <Button
-                outlined
-                label="Editar"
-                style={{
-                  borderColor: '#ff6060',
-                  color: '#ff6060',
-                }}
-                onClick={() =>props.EditsetVisible( false)}
-              />
-              <Button
-                outlined
-                label="Excluir"
-                style={{
-                  borderColor: '#ff6060',
-                  color: '#ff6060',
-                }}
-                onClick={() =>props.EditsetVisible( false)}
-              />
-              {/* Botão de cancelar. */}
-              <Button onClick={handleSubmit} label="Confirmar" />
-              {/* Botão de confirmar. */}
-            </div>
-          </Dialog>
-        </form>
-      )}
-    </Formik>
+      {' '}
+      {/* Adiciona um formulário ao diálogo */}
+      <form className="flex flex-column gap-5 p-4">
+        {' '}
+        {/* Ajustado para Flexbox e adicionado padding */}
+        <FloatLabel className="w-full">
+          <InputText
+            className="w-full"
+            id="codeSubject"
+            value={activityData.codeSubject}
+            disabled // Desativa o campo de entrada
+          />
+          <label htmlFor="codeSubject">Código da matéria</label>
+        </FloatLabel>
+        <FloatLabel className="w-full">
+          <InputText
+            className="w-full"
+            id="nameActivity"
+            value={activityData.nameActivity}
+            disabled // Desativa o campo de entrada
+          />
+          <label htmlFor="nameActivity">Nome da Atividade</label>
+        </FloatLabel>
+        <FloatLabel className="w-full">
+          <InputText
+            className="w-full"
+            id="deliveryDay"
+            value={activityData.deliveryDay}
+            disabled // Desativa o campo de entrada
+          />
+          <label htmlFor="deliveryDay">Dia de entrega</label>
+        </FloatLabel>
+        <div className="flex justify-content-between gap-2 mt-4">
+          {' '}
+          {/* Ajustado para Flexbox e adicionado espaçamento */}
+          <Button
+            outlined
+            label="Voltar"
+            style={{
+              borderColor: '#3e74aeb1',
+              color: '#3e74aeb1',
+            }}
+            onClick={() => EditsetVisible(false)}
+          />
+          <Button
+            outlined
+            label="Editar"
+            style={{
+              borderColor: '#f3d300',
+              color: '#f3d300',
+            }}
+            onClick={() => EditsetVisible(false)}
+          />
+          <Button
+            outlined
+            label="Excluir"
+            style={{
+              borderColor: '#ff6060',
+              color: '#ff6060',
+            }}
+            onClick={() => EditsetVisible(false)}
+          />
+        </div>
+      </form>
+    </Dialog>
   );
 }

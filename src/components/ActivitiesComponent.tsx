@@ -2,9 +2,13 @@ import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import React from 'react';
 
-export default function ActivitiesComponent(props: {
+export default function ActivitiesComponent1(props: {
   CreatesetVisible: (visibleCreate: boolean) => void;
-  EditsetVisible: (visibleEdit: boolean) => void;
+  EditsetVisible: (activityData: {
+    codeSubject: string;
+    nameActivity: string;
+    deliveryDay: string;
+  }) => void;
 }) {
   const cardButtonStyles: React.CSSProperties = {
     color: 'white',
@@ -22,9 +26,9 @@ export default function ActivitiesComponent(props: {
   const renderCard = (
     backgroundColor: string,
     borderColor: string,
-    title: string,
-    task: string,
-    day: string
+    codeSubject: string,
+    nameActivity: string,
+    deliveryDay: string
   ) => (
     <Button
       className="w-12 my-0"
@@ -34,17 +38,25 @@ export default function ActivitiesComponent(props: {
         backgroundColor,
         boxShadow: 'none', // Remove box-shadow if needed
       }}
-      onClick={() => props.EditsetVisible(true)}
+      onClick={() => {
+        console.log('Edit button clicked for:', nameActivity);
+        const activityData = {
+          codeSubject,
+          nameActivity,
+          deliveryDay,
+        };
+        props.EditsetVisible(activityData); // Passando os dados do livro
+      }}
     >
-      <h2 style={{ marginBottom: '1.5rem' }}>{title}</h2>
+      <h2 style={{ marginBottom: '1.5rem' }}>{codeSubject}</h2>
       <div className="flex flex-column w-12" style={{ textAlign: 'left' }}>
         <i className="pi pi-book mb-2" style={{ color: 'white' }}>
           {' '}
-          Tarefa: {task}
+          Tarefa: {nameActivity}
         </i>
         <p className="pi pi-calendar mb-4" style={{ color: 'white' }}>
           {' '}
-          {day}
+          {deliveryDay}
         </p>
       </div>
     </Button>
@@ -73,7 +85,10 @@ export default function ActivitiesComponent(props: {
           size="small"
           text
           link
-          onClick={() => props.CreatesetVisible(true)}
+          onClick={() => {
+            console.log('Adicionar button clicked');
+            props.CreatesetVisible(true);
+          }}
         />
       </div>
 
