@@ -1,11 +1,13 @@
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import DeleteSubjectFunction from '../../functions/DeleteSubject';
+import FinalizeSubjectFunction from '../../functions/FinalizeSubject';
 
 export default function SubjectDialogComponent(props: {
-  subject: any;
+  subject: object;
   visibleSubject: boolean;
   setVisibleSubject: (visibleSubject: boolean) => void;
+  setEditVisible: (editVisible: boolean) => void;
 }) {
   return (
     <div className="card flex justify-content-center">
@@ -15,16 +17,28 @@ export default function SubjectDialogComponent(props: {
         style={{ width: '20vw', height: '23vw' }} // Define a largura do diálogo.
         onHide={() => props.setVisibleSubject(false)} // Função para esconder o diálogo quando for fechado.
       >
-        {/* Botões para cancelar ou confirmar a operação. */}
         <div className="flex flex-column gap-2">
           <Button
             label="Ver detalhes"
-            onClick={() =>
-              (window.location.href = 'http://localhost:5173/SpecificSubject')
-            }
+            onClick={() => {
+              localStorage.setItem('subjectId', props.subject.id);
+              window.location.href = 'http://localhost:5173/SpecificSubject';
+            }}
           />
-          <Button label="Editar" />
-          <Button label="Finalizar" />
+          <Button
+            label="Editar"
+            onClick={() => {
+              props.setVisibleSubject(false);
+              props.setEditVisible(true);
+            }}
+          />
+          <Button
+            label="Finalizar"
+            onClick={() => {
+              FinalizeSubjectFunction(props.subject.id);
+              props.setVisibleSubject(false);
+            }}
+          />
           <Button
             label="Excluir"
             style={{
