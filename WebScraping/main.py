@@ -3,30 +3,13 @@ from MyLibs.menu_class import Cardapio
 import firebase_admin
 from firebase_admin import credentials, firestore
 from time import sleep
-
-
-def clear_terminal():
-    from subprocess import run
-    from platform import system, release
-    if system() == "Windows":
-        if release() in {"10", "11"}:
-            run("", shell=True)
-            print("\033c", end="")
-        else:
-            run(["cls"])
-    else:  # Linux e Mac
-        print("\033c", end="")
-
-
-def hide_fb_log():
-    import os
-    os.environ['GRPC_VERBOSITY'] = 'ERROR'
+from MyLibs.Utils import *
 
 
 if __name__ == "__main__":
     hide_fb_log()  # comente essa linha para habilitar os logs do fire base
 
-    credenciais_firebase = ''  # localização do json com as credenciais do firebase
+    credenciais_firebase = 'teste-aa48e-firebase-adminsdk-7jaq6-aeacab25ca.json'  # localização do json com as credenciais do firebase
 
     cred = credentials.Certificate(credenciais_firebase)
     firebase_admin.initialize_app(cred)
@@ -99,8 +82,8 @@ if __name__ == "__main__":
                 if text and url:
                     pdf_filename = 'calendario.pdf'
                     print('\033[36m-->\033[0m', end=' ')
-                    calendar_webscraper.download_pdf(url, pdf_filename)
-                    pdf_text = calendar_webscraper.extract_text_from_pdf(pdf_filename)
+                    download_pdf(url, pdf_filename)
+                    pdf_text = extract_text_from_pdf(pdf_filename)
                     data = {
                         'text': text,
                         'url': url,
@@ -108,10 +91,10 @@ if __name__ == "__main__":
                     }
                     formatted_data = calendar_webscraper.format_calendar_data(data)
                     print('\033[36m-->\033[0m', end=' ')
-                    calendar_webscraper.save_data_to_json(formatted_data, 'calendario.json')
+                    save_data_to_json(formatted_data, 'calendario.json')
                     print('\033[36m-->\033[0m', end=' ')
                     calendar_webscraper.upload_to_firestore(formatted_data)
-                    calendar_webscraper.clean_up_files('calendario.pdf', 'calendario.json', debug=False)
+                    clean_up_files('calendario.pdf', 'calendario.json', debug=False)
 
             case _:
                 print("\033[31mOpção inválida!\033[0m")
