@@ -26,7 +26,7 @@ def hide_fb_log():
 if __name__ == "__main__":
     hide_fb_log()  # comente essa linha para habilitar os logs do fire base
 
-    credenciais_firebase = './teste-aa48e-firebase-adminsdk-7jaq6-55030d64fd.json'  # localização do json com as credenciais do firebase
+    credenciais_firebase = ''  # localização do json com as credenciais do firebase
 
     cred = credentials.Certificate(credenciais_firebase)
     firebase_admin.initialize_app(cred)
