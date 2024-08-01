@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import { Calendar, CalendarDateTemplateEvent } from 'primereact/calendar';
 import { Nullable } from 'primereact/ts-helpers';
-import { fetchEvents } from '../functions/EventService'; // Importa a função do serviço
+import { useEffect, useState } from 'react';
+import { fetchEvents } from '../../functions/EventService'; // Importa a função do serviço
 import {
-  isHighlighted,
   getHighlightedMessage,
-} from '../functions/HighlightUtils'; // Importa funções utilitárias
+  isHighlighted,
+} from '../../functions/HighlightUtils'; // Importa funções utilitárias
 
 export default function CalendarComp() {
   const [date, setDate] = useState<Nullable<Date>>(null);
