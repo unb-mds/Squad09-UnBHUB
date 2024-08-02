@@ -25,21 +25,17 @@ export default function LibraryComponent(props: {
           try {
             const userDocRef = doc(db, 'Users', user.uid);
             const userDocSnap = await getDoc(userDocRef);
-
             if (userDocSnap.exists()) {
               const userData = userDocSnap.data();
               const books: ICreateBook[] = userData.books || [];
 
               const today = new Date();
               const ongoing = books.filter(
-                (bookData) =>
-                  bookData.deliveryDay.toDate() >= today // Converter Timestamp para Date
+                (bookData) => bookData.deliveryDay.toDate() >= today // Converter Timestamp para Date
               );
               const overdue = books.filter(
-                (bookData) =>
-                  bookData.deliveryDay.toDate() < today // Converter Timestamp para Date
+                (bookData) => bookData.deliveryDay.toDate() < today // Converter Timestamp para Date
               );
-
               setOngoingBooks(ongoing);
               setOverdueBooks(overdue);
             }
@@ -81,7 +77,6 @@ export default function LibraryComponent(props: {
         className="w-12 my-0"
         style={{ ...cardButtonStyles, borderColor }}
         onClick={() => {
-          console.log('Edit button clicked for:', nameBook);
           const D = {
             codeSubject: codeSubject,
             bookName: nameBook,
@@ -135,7 +130,6 @@ export default function LibraryComponent(props: {
           text
           link
           onClick={() => {
-            console.log('Adicionar button clicked');
             props.CreatesetVisible1(true);
           }}
         />

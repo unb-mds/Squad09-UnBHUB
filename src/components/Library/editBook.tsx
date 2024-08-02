@@ -4,6 +4,7 @@ import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
+import EditBookFunction from '../../functions/EditBook';
 
 export default function EditBookComponent(props: {
   visibleEdit1: boolean;
@@ -19,8 +20,9 @@ export default function EditBookComponent(props: {
     deliveryDay: Date | null;
   }) => void;
   onDelete: () => void;
+  bookIndex: number; // Adiciona o índice do livro
 }) {
-  const { bookData, visibleEdit1, EditsetVisible1, onSave, onDelete } = props;
+  const { bookData, visibleEdit1, EditsetVisible1} = props;
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -37,10 +39,6 @@ export default function EditBookComponent(props: {
       setFormData(bookData);
     }
   }, [bookData]);
-
-  useEffect(() => {
-    console.log('Current formData:', formData);
-  }, [formData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formData) {
@@ -64,8 +62,7 @@ export default function EditBookComponent(props: {
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (formData) {
-      console.log('Saving data:', formData);
-      onSave(formData);
+      EditBookFunction(formData); // Passa o índice do livro para a função
       setIsEditing(false);
       EditsetVisible1(false);
     }
@@ -85,7 +82,7 @@ export default function EditBookComponent(props: {
   };
 
   const confirmDelete = () => {
-    onDelete();
+    props.onDelete();
     setShowConfirmDialog(false);
     EditsetVisible1(false);
   };
@@ -106,7 +103,10 @@ export default function EditBookComponent(props: {
         style={{ width: '40vw', maxWidth: '600px' }}
         onHide={() => EditsetVisible1(false)}
       >
-        <form className="flex flex-column gap-5 p-4" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="flex flex-column gap-5 p-4"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <FloatLabel className="w-full">
             <InputText
               className="w-full"
