@@ -22,8 +22,7 @@ export default function EditBookComponent(props: {
   onDelete: () => void;
   bookIndex: number; // Adiciona o índice do livro
 }) {
-  const { bookData, visibleEdit1, EditsetVisible1} = props;
-
+  const { bookData, visibleEdit1, EditsetVisible1 } = props;
   const [isEditing, setIsEditing] = useState(false);
 
   const [formData, setFormData] = useState<{

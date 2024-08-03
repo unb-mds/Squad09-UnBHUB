@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, Timestamp } from 'firebase/firestore';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import { doc, getDoc, Timestamp } from 'firebase/firestore';
-import { db, auth } from '../../config/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { auth, db } from '../../config/firebase';
 
 interface ICreateBook {
+  id: string;
   codeSubject: string;
   bookName: string;
   deliveryDay: Timestamp;
@@ -30,10 +31,10 @@ export default function LibraryComponent(props: {
               const books: ICreateBook[] = userData.books || [];
 
               const today = new Date();
-              const ongoing = books.filter(
+              const ongoing = Object.values(books).filter(
                 (bookData) => bookData.deliveryDay.toDate() >= today // Converter Timestamp para Date
               );
-              const overdue = books.filter(
+              const overdue = Object.values(books).filter(
                 (bookData) => bookData.deliveryDay.toDate() < today // Converter Timestamp para Date
               );
               setOngoingBooks(ongoing);
@@ -66,6 +67,7 @@ export default function LibraryComponent(props: {
 
   const renderCard = (
     borderColor: string,
+    id: string,
     codeSubject: string,
     nameBook: string,
     deliveryDay: Timestamp
@@ -78,6 +80,7 @@ export default function LibraryComponent(props: {
         style={{ ...cardButtonStyles, borderColor }}
         onClick={() => {
           const D = {
+            id: id,
             codeSubject: codeSubject,
             bookName: nameBook,
             deliveryDay: deliveryDay,
@@ -91,14 +94,12 @@ export default function LibraryComponent(props: {
           style={{ alignItems: 'flex-start', textAlign: 'left' }}
         >
           <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-            {' '}
             Livro: {nameBook}
           </i>
           <p
             className="pi pi-calendar mb-3"
             style={{ color: 'white', margin: 0 }}
           >
-            {' '}
             Devolução: {formattedDate}
           </p>
         </div>
@@ -142,6 +143,7 @@ export default function LibraryComponent(props: {
           ongoingBooks.map((bookData) =>
             renderCard(
               '#3498db',
+              bookData.id,
               bookData.codeSubject,
               bookData.bookName,
               bookData.deliveryDay
@@ -169,6 +171,7 @@ export default function LibraryComponent(props: {
           overdueBooks.map((bookData) =>
             renderCard(
               'red',
+              bookData.id,
               bookData.codeSubject,
               bookData.bookName,
               bookData.deliveryDay
