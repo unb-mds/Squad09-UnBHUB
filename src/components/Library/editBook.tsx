@@ -3,44 +3,43 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar';
+import EditBookFunction from '../../functions/EditBook';
 
 export default function EditBookComponent(props: {
   visibleEdit1: boolean;
   EditsetVisible1: (visibleEdit1: boolean) => void;
-  bookData: { codeBook: string; nameBook: string; deliveryDay: string } | null;
+  bookData: {
+    codeSubject: string;
+    bookName: string;
+    deliveryDay: Date | null;
+  } | null;
   onSave: (updatedBookData: {
-    codeBook: string;
-    nameBook: string;
-    deliveryDay: string;
+    codeSubject: string;
+    bookName: string;
+    deliveryDay: Date | null;
   }) => void;
-  onDelete: () => void; // Função para excluir o livro
+  onDelete: () => void;
+  bookIndex: number; // Adiciona o índice do livro
 }) {
-  const { bookData, visibleEdit1, EditsetVisible1, onSave, onDelete } = props;
+  const { bookData, visibleEdit1, EditsetVisible1} = props;
 
-  // Estado para controlar o modo de edição
   const [isEditing, setIsEditing] = useState(false);
 
-  // Estado para os dados do formulário
   const [formData, setFormData] = useState<{
-    codeBook: string;
-    nameBook: string;
-    deliveryDay: string;
+    codeSubject: string;
+    bookName: string;
+    deliveryDay: Date | null;
   } | null>(null);
 
-  // Estado para o diálogo de confirmação de exclusão
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   useEffect(() => {
     if (bookData) {
-      setFormData(bookData); // Atualiza os dados do formulário quando bookData muda
+      setFormData(bookData);
     }
   }, [bookData]);
 
-  useEffect(() => {
-    console.log('Current formData:', formData); // Log para verificar o estado atual dos dados do formulário
-  }, [formData]);
-
-  // Manipula a mudança nos campos do formulário
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formData) {
       const { id, value } = e.target;
@@ -51,43 +50,47 @@ export default function EditBookComponent(props: {
     }
   };
 
-  // Salva as alterações
-  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão
+  const handleDateChange = (e: { value: Date }) => {
     if (formData) {
-      console.log('Saving data:', formData); // Log para verificar os dados antes de salvar
-      onSave(formData);
-      setIsEditing(false); // Sai do modo de edição
-      EditsetVisible1(false); // Fecha o diálogo após salvar
+      setFormData((prevData) => ({
+        ...prevData,
+        deliveryDay: e.value,
+      }));
     }
   };
 
-  // Cancela a edição e reverte os dados
+  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (formData) {
+      EditBookFunction(formData); // Passa o índice do livro para a função
+      setIsEditing(false);
+      EditsetVisible1(false);
+    }
+  };
+
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão
+    e.preventDefault();
     setIsEditing(false);
     if (bookData) {
-      setFormData(bookData); // Reverte os dados do formulário para os valores originais
+      setFormData(bookData);
     }
   };
 
-  // Exclui o livro
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão
-    setShowConfirmDialog(true); // Mostra o diálogo de confirmação
+    e.preventDefault();
+    setShowConfirmDialog(true);
   };
 
   const confirmDelete = () => {
-    onDelete(); // Chama a função passada como prop para excluir o livro
-    setShowConfirmDialog(false); // Fecha o diálogo de confirmação
-    EditsetVisible1(false); // Fecha o diálogo principal
+    props.onDelete();
+    setShowConfirmDialog(false);
+    EditsetVisible1(false);
   };
 
   const cancelDelete = () => {
-    setShowConfirmDialog(false); // Fecha o diálogo de confirmação
+    setShowConfirmDialog(false);
   };
 
-  // Se bookData não estiver disponível, não renderiza o componente
   if (!visibleEdit1) {
     return null;
   }
@@ -107,30 +110,32 @@ export default function EditBookComponent(props: {
           <FloatLabel className="w-full">
             <InputText
               className="w-full"
-              id="codeBook"
-              value={formData?.codeBook || ''}
+              id="codeSubject"
+              value={formData?.codeSubject || ''}
               onChange={handleChange}
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+              disabled={!isEditing}
             />
-            <label htmlFor="codeBook">Código do Livro</label>
+            <label htmlFor="codeSubject">Código do Livro</label>
           </FloatLabel>
           <FloatLabel className="w-full">
             <InputText
               className="w-full"
-              id="nameBook"
-              value={formData?.nameBook || ''}
+              id="bookName"
+              value={formData?.bookName || ''}
               onChange={handleChange}
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+              disabled={!isEditing}
             />
-            <label htmlFor="nameBook">Nome do Livro</label>
+            <label htmlFor="bookName">Nome do Livro</label>
           </FloatLabel>
           <FloatLabel className="w-full">
-            <InputText
+            <Calendar
               className="w-full"
               id="deliveryDay"
-              value={formData?.deliveryDay || ''}
-              onChange={handleChange}
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+              value={formData?.deliveryDay || null}
+              onChange={handleDateChange}
+              disabled={!isEditing}
+              showIcon
+              dateFormat="dd/mm/yy"
             />
             <label htmlFor="deliveryDay">Dia de Entrega</label>
           </FloatLabel>
@@ -183,7 +188,7 @@ export default function EditBookComponent(props: {
                     borderColor: '#ff6060',
                     color: '#ff6060',
                   }}
-                  onClick={handleDelete} // Mostra o diálogo de confirmação
+                  onClick={handleDelete}
                 />
               </>
             )}
@@ -191,7 +196,6 @@ export default function EditBookComponent(props: {
         </form>
       </Dialog>
 
-      {/* Diálogo de confirmação de exclusão */}
       <Dialog
         header="Confirmar Exclusão"
         visible={showConfirmDialog}
