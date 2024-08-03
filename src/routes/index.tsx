@@ -44,7 +44,7 @@ const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: '/TaskScreen',
+    path: '/Tasks',
     element: <Activities />,
   },
   {
