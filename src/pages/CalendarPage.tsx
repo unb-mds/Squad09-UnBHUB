@@ -1,10 +1,11 @@
+import { withAuth } from '../../utils/auth';
 import SideBarComponent from '../components/SideBar';
 import CalendarComp from '../components/Calendar/CalendarComponent';
 import Index from '../components/Calendar/CalendarIndex';
 import Footer from '../components/Calendar/CalendarFooter';
 import NavbarComponent5 from '../components/Calendar/CalendarNavbar';
 
-export default function CalendarScreen() {
+function CalendarScreen() {
   return (
     <div className="flex">
       <SideBarComponent />
@@ -24,3 +25,6 @@ export default function CalendarScreen() {
     </div>
   );
 }
+
+const Calendar = withAuth(CalendarScreen);
+export default Calendar;
