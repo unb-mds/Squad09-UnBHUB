@@ -1,13 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
 import CalendarComponent from '../components/Calendar';
 import DashboardScreen from '../pages/Dashboard';
+import LandingPage from '../pages/Landing';
+import LibraryScreen from '../pages/Library';
+import MenuScreen from '../pages/Menu';
 import MessagesPage from '../pages/Messages';
-import SubjectsScreen from '../pages/Subjects';
 import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
-import LandingPage from '../pages/Landing';
-import TaskScreen from '../pages/Tasks';
 import ProfilePage from '../pages/Profile';
+import SpecificSubjectPage from '../pages/SpecificSubjectPage';
+import SubjectsScreen from '../pages/Subjects';
+import Activities from '../pages/TaskScreen';
+import CalendarScreen from '../pages/CalendarPage';
 
 const router = createBrowserRouter([
   {
@@ -42,7 +46,27 @@ const router = createBrowserRouter([
   },
   {
     path: '/Tasks',
-    element: <TaskScreen />,
+    element: <Activities />,
+  },
+  {
+    path: '/Library',
+    element: <LibraryScreen />,
+  },
+  {
+    path: '/SpecificSubject',
+    element: <SpecificSubjectPage />,
+  },
+  {
+    path: '/Menu',
+    element: <MenuScreen />,
+  },
+  {
+    path: '/CalendarPage',
+    element: <CalendarScreen />,
+  },
+  {
+    path: '/CalendarPage',
+    element: <CalendarScreen />,
   },
   {
     path: '/Profile',

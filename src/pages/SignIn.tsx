@@ -1,6 +1,6 @@
 import SignInCardComponent from '../components/SignInCard';
 
-export default function SignInScreens() {
+export default function SignInScreen() {
   return (
     <div>
       <div
@@ -8,7 +8,7 @@ export default function SignInScreens() {
         style={{
           backgroundImage: "url('/images/imagemlogin.jpg')",
         }}
-      ></div>
+      />
       <SignInCardComponent />
     </div>
   );

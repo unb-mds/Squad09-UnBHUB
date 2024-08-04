@@ -3,7 +3,6 @@ import { InputText } from 'primereact/inputtext';
 interface InputProps {
   label: string;
   value: string;
-  setValue: (value: string) => void;
   errors: string | undefined;
   touched: boolean | undefined;
   setValue: React.Dispatch<React.SetStateAction<string>>;

@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router-dom';
+import { withAuth } from '../../utils/auth';
 
-import ExamsComponent from '../components/Exams';
-import NavbarComponent from '../components/Navbar';
-import PanelDashboardComponent from '../components/PanelDashboard';
+import ExamsComponent from '../components/Dashboard/Exams';
+import NavbarComponent from '../components/Dashboard/Navbar';
 import SideBarComponent from '../components/SideBar';
 
-import DashboardSubjectsComponent from '../components/DashboardSubjects';
-import TasksComponent from '../components/Task';
+import DashboardSubjectsComponent from '../components/Dashboard/DashboardSubjects';
+import TasksComponent from '../components/Dashboard/Task';
 
-export default function DashboardScreen() {
+function DashboardScreen() {
   return (
     <div className="flex flex-row">
       <SideBarComponent />
@@ -31,3 +31,6 @@ export default function DashboardScreen() {
     </div>
   );
 }
+
+const Dashboard = withAuth(DashboardScreen);
+export default Dashboard;
