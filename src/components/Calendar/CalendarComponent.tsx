@@ -3,6 +3,7 @@ import { Nullable } from 'primereact/ts-helpers';
 import { useEffect, useState } from 'react';
 import { fetchEvents } from '../../functions/Calendar/EventService';
 import { fetchExamDates } from '../../functions/Calendar/fetchExamDates'; // Importa a função do serviço
+import { fetchTaskDates } from '../../functions/Calendar/fetchTaskDates'; // Importa a nova função
 import {
   getHighlightedMessage,
   isHighlighted,
@@ -16,6 +17,9 @@ export default function CalendarComp() {
   >({});
   const [examDates, setExamDates] = useState<
     { date: string; codeSubject: string }[]
+  >([]);
+  const [taskDates, setTaskDates] = useState<
+    { deliveryTime: Date; description: string }[]
   >([]);
 
   useEffect(() => {
@@ -35,8 +39,19 @@ export default function CalendarComp() {
       }
     };
 
+    const fetchAndSetTaskDates = async () => {
+      try {
+        const dates = await fetchTaskDates();
+        setTaskDates(dates);
+        console.log('Task dates set:', dates); // Adicione este log
+      } catch (error) {
+        console.error('Error fetching task dates:', error);
+      }
+    };
+
     fetchAndSetEvents();
     fetchAndSetExamDates();
+    fetchAndSetTaskDates();
   }, []);
 
   const isExamDate = (date: Date): string => {
@@ -45,25 +60,40 @@ export default function CalendarComp() {
     return examDate ? 'red' : '';
   };
 
+  const isTaskDate = (date: Date): string => {
+    const taskDate = taskDates.find(
+      (d) => d.deliveryTime.toLocaleDateString() === date.toLocaleDateString()
+    );
+    return taskDate ? 'blue' : '';
+  };
+
   const dateTemplate = (event: CalendarDateTemplateEvent) => {
     const { day, year, month } = event;
     const date = new Date(year, month, day);
     const isDateHighlighted = isHighlighted(date, highlightedDates);
     const message = getHighlightedMessage(date, highlightedMessages);
     const examColor = isExamDate(date);
+    const taskColor = isTaskDate(date);
 
     const className = isDateHighlighted
       ? examColor
         ? 'highlighted-date exam-date'
+        : taskColor
+        ? 'highlighted-date task-date'
         : 'highlighted-date'
       : examColor
       ? 'exam-date'
+      : taskColor
+      ? 'task-date'
       : '';
 
     return (
       <div
         className={className}
-        title={message || (examColor ? 'Data de Prova' : '')}
+        title={
+          message ||
+          (examColor ? 'Data de Prova' : taskColor ? 'Data de Tarefa' : '')
+        }
       >
         {day}
       </div>
@@ -94,6 +124,17 @@ export default function CalendarComp() {
           }
           .exam-date {
             background-color: red;
+            border-radius: 50%;
+            color: white;
+            padding: 5px;
+            width: 2em;
+            height: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .task-date {
+            background-color: blue;
             border-radius: 50%;
             color: white;
             padding: 5px;
