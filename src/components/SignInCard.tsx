@@ -7,7 +7,7 @@ import CheckboxComponent from '../components/Checkbox';
 import InputComponent from '../components/Input';
 import SignInFunction from '../functions/SignIn';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface InputProps {
   email: string;
@@ -25,6 +25,10 @@ export default function SignInCardComponent() {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const initialEmail = location.state?.email || '';
+  const initialPassword = location.state?.password || '';
+
   const onSubmitSignIn = (values: InputProps) => {
     SignInFunction(values.email, values.password).then(() => navigate('/'));
   };
@@ -34,10 +38,8 @@ export default function SignInCardComponent() {
       validationSchema={schema}
       onSubmit={onSubmitSignIn}
       initialValues={{
-        name: '',
-        email: '',
-        password: '',
-        confirm_password: '',
+        email: initialEmail,
+        password: initialPassword,
       }}
     >
       {({ handleChange, values, errors, touched, handleSubmit }) => (

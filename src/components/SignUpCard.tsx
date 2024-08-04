@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 import InputComponent from '../components/Input';
 import SignUpFunction from '../functions/SignUp';
 
+import { useNavigate } from 'react-router-dom';
+
 interface InputProps {
   name: string;
   email: string;
@@ -24,8 +26,16 @@ export default function SignUpCardComponent() {
       .required('O campo de confirmação de senha é obrigatório.'),
   });
 
-  const handleSubmit = (values: InputProps) => {
-    SignUpFunction({ email: values.email, password: values.password }); // Chama a função SignUpFunctioalse);
+  const navigate = useNavigate();
+  
+  const handleSubmit = async (values: InputProps) => {
+    try {
+      await SignUpFunction({ email: values.email, password: values.password });
+      navigate('/SignIn', { state: { email: values.email, password: values.password } }); // Passa os dados de email e senha para a página de SignIn
+    } catch (error) {
+      // Lidar com erro caso necessário
+      console.error('Erro ao fazer cadastro:', error);
+    }
   };
 
   return (
