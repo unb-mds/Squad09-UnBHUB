@@ -2,6 +2,7 @@ import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import DeleteSubjectFunction from '../../functions/DeleteSubject';
 import FinalizeSubjectFunction from '../../functions/FinalizeSubject';
+import ReturnToActiveSubjectFunction from '../../functions/ReturnToActiveSubject';
 
 export default function SubjectDialogComponent(props: {
   subject: object;
@@ -32,13 +33,23 @@ export default function SubjectDialogComponent(props: {
               props.setEditVisible(true);
             }}
           />
-          <Button
-            label="Finalizar"
-            onClick={() => {
-              FinalizeSubjectFunction(props.subject.id);
-              props.setVisibleSubject(false);
-            }}
-          />
+          {props.subject.status === 'Active' ? (
+            <Button
+              label="Finalizar"
+              onClick={() => {
+                FinalizeSubjectFunction(props.subject.id);
+                props.setVisibleSubject(false);
+              }}
+            />
+          ) : props.subject.status === 'Finalized' ? (
+            <Button
+              label="Por em andamento"
+              onClick={() => {
+                ReturnToActiveSubjectFunction(props.subject.id);
+                props.setVisibleSubject(false);
+              }}
+            />
+          ) : null}
           <Button
             label="Excluir"
             style={{
