@@ -66,6 +66,7 @@ export default function SignUpCardComponent() {
                 setValue={handleChange('email')}
                 errors={errors.email}
                 touched={touched.email}
+                type="text" 
               />
 
               <InputComponent
@@ -74,6 +75,7 @@ export default function SignUpCardComponent() {
                 setValue={handleChange('name')}
                 errors={errors.name}
                 touched={touched.name}
+                type="text" 
               />
 
               <InputComponent
@@ -82,6 +84,7 @@ export default function SignUpCardComponent() {
                 setValue={handleChange('password')}
                 errors={errors.password}
                 touched={touched.password}
+                type="password" 
               />
 
               <InputComponent
@@ -90,6 +93,7 @@ export default function SignUpCardComponent() {
                 setValue={handleChange('confirm_password')}
                 errors={errors.confirm_password}
                 touched={touched.confirm_password}
+                type="password" 
               />
 
               <div className="flex align-items-center justify-content-between mb-6"></div>

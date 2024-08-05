@@ -72,6 +72,7 @@ export default function SignInCardComponent() {
               setValue={handleChange('password')}
               errors={errors.password}
               touched={touched.password}
+              type="password" 
             />
 
             <div className="flex align-items-center justify-content-between mb-6">
