@@ -29,8 +29,8 @@ const CreateExamFunction = async (subjectId: string, exam: Exam) => {
         date: exam.date,
         time: exam.time,
         room: exam.room,
-        score: exam.score,
-        status: exam.status,
+        score: 'A definir',
+        status: 'Active',
       }),
     });
   } catch (error) {
