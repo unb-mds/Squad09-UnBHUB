@@ -7,6 +7,7 @@ import MenuScreen from '../pages/Menu';
 import MessagesPage from '../pages/Messages';
 import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
+import ProfilePage from '../pages/Profile';
 import SpecificSubjectPage from '../pages/SpecificSubjectPage';
 import SubjectsScreen from '../pages/Subjects';
 import Activities from '../pages/TaskScreen';
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
     element: <LandingPage />,
   },
   {
-    path: '/TaskScreen',
+    path: '/Tasks',
     element: <Activities />,
   },
   {
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
   {
     path: '/CalendarPage',
     element: <CalendarScreen />,
+  },
+  {
+    path: '/Profile',
+    element: <ProfilePage />,
   },
 ]);
 

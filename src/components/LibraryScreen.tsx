@@ -1,15 +1,59 @@
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, Timestamp } from 'firebase/firestore';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { auth, db } from '../../config/firebase';
+
+interface ICreateBook {
+  id: string;
+  codeSubject: string;
+  bookName: string;
+  deliveryDay: Timestamp;
+}
 
 export default function LibraryComponent(props: {
   CreatesetVisible1: (visibleCreate1: boolean) => void;
-  EditsetVisible1: (bookData: {
-    codeBook: string;
-    nameBook: string;
-    deliveryDay: string;
-  }) => void;
+  EditsetVisible1: (D: ICreateBook) => void;
 }) {
+  const [ongoingBooks, setOngoingBooks] = useState<ICreateBook[]>([]);
+  const [overdueBooks, setOverdueBooks] = useState<ICreateBook[]>([]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const fetchBooks = async () => {
+          try {
+            const userDocRef = doc(db, 'Users', user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            if (userDocSnap.exists()) {
+              const userData = userDocSnap.data();
+              const books: ICreateBook[] = userData.books || [];
+
+              const today = new Date();
+              const ongoing = Object.values(books).filter(
+                (bookData) => bookData.deliveryDay.toDate() >= today // Converter Timestamp para Date
+              );
+              const overdue = Object.values(books).filter(
+                (bookData) => bookData.deliveryDay.toDate() < today // Converter Timestamp para Date
+              );
+              setOngoingBooks(ongoing);
+              setOverdueBooks(overdue);
+            }
+          } catch (error) {
+            console.error('Erro ao buscar livros:', error);
+          }
+        };
+
+        fetchBooks(); // Certifique-se de chamar a função fetchBooks dentro do if(user)
+      } else {
+        console.error('Usuário não autenticado');
+      }
+    });
+
+    return () => unsubscribe(); // Limpeza do listener quando o componente desmonta
+  }, []);
+
   const cardButtonStyles: React.CSSProperties = {
     color: 'white',
     border: '2px solid',
@@ -21,45 +65,47 @@ export default function LibraryComponent(props: {
     backgroundColor: '#2c3e50',
   };
 
-  // Atualize esta função com dados reais do livro
   const renderCard = (
     borderColor: string,
-    codeBook: string,
+    id: string,
+    codeSubject: string,
     nameBook: string,
-    returnDate: string
-  ) => (
-    <Button
-      className="w-12 my-0"
-      style={{ ...cardButtonStyles, borderColor }}
-      onClick={() => {
-        console.log('Edit button clicked for:', nameBook);
-        const bookData = {
-          codeBook,
-          nameBook,
-          deliveryDay: returnDate,
-        };
-        props.EditsetVisible1(bookData); // Passando os dados do livro
-      }}
-    >
-      <h2 style={{ color: 'white' }}>{codeBook}</h2>
-      <div
-        className="flex flex-column w-12"
-        style={{ alignItems: 'flex-start', textAlign: 'left' }}
+    deliveryDay: Timestamp
+  ) => {
+    const formattedDate = deliveryDay.toDate().toLocaleDateString(); // Formatar Timestamp para string
+
+    return (
+      <Button
+        className="w-12 my-0"
+        style={{ ...cardButtonStyles, borderColor }}
+        onClick={() => {
+          const D = {
+            id: id,
+            codeSubject: codeSubject,
+            bookName: nameBook,
+            deliveryDay: deliveryDay,
+          };
+          props.EditsetVisible1(D); // Passando os dados do livro
+        }}
       >
-        <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-          {' '}
-          Livro: {nameBook}
-        </i>
-        <p
-          className="pi pi-calendar mb-3"
-          style={{ color: 'white', margin: 0 }}
+        <h2 style={{ color: 'white' }}>{codeSubject}</h2>
+        <div
+          className="flex flex-column w-12"
+          style={{ alignItems: 'flex-start', textAlign: 'left' }}
         >
-          {' '}
-          Devolução: {returnDate}
-        </p>
-      </div>
-    </Button>
-  );
+          <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+            Livro: {nameBook}
+          </i>
+          <p
+            className="pi pi-calendar mb-3"
+            style={{ color: 'white', margin: 0 }}
+          >
+            Devolução: {formattedDate}
+          </p>
+        </div>
+      </Button>
+    );
+  };
 
   return (
     <div className="flex flex-column mx-3 my-3 gap-0 w-full">
@@ -85,7 +131,6 @@ export default function LibraryComponent(props: {
           text
           link
           onClick={() => {
-            console.log('Adicionar button clicked');
             props.CreatesetVisible1(true);
           }}
         />
@@ -94,29 +139,18 @@ export default function LibraryComponent(props: {
       <Divider className="my-0" />
 
       <div className="flex flex-row justify-content-between gap-2 my-4">
-        {renderCard(
-          '#3498db',
-          'FGA0138 - MDS',
-          'Métodos de desenvolvimento de Software',
-          '22/07/2025'
-        )}
-        {renderCard(
-          '#3498db',
-          'FGA0138 - MDS',
-          'Métodos de desenvolvimento de Software',
-          '22/07/2025'
-        )}
-        {renderCard(
-          '#3498db',
-          'FGA0138 - MDS',
-          'Métodos de desenvolvimento de Software',
-          '22/07/2025'
-        )}
-        {renderCard(
-          '#3498db',
-          'FGA0138 - MDS',
-          'Métodos de desenvolvimento de Software',
-          '22/07/2025'
+        {ongoingBooks.length ? (
+          ongoingBooks.map((bookData) =>
+            renderCard(
+              '#3498db',
+              bookData.id,
+              bookData.codeSubject,
+              bookData.bookName,
+              bookData.deliveryDay
+            )
+          )
+        ) : (
+          <p>Nenhum livro em andamento</p>
         )}
       </div>
 
@@ -133,29 +167,18 @@ export default function LibraryComponent(props: {
       <Divider className="my-0" />
 
       <div className="flex flex-row justify-content-between gap-2 my-4">
-        {renderCard(
-          '#e41223',
-          'FGA0138 - MDS',
-          'Métodos de desenvolvimento de Software',
-          '22/07/2024'
-        )}
-        {renderCard(
-          '#e41223',
-          'FGA0138 - MDS',
-          'Métodos de desenvolvimento de Software',
-          '22/07/2024'
-        )}
-        {renderCard(
-          '#e41223',
-          'FGA0138 - MDS',
-          'Métodos de desenvolvimento de Software',
-          '22/07/2024'
-        )}
-        {renderCard(
-          '#e41223',
-          'FGA0138 - MDS',
-          'Métodos de desenvolvimento de Software',
-          '22/07/2024'
+        {overdueBooks.length ? (
+          overdueBooks.map((bookData) =>
+            renderCard(
+              'red',
+              bookData.id,
+              bookData.codeSubject,
+              bookData.bookName,
+              bookData.deliveryDay
+            )
+          )
+        ) : (
+          <p>Nenhum livro atrasado</p>
         )}
       </div>
     </div>

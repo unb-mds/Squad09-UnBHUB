@@ -13,7 +13,7 @@ export const withAuth = (WrappedComponent: any) => {
 
     auth.onAuthStateChanged((user) => {
       if (!user) {
-        navigate('/SignIn');
+        navigate('/Landing');
       } else {
         setLoading(false);
       }
