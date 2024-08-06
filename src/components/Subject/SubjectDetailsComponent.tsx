@@ -1,4 +1,5 @@
 import { Divider } from 'primereact/divider';
+import formatTime from '../../functions/FormatTime';
 
 export default function SubjectDetailsComponent(props) {
   const { subject } = props;
@@ -29,7 +30,7 @@ export default function SubjectDetailsComponent(props) {
           </div>
           <div>
             <i className="pi pi-clock mr-2" />
-            {subject.schedule}
+            {formatTime(subject.schedule)}
           </div>
         </div>
       </div>
