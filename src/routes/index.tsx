@@ -12,6 +12,8 @@ import SpecificSubjectPage from '../pages/SpecificSubjectPage';
 import SubjectsScreen from '../pages/Subjects';
 import Activities from '../pages/TaskScreen';
 import CalendarScreen from '../pages/CalendarPage';
+import SignUserScreen from '../pages/SignUser';
+
 
 const router = createBrowserRouter([
   {
@@ -71,6 +73,10 @@ const router = createBrowserRouter([
   {
     path: '/Profile',
     element: <ProfilePage />,
+  },
+  {
+    path: '/SignUser',
+    element: <SignUserScreen />,
   },
 ]);
 
