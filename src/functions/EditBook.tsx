@@ -1,11 +1,12 @@
 import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
+import { Timestamp } from 'firebase/firestore';
 
 interface IEditBook {
   id: string;
   codeBook: string;
   nameBook: string;
-  deliveryDay: string;
+  deliveryDay: Timestamp; // Mudado para Timestamp
 }
 
 export default async function EditBookFunction(props: IEditBook) {
