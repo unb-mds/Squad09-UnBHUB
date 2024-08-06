@@ -1,4 +1,4 @@
-import { doc, setDoc } from 'firebase/firestore';
+import { Timestamp, doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
 
 interface ICreateSubject {
@@ -6,7 +6,7 @@ interface ICreateSubject {
   nameSubject: string;
   professor: string;
   weekDays: string;
-  schedule: string;
+  schedule: Date;
   local: string;
 }
 
@@ -25,7 +25,7 @@ export default async function CreateSubjectFunction(props: ICreateSubject) {
           nameSubject: props.nameSubject,
           professor: props.professor,
           weekDays: props.weekDays,
-          schedule: props.schedule,
+          schedule: Timestamp.fromDate(props.schedule), // Convert Date to Firebase Timestamp
           local: props.local,
           tasks: [],
           exams: [],
