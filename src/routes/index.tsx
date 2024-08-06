@@ -14,7 +14,6 @@ import Activities from '../pages/TaskScreen';
 import CalendarScreen from '../pages/CalendarPage';
 import SignUserScreen from '../pages/SignUser';
 
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -61,10 +60,6 @@ const router = createBrowserRouter([
   {
     path: '/Menu',
     element: <MenuScreen />,
-  },
-  {
-    path: '/CalendarPage',
-    element: <CalendarScreen />,
   },
   {
     path: '/CalendarPage',
