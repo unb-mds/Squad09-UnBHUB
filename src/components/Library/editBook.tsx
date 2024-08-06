@@ -6,6 +6,7 @@ import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Timestamp } from 'firebase/firestore';
 import EditBookFunction from '../../functions/EditBook';
+import DeleteBookFunction from '../../functions/DeleteBook';
 
 interface BookData {
   id: string;
@@ -103,7 +104,7 @@ export default function EditBookComponent(props: {
   };
 
   const confirmDelete = () => {
-    props.onDelete();
+    DeleteBookFunction(bookData?.id || '');
     setShowConfirmDialog(false);
     EditsetVisible1(false);
   };

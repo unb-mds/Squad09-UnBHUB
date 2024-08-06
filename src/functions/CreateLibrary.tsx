@@ -21,6 +21,7 @@ export default async function CreateLibraryFunction(props: ICreateBook) {
         codeSubject: props.codeSubject,
         bookName: props.bookName,
         deliveryDay: props.deliveryDay,
+        status: 'Ongoing',
       },
     });
   } catch (error) {
