@@ -16,7 +16,7 @@ export default function CreateLibrary(props: {
     <Formik
       initialValues={{
         codeSubject: '',
-        nameBook: '',
+        bookName: '',
         deliveryDay: null,
       }}
       onSubmit={(values) => {
@@ -25,15 +25,17 @@ export default function CreateLibrary(props: {
 
         CreateLibraryFunction({
           codeSubject: values.codeSubject,
-          bookName: values.nameBook,
+          bookName: values.bookName,
           deliveryDay: deliveryDayTimestamp,
         }).then(() => {
           props.CreatesetVisible1(false);
         });
       }}
       validationSchema={Yup.object().shape({
-        codeSubject: Yup.string().required('Obrigatório fornecer nome da matéria'),
-        nameBook: Yup.string().required('Obrigatório fornecer nome do livro'),
+        codeSubject: Yup.string().required(
+          'Obrigatório fornecer nome da matéria'
+        ),
+        bookName: Yup.string().required('Obrigatório fornecer nome do livro'),
         deliveryDay: Yup.date().required('Obrigatório fornecer data'),
       })}
     >
@@ -74,16 +76,16 @@ export default function CreateLibrary(props: {
             <FloatLabel>
               <InputText
                 className="flex mt-5 mb-5 w-full"
-                id="nameBook"
-                name="nameBook"
-                value={values.nameBook}
+                id="bookName"
+                name="bookName"
+                value={values.bookName}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <label htmlFor="nameBook">Nome do livro</label>
+              <label htmlFor="bookName">Nome do livro</label>
             </FloatLabel>
-            {errors.nameBook && touched.nameBook ? (
-              <div className="text-red-500">{errors.nameBook}</div>
+            {errors.bookName && touched.bookName ? (
+              <div className="text-red-500">{errors.bookName}</div>
             ) : null}
 
             <FloatLabel>

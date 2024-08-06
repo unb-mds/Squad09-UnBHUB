@@ -69,7 +69,7 @@ export default function LibraryComponent(props: {
     borderColor: string,
     id: string,
     codeSubject: string,
-    nameBook: string,
+    bookName: string,
     deliveryDay: Timestamp
   ) => {
     const formattedDate = deliveryDay.toDate().toLocaleDateString(); // Formatar Timestamp para string
@@ -82,7 +82,7 @@ export default function LibraryComponent(props: {
           const D = {
             id: id,
             codeSubject: codeSubject,
-            bookName: nameBook,
+            bookName: bookName,
             deliveryDay: deliveryDay,
           };
           props.EditsetVisible1(D); // Passando os dados do livro
@@ -94,7 +94,7 @@ export default function LibraryComponent(props: {
           style={{ alignItems: 'flex-start', textAlign: 'left' }}
         >
           <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-            Livro: {nameBook}
+            Livro: {bookName}
           </i>
           <p
             className="pi pi-calendar mb-3"

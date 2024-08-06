@@ -13,7 +13,6 @@ interface BookData {
   bookName: string;
   deliveryDay: Timestamp | null; // Tipar como Timestamp ou null
 }
-
 export default function EditBookComponent(props: {
   visibleEdit1: boolean;
   EditsetVisible1: (visibleEdit1: boolean) => void;
@@ -74,8 +73,8 @@ export default function EditBookComponent(props: {
 
       await EditBookFunction({
         id: bookData.id,
-        codeBook: formData.codeSubject,
-        nameBook: formData.bookName,
+        codeSubject: formData.codeSubject,
+        bookName: formData.bookName,
         deliveryDay: deliveryDayTimestamp,
       });
       setIsEditing(false);

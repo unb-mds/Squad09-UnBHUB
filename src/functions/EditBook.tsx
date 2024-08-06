@@ -4,8 +4,8 @@ import { Timestamp } from 'firebase/firestore';
 
 interface IEditBook {
   id: string;
-  codeBook: string;
-  nameBook: string;
+  codeSubject: string;
+  bookName: string;
   deliveryDay: Timestamp; // Mudado para Timestamp
 }
 
@@ -17,10 +17,10 @@ export default async function EditBookFunction(props: IEditBook) {
 
   // Constrói o objeto com os campos atualizados
   const updatedFields: { [key: string]: any } = {};
-  if (props.codeBook)
-    updatedFields[`books.${props.id}.codeBook`] = props.codeBook;
-  if (props.nameBook)
-    updatedFields[`books.${props.id}.nameBook`] = props.nameBook;
+  if (props.codeSubject)
+    updatedFields[`books.${props.id}.codeSubject`] = props.codeSubject;
+  if (props.bookName)
+    updatedFields[`books.${props.id}.bookName`] = props.bookName;
   if (props.deliveryDay)
     updatedFields[`books.${props.id}.deliveryDay`] = props.deliveryDay;
 
