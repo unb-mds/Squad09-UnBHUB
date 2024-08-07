@@ -7,11 +7,12 @@ import CheckboxComponent from '../components/Checkbox';
 import InputComponent from '../components/Input';
 import SignInFunction from '../functions/SignIn';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface InputProps {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export default function SignInCardComponent() {
@@ -25,8 +26,24 @@ export default function SignInCardComponent() {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const initialEmail = location.state?.email || localStorage.getItem('email') || '';
+  const initialPassword = location.state?.password || localStorage.getItem('password') || '';
+  const initialRememberMe = localStorage.getItem('rememberMe') === 'true';
+
   const onSubmitSignIn = (values: InputProps) => {
-    SignInFunction(values.email, values.password).then(() => navigate('/'));
+    SignInFunction(values.email, values.password).then(() => {
+      if (values.rememberMe) {
+        localStorage.setItem('email', values.email);
+        localStorage.setItem('password', values.password);
+        localStorage.setItem('rememberMe', 'true');
+      } else {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+        localStorage.removeItem('rememberMe');
+      }
+      navigate('/');
+    });
   };
 
   return (
@@ -34,13 +51,12 @@ export default function SignInCardComponent() {
       validationSchema={schema}
       onSubmit={onSubmitSignIn}
       initialValues={{
-        name: '',
-        email: '',
-        password: '',
-        confirm_password: '',
+        email: initialEmail,
+        password: initialPassword,
+        rememberMe: initialRememberMe,
       }}
     >
-      {({ handleChange, values, errors, touched, handleSubmit }) => (
+      {({ handleChange, values, errors, touched, handleSubmit, setFieldValue }) => (
         <div className="flex flex-column surface-card p-4 shadow-2 border-round lg:w-4 absolute h-screen justify-content-center">
           <div className="text-center mb-5">
             <Image
@@ -63,6 +79,7 @@ export default function SignInCardComponent() {
               setValue={handleChange('email')}
               errors={errors.email}
               touched={touched.email}
+              type="text"
             />
             <InputComponent
               label="Senha"
@@ -70,11 +87,16 @@ export default function SignInCardComponent() {
               setValue={handleChange('password')}
               errors={errors.password}
               touched={touched.password}
+              type="password"
             />
 
             <div className="flex align-items-center justify-content-between mb-6">
               <div className="flex align-items-center">
-                <CheckboxComponent />
+                <CheckboxComponent
+                  label="Lembre-se"
+                  checked={values.rememberMe}
+                  onChange={(e) => setFieldValue('rememberMe', e.target.checked)}
+                />
               </div>
               <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">
                 Esqueceu sua senha?
@@ -90,7 +112,7 @@ export default function SignInCardComponent() {
               <span className="text-600 font-medium ">
                 Ainda não tem uma conta?
               </span>
-              <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
+              <a href='/signUp' className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
                 Cadastrar-se
               </a>
             </div>

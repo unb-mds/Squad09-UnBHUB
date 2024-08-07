@@ -1,9 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-import pdfplumber
-import json
-import os
 import re
 from typing import List, Dict, Any
 
@@ -23,22 +20,25 @@ class Calendar:
         response = requests.get(self.url)
         if response.status_code == 200:
             self.html_content = response.text
-            print('Página HTML baixada com sucesso.')
+            print('Página HTML baixada com sucesso')
         else:
-            print(f'Falha ao baixar a página. Status code: {response.status_code}')
+            print(f'\033[31mFalha ao baixar a página. Status code: {response.status_code}\033[0m')
 
     def anchor_finder(self):
         soup = BeautifulSoup(self.html_content, 'html.parser')
         anchors = soup.find_all('a', href=lambda href: href and self.keyword in href)
 
         if anchors:
-            self.addresses = [{anchor.get_text(strip=True): self.base_url + anchor['href']} for anchor in anchors]
-            print('Endereços encontrados:')
+            for anchor in anchors:
+                text = anchor.get_text(strip=True)
+                if text:  # Verifica se o texto não é uma string vazia
+                    self.addresses.append({text: self.base_url + anchor['href']})
+            print('Endereço(s) encontrado(s):')
             for address in self.addresses:
                 for text, url in address.items():
-                    print(f"Texto: {text}, URL: {url}")
+                    print(f"    \033[1m{text}\033[0m : {url}")
         else:
-            print(f'Nenhuma âncora com "{self.keyword}" no href foi encontrada.')
+            print(f'\033[31mNenhuma âncora com "{self.keyword}" no href foi encontrada\033[0m')
 
     def find_closest_date(self):
         current_date = datetime.now()
@@ -63,32 +63,11 @@ class Calendar:
             self.closest_date_text = closest_text
             self.closest_date_url = closest_url
             print('Endereço com a data mais próxima:')
-            print(f"Texto: {closest_text}, URL: {closest_url}")
+            print(f"    \033[1m{closest_text}\033[0m : {closest_url}")
             return closest_text, closest_url
         else:
-            print('Nenhuma data válida encontrada nos textos.')
+            print('\033[31mNenhuma data válida encontrada nos textos\033[0m')
             return None, None
-
-    def download_pdf(self, url, filename):
-        response = requests.get(url)
-        if response.status_code == 200:
-            with open(filename, 'wb') as file:
-                file.write(response.content)
-            print(f'PDF baixado e salvo como {filename}.')
-        else:
-            print(f'Falha ao baixar o PDF. Status code: {response.status_code}')
-
-    def extract_text_from_pdf(self, pdf_path):
-        text = ''
-        with pdfplumber.open(pdf_path) as pdf:
-            for page in pdf.pages:
-                text += page.extract_text() + '\n'
-        return text
-
-    def save_data_to_json(self, data, json_path):
-        with open(json_path, 'w', encoding='utf-8') as json_file:
-            json.dump(data, json_file, ensure_ascii=False, indent=4)
-        print(f'Dados salvos em {json_path}.')
 
     def upload_to_firestore(self, data):
         doc_ref = self.db.collection('APIs').document('Calendar')
@@ -97,11 +76,12 @@ class Calendar:
         if doc.exists:
             existing_data = doc.to_dict()
             if existing_data.get('title') == data.get('title'):
-                print("O título do novo dado é o mesmo do existente. Nenhuma atualização necessária.")
+                print("\033[31mO título do calendário é o mesmo do já existente. "
+                      "Nenhuma atualização feita no Firestore\033[0m")
                 return
 
         doc_ref.set(data)
-        print("Dados enviados para o Firestore com sucesso.")
+        print("\033[32mNovos dados enviados para o Firestore com sucesso\033[0m")
 
     def format_calendar_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
         def find_dates(text: str) -> List[str]:
@@ -126,11 +106,13 @@ class Calendar:
             return parts
 
         def parse_event_sections(text: str) -> List[Dict[str, str]]:
-            start_index = text.find("REVALIDAÇÃO DE DIPLOMAS")
+            entry_point = "REVALIDAÇÃO DE DIPLOMAS"  # Texto usado como entry point para a busca das datas
+            start_index = text.find(entry_point)
             if start_index != -1:
                 text = text[start_index:]
             else:
-                print("Cabeçalho 'REVALIDAÇÃO DE DIPLOMAS' não encontrado. Processando todo o texto.")
+                print(f"\033[31mCabeçalho '{entry_point}' não encontrado\033[0m")
+                return []
 
             parts = split_by_dates(text)
             events = []
@@ -172,9 +154,3 @@ class Calendar:
             "content": modified_events,
         }
         return formatted_data
-
-    def clean_up_files(self, *filenames):
-        for filename in filenames:
-            if os.path.exists(filename):
-                os.remove(filename)
-                print(f'Arquivo {filename} removido com sucesso.')

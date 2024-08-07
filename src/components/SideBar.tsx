@@ -1,15 +1,14 @@
 import React from 'react';
-
-import { Avatar } from 'primereact/avatar';
 import { Image } from 'primereact/image';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
 import { classNames } from 'primereact/utils';
-
+import { useLocation, Link } from 'react-router-dom';
 import { auth } from '../../config/firebase';
 
 export default function SideBarComponent() {
   const toast = React.useRef(null);
+  const location = useLocation();
 
   const items: MenuItem[] = [
     {
@@ -39,64 +38,84 @@ export default function SideBarComponent() {
       template: (options) => {
         return (
           <div>
-            <button
-              onClick={(e) => options.onClick(e)}
-              className={classNames(
-                options.className,
-                'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
-              )}
-            >
-              <i className="pi pi-fw pi-calendar mr-2"></i>
-              <span>Cronograma</span>
-            </button>
-            <a
-              href="http://localhost:5173/Subjects"
-              style={{ textDecoration: 'none' }}
-            >
+            <Link to="/" style={{ textDecoration: 'none' }}>
               <button
                 onClick={(e) => options.onClick(e)}
                 className={classNames(
                   options.className,
-                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
+                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround',
+                  { 'surface-300': location.pathname === '/' }
+                )}
+              >
+                <i className="pi pi-fw pi-home mr-2"></i>
+                <span>DashBoard</span>
+              </button>
+            </Link>
+            <Link to="/CalendarPage" style={{ textDecoration: 'none' }}>
+              <button
+                onClick={(e) => options.onClick(e)}
+                className={classNames(
+                  options.className,
+                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround',
+                  { 'surface-300': location.pathname === '/CalendarPage' }
+                )}
+              >
+                <i className="pi pi-fw pi-calendar mr-2"></i>
+                <span>Calendário</span>
+              </button>
+            </Link>
+            <Link to="/Subjects" style={{ textDecoration: 'none' }}>
+              <button
+                onClick={(e) => options.onClick(e)}
+                className={classNames(
+                  options.className,
+                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround',
+                  { 'surface-300': location.pathname === '/Subjects' }
                 )}
               >
                 <i className="pi pi-fw pi-bookmark mr-2" />
                 <span>Matérias</span>
               </button>
-            </a>
-
-            <a
-              href="http://localhost:5173/Tasks"
-              style={{ textDecoration: 'none' }}
-            >
+            </Link>
+            <Link to="/Tasks" style={{ textDecoration: 'none' }}>
               <button
                 onClick={(e) => options.onClick(e)}
                 className={classNames(
                   options.className,
-                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
+                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround',
+                  { 'surface-300': location.pathname === '/Tasks' }
                 )}
               >
                 <i className="pi pi-fw pi-clipboard mr-2" />
                 <span>Tarefas</span>
               </button>
-            </a>
-            <button
-              onClick={(e) => options.onClick(e)}
-              className={classNames(
-                options.className,
-                'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround'
-              )}
-            >
-              <Avatar
-                image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-                className="mr-2"
-                shape="circle"
-              />
-              <div className="flex flex-column align">
-                <span className="font-bold">Nome do Usuário</span>
-                <span className="text-sm">Estudante</span>
-              </div>
-            </button>
+            </Link>
+            <Link to="/Library" style={{ textDecoration: 'none' }}>
+              <button
+                onClick={(e) => options.onClick(e)}
+                className={classNames(
+                  options.className,
+                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround',
+                  { 'surface-300': location.pathname === '/Library' }
+                )}
+              >
+                <i className="pi pi-fw pi-book mr-2"></i>
+                <span>Biblioteca</span>
+              </button>
+            </Link>
+            <Link to="/Menu" style={{ textDecoration: 'none' }}>
+              <button
+                onClick={(e) => options.onClick(e)}
+                className={classNames(
+                  options.className,
+                  'w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround',
+                  { 'surface-300': location.pathname === '/Menu' }
+                )}
+              >
+                <i className="pi pi-fw pi-th-large mr-2"></i>
+                <span>Cardápio</span>
+              </button>
+            </Link>
             <button
               className="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround"
               onClick={() => auth.signOut()}

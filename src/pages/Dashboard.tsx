@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import { withAuth } from '../../utils/auth';
 
-import ExamsComponent from '../components/Exams';
-import NavbarComponent from '../components/Navbar';
+import ExamsComponent from '../components/Dashboard/Exams';
+import NavbarComponent from '../components/Dashboard/Navbar';
 import SideBarComponent from '../components/SideBar';
 
-import DashboardSubjectsComponent from '../components/DashboardSubjects';
-import TasksComponent from '../components/Task';
+import DashboardSubjectsComponent from '../components/Dashboard/DashboardSubjects';
+import TasksComponent from '../components/Dashboard/Task';
 
 function DashboardScreen() {
   return (

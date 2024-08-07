@@ -1,26 +1,29 @@
-import { arrayUnion, doc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
 
-interface ICreateSubject {
-  nameSubject: string;
+interface ICreateBook {
+  codeSubject: string;
   bookName: string;
-  schedule: string;
+  deliveryDay: string;
 }
 
-export default async function CreateLibraryFunction(props: ICreateSubject) {
-  if (!auth.currentUser) return;
+export default async function CreateLibraryFunction(props: ICreateBook) {
+  if (!auth.currentUser) {
+    console.error('Usuário não autenticado');
+    return;
+  }
 
-  await setDoc(
-    doc(db, 'Users', auth.currentUser.uid),
-    {
-      books: arrayUnion({
-        nameSubject: props.nameSubject,
+  try {
+    const bookId = Math.random().toString(36).substring(7);
+    await updateDoc(doc(db, 'Users', auth.currentUser.uid), {
+      [`books.${bookId}`]: {
+        id: bookId,
+        codeSubject: props.codeSubject,
         bookName: props.bookName,
-        schedule: props.schedule,
-      }),
-    },
-    {
-      merge: true,
-    }
-  );
+        deliveryDay: props.deliveryDay,
+      },
+    });
+  } catch (error) {
+    console.error('Erro ao enviar dados:', error);
+  }
 }
