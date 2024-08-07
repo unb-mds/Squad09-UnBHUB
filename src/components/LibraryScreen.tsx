@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import { doc, onSnapshot, Timestamp } from 'firebase/firestore';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
@@ -10,6 +10,7 @@ interface ICreateBook {
   codeSubject: string;
   bookName: string;
   deliveryDay: Timestamp;
+  status: string;
 }
 
 export default function LibraryComponent(props: {
@@ -19,20 +20,23 @@ export default function LibraryComponent(props: {
   const [ongoingBooks, setOngoingBooks] = useState<ICreateBook[]>([]);
   const [overdueBooks, setOverdueBooks] = useState<ICreateBook[]>([]);
 
+  // Hook de efeito para configurar a escuta de mudanças na autenticação e nos dados do usuário no Firestore
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-        const fetchBooks = async () => {
-          try {
-            const userDocRef = doc(db, 'Users', user.uid);
-            const userDocSnap = await getDoc(userDocRef);
-            if (userDocSnap.exists()) {
-              const userData = userDocSnap.data();
-              const books: ICreateBook[] = userData.books || [];
-
+        // Escuta as mudanças no documento do usuário no Firestore
+        const unsub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
+          if (doc.exists()) {
+            const userData = doc.data();
+            // Se os dados do usuário existem e contém matérias, atualiza o estado com essas matérias
+            if (userData && userData.books) {
+              const books: ICreateBook[] = userData.books;
               const today = new Date();
               const ongoing = Object.values(books).filter(
-                (bookData) => bookData.deliveryDay.toDate() >= today // Converter Timestamp para Date
+                (bookData) =>
+                  bookData.deliveryDay.toDate() >= today &&
+                  bookData.status !== 'Deleted'
+                // Converter Timestamp para Date
               );
               const overdue = Object.values(books).filter(
                 (bookData) => bookData.deliveryDay.toDate() < today // Converter Timestamp para Date
@@ -40,18 +44,13 @@ export default function LibraryComponent(props: {
               setOngoingBooks(ongoing);
               setOverdueBooks(overdue);
             }
-          } catch (error) {
-            console.error('Erro ao buscar livros:', error);
           }
-        };
+        });
 
-        fetchBooks(); // Certifique-se de chamar a função fetchBooks dentro do if(user)
-      } else {
-        console.error('Usuário não autenticado');
+        // Limpa a escuta quando o componente é desmontado
+        return () => unsub();
       }
     });
-
-    return () => unsubscribe(); // Limpeza do listener quando o componente desmonta
   }, []);
 
   const cardButtonStyles: React.CSSProperties = {
@@ -69,21 +68,25 @@ export default function LibraryComponent(props: {
     borderColor: string,
     id: string,
     codeSubject: string,
-    nameBook: string,
-    deliveryDay: Timestamp
+    bookName: string,
+    deliveryDay: Timestamp,
+    status: string
   ) => {
     const formattedDate = deliveryDay.toDate().toLocaleDateString(); // Formatar Timestamp para string
 
+    if (status === 'Deleted') return null;
     return (
       <Button
+        key={id}
         className="w-12 my-0"
         style={{ ...cardButtonStyles, borderColor }}
         onClick={() => {
           const D = {
             id: id,
             codeSubject: codeSubject,
-            bookName: nameBook,
+            bookName: bookName,
             deliveryDay: deliveryDay,
+            status: status,
           };
           props.EditsetVisible1(D); // Passando os dados do livro
         }}
@@ -94,7 +97,7 @@ export default function LibraryComponent(props: {
           style={{ alignItems: 'flex-start', textAlign: 'left' }}
         >
           <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-            Livro: {nameBook}
+            Livro: {bookName}
           </i>
           <p
             className="pi pi-calendar mb-3"
@@ -146,7 +149,8 @@ export default function LibraryComponent(props: {
               bookData.id,
               bookData.codeSubject,
               bookData.bookName,
-              bookData.deliveryDay
+              bookData.deliveryDay,
+              bookData.status
             )
           )
         ) : (
@@ -174,7 +178,8 @@ export default function LibraryComponent(props: {
               bookData.id,
               bookData.codeSubject,
               bookData.bookName,
-              bookData.deliveryDay
+              bookData.deliveryDay,
+              bookData.status
             )
           )
         ) : (
