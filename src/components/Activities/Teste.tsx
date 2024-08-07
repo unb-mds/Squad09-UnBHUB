@@ -1,10 +1,10 @@
+import { Timestamp } from 'firebase/firestore';
 import { Card } from 'primereact/card';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
-import { Timestamp } from "firebase/firestore";
 
 interface Task {
-  codeSubject: string;  
+  codeSubject: string;
   taskName: string;
   description: string;
   deliveryDay: Timestamp;
@@ -20,13 +20,16 @@ interface TasksComponentProps {
   status: string;
 }
 
-export default function TasksComponent({ subject, status }: TasksComponentProps) {
+export default function TasksComponent({
+  subject,
+  status,
+}: TasksComponentProps) {
   if (!subject || !subject.tasks) {
     return null; // Retorna null se subject ou subject.tasks não estiver definido
   }
 
   // Filtra e mapeia as tarefas com base no status
-  const filteredTasks = subject.tasks
+  const filteredTasks = Object.values(subject.tasks)
     .filter((task) => task.status === status)
     .map((task, index) => {
       const border = (() => {
@@ -52,10 +55,8 @@ export default function TasksComponent({ subject, status }: TasksComponentProps)
         >
           <div className="flex flex-column">
             <p className="pi pi-arrow-right mt-0"> {task.taskName}</p>
-            <p className="pi pi-arrow-right mt-0">  
-              {' '}
+            <p className="pi pi-arrow-right mt-0">
               {formatDate(task.deliveryDay)} {formatTime(task.deliveryDay)}
-
             </p>
             <p className="pi pi-arrow-right mt-0"> {task.description}</p>
           </div>

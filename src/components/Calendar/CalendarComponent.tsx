@@ -2,9 +2,9 @@ import { Calendar, CalendarDateTemplateEvent } from 'primereact/calendar';
 import { Nullable } from 'primereact/ts-helpers';
 import { useEffect, useState } from 'react';
 import { fetchEvents } from '../../functions/Calendar/EventService';
+import { fetchBookDates } from '../../functions/Calendar/fetchBookDates'; // Importa a função fetchBookDates
 import { fetchExamDates } from '../../functions/Calendar/fetchExamDates'; // Importa a função do serviço
 import { fetchTaskDates } from '../../functions/Calendar/fetchTaskDates'; // Importa a nova função
-import { fetchBookDates } from '../../functions/Calendar/fetchBookDates'; // Importa a função fetchBookDates
 import {
   getHighlightedMessage,
   isHighlighted,
