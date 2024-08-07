@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { onAuthStateChanged, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { Avatar } from 'primereact/avatar';
 import { ProgressBar } from 'primereact/progressbar';
 import { Dialog } from 'primereact/dialog';
@@ -23,6 +23,9 @@ export default function User() {
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
+  const [passwordDialogVisible, setPasswordDialogVisible] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -59,6 +62,25 @@ export default function User() {
       await updateDoc(userDoc, { UserInfo: values });
       setUserInfo(values);
       setEditDialogVisible(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    if (auth.currentUser) {
+      const user = auth.currentUser;
+      const credential = EmailAuthProvider.credential(user.email!, password);
+
+      try {
+        await reauthenticateWithCredential(user, credential);
+
+        const userDoc = doc(db, 'Users', auth.currentUser.uid);
+        await deleteDoc(userDoc);
+        await deleteUser(user);
+
+        setPasswordDialogVisible(false);
+      } catch (error) {
+        setErrorMessage('Senha incorreta');
+      }
     }
   };
 
@@ -105,10 +127,11 @@ export default function User() {
       </div>
       <div className="flex justify-content-center flex-wrap">
         <Button
-          type="submit"
-          icon="pi pi-sign-out"
+          type="button"
+          icon="pi pi-trash"
           className="text-black mx-2 px-8"
-          label="Sair"
+          label="Excluir Conta"
+          onClick={() => setPasswordDialogVisible(true)}
         />
         <Button
           type="button"
@@ -138,7 +161,7 @@ export default function User() {
         >
           {({ errors, touched }) => (
             <Form>
-              <div className="p-float-label my-4"> {}
+              <div className="p-float-label my-4">
                 <Field
                   as={InputText}
                   id="userName"
@@ -192,6 +215,32 @@ export default function User() {
             </Form>
           )}
         </Formik>
+      </Dialog>
+
+      <Dialog
+        header="Digite sua senha para excluir sua conta"
+        visible={passwordDialogVisible}
+        style={{ width: '30vw' }}
+        modal
+        onHide={() => setPasswordDialogVisible(false)}
+      >
+        <div className="p-float-label my-4">
+          <InputText
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full"
+          />
+          <label htmlFor="password">Senha</label>
+          {errorMessage && <small className="p-error">{errorMessage}</small>}
+        </div>
+        <Button
+          type="button"
+          label="Confirmar"
+          className="mt-2"
+          onClick={handleDeleteAccount}
+        />
       </Dialog>
     </div>
   );
