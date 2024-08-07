@@ -5,9 +5,9 @@ import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../../config/firebase';
+
 import DeleteExam from '../../functions/DeleteExam';
+import FinalizeExamFunction from '../../functions/FinalizeExam';
 import EditExam from '../../functions/EditExam'; // Importa a função EditExam
 
 interface EditExamDialogProps {
@@ -22,14 +22,14 @@ interface EditExamDialogProps {
     status: string;
     id: string; // ID da prova para identificar o documento no Firestore
   };
-  subjectId: string; // ID da matéria para identificar o documento no Firestore
 }
+
+const subjectId = localStorage.getItem('subjectId');
 
 export default function EditExamDialog({
   visible,
   onHide,
   exam,
-  subjectId,
 }: EditExamDialogProps) {
   return (
     <Formik
@@ -159,33 +159,12 @@ export default function EditExamDialog({
               <div className="text-red-500">{errors.room}</div>
             ) : null}
 
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="status"
-                name="status"
-                value={values.status}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <label htmlFor="status">Status</label>
-            </FloatLabel>
-            {errors.status && touched.status ? (
-              <div className="text-red-500">{errors.status}</div>
-            ) : null}
-
             <div className="flex justify-content-between gap-3">
               <Button
                 outlined
                 label="Finalizar"
                 onClick={async () => {
-                  const formattedValues = {
-                    ...values,
-                    status: 'Finalizado',
-                  };
-
-                  // Atualiza o exame
-                  await EditExam(formattedValues, exam.id, subjectId);
+                  await FinalizeExamFunction(subjectId, exam.id);
                   onHide(); // Fechar o diálogo após a atualização
                 }}
               />
@@ -197,7 +176,6 @@ export default function EditExamDialog({
                   color: '#ff6060',
                 }}
                 onClick={async () => {
-                  console.log(exam.id);
                   await DeleteExam(subjectId, exam.id);
                   onHide(); // Fechar o diálogo após a atualização
                 }}

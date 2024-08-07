@@ -39,9 +39,13 @@ export default function SubjectSpecificExams({
     setCurrentExam(null);
   };
 
+  const filteredExams = subject.exams.filter(
+    (exam) => exam.status !== 'Deleted'
+  );
+
   return (
     <>
-      <DataTable value={subject.exams} tableStyle={{ minWidth: '50rem' }}>
+      <DataTable value={filteredExams} tableStyle={{ minWidth: '50rem' }}>
         <Column field="code" header="Código" />
         <Column field="score" header="Nota" />
         <Column
