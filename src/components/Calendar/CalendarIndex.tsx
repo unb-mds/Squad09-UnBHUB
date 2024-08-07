@@ -1,6 +1,7 @@
 import DataTarefas from './DataTarefas';
 import DataProvas from './DataProvas';
 import DataImportante from './DataImportante';
+import DataLivros from './DataLivros';
 
 export default function Index() {
   return (
@@ -17,6 +18,8 @@ export default function Index() {
         <DataProvas />
 
         <DataTarefas />
+
+        <DataLivros />
       </div>
     </div>
   );
