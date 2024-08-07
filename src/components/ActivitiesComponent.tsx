@@ -1,12 +1,12 @@
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import React, { useEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import { auth, db } from '../../config/firebase';
-import { onSnapshot, doc } from 'firebase/firestore';
 import TasksComponent from './Activities/Teste'; // Atualize o caminho conforme necessário
 
-export default function ActivitiesComponent1(props: {
+export default function ActivitiesComponent(props: {
   CreatesetVisible: (visibleCreate: boolean) => void;
   setTask: (task: any) => void;
   EditsetVisible: (activityData: {
@@ -57,26 +57,25 @@ export default function ActivitiesComponent1(props: {
           text
           link
           onClick={() => {
-            console.log('Adicionar button clicked');
             props.CreatesetVisible(true);
           }}
         />
       </div>
       <div className="">
-      {Object.values(subjects).map((subject, index) => {
-        if (subject.status === 'Active') {
-          return (
-            <a
-              className="w-3 cursor-pointer"
-              style={{ textDecoration: 'none' }}
-              key={index}
-            >
-              <TasksComponent subject={subject} status={"Active"} />
-            </a>
-          );
-        }
-        return null;
-      })}
+        {Object.values(subjects).map((subject, index) => {
+          if (subject.status === 'Active') {
+            return (
+              <a
+                className="w-3 cursor-pointer"
+                style={{ textDecoration: 'none' }}
+                key={index}
+              >
+                <TasksComponent subject={subject} status={'Active'} />
+              </a>
+            );
+          }
+          return null;
+        })}
       </div>
 
       <Divider className="my-0" />
@@ -93,20 +92,20 @@ export default function ActivitiesComponent1(props: {
         </div>
       </div>
       <div className="">
-      {Object.values(subjects).map((subject, index) => {
-        if (subject.status === 'Active') {
-          return (
-            <a
-              className="w-3 cursor-pointer"
-              style={{ textDecoration: 'none' }}
-              key={index}
-            >
-              <TasksComponent subject={subject} status={"Late"} />
-            </a>
-          );
-        }
-        return null;
-      })}
+        {Object.values(subjects).map((subject, index) => {
+          if (subject.status === 'Active') {
+            return (
+              <a
+                className="w-3 cursor-pointer"
+                style={{ textDecoration: 'none' }}
+                key={index}
+              >
+                <TasksComponent subject={subject} status={'Late'} />
+              </a>
+            );
+          }
+          return null;
+        })}
       </div>
 
       <Divider className="my-0" />
@@ -123,20 +122,20 @@ export default function ActivitiesComponent1(props: {
         </div>
       </div>
       <div className="">
-      {Object.values(subjects).map((subject, index) => {
-        if (subject.status === 'Active') {
-          return (
-            <a
-              className="w-3 cursor-pointer"
-              style={{ textDecoration: 'none' }}
-              key={index}
-            >
-              <TasksComponent subject={subject} status={"Finalized"} />
-            </a>
-          );
-        }
-        return null;
-      })}
+        {Object.values(subjects).map((subject, index) => {
+          if (subject.status === 'Active') {
+            return (
+              <a
+                className="w-3 cursor-pointer"
+                style={{ textDecoration: 'none' }}
+                key={index}
+              >
+                <TasksComponent subject={subject} status={'Finalized'} />
+              </a>
+            );
+          }
+          return null;
+        })}
       </div>
 
       <Divider className="my-0" />

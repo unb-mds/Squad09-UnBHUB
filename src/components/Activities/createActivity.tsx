@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 
 //Função para criar um novo componente de matéria
 import CreateActivityFunction from '../../functions/CreateActivity';
+import SearchDropdownComponent from './SearchDropdown';
 
 // Define um componente funcional React chamado CreateActivityComponent.
 export default function CreateActivityComponent(props: {
@@ -19,8 +20,11 @@ export default function CreateActivityComponent(props: {
   return (
     <Formik
       initialValues={{
-        codeSubject: '',
-        nameActivity: '',
+        subject: {
+          name: '',
+          code: '',
+        },
+        taskName: '',
         deliveryDay: '',
       }}
       onSubmit={(values) => {
@@ -29,10 +33,11 @@ export default function CreateActivityComponent(props: {
         });
       }}
       validationSchema={Yup.object().shape({
-        codeSubject: Yup.string().required('O código da matéria é obrigatório'),
-        nameActivity: Yup.string().required(
-          'O nome da atividade é obrigatório'
-        ),
+        subject: Yup.object().shape({
+          name: Yup.string().required('A matéria é obrigatória'),
+          code: Yup.string().required('O código da matéria é obrigatório'),
+        }),
+        taskName: Yup.string().required('O nome da atividade é obrigatório'),
         deliveryDay: Yup.string().required('O dia de entrega é obrigatório'),
       })}
     >
@@ -41,6 +46,7 @@ export default function CreateActivityComponent(props: {
         handleChange,
         handleBlur,
         handleSubmit,
+        setFieldValue,
         errors,
         touched,
       }) => (
@@ -56,19 +62,18 @@ export default function CreateActivityComponent(props: {
             onHide={() => props.CreatesetVisible(false)} // Função para esconder o diálogo quando for fechado.
           >
             {/* Campo de entrada para o código da matéria com um rótulo flutuante. */}
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full" // Classe de estilo para o campo de entrada.
-                id="Código da matéria" // Identificador do campo.
-                value={values.codeSubject} // O valor do campo de entrada é vinculado ao estado codeSubject.
-                onChange={handleChange('codeSubject')} // Atualiza o estado codeSubject quando o valor do campo muda.
-                onBlur={handleBlur} // Função chamada quando o campo perde o foco.
-              />
-              <label htmlFor="username">Código da matéria</label>
-            </FloatLabel>
+            <SearchDropdownComponent
+              selectedSubject={values.subject}
+              setSelectedSubject={(props) =>
+                setFieldValue('subject', {
+                  name: props.name,
+                  code: props.code,
+                })
+              }
+            />
             <div>
-              {errors.codeSubject && touched.codeSubject ? (
-                <div className="text-red-500">{errors.codeSubject}</div>
+              {errors.subject && touched.subject ? (
+                <div className="text-red-500">{errors.subject.name}</div>
               ) : null}
             </div>
 
@@ -77,14 +82,14 @@ export default function CreateActivityComponent(props: {
               <InputText
                 className="flex mt-5 mb-5 w-full"
                 id="Nome da matéria"
-                value={values.nameActivity}
-                onChange={handleChange('nameActivity')}
+                value={values.taskName}
+                onChange={handleChange('taskName')}
                 onBlur={handleBlur}
               />
               <label htmlFor="username">Nome da atividade</label>
             </FloatLabel>
-            {errors.nameActivity && touched.nameActivity ? (
-              <div className="text-red-500">{errors.nameActivity}</div>
+            {errors.taskName && touched.taskName ? (
+              <div className="text-red-500">{errors.taskName}</div>
             ) : null}
 
             {/* Capo de entrada para o dia de entrega com um rótulo flutuante. */}
@@ -116,7 +121,7 @@ export default function CreateActivityComponent(props: {
                 onClick={() => props.CreatesetVisible(false)}
               />
               {/* Botão de cancelar. */}
-              <Button onClick={handleSubmit} label="Confirmar" />
+              <Button onClick={() => handleSubmit} label="Confirmar" />
               {/* Botão de confirmar. */}
             </div>
           </Dialog>
