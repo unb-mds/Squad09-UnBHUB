@@ -4,11 +4,9 @@ import * as Yup from 'yup';
 
 import InputComponent from '../components/Input';
 import SignUpFunction from '../functions/SignUp';
-
 import { useNavigate } from 'react-router-dom';
 
 interface InputProps {
-  name: string;
   email: string;
   password: string;
   confirm_password: string;
@@ -16,7 +14,6 @@ interface InputProps {
 
 export default function SignUpCardComponent() {
   const schema = Yup.object().shape({
-    name: Yup.string().required('O campo de nome é obrigatório.'),
     email: Yup.string()
       .email('E-mail inválido.')
       .required('O campo de e-mail é obrigatório.'),
@@ -27,15 +24,10 @@ export default function SignUpCardComponent() {
   });
 
   const navigate = useNavigate();
-  
+
   const handleSubmit = async (values: InputProps) => {
-    try {
-      await SignUpFunction({ email: values.email, password: values.password });
-      navigate('/SignIn', { state: { email: values.email, password: values.password } }); // Passa os dados de email e senha para a página de SignIn
-    } catch (error) {
-      // Lidar com erro caso necessário
-      console.error('Erro ao fazer cadastro:', error);
-    }
+    await SignUpFunction({ email: values.email, password: values.password });
+    navigate('/SignUser'); // Redireciona para a página de preenchimento de informações adicionais
   };
 
   return (
@@ -43,7 +35,6 @@ export default function SignUpCardComponent() {
       validationSchema={schema}
       onSubmit={handleSubmit}
       initialValues={{
-        name: '',
         email: '',
         password: '',
         confirm_password: '',
@@ -66,16 +57,6 @@ export default function SignUpCardComponent() {
                 setValue={handleChange('email')}
                 errors={errors.email}
                 touched={touched.email}
-                type="text" 
-              />
-
-              <InputComponent
-                label="Nome"
-                value={values.name}
-                setValue={handleChange('name')}
-                errors={errors.name}
-                touched={touched.name}
-                type="text" 
               />
 
               <InputComponent
@@ -84,7 +65,7 @@ export default function SignUpCardComponent() {
                 setValue={handleChange('password')}
                 errors={errors.password}
                 touched={touched.password}
-                type="password" 
+                type="password"
               />
 
               <InputComponent
@@ -93,10 +74,9 @@ export default function SignUpCardComponent() {
                 setValue={handleChange('confirm_password')}
                 errors={errors.confirm_password}
                 touched={touched.confirm_password}
-                type="password" 
+                type="password"
               />
 
-              <div className="flex align-items-center justify-content-between mb-6"></div>
               <Button
                 type="submit"
                 className="py-3 px-8 w-full text-white my-0"

@@ -1,8 +1,10 @@
 import NavbarComponent3 from '../components/Navbar3';
 import SideBarComponent from '../components/SideBar';
 import User from '../components/UserInfo';
+import { withAuth } from '../../utils/auth';
 
-export default function DashboardScreen() {
+
+ function ProfileScreen() {
   return (
     <div className="flex">
       <SideBarComponent />
@@ -13,3 +15,6 @@ export default function DashboardScreen() {
     </div>
   );
 }
+
+const Profile = withAuth(ProfileScreen);
+export default Profile;
