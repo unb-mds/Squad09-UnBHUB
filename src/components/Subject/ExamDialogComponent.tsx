@@ -46,15 +46,7 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
             onChange={(e) => setExam({ ...exam, code: e.target.value })}
           />
         </div>
-        {/* Campo de entrada para a nota da prova */}
-        <div className="field">
-          <label htmlFor="score">Nota</label>
-          <InputText
-            id="score"
-            value={exam.score}
-            onChange={(e) => setExam({ ...exam, score: e.target.value })}
-          />
-        </div>
+
         {/* Campo de calendário para selecionar a data da prova */}
         <div className="field">
           <label htmlFor="date">Data</label>
@@ -73,8 +65,8 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
             id="time"
             value={exam.time}
             onChange={(e) => setExam({ ...exam, time: e.value as Date | null })}
-            icon={() => <i className="pi pi-clock" />}
             showIcon
+            icon={() => <i className="pi pi-clock" />}
             timeOnly
           />
         </div>
@@ -85,15 +77,6 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
             id="room"
             value={exam.room}
             onChange={(e) => setExam({ ...exam, room: e.target.value })}
-          />
-        </div>
-        {/* Campo de entrada para o status da prova */}
-        <div className="field">
-          <label htmlFor="status">Status</label>
-          <InputText
-            id="status"
-            value={exam.status}
-            onChange={(e) => setExam({ ...exam, status: e.target.value })}
           />
         </div>
       </div>

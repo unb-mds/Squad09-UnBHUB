@@ -1,20 +1,15 @@
-// Importa componentes do PrimeReact, uma biblioteca de componentes UI para React.
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
-
-//Validadores de formulário
+import { Calendar } from 'primereact/calendar';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-
-//Função para criar um novo componente de matéria
 import CreateSubjectFunction from '../../functions/CreateSubject';
 
-// Define um componente funcional React chamado CreateSubjectComponent.
 export default function CreateSubjectComponent(props: {
-  visible: boolean; // Propriedade visível que determina se o diálogo está visível ou não.
-  setVisible: (visible: boolean) => void; // Função para definir a visibilidade do diálogo.
+  visible: boolean;
+  setVisible: (visible: boolean) => void;
 }) {
   return (
     <Formik
@@ -23,10 +18,12 @@ export default function CreateSubjectComponent(props: {
         nameSubject: '',
         professor: '',
         weekDays: '',
-        schedule: '',
+        schedule: null,
         local: '',
       }}
       onSubmit={(values) => {
+        // Ensure schedule is in correct format
+        values.schedule = values.schedule ? new Date(values.schedule) : null;
         CreateSubjectFunction(values).then(() => {
           props.setVisible(false);
         });
@@ -36,7 +33,7 @@ export default function CreateSubjectComponent(props: {
         nameSubject: Yup.string().required('O nome da matéria é obrigatório'),
         professor: Yup.string().required('O nome do professor é obrigatório'),
         weekDays: Yup.string().required('Os dias da semana são obrigatórios'),
-        schedule: Yup.string().required('O horário é obrigatório'),
+        schedule: Yup.date().required('O horário é obrigatório').nullable(),
         local: Yup.string().required('O local é obrigatório'),
       })}
     >
@@ -47,111 +44,110 @@ export default function CreateSubjectComponent(props: {
         handleSubmit,
         errors,
         touched,
+        setFieldValue,
       }) => (
         <form
           onSubmit={handleSubmit}
           className="card flex justify-content-center gap-6"
         >
-          {/* Componente de diálogo que é exibido ou não com base no valor de props.visible. */}
           <Dialog
-            header="Cadastrar matéria" // Título do diálogo.
-            visible={props.visible} // Define a visibilidade do diálogo.
-            style={{ width: '30vw' }} // Define a largura do diálogo.
-            onHide={() => props.setVisible(false)} // Função para esconder o diálogo quando for fechado.
+            header="Cadastrar matéria"
+            visible={props.visible}
+            style={{ width: '30vw' }}
+            onHide={() => props.setVisible(false)}
           >
-            {/* Campo de entrada para o código da matéria com um rótulo flutuante. */}
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full" // Classe de estilo para o campo de entrada.
-                id="Código da matéria" // Identificador do campo.
-                value={values.codeSubject} // O valor do campo de entrada é vinculado ao estado codeSubject.
-                onChange={handleChange('codeSubject')} // Atualiza o estado codeSubject quando o valor do campo muda.
-                onBlur={handleBlur} // Função chamada quando o campo perde o foco.
-              />
-              <label htmlFor="username">Código da matéria</label>
-            </FloatLabel>
-            <div>
-              {errors.codeSubject && touched.codeSubject ? (
-                <div className="text-red-500">{errors.codeSubject}</div>
-              ) : null}
-            </div>
-
-            {/* Campo de entrada para o nome da matéria com um rótulo flutuante. */}
             <FloatLabel>
               <InputText
                 className="flex mt-5 mb-5 w-full"
-                id="Nome da matéria"
-                value={values.nameSubject}
-                onChange={handleChange('nameSubject')}
+                id="codeSubject"
+                name="codeSubject"
+                value={values.codeSubject}
+                onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <label htmlFor="username">Nome da matéria</label>
+              <label htmlFor="codeSubject">Código da matéria</label>
+            </FloatLabel>
+            {errors.codeSubject && touched.codeSubject ? (
+              <div className="text-red-500">{errors.codeSubject}</div>
+            ) : null}
+
+            <FloatLabel>
+              <InputText
+                className="flex mt-5 mb-5 w-full"
+                id="nameSubject"
+                name="nameSubject"
+                value={values.nameSubject}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <label htmlFor="nameSubject">Nome da matéria</label>
             </FloatLabel>
             {errors.nameSubject && touched.nameSubject ? (
               <div className="text-red-500">{errors.nameSubject}</div>
             ) : null}
 
-            {/* Campo de entrada para o nome do professor com um rótulo flutuante. */}
             <FloatLabel>
               <InputText
                 className="flex mt-5 mb-5 w-full"
-                id="Professor"
+                id="professor"
+                name="professor"
                 value={values.professor}
-                onChange={handleChange('professor')}
+                onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <label htmlFor="username">Professor</label>
+              <label htmlFor="professor">Professor</label>
             </FloatLabel>
             {errors.professor && touched.professor ? (
               <div className="text-red-500">{errors.professor}</div>
             ) : null}
 
-            {/* Campo de entrada para os dias da semana com um rótulo flutuante. */}
             <FloatLabel>
               <InputText
                 className="flex mt-5 mb-5 w-full"
-                id="Dias da semana"
+                id="weekDays"
+                name="weekDays"
                 value={values.weekDays}
-                onChange={handleChange('weekDays')}
+                onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <label htmlFor="username">Dias da semana</label>
+              <label htmlFor="weekDays">Dias da semana</label>
             </FloatLabel>
             {errors.weekDays && touched.weekDays ? (
               <div className="text-red-500">{errors.weekDays}</div>
             ) : null}
 
-            {/* Campo de entrada para o horário com um rótulo flutuante. */}
             <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="Horário"
+              <label htmlFor="schedule">Horário</label>
+              <Calendar
+                className="w-full"
+                id="schedule"
+                name="schedule"
                 value={values.schedule}
-                onChange={handleChange('schedule')}
-                onBlur={handleBlur}
+                onChange={(e) => setFieldValue('schedule', e.value)}
+                icon={() => <i className="pi pi-clock" />}
+                showIcon
+                timeOnly
               />
-              <label htmlFor="username">Horário</label>
             </FloatLabel>
             {errors.schedule && touched.schedule ? (
               <div className="text-red-500">{errors.schedule}</div>
             ) : null}
 
-            {/* Campo de entrada para o local com um rótulo flutuante. */}
             <FloatLabel>
               <InputText
                 className="flex mt-5 mb-5 w-full"
-                id="Local"
-                value={values.local} // Este valor deveria ser 'local' ao invés de 'value' para refletir o campo correto.
-                onChange={handleChange('local')}
+                id="local"
+                name="local"
+                value={values.local}
+                onChange={handleChange}
                 onBlur={handleBlur}
               />
-              <label htmlFor="username">Local</label>
+              <label htmlFor="local">Local</label>
             </FloatLabel>
             {errors.local && touched.local ? (
               <div className="text-red-500">{errors.local}</div>
             ) : null}
 
-            {/* Botões para cancelar ou confirmar a operação. */}
             <div className="flex justify-content-between flex-wrap">
               <Button
                 outlined
@@ -162,9 +158,7 @@ export default function CreateSubjectComponent(props: {
                 }}
                 onClick={() => props.setVisible(false)}
               />
-              {/* Botão de cancelar. */}
               <Button onClick={handleSubmit} label="Confirmar" />
-              {/* Botão de confirmar. */}
             </div>
           </Dialog>
         </form>
