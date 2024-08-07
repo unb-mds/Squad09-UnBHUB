@@ -7,6 +7,7 @@ import ActivitiesComponent1 from '../components/ActivitiesComponent';
 export default function Activities() {
   const [visibleCreate, CreatesetVisible] = useState<boolean>(false);
   const [visibleEdit, EditsetVisible] = useState<boolean>(false);
+  const[task, setTask] = useState({});
   const [selectedActivityData, setSelectedActivityData] = useState<{
     codeSubject: string;
     nameActivity: string;
@@ -28,6 +29,8 @@ export default function Activities() {
       <ActivitiesComponent1
         CreatesetVisible={CreatesetVisible}
         EditsetVisible={handleEditClick1}
+        task={task}
+        setTask = {setTask}
       />
       {visibleCreate && (
         <CreateActivityComponent
