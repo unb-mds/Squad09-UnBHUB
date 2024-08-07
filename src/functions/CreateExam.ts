@@ -1,4 +1,4 @@
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
 
 // Interface para definir a estrutura de um objeto Exam (prova)
@@ -16,14 +16,16 @@ const CreateExamFunction = async (subjectId: string, exam: Exam) => {
   // Verifica se há um usuário autenticado
   if (!auth.currentUser) return;
   try {
+    const examID = Math.random().toString(36).substring(7);
+
     // Cria uma referência ao documento do usuário no Firestore
     const examRef = doc(db, 'Users', auth.currentUser.uid);
 
-    // Atualiza o documento do usuário no Firestore para adicionar a nova prova à lista de provas da matéria
+    console.log(examRef);
+
     await updateDoc(examRef, {
-      [`subjects.${subjectId}.exams`]: arrayUnion({
-        // Gera um ID aleatório para a nova prova
-        id: Math.random().toString(36).substring(7),
+      [`subjects.${subjectId}.exams.${examID}`]: {
+        id: examID,
         // Atribui os valores da prova recebidos como argumento
         code: exam.code,
         date: exam.date,
@@ -31,7 +33,7 @@ const CreateExamFunction = async (subjectId: string, exam: Exam) => {
         room: exam.room,
         score: 'A definir',
         status: 'Active',
-      }),
+      },
     });
   } catch (error) {
     // Captura e exibe erros no console

@@ -15,7 +15,6 @@ export default function SubjectDialogComponent(props: {
       <Dialog
         header="Escolha uma Ação" // Título do diálogo.
         visible={props.visibleSubject} // Define a visibilidade do diálogo.
-        style={{ width: '20vw' }} // Define a largura do diálogo.
         onHide={() => props.setVisibleSubject(false)} // Função para esconder o diálogo quando for fechado.
       >
         <div className="flex flex-column gap-2">

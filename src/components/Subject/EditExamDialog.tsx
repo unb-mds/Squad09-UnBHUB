@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 
 import DeleteExam from '../../functions/DeleteExam';
 import FinalizeExamFunction from '../../functions/FinalizeExam';
-import EditExam from '../../functions/EditExam'; // Importa a função EditExam
+import EditExam from '../../functions/EditExam';
 
 interface EditExamDialogProps {
   visible: boolean;

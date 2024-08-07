@@ -1,9 +1,8 @@
+import 'primeicons/primeicons.css';
+import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
 import { useState } from 'react';
-import 'primeicons/primeicons.css';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import EditExamDialog from './EditExamDialog'; // Supondo que o componente de diálogo esteja neste caminho
@@ -12,20 +11,12 @@ interface Exam {
   code: string;
   score: string;
   date: Date;
-  time: Date; // Certifique-se de que 'time' está presente em Exam
+  time: Date;
   room: string;
   status: string;
 }
 
-interface SubjectSpecificExamsProps {
-  subject: {
-    exams: Exam[];
-  };
-}
-
-export default function SubjectSpecificExams({
-  subject,
-}: SubjectSpecificExamsProps) {
+export default function SubjectSpecificExams({ subject }) {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [currentExam, setCurrentExam] = useState<Exam | null>(null);
 
@@ -39,7 +30,7 @@ export default function SubjectSpecificExams({
     setCurrentExam(null);
   };
 
-  const filteredExams = subject.exams.filter(
+  const filteredExams = Object.values(subject.exams).filter(
     (exam) => exam.status !== 'Deleted'
   );
 
@@ -59,7 +50,15 @@ export default function SubjectSpecificExams({
           body={(rowData) => formatTime(rowData.time)}
         />
         <Column field="room" header="Sala" />
-        <Column field="status" header="Status" />
+        <Column
+          field="status"
+          header="Status"
+          body={(rowData) => (
+            <span>
+              {rowData.status === 'Finalized' ? 'Finalizado' : 'Em andamento'}
+            </span>
+          )}
+        />
         <Column
           header="Editar"
           body={(rowData) => (
