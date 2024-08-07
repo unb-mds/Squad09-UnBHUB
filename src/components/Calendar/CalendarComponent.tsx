@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { fetchEvents } from '../../functions/Calendar/EventService';
 import { fetchExamDates } from '../../functions/Calendar/fetchExamDates'; // Importa a função do serviço
 import { fetchTaskDates } from '../../functions/Calendar/fetchTaskDates'; // Importa a nova função
+import { fetchBookDates } from '../../functions/Calendar/fetchBookDates'; // Importa a função fetchBookDates
 import {
   getHighlightedMessage,
   isHighlighted,
@@ -20,6 +21,9 @@ export default function CalendarComp() {
   >([]);
   const [taskDates, setTaskDates] = useState<
     { deliveryTime: Date; description: string }[]
+  >([]);
+  const [bookDates, setBookDates] = useState<
+    { deliveryDay: Date; bookName: string }[]
   >([]);
 
   useEffect(() => {
@@ -49,9 +53,20 @@ export default function CalendarComp() {
       }
     };
 
+    const fetchAndSetBookDates = async () => {
+      try {
+        const dates = await fetchBookDates();
+        setBookDates(dates);
+        console.log('Book dates set:', dates); // Adicione este log
+      } catch (error) {
+        console.error('Error fetching book dates:', error);
+      }
+    };
+
     fetchAndSetEvents();
     fetchAndSetExamDates();
     fetchAndSetTaskDates();
+    fetchAndSetBookDates();
   }, []);
 
   const isExamDate = (date: Date): string => {
@@ -67,6 +82,13 @@ export default function CalendarComp() {
     return taskDate ? 'blue' : '';
   };
 
+  const isBookDate = (date: Date): string => {
+    const bookDate = bookDates.find(
+      (d) => d.deliveryDay.toLocaleDateString() === date.toLocaleDateString()
+    );
+    return bookDate ? 'green' : '';
+  };
+
   const dateTemplate = (event: CalendarDateTemplateEvent) => {
     const { day, year, month } = event;
     const date = new Date(year, month, day);
@@ -74,17 +96,22 @@ export default function CalendarComp() {
     const message = getHighlightedMessage(date, highlightedMessages);
     const examColor = isExamDate(date);
     const taskColor = isTaskDate(date);
+    const bookColor = isBookDate(date);
 
     const className = isDateHighlighted
       ? examColor
         ? 'highlighted-date exam-date'
         : taskColor
         ? 'highlighted-date task-date'
+        : bookColor
+        ? 'highlighted-date book-date'
         : 'highlighted-date'
       : examColor
       ? 'exam-date'
       : taskColor
       ? 'task-date'
+      : bookColor
+      ? 'book-date'
       : '';
 
     return (
@@ -92,7 +119,13 @@ export default function CalendarComp() {
         className={className}
         title={
           message ||
-          (examColor ? 'Data de Prova' : taskColor ? 'Data de Tarefa' : '')
+          (examColor
+            ? 'Data de Prova'
+            : taskColor
+            ? 'Data de Tarefa'
+            : bookColor
+            ? 'Data de Entrega de Livro'
+            : '')
         }
       >
         {day}
@@ -135,6 +168,17 @@ export default function CalendarComp() {
           }
           .task-date {
             background-color: blue;
+            border-radius: 50%;
+            color: white;
+            padding: 5px;
+            width: 2em;
+            height: 2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .book-date {
+            background-color: green;
             border-radius: 50%;
             color: white;
             padding: 5px;
