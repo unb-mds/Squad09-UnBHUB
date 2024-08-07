@@ -1,4 +1,4 @@
-import { db } from '../../config/firebase';
+import { db } from '../../../config/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
 type EventData = {

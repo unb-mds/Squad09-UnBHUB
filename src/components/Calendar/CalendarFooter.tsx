@@ -27,7 +27,15 @@ export default function Footer() {
     >
       <div
         className="text-blue-600 font-bold mb-3"
-        style={{ position: 'absolute', bottom: '10px', right: '10px' }}
+        style={{
+          position: 'absolute',
+          bottom: '10px',
+          right: '10px',
+          maxWidth: '50%', // Ajusta a largura máxima para evitar ultrapassar
+          overflow: 'hidden', // Oculta o texto que ultrapassar o contêiner
+          textOverflow: 'ellipsis', // Adiciona '...' quando o texto é cortado
+          whiteSpace: 'nowrap', // Evita quebra de linha
+        }}
       >
         <a
           href="https://github.com/unb-mds/Squad09-UnBHUB"
@@ -41,7 +49,15 @@ export default function Footer() {
       </div>
       <div
         className="text-blue-600 font-bold mb-3"
-        style={{ position: 'absolute', top: '10px', left: '10px' }}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          maxWidth: '50%', // Ajusta a largura máxima para evitar ultrapassar
+          overflow: 'hidden', // Oculta o texto que ultrapassar o contêiner
+          textOverflow: 'ellipsis', // Adiciona '...' quando o texto é cortado
+          whiteSpace: 'nowrap', // Evita quebra de linha
+        }}
       >
         Informações retiradas de:{' '}
         <a
