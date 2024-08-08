@@ -3,6 +3,7 @@ import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
+import { MultiSelect } from 'primereact/multiselect';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import CreateSubjectFunction from '../../functions/CreateSubject';
@@ -11,20 +12,30 @@ export default function CreateSubjectComponent(props: {
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }) {
+  const weekDaysOptions = [
+    { label: 'Segunda', value: 'Segunda' },
+    { label: 'Terça', value: 'Terça' },
+    { label: 'Quarta', value: 'Quarta' },
+    { label: 'Quinta', value: 'Quinta' },
+    { label: 'Sexta', value: 'Sexta' },
+  ];
+
   return (
     <Formik
       initialValues={{
         codeSubject: '',
         nameSubject: '',
         professor: '',
-        weekDays: '',
+        weekDays: [],
         schedule: null,
         local: '',
       }}
       onSubmit={(values) => {
-        // Ensure schedule is in correct format
         values.schedule = values.schedule ? new Date(values.schedule) : null;
-        CreateSubjectFunction(values).then(() => {
+        CreateSubjectFunction({
+          ...values,
+          weekDays: values.weekDays.join(', '),
+        }).then(() => {
           props.setVisible(false);
         });
       }}
@@ -32,7 +43,10 @@ export default function CreateSubjectComponent(props: {
         codeSubject: Yup.string().required('O código da matéria é obrigatório'),
         nameSubject: Yup.string().required('O nome da matéria é obrigatório'),
         professor: Yup.string().required('O nome do professor é obrigatório'),
-        weekDays: Yup.string().required('Os dias da semana são obrigatórios'),
+        weekDays: Yup.array().min(
+          1,
+          'Pelo menos um dia da semana deve ser selecionado'
+        ),
         schedule: Yup.date().required('O horário é obrigatório'),
         local: Yup.string().required('O local é obrigatório'),
       })}
@@ -102,13 +116,15 @@ export default function CreateSubjectComponent(props: {
             ) : null}
 
             <FloatLabel>
-              <InputText
+              <MultiSelect
                 className="flex mt-5 mb-5 w-full"
                 id="weekDays"
                 name="weekDays"
                 value={values.weekDays}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                options={weekDaysOptions}
+                onChange={(e) => setFieldValue('weekDays', e.value)}
+                showSelectAll={false}
+                display="chip"
               />
               <label htmlFor="weekDays">Dias da semana</label>
             </FloatLabel>
