@@ -27,6 +27,7 @@ export default function CreateActivityComponent(props: {
         },
         taskName: '',
         deliveryDay: null, // Ajuste para inicializar com null
+        description:'',
       }}
       onSubmit={(values) => {
         CreateActivityFunction(values).then(() => {
@@ -65,6 +66,7 @@ export default function CreateActivityComponent(props: {
             onHide={() => props.CreatesetVisible(false)} // Função para esconder o diálogo quando for fechado.
           >
             {/* Campo de seleção de matéria */}
+            <div className="my-4">
             <SearchDropdownComponent
               selectedSubject={values.subject}
               setSelectedSubject={(props) =>
@@ -74,6 +76,8 @@ export default function CreateActivityComponent(props: {
                 })
               }
             />
+            </div>
+            
             <div>
               {errors.subject && touched.subject ? (
                 <div className="text-red-500">{errors.subject.name}</div>
@@ -111,6 +115,16 @@ export default function CreateActivityComponent(props: {
             {errors.deliveryDay && touched.deliveryDay ? (
               <div className="text-red-500 my-5">{errors.deliveryDay}</div>
             ) : null}
+            <FloatLabel>
+              <InputText
+                className="flex mt-5 mb-5 w-full"
+                id="description"
+                value={values.description}
+                onChange={handleChange('description')}
+                onBlur={handleBlur}
+              />
+              <label htmlFor="description">Descrição (Opcional)</label>
+            </FloatLabel>
 
             {/* Botões para cancelar ou confirmar a operação. */}
             <div className="flex justify-content-between flex-wrap">

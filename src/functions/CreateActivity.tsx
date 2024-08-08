@@ -9,8 +9,8 @@ interface ICreateSubject {
   };
   taskName: string;
   deliveryDay: Timestamp;
-  // description: string;
-  // status: string;
+  description: string;
+  status: number;
 }
 
 export default async function CreateActivityFunction(props: ICreateSubject) {
@@ -28,8 +28,8 @@ export default async function CreateActivityFunction(props: ICreateSubject) {
         taskId: taskID,
         taskName: props.taskName,
         deliveryDay: props.deliveryDay,
-        // status: props.status,
-        // description: props.description,
+        status: 1,
+        description: props.description,
       },
     });
   } catch (error) {
