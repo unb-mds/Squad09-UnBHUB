@@ -33,7 +33,7 @@ export default function CreateSubjectComponent(props: {
         nameSubject: Yup.string().required('O nome da matéria é obrigatório'),
         professor: Yup.string().required('O nome do professor é obrigatório'),
         weekDays: Yup.string().required('Os dias da semana são obrigatórios'),
-        schedule: Yup.date().required('O horário é obrigatório').nullable(),
+        schedule: Yup.date().required('O horário é obrigatório'),
         local: Yup.string().required('O local é obrigatório'),
       })}
     >

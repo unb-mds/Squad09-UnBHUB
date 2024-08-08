@@ -8,7 +8,7 @@ export default function SpecificSubjectTasks({ subject, status }) {
   }
 
   // Filtra e mapeia as tarefas com base no status
-  const filteredTasks = subject.tasks
+  const filteredTasks = Object.values(subject.tasks)
     .filter((task) => task.status === status)
     .map((task, index) => {
       const border = (() => {
@@ -24,7 +24,7 @@ export default function SpecificSubjectTasks({ subject, status }) {
 
       return (
         <Card
-          title={task.name}
+          title={task.taskName}
           className="w-3"
           key={index}
           style={{
@@ -35,8 +35,7 @@ export default function SpecificSubjectTasks({ subject, status }) {
           <div className="flex flex-column">
             <p className="pi pi-arrow-right mt-0"> {task.description}</p>
             <p className="pi pi-arrow-right mt-0">
-              {' '}
-              {formatDate(task.deliveryTime)} {formatTime(task.deliveryTime)}
+              {formatDate(task.deliveryDay)} {formatTime(task.deliveryDay)}
             </p>
           </div>
         </Card>
