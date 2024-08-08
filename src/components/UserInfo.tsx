@@ -8,8 +8,10 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+import { FileUpload } from 'primereact/fileupload'; 
 import Stats from '../components/Stats';
-import { auth, db } from '../../config/firebase';
+import { auth, db, storage } from '../../config/firebase';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 interface IUserInfo {
   userName: string;
@@ -17,6 +19,7 @@ interface IUserInfo {
   course: string;
   currentSemester: number;
   endSemester: number;
+  profileImageUrl?: string;
 }
 
 export default function User() {
@@ -24,8 +27,12 @@ export default function User() {
   const [loading, setLoading] = useState<boolean>(true);
   const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
   const [passwordDialogVisible, setPasswordDialogVisible] = useState<boolean>(false);
+  const [imageDialogVisible, setImageDialogVisible] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -42,6 +49,7 @@ export default function User() {
               course: data.course,
               currentSemester: data.currentSemester,
               endSemester: data.endSemester,
+              profileImageUrl: data.profileImageUrl || ''
             });
           }
           setLoading(false);
@@ -67,19 +75,56 @@ export default function User() {
 
   const handleDeleteAccount = async () => {
     if (auth.currentUser) {
-      const user = auth.currentUser;
-      const credential = EmailAuthProvider.credential(user.email!, password);
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email!, password);
+
+        try {
+            await reauthenticateWithCredential(user, credential);
+
+            // exclui a imagem de perfil do Storage
+            if (userInfo?.profileImageUrl) {
+                const storageRef = ref(storage, `profileImages/${auth.currentUser.uid}`);
+                await deleteObject(storageRef);
+            }
+
+            // exclui o documento do Firestore e a conta do usuário
+            const userDoc = doc(db, 'Users', auth.currentUser.uid);
+            await deleteDoc(userDoc);
+            await deleteUser(user);
+
+            setPasswordDialogVisible(false);
+        } catch (error) {
+            console.error("Erro ao excluir a conta:", error);
+            setErrorMessage('Senha incorreta');
+        }
+    }
+};
+
+  const handleFileUpload = (e: any) => {
+    const file = e.files[0];
+    setSelectedFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const handleImageUpload = async () => {
+    if (auth.currentUser && selectedFile) {
+      const storageRef = ref(storage, `profileImages/${auth.currentUser.uid}`);
+      setUploading(true); // Indica que o upload está começando
 
       try {
-        await reauthenticateWithCredential(user, credential);
+        await uploadBytes(storageRef, selectedFile);
+        const downloadURL = await getDownloadURL(storageRef);
 
         const userDoc = doc(db, 'Users', auth.currentUser.uid);
-        await deleteDoc(userDoc);
-        await deleteUser(user);
+        await updateDoc(userDoc, { 'UserInfo.profileImageUrl': downloadURL });
 
-        setPasswordDialogVisible(false);
+        setUserInfo((prevState) => prevState ? { ...prevState, profileImageUrl: downloadURL } : null);
+        setImagePreview(downloadURL); // Atualiza a imagem exibida na UI
       } catch (error) {
-        setErrorMessage('Senha incorreta');
+        console.error("Erro ao fazer upload da imagem: ", error);
+      } finally {
+        setUploading(false); // Indica que o upload terminou
+        setImageDialogVisible(false);
       }
     }
   };
@@ -96,13 +141,19 @@ export default function User() {
 
   return (
     <div className="surface-50 my-1 mx-3 border-round-xl px-3 py-2">
-      <div className="flex align-items-center">
+      <div className="relative flex align-items-center">
         <Avatar
-          image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+          image={userInfo.profileImageUrl}
+          icon={!userInfo.profileImageUrl ? 'pi pi-user' : undefined}
           size="xlarge"
           className="mr-3"
           shape="circle"
           style={{ width: '120px', height: '120px' }}
+        />
+        <Button
+          icon="pi pi-camera"
+          className="p-button-rounded p-button-secondary absolute top-0 right-0"
+          onClick={() => setImageDialogVisible(true)}
         />
         <div className="flex flex-column">
           <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>
@@ -218,29 +269,62 @@ export default function User() {
       </Dialog>
 
       <Dialog
-        header="Digite sua senha para excluir sua conta"
+        header="Confirme sua senha"
         visible={passwordDialogVisible}
         style={{ width: '30vw' }}
         modal
         onHide={() => setPasswordDialogVisible(false)}
       >
-        <div className="p-float-label my-4">
+        <div className="flex flex-column align-items-center">
           <InputText
-            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full"
+            placeholder="Digite sua senha"
+            className="w-full mb-3"
           />
-          <label htmlFor="password">Senha</label>
           {errorMessage && <small className="p-error">{errorMessage}</small>}
+          <Button
+            type="button"
+            label="Confirmar"
+            icon="pi pi-check"
+            onClick={handleDeleteAccount}
+            autoFocus
+          />
         </div>
-        <Button
-          type="button"
-          label="Confirmar"
-          className="mt-2"
-          onClick={handleDeleteAccount}
-        />
+      </Dialog>
+
+      <Dialog
+        header="Atualizar Imagem de Perfil"
+        visible={imageDialogVisible}
+        style={{ width: '30vw' }}
+        modal
+        onHide={() => setImageDialogVisible(false)}
+      >
+        <div className="flex flex-column align-items-center">
+          <FileUpload
+            name="profileImage"
+            accept="image/*"
+            customUpload
+            uploadHandler={handleFileUpload}
+            mode="basic"
+            auto
+            chooseLabel="Escolher"
+            className="mb-3"
+          />
+          {imagePreview && (
+            <img src={imagePreview} alt="Imagem de perfil" style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '10px' }} />
+          )}
+          <Button
+            type="button"
+            label="Confirmar"
+            icon="pi pi-check"
+            onClick={handleImageUpload}
+            disabled={uploading} // Desativa o botão durante o upload
+            className={uploading ? 'p-button-loading' : ''}
+            autoFocus
+          />
+        </div>
       </Dialog>
     </div>
   );
