@@ -1,3 +1,4 @@
+import { Timestamp } from '@firebase/firestore';
 import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../config/firebase';
 
@@ -7,7 +8,7 @@ interface ICreateSubject {
     name: string;
   };
   taskName: string;
-  // deliveryDay: Timestamp;
+  deliveryDay: Timestamp;
   // description: string;
   // status: string;
 }
@@ -33,6 +34,6 @@ export default async function CreateActivityFunction(props: ICreateSubject) {
     });
   } catch (error) {
     // Captura e exibe erros no console
-    console.error('Erro ao adicionar prova: ', error);
+    console.error('Erro ao adicionar atividade: ', error);
   }
 }

@@ -3,12 +3,13 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar
 
-//Validadores de formulário
+// Validadores de formulário
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-//Função para criar um novo componente de matéria
+// Função para criar um novo componente de matéria
 import CreateActivityFunction from '../../functions/CreateActivity';
 import SearchDropdownComponent from './SearchDropdown';
 
@@ -25,7 +26,7 @@ export default function CreateActivityComponent(props: {
           code: '',
         },
         taskName: '',
-        deliveryDay: '',
+        deliveryDay: null, // Ajuste para inicializar com null
       }}
       onSubmit={(values) => {
         CreateActivityFunction(values).then(() => {
@@ -38,7 +39,9 @@ export default function CreateActivityComponent(props: {
           code: Yup.string().required('O código da matéria é obrigatório'),
         }),
         taskName: Yup.string().required('O nome da atividade é obrigatório'),
-        deliveryDay: Yup.string().required('O dia de entrega é obrigatório'),
+        deliveryDay: Yup.date()
+          .nullable()
+          .required('O dia de entrega é obrigatório'), // Ajuste para validação de data
       })}
     >
       {({
@@ -56,12 +59,12 @@ export default function CreateActivityComponent(props: {
         >
           {/* Componente de diálogo que é exibido ou não com base no valor de props.visible. */}
           <Dialog
-            header="Cadastrar matéria" // Título do diálogo.
+            header="Cadastrar atividade" // Título do diálogo.
             visible={props.visibleCreate} // Define a visibilidade do diálogo.
             style={{ width: '30vw' }} // Define a largura do diálogo.
             onHide={() => props.CreatesetVisible(false)} // Função para esconder o diálogo quando for fechado.
           >
-            {/* Campo de entrada para o código da matéria com um rótulo flutuante. */}
+            {/* Campo de seleção de matéria */}
             <SearchDropdownComponent
               selectedSubject={values.subject}
               setSelectedSubject={(props) =>
@@ -77,34 +80,34 @@ export default function CreateActivityComponent(props: {
               ) : null}
             </div>
 
-            {/* Campo de entrada para o nome da matéria com um rótulo flutuante. */}
+            {/* Campo de entrada para o nome da atividade com um rótulo flutuante. */}
             <FloatLabel>
               <InputText
                 className="flex mt-5 mb-5 w-full"
-                id="Nome da matéria"
+                id="taskName"
                 value={values.taskName}
                 onChange={handleChange('taskName')}
                 onBlur={handleBlur}
               />
-              <label htmlFor="username">Nome da atividade</label>
+              <label htmlFor="taskName">Nome da atividade</label>
             </FloatLabel>
             {errors.taskName && touched.taskName ? (
               <div className="text-red-500">{errors.taskName}</div>
             ) : null}
 
-            {/* Capo de entrada para o dia de entrega com um rótulo flutuante. */}
-
+            {/* Seletor de data para o dia de entrega */}
             <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="Dia de entrega"
+              <Calendar
+                id="deliveryDay"
                 value={values.deliveryDay}
-                onChange={handleChange('deliveryDay')}
+                onChange={(e) => setFieldValue('deliveryDay', e.value)}
                 onBlur={handleBlur}
+                className="flex mt-5 mb-5 w-full"
+                dateFormat="dd/mm/yy"
+                showIcon
               />
-              <label htmlFor="username">Dia de entrega</label>
+              <label htmlFor="deliveryDay">Dia de entrega</label>
             </FloatLabel>
-
             {errors.deliveryDay && touched.deliveryDay ? (
               <div className="text-red-500 my-5">{errors.deliveryDay}</div>
             ) : null}
@@ -120,9 +123,8 @@ export default function CreateActivityComponent(props: {
                 }}
                 onClick={() => props.CreatesetVisible(false)}
               />
-              {/* Botão de cancelar. */}
-              <Button onClick={() => handleSubmit} label="Confirmar" />
               {/* Botão de confirmar. */}
+              <Button onClick={() => handleSubmit()} label="Confirmar" />
             </div>
           </Dialog>
         </form>
