@@ -3,7 +3,7 @@ import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, Timestamp } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, Timestamp } from 'firebase/firestore';
 
 interface Task {
   id: string;
@@ -11,6 +11,7 @@ interface Task {
   taskName: string;
   deliveryDay: Timestamp;
   status: number;
+  description: string;
 }
 
 interface ActivitiesComponentProps {
@@ -63,44 +64,49 @@ export default function ActivitiesComponent({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
-        try {
-          const userDocRef = doc(db, 'Users', user.uid);
-          const userDocSnap = await getDoc(userDocRef);
-          if (userDocSnap.exists()) {
-            const userData = userDocSnap.data();
-            if (userData && userData.subjects) {
-              const subjectsData = Object.values(userData.subjects) as Task[];
-              const today = new Date();
+        const userDocRef = doc(db, 'Users', user.uid);
 
-              const tasks = subjectsData.flatMap((item) => {
-                return Object.keys(item.tasks).map((key) => {
-                  const task = item.tasks[key];
-                  const deliveryDay = task.deliveryDay.toDate();
-                  const status =
-                    deliveryDay < today
-                      ? 2
-                      : task.status === 'Finalizada'
-                      ? 3
-                      : 1;
+        const unsubscribeSnapshot = onSnapshot(userDocRef, (docSnapshot) => {
+          try {
+            if (docSnapshot.exists()) {
+              const userData = docSnapshot.data();
+              if (userData && userData.subjects) {
+                const subjectsData = Object.values(userData.subjects) as Task[];
+                const today = new Date();
 
-                  return {
-                    ...task,
-                    nameSubject: item.nameSubject,
-                    status,
-                  } as Task;
+                const tasks = subjectsData.flatMap((item) => {
+                  return Object.keys(item.tasks).map((key) => {
+                    const task = item.tasks[key];
+                    const deliveryDay = task.deliveryDay.toDate();
+                    const status =
+                      deliveryDay < today
+                        ? 2
+                        : task.status === 'Finalizada'
+                        ? 3
+                        : 1;
+
+                    return {
+                      ...task,
+                      id: key, // Assuming `key` can be used as ID
+                      nameSubject: item.nameSubject,
+                      status,
+                    } as Task;
+                  });
                 });
-              });
 
-              setSubjects(tasks);
+                setSubjects(tasks);
+              }
             }
+          } catch (error) {
+            console.error('Error fetching tasks:', error);
+          } finally {
+            setLoading(false);
           }
-        } catch (error) {
-          console.error('Error fetching tasks:', error);
-        } finally {
-          setLoading(false);
-        }
+        });
+
+        return () => unsubscribeSnapshot();
       } else {
         setLoading(false);
       }
@@ -152,19 +158,36 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus(1).map((task) => (
           <Button
-            className="w-full"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            label={`${task.nameSubject} - Nome da Tarefa: ${
-              task.taskName
-            } - Data de Entrega: ${task.deliveryDay
-              .toDate()
-              .toLocaleDateString()}`}
-            onClick={() => handleTaskClick(task)}
-          />
+          className="w-full"
+          style={{
+            ...cardButtonStyles,
+            borderColor: getStatusLabelColor(task.status),
+          }}
+          key={task.id}
+          onClick={() => handleTaskClick(task)}
+        >
+          <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+          <div
+            className="flex flex-column w-12"
+            style={{ alignItems: 'flex-start', textAlign: 'left' }}
+          >
+            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              Nome da Tarefa: {task.taskName}
+            </i>
+            <p
+              className="pi pi-calendar mb-3"
+              style={{ color: 'white', margin: 0 }}
+            >
+              Data de Entrega:{' '}
+              {task.deliveryDay.toDate().toLocaleDateString()}
+            </p>
+
+            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              Descrição: {task.description}
+            </i>
+
+          </div>
+        </Button>
         ))}
       </div>
 
@@ -183,19 +206,36 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus(2).map((task) => (
           <Button
-            className="w-full"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            label={`${task.nameSubject} - Nome da Tarefa: ${
-              task.taskName
-            } - Data de Entrega: ${task.deliveryDay
-              .toDate()
-              .toLocaleDateString()}`}
-            onClick={() => handleTaskClick(task)}
-          />
+          className="w-full"
+          style={{
+            ...cardButtonStyles,
+            borderColor: getStatusLabelColor(task.status),
+          }}
+          key={task.id}
+          onClick={() => handleTaskClick(task)}
+        >
+          <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+          <div
+            className="flex flex-column w-12"
+            style={{ alignItems: 'flex-start', textAlign: 'left' }}
+          >
+            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              Nome da Tarefa: {task.taskName}
+            </i>
+            <p
+              className="pi pi-calendar mb-3"
+              style={{ color: 'white', margin: 0 }}
+            >
+              Data de Entrega:{' '}
+              {task.deliveryDay.toDate().toLocaleDateString()}
+            </p>
+
+            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              Descrição: {task.description}
+            </i>
+
+          </div>
+        </Button>
         ))}
       </div>
 
@@ -214,19 +254,36 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus(3).map((task) => (
           <Button
-            className="w-full"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            label={`${task.nameSubject} - Nome da Tarefa: ${
-              task.taskName
-            } - Data de Entrega: ${task.deliveryDay
-              .toDate()
-              .toLocaleDateString()}`}
-            onClick={() => handleTaskClick(task)}
-          />
+          className="w-full"
+          style={{
+            ...cardButtonStyles,
+            borderColor: getStatusLabelColor(task.status),
+          }}
+          key={task.id}
+          onClick={() => handleTaskClick(task)}
+        >
+          <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+          <div
+            className="flex flex-column w-12"
+            style={{ alignItems: 'flex-start', textAlign: 'left' }}
+          >
+            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              Nome da Tarefa: {task.taskName}
+            </i>
+            <p
+              className="pi pi-calendar mb-3"
+              style={{ color: 'white', margin: 0 }}
+            >
+              Data de Entrega:{' '}
+              {task.deliveryDay.toDate().toLocaleDateString()}
+            </p>
+
+            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              Descrição: {task.description}
+            </i>
+
+          </div>
+        </Button>
         ))}
       </div>
 
