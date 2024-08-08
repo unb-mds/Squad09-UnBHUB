@@ -9,14 +9,12 @@ export default function Activities() {
   const [visibleEdit, EditsetVisible] = useState<boolean>(false);
   const [task, setTask] = useState({});
   const [selectedActivityData, setSelectedActivityData] = useState<{
-    codeSubject: string;
-    nameActivity: string;
+    taskName: string;
     deliveryDay: string;
   } | null>(null);
 
   const handleEditClick1 = (activityData: {
-    codeSubject: string;
-    nameActivity: string;
+    taskName: string;
     deliveryDay: string;
   }) => {
     setSelectedActivityData(activityData);
