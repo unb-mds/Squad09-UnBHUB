@@ -1,159 +1,162 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar';
+import EditActivityFunction from '../../functions/EditActivity';
+import FinalizeActivityFunction from "../../functions/FinalizedActivity";
 
-// Define um componente funcional React chamado EditActivityComponent.
+
 export default function EditActivityComponent(props: {
   visibleEdit: boolean;
   EditsetVisible: (visibleEdit: boolean) => void;
   activityData: {
-    codeSubject: string;
-    nameActivity: string;
-    deliveryDay: string;
-  };
-  onSave: (updatedData: {
-    codeSubject: string;
-    nameActivity: string;
-    deliveryDay: string;
+    taskName: string;
+    deliveryDay: Date | null;
+    description: string;
+    subjectId: string;
+    taskId: string;
+  } | null;
+
+  onSave: (updatedActivityData: {
+    taskName: string;
+    description: string;
+    deliveryDay: Date | null;
   }) => void;
-  onDelete: () => void; // Função para excluir a atividade
+  onDelete: () => void;
+  activityIndex: number; // Adiciona o índice da atividade
 }) {
-  const { activityData, visibleEdit, EditsetVisible, onSave, onDelete } = props;
-
-  // Usa o estado local para armazenar e atualizar os dados da atividade
+  const { activityData, visibleEdit, EditsetVisible } = props;
   const [isEditing, setIsEditing] = useState(false);
-  const [editedData, setEditedData] = useState(activityData);
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false); // Estado para o diálogo de confirmação
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setEditedData({ ...editedData, [id]: value });
+  const [formData, setFormData] = useState<{
+    taskName: string;
+    description: string;
+    deliveryDay: Date | null;
+    subjectId: string;
+    taskId: string;
+  } | null>(null);
+
+
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
+  useEffect(() => {
+    if (activityData) {
+      setFormData(activityData);
+    }
+  }, [activityData]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (formData) {
+      const { id, value } = e.target;
+      setFormData((prevData) => ({
+        ...prevData,
+        [id]: value,
+      }));
+    }
+  };
+
+  const handleDateChange = (e: { value: Date }) => {
+    if (formData) {
+      setFormData((prevData) => ({
+        ...prevData,
+        deliveryDay: e.value,
+      }));
+    }
   };
 
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão
-    onSave(editedData); // Chama a função passada como prop para salvar os dados
-    setIsEditing(false); // Sai do modo de edição
+    e.preventDefault();
+    if (formData) {
+      EditActivityFunction(formData); // Passa o índice do livro para a função
+      setIsEditing(false);
+      EditsetVisible(false);
+    }
+  };
+
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsEditing(false);
+    if (activityData) {
+      setFormData(activityData);
+    }
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão
-    setShowConfirmDialog(true); // Mostra o diálogo de confirmação
+    e.preventDefault();
+    setShowConfirmDialog(true);
   };
 
   const confirmDelete = () => {
-    onDelete(); // Chama a função passada como prop para excluir a atividade
-    setShowConfirmDialog(false); // Fecha o diálogo de confirmação
-    EditsetVisible(false); // Fecha o diálogo principal
+    props.onDelete();
+    setShowConfirmDialog(false);
+    EditsetVisible(false);
   };
 
   const cancelDelete = () => {
-    setShowConfirmDialog(false); // Fecha o diálogo de confirmação
+    setShowConfirmDialog(false);
   };
 
-  if (!activityData) {
-    return null; // Não renderiza nada se os dados da atividade não estiverem disponíveis
+  if (!visibleEdit) {
+    return null;
   }
 
   return (
     <>
       <Dialog
-        header={isEditing ? 'Editar Atividade' : 'Visualizar Atividade'}
+        header={isEditing ? 'Editar atividade' : 'Visualizar atividade'}
         visible={visibleEdit}
-        style={{ width: '40vw', maxWidth: '600px' }} // Ajusta a largura do diálogo
+        style={{ width: '40vw', maxWidth: '600px' }}
         onHide={() => EditsetVisible(false)}
       >
         <form
           className="flex flex-column gap-5 p-4"
           onSubmit={(e) => e.preventDefault()}
         >
-          {/* Ajustado para Flexbox e adicionado padding */}
           <FloatLabel className="w-full">
             <InputText
               className="w-full"
-              id="codeSubject"
-              value={
-                isEditing ? editedData.codeSubject : activityData.codeSubject
-              }
-              onChange={isEditing ? handleInputChange : undefined}
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+              id="taskName"
+              value={formData?.taskName || ''}
+              onChange={handleChange}
+              disabled={!isEditing}
             />
-            <label htmlFor="codeSubject">Código da matéria</label>
+            <label htmlFor="taskName">Nome da Tarefa</label>
           </FloatLabel>
           <FloatLabel className="w-full">
             <InputText
               className="w-full"
-              id="nameActivity"
-              value={
-                isEditing ? editedData.nameActivity : activityData.nameActivity
-              }
-              onChange={isEditing ? handleInputChange : undefined}
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+              id="description"
+              value={formData?.description || ''}
+              onChange={handleChange}
+              disabled={!isEditing}
             />
-            <label htmlFor="nameActivity">Nome da Atividade</label>
+            <label htmlFor="description">Descrição</label>
           </FloatLabel>
           <FloatLabel className="w-full">
-            <InputText
+            <Calendar
               className="w-full"
               id="deliveryDay"
-              value={
-                isEditing ? editedData.deliveryDay : activityData.deliveryDay
-              }
-              onChange={isEditing ? handleInputChange : undefined}
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+              value={formData?.deliveryDay || null}
+              onChange={handleDateChange}
+              disabled={!isEditing}
+              showIcon
+              dateFormat="dd/mm/yy"
             />
-            <label htmlFor="deliveryDay">Dia de entrega</label>
+            <label htmlFor="deliveryDay">Dia de Entrega</label>
           </FloatLabel>
           <div className="flex justify-content-between gap-2 mt-4">
-            {/* Ajustado para Flexbox e adicionado espaçamento */}
-            {!isEditing ? (
-              <>
-                <Button
-                  outlined
-                  label="Voltar"
-                  style={{
-                    borderColor: '#3e74aeb1',
-                    color: '#3e74aeb1',
-                  }}
-                  onClick={() => EditsetVisible(false)}
-                />
-                <Button
-                  outlined
-                  label="Editar"
-                  style={{
-                    borderColor: '#f3d300',
-                    color: '#f3d300',
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault(); // Previne comportamento padrão do botão
-                    setIsEditing(true); // Alterna para o modo de edição
-                  }}
-                />
-                <Button
-                  outlined
-                  label="Excluir"
-                  style={{
-                    borderColor: '#ff6060',
-                    color: '#ff6060',
-                  }}
-                  onClick={handleDelete} // Mostra o diálogo de confirmação
-                />
-              </>
-            ) : (
+            {isEditing ? (
               <>
                 <Button
                   outlined
                   label="Cancelar"
                   style={{
-                    borderColor: '#3e74aeb1',
-                    color: '#3e74aeb1',
+                    borderColor: '#156eccb0',
+                    color: '#156eccb0',
                   }}
-                  onClick={(e) => {
-                    e.preventDefault(); // Previne comportamento padrão do botão
-                    setIsEditing(false); // Sai do modo de edição
-                  }}
+                  onClick={handleCancel}
                 />
                 <Button
                   outlined
@@ -162,7 +165,45 @@ export default function EditActivityComponent(props: {
                     borderColor: '#f3d300',
                     color: '#f3d300',
                   }}
-                  onClick={handleSave} // Salva as alterações
+                  onClick={handleSave}
+                />
+              </>
+            ) : (
+              <>
+                <Button
+                  outlined
+                  label="Finalizar"
+                  style={{
+                    borderColor: '#3e74aeb1',
+                    color: '#3e74aeb1',
+                  }}
+                  onClick={() => EditsetVisible(false)}
+                />
+                {console.log(activityData?.taskId)}
+              
+
+  
+
+
+                
+                
+                <Button
+                  outlined
+                  label="Editar"
+                  style={{
+                    borderColor: '#f3d300',
+                    color: '#f3d300',
+                  }}
+                  onClick={() => setIsEditing(true)}
+                />
+                <Button
+                  outlined
+                  label="Excluir"
+                  style={{
+                    borderColor: '#ff6060',
+                    color: '#ff6060',
+                  }}
+                  onClick={handleDelete}
                 />
               </>
             )}
@@ -170,11 +211,10 @@ export default function EditActivityComponent(props: {
         </form>
       </Dialog>
 
-      {/* Diálogo de confirmação de exclusão */}
       <Dialog
         header="Confirmar Exclusão"
         visible={showConfirmDialog}
-        style={{ width: '30vw', maxWidth: '400px' }} // Ajusta a largura do diálogo
+        style={{ width: '30vw', maxWidth: '400px' }}
         onHide={() => setShowConfirmDialog(false)}
         footer={
           <div className="flex justify-content-center gap-3 p-0">
@@ -193,7 +233,7 @@ export default function EditActivityComponent(props: {
           </div>
         }
       >
-        <p>Você tem certeza que deseja excluir esta atividade?</p>
+        <p>Você tem certeza que deseja excluir este livro?</p>
       </Dialog>
     </>
   );

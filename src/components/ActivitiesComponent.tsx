@@ -3,7 +3,14 @@ import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, onSnapshot, Timestamp } from 'firebase/firestore';
+import {
+  doc,
+  onSnapshot,
+  Timestamp,
+  updateDoc,
+  deleteDoc,
+} from 'firebase/firestore';
+import EditActivityComponent from '../components/Activities/editActivity';
 
 interface Task {
   id: string;
@@ -18,8 +25,9 @@ interface ActivitiesComponentProps {
   CreatesetVisible: (visibleCreate: boolean) => void;
   setTask: (task: Task) => void;
   EditsetVisible: (activityData: {
-    nameActivity: string;
+    taskName: string;
     deliveryDay: Timestamp;
+    description: string;
   }) => void;
 }
 
@@ -32,36 +40,36 @@ const cardButtonStyles: React.CSSProperties = {
   alignItems: 'flex-start',
   width: '100%',
   backgroundColor: '#2c3e50',
-  minHeight: '4rem', // Garante um tamanho mínimo consistente
-  marginBottom: '0.5rem', // Espaçamento entre os botões
+  minHeight: '4rem',
+  marginBottom: '0.5rem',
 };
 
 const containerStyles: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  gap: '0.5rem', // Espaçamento entre os botões
+  gap: '0.5rem',
 };
 
 const getStatusLabelColor = (status: number): string => {
   switch (status) {
     case 1:
-      return '#007bff'; // Em andamento
+      return '#007bff';
     case 2:
-      return '#dc3545'; // Atrasadas
+      return '#dc3545';
     case 3:
-      return '#28a745'; // Finalizadas
+      return '#28a745';
     default:
-      return '#2c3e50'; // Cor padrão
+      return '#2c3e50';
   }
 };
 
 export default function ActivitiesComponent({
   CreatesetVisible,
-  setTask,
-  EditsetVisible,
 }: ActivitiesComponentProps) {
   const [subjects, setSubjects] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [editDialogVisible, setEditDialogVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -89,7 +97,7 @@ export default function ActivitiesComponent({
 
                     return {
                       ...task,
-                      id: key, // Assuming `key` can be used as ID
+                      id: key,
                       nameSubject: item.nameSubject,
                       status,
                     } as Task;
@@ -123,7 +131,63 @@ export default function ActivitiesComponent({
     subjects.filter((task) => task.status === status);
 
   const handleTaskClick = (task: Task) => {
-    setTask(task);
+    setSelectedTask(task);
+    setEditDialogVisible(true);
+  };
+
+  const handleEditSave = async (updatedData: {
+    taskName: string;
+    deliveryDay: Date | null;
+    description: string;
+  }) => {
+    if (selectedTask) {
+      const updatedTask = {
+        ...selectedTask,
+        taskName: updatedData.taskName,
+        deliveryDay: Timestamp.fromDate(updatedData.deliveryDay as Date),
+        description: updatedData.description || selectedTask.description,
+      };
+
+      const userDocRef = doc(db, 'Users', auth.currentUser?.uid || '');
+      const taskRef = doc(
+        userDocRef,
+        'subjects',
+        selectedTask.nameSubject,
+        'tasks',
+        selectedTask.id
+      );
+
+      await updateDoc(taskRef, {
+        taskName: updatedTask.taskName,
+        deliveryDay: updatedTask.deliveryDay,
+        description: updatedTask.description,
+      });
+
+      setSubjects(
+        subjects.map((task) =>
+          task.id === selectedTask.id ? updatedTask : task
+        )
+      );
+      setEditDialogVisible(false);
+    }
+  };
+
+  const handleEditDelete = async () => {
+    if (selectedTask) {
+      const userDocRef = doc(db, 'Users', auth.currentUser?.uid || '');
+      const taskRef = doc(
+        userDocRef,
+        'subjects',
+        selectedTask.nameSubject,
+        'tasks',
+        selectedTask.id
+      );
+
+      await deleteDoc(taskRef);
+
+      setSubjects(subjects.filter((task) => task.id !== selectedTask.id));
+      setEditDialogVisible(false);
+    }
   };
 
   return (
@@ -158,36 +222,35 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus(1).map((task) => (
           <Button
-          className="w-full"
-          style={{
-            ...cardButtonStyles,
-            borderColor: getStatusLabelColor(task.status),
-          }}
-          key={task.id}
-          onClick={() => handleTaskClick(task)}
-        >
-          <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
-          <div
-            className="flex flex-column w-12"
-            style={{ alignItems: 'flex-start', textAlign: 'left' }}
+            className="w-full"
+            style={{
+              ...cardButtonStyles,
+              borderColor: getStatusLabelColor(task.status),
+            }}
+            key={task.id}
+            onClick={() => handleTaskClick(task)}
           >
-            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-              Nome da Tarefa: {task.taskName}
-            </i>
-            <p
-              className="pi pi-calendar mb-3"
-              style={{ color: 'white', margin: 0 }}
+            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <div
+              className="flex flex-column w-12"
+              style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
-              Data de Entrega:{' '}
-              {task.deliveryDay.toDate().toLocaleDateString()}
-            </p>
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Nome da Tarefa: {task.taskName}
+              </i>
+              <p
+                className="pi pi-calendar mb-3"
+                style={{ color: 'white', margin: 0 }}
+              >
+                Data de Entrega:{' '}
+                {task.deliveryDay.toDate().toLocaleDateString()}
+              </p>
 
-            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-              Descrição: {task.description}
-            </i>
-
-          </div>
-        </Button>
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Descrição: {task.description}
+              </i>
+            </div>
+          </Button>
         ))}
       </div>
 
@@ -206,36 +269,35 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus(2).map((task) => (
           <Button
-          className="w-full"
-          style={{
-            ...cardButtonStyles,
-            borderColor: getStatusLabelColor(task.status),
-          }}
-          key={task.id}
-          onClick={() => handleTaskClick(task)}
-        >
-          <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
-          <div
-            className="flex flex-column w-12"
-            style={{ alignItems: 'flex-start', textAlign: 'left' }}
+            className="w-full"
+            style={{
+              ...cardButtonStyles,
+              borderColor: getStatusLabelColor(task.status),
+            }}
+            key={task.id}
+            onClick={() => handleTaskClick(task)}
           >
-            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-              Nome da Tarefa: {task.taskName}
-            </i>
-            <p
-              className="pi pi-calendar mb-3"
-              style={{ color: 'white', margin: 0 }}
+            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <div
+              className="flex flex-column w-12"
+              style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
-              Data de Entrega:{' '}
-              {task.deliveryDay.toDate().toLocaleDateString()}
-            </p>
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Nome da Tarefa: {task.taskName}
+              </i>
+              <p
+                className="pi pi-calendar mb-3"
+                style={{ color: 'white', margin: 0 }}
+              >
+                Data de Entrega:{' '}
+                {task.deliveryDay.toDate().toLocaleDateString()}
+              </p>
 
-            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-              Descrição: {task.description}
-            </i>
-
-          </div>
-        </Button>
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Descrição: {task.description}
+              </i>
+            </div>
+          </Button>
         ))}
       </div>
 
@@ -254,40 +316,52 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus(3).map((task) => (
           <Button
-          className="w-full"
-          style={{
-            ...cardButtonStyles,
-            borderColor: getStatusLabelColor(task.status),
-          }}
-          key={task.id}
-          onClick={() => handleTaskClick(task)}
-        >
-          <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
-          <div
-            className="flex flex-column w-12"
-            style={{ alignItems: 'flex-start', textAlign: 'left' }}
+            className="w-full"
+            style={{
+              ...cardButtonStyles,
+              borderColor: getStatusLabelColor(task.status),
+            }}
+            key={task.id}
+            onClick={() => handleTaskClick(task)}
           >
-            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-              Nome da Tarefa: {task.taskName}
-            </i>
-            <p
-              className="pi pi-calendar mb-3"
-              style={{ color: 'white', margin: 0 }}
+            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <div
+              className="flex flex-column w-12"
+              style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
-              Data de Entrega:{' '}
-              {task.deliveryDay.toDate().toLocaleDateString()}
-            </p>
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Nome da Tarefa: {task.taskName}
+              </i>
+              <p
+                className="pi pi-calendar mb-3"
+                style={{ color: 'white', margin: 0 }}
+              >
+                Data de Entrega:{' '}
+                {task.deliveryDay.toDate().toLocaleDateString()}
+              </p>
 
-            <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-              Descrição: {task.description}
-            </i>
-
-          </div>
-        </Button>
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Descrição: {task.description}
+              </i>
+            </div>
+          </Button>
         ))}
       </div>
 
-      <Divider className="my-0" />
+      {selectedTask && (
+        <EditActivityComponent
+          visibleEdit={editDialogVisible}
+          EditsetVisible={setEditDialogVisible}
+          activityData={{
+            taskName: selectedTask.taskName,
+            deliveryDay: selectedTask.deliveryDay.toDate(),
+            description: selectedTask.description,
+          }}
+          {...selectedTask}
+          onSave={handleEditSave}
+          onDelete={handleEditDelete}
+        />
+      )}
     </div>
   );
 }
