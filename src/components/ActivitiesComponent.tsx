@@ -57,26 +57,25 @@ export default function ActivitiesComponent1(props: {
           text
           link
           onClick={() => {
-            console.log('Adicionar button clicked');
             props.CreatesetVisible(true);
           }}
         />
       </div>
       <div className="">
-      {Object.values(subjects).map((subject, index) => {
-        if (subject.status === 'Active') {
-          return (
-            <a
-              className="w-3 cursor-pointer"
-              style={{ textDecoration: 'none' }}
-              key={index}
-            >
-              <TasksComponent subject={subject} status={"Active"} />
-            </a>
-          );
-        }
-        return null;
-      })}
+        {Object.values(subjects).map((subject, index) => {
+          if (subject.status === 'Active') {
+            return (
+              <a
+                className="w-3 cursor-pointer"
+                style={{ textDecoration: 'none' }}
+                key={index}
+              >
+                <TasksComponent subject={subject} status={'Active'} />
+              </a>
+            );
+          }
+          return null;
+        })}
       </div>
 
       <Divider className="my-0" />
@@ -93,20 +92,20 @@ export default function ActivitiesComponent1(props: {
         </div>
       </div>
       <div className="">
-      {Object.values(subjects).map((subject, index) => {
-        if (subject.status === 'Active') {
-          return (
-            <a
-              className="w-3 cursor-pointer"
-              style={{ textDecoration: 'none' }}
-              key={index}
-            >
-              <TasksComponent subject={subject} status={"Late"} />
-            </a>
-          );
-        }
-        return null;
-      })}
+        {Object.values(subjects).map((subject, index) => {
+          if (subject.status === 'Active') {
+            return (
+              <a
+                className="w-3 cursor-pointer"
+                style={{ textDecoration: 'none' }}
+                key={index}
+              >
+                <TasksComponent subject={subject} status={'Late'} />
+              </a>
+            );
+          }
+          return null;
+        })}
       </div>
 
       <Divider className="my-0" />
@@ -123,20 +122,20 @@ export default function ActivitiesComponent1(props: {
         </div>
       </div>
       <div className="">
-      {Object.values(subjects).map((subject, index) => {
-        if (subject.status === 'Active') {
-          return (
-            <a
-              className="w-3 cursor-pointer"
-              style={{ textDecoration: 'none' }}
-              key={index}
-            >
-              <TasksComponent subject={subject} status={"Finalized"} />
-            </a>
-          );
-        }
-        return null;
-      })}
+        {Object.values(subjects).map((subject, index) => {
+          if (subject.status === 'Active') {
+            return (
+              <a
+                className="w-3 cursor-pointer"
+                style={{ textDecoration: 'none' }}
+                key={index}
+              >
+                <TasksComponent subject={subject} status={'Finalized'} />
+              </a>
+            );
+          }
+          return null;
+        })}
       </div>
 
       <Divider className="my-0" />

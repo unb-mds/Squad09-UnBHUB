@@ -37,7 +37,6 @@ export default function CalendarComp() {
       try {
         const dates = await fetchExamDates();
         setExamDates(dates);
-        console.log('Exam dates set:', dates); // Adicione este log
       } catch (error) {
         console.error('Error fetching exam dates:', error);
       }
@@ -47,7 +46,6 @@ export default function CalendarComp() {
       try {
         const dates = await fetchTaskDates();
         setTaskDates(dates);
-        console.log('Task dates set:', dates); // Adicione este log
       } catch (error) {
         console.error('Error fetching task dates:', error);
       }
@@ -57,7 +55,6 @@ export default function CalendarComp() {
       try {
         const dates = await fetchBookDates();
         setBookDates(dates);
-        console.log('Book dates set:', dates); // Adicione este log
       } catch (error) {
         console.error('Error fetching book dates:', error);
       }

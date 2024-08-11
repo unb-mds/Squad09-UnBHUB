@@ -30,7 +30,9 @@ export default function SubjectDetailsComponent(props) {
           </div>
           <div>
             <i className="pi pi-clock mr-2" />
-            {formatTime(subject.schedule)}
+            <span>
+              {formatTime(subject.startTime)} as {formatTime(subject.endTime)}
+            </span>
           </div>
         </div>
       </div>

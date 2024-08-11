@@ -27,10 +27,8 @@ export default function DataLivros() {
         const unsubscribeSnapshot = onSnapshot(userDocRef, (doc) => {
           if (doc.exists()) {
             const userData = doc.data();
-            console.log('User data:', userData); // Log user data for debugging
 
             if (userData && userData.books) {
-              console.log('Books data:', userData.books); // Log books data for debugging
               const booksArray = Object.values(userData.books) as Book[];
               setBooksData(booksArray);
             } else {

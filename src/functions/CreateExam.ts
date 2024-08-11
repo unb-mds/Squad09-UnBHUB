@@ -21,8 +21,6 @@ const CreateExamFunction = async (subjectId: string, exam: Exam) => {
     // Cria uma referência ao documento do usuário no Firestore
     const examRef = doc(db, 'Users', auth.currentUser.uid);
 
-    console.log(examRef);
-
     await updateDoc(examRef, {
       [`subjects.${subjectId}.exams.${examID}`]: {
         id: examID,

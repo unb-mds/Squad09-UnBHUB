@@ -36,7 +36,6 @@ export default function EditSubjectComponent(props: {
 
   // Converte o array de dias em uma string separada por vírgulas
   const getWeekDaysString = () => weekDays.join(',');
-
   return (
     <Formik
       enableReinitialize
@@ -45,7 +44,8 @@ export default function EditSubjectComponent(props: {
         nameSubject: props.subject?.nameSubject || '',
         professor: props.subject?.professor || '',
         weekDays: weekDays,
-        schedule: props.subject?.schedule || '',
+        startTime: new Date(props.subject.startTime * 1000),
+        endTime: new Date(props.subject.endTime * 1000),
         local: props.subject?.local || '',
       }}
       onSubmit={(values) => {
@@ -64,7 +64,8 @@ export default function EditSubjectComponent(props: {
         nameSubject: Yup.string().required('O nome da matéria é obrigatório'),
         professor: Yup.string().required('O nome do professor é obrigatório'),
         weekDays: Yup.array().min(1, 'Os dias da semana são obrigatórios'),
-        schedule: Yup.string().required('O horário é obrigatório'),
+        startTime: Yup.date().required('O horário é obrigatório'),
+        endTime: Yup.date().required('O horário é obrigatório'),
         local: Yup.string().required('O local é obrigatório'),
       })}
     >
@@ -151,22 +152,45 @@ export default function EditSubjectComponent(props: {
               ) : null}
             </FloatLabel>
 
-            <FloatLabel>
-              <label htmlFor="schedule">Horário</label>
-              <Calendar
-                className="flex w-full"
-                id="schedule"
-                name="schedule"
-                value={values.schedule}
-                onChange={(e) => setFieldValue('schedule', e.value)}
-                icon={() => <i className="pi pi-clock" />}
-                showIcon
-                timeOnly
-              />
-            </FloatLabel>
-            {errors.schedule && touched.schedule ? (
-              <div className="text-red-500">{errors.schedule}</div>
-            ) : null}
+            <div className="flex gap-3">
+              <FloatLabel>
+                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                  Horário início
+                </label>
+                <Calendar
+                  className="flex-1"
+                  id="startTime"
+                  name="startTime"
+                  value={values.startTime}
+                  onChange={(e) => setFieldValue('startTime', e.value)}
+                  icon={() => <i className="pi pi-clock" />}
+                  showIcon
+                  timeOnly
+                />
+              </FloatLabel>
+              {errors.startTime && touched.startTime ? (
+                <div className="text-red-500">{errors.startTime}</div>
+              ) : null}
+
+              <FloatLabel>
+                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                  Horário fim
+                </label>
+                <Calendar
+                  className="flex-1"
+                  id="endTime"
+                  name="endTime"
+                  value={values.endTime}
+                  onChange={(e) => setFieldValue('endTime', e.value)}
+                  icon={() => <i className="pi pi-clock" />}
+                  showIcon
+                  timeOnly
+                />
+              </FloatLabel>
+              {errors.endTime && touched.endTime ? (
+                <div className="text-red-500">{errors.endTime}</div>
+              ) : null}
+            </div>
 
             <FloatLabel>
               <InputText

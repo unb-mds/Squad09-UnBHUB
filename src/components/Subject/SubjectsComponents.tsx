@@ -8,14 +8,18 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../../../config/firebase';
 import formatTime from '../../functions/FormatTime';
 
-const CardSubjectComponent = ({ subject }) => (
-  <div className="flex flex-column w-12">
-    <p className="pi pi-user mt-0 mb-2">{subject.professor}</p>
-    <p className="pi pi-calendar mb-2">{subject.weekDays}</p>
-    <p className="pi pi-clock mb-2">{formatTime(subject.schedule)}</p>
-    <p className="pi pi-map-marker">{subject.local}</p>
-  </div>
-);
+const CardSubjectComponent = ({ subject }) => {
+  return (
+    <div className="flex flex-column w-12">
+      <p className="pi pi-user mt-0 mb-2">{subject.professor}</p>
+      <p className="pi pi-calendar mb-2">{subject.weekDays}</p>
+      <p className="pi pi-clock mb-2">
+        {formatTime(subject.startTime)} - {formatTime(subject.endTime)}
+      </p>
+      <p className="pi pi-map-marker">{subject.local}</p>
+    </div>
+  );
+};
 
 export default function SubjectsComponent(props: {
   setSubject: (subject: any) => void;
