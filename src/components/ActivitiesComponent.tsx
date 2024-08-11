@@ -88,12 +88,20 @@ export default function ActivitiesComponent({
                   return Object.keys(item.tasks).map((key) => {
                     const task = item.tasks[key];
                     const deliveryDay = task.deliveryDay.toDate();
-                    const status =
-                      deliveryDay < today
-                        ? 2
-                        : task.status === 'Finalizada'
-                        ? 3
-                        : 1;
+                    let status = 0;
+                    
+                    if(deliveryDay < today){
+                      status = 2
+                    }
+                    if(deliveryDay >= today){
+                      status = 1
+                    }
+                    if(task.status == 3){
+                      status = 3
+                    }
+                    if(task.status == 2){
+                      status = 0;
+                    }
 
                     return {
                       ...task,
