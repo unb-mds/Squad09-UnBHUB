@@ -5,8 +5,8 @@ import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
 import EditActivityFunction from '../../functions/EditActivity';
-import FinalizeActivityFunction from "../../functions/FinalizedActivity";
-
+import FinalizeActivityFunction from '../../functions/FinalizedActivity';
+import DeletedActivityFunction from "../../functions/DeleteActivity";
 
 export default function EditActivityComponent(props: {
   visibleEdit: boolean;
@@ -14,9 +14,7 @@ export default function EditActivityComponent(props: {
   activityData: {
     taskName: string;
     deliveryDay: Date | null;
-    description: string;
-    subjectId: string;
-    taskId: string;
+    description: string;    
   } | null;
 
   onSave: (updatedActivityData: {
@@ -30,14 +28,12 @@ export default function EditActivityComponent(props: {
   const { activityData, visibleEdit, EditsetVisible } = props;
   const [isEditing, setIsEditing] = useState(false);
 
+
   const [formData, setFormData] = useState<{
     taskName: string;
     description: string;
     deliveryDay: Date | null;
-    subjectId: string;
-    taskId: string;
   } | null>(null);
-
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
@@ -69,7 +65,7 @@ export default function EditActivityComponent(props: {
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (formData) {
-      EditActivityFunction(formData); // Passa o índice do livro para a função
+      EditActivityFunction(formData, props.subjectId, props.taskId, props.status); // Passa o índice do livro para a função
       setIsEditing(false);
       EditsetVisible(false);
     }
@@ -91,6 +87,7 @@ export default function EditActivityComponent(props: {
   const confirmDelete = () => {
     props.onDelete();
     setShowConfirmDialog(false);
+    DeletedActivityFunction(props.subjectId, props.taskId);
     EditsetVisible(false);
   };
 
@@ -177,16 +174,14 @@ export default function EditActivityComponent(props: {
                     borderColor: '#3e74aeb1',
                     color: '#3e74aeb1',
                   }}
-                  onClick={() => EditsetVisible(false)}
+                  onClick={() =>
+                    FinalizeActivityFunction(
+                      props.subjectId,
+                      props.taskId
+                    ).then(() => EditsetVisible(false))
+                  }
                 />
-                {console.log(activityData?.taskId)}
-              
 
-  
-
-
-                
-                
                 <Button
                   outlined
                   label="Editar"
