@@ -6,6 +6,6 @@ export default async function DeletedActivityFunction(id: string, taskId: string
 
   const subjectRef = doc(db, 'Users', auth.currentUser.uid);
   await updateDoc(subjectRef, {
-    [`subjects.${id}.tasks.${taskId}.status`]: 2,
+    [`subjects.${id}.tasks.${taskId}.status`]: 'Deleted',
   });
 }

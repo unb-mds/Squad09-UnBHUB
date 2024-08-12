@@ -6,6 +6,6 @@ export default async function FinalizeActivityFunction(id: string, taskId: strin
 
   const subjectRef = doc(db, 'Users', auth.currentUser.uid);
   await updateDoc(subjectRef, {
-    [`subjects.${id}.tasks.${taskId}.status`]: 3,
+    [`subjects.${id}.tasks.${taskId}.status`]: 'Finalized',
   });
 }

@@ -8,7 +8,7 @@ interface IEditActivity {
   deliveryDay: Timestamp;
   taskId: string;
   subjectId: string;
-  status: number;
+  status: string;
 }
 
 export default async function EditActivityFunction(props:IEditActivity, subjectId, taskId, status) {
