@@ -3,8 +3,7 @@ import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import {LateActivityFunction} from "../functions/LateActivity";
-import { ActiveActivityFunction } from "../functions/LateActivity";
+import CheckDate from "../functions/CheckDateActivity";
 import {
   doc,
   onSnapshot,
@@ -92,11 +91,11 @@ export default function ActivitiesComponent({
                     const deliveryDay = task.deliveryDay.toDate();
                     let status = '';  
                     if((deliveryDay < today) && task.status!= 'Finalized' && task.status!= 'Deleted'){
-                      LateActivityFunction(task.subjectId, task.taskId)
+                      CheckDate(deliveryDay, today,task.subjectId, task.taskId, task.status)
                       status = 'Late' 
                     }
                     if((deliveryDay >= today) && task.status!= 'Finalized' && task.status!= 'Deleted' ){
-                      ActiveActivityFunction(task.subjectId, task.taskId)
+                      CheckDate(deliveryDay, today, task.subjectId, task.taskId, task.status)
                       status = 'Active'
                     }
                     if(task.status == 'Finalized'){
@@ -106,7 +105,10 @@ export default function ActivitiesComponent({
                       status = 'Deleted';
                     }
 
+    
+
                     return {
+                      
                       ...task,
                       id: key,
                       nameSubject: item.nameSubject,
