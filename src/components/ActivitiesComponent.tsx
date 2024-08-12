@@ -3,6 +3,8 @@ import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import {LateActivityFunction} from "../functions/LateActivity";
+import { ActiveActivityFunction } from "../functions/LateActivity";
 import {
   doc,
   onSnapshot,
@@ -17,7 +19,7 @@ interface Task {
   nameSubject: string;
   taskName: string;
   deliveryDay: Timestamp;
-  status: number;
+  status: string;
   description: string;
 }
 
@@ -50,13 +52,13 @@ const containerStyles: React.CSSProperties = {
   gap: '0.5rem',
 };
 
-const getStatusLabelColor = (status: number): string => {
+const getStatusLabelColor = (status: string) => {
   switch (status) {
-    case 1:
+    case 'Active':
       return '#007bff';
-    case 2:
+    case 'Late':
       return '#dc3545';
-    case 3:
+    case 'Finalized':
       return '#28a745';
     default:
       return '#2c3e50';
@@ -88,19 +90,20 @@ export default function ActivitiesComponent({
                   return Object.keys(item.tasks).map((key) => {
                     const task = item.tasks[key];
                     const deliveryDay = task.deliveryDay.toDate();
-                    let status = 0;
-                    
-                    if(deliveryDay < today){
-                      status = 2
+                    let status = '';  
+                    if((deliveryDay < today) && task.status!= 'Finalized' && task.status!= 'Deleted'){
+                      LateActivityFunction(task.subjectId, task.taskId)
+                      status = 'Late' 
                     }
-                    if(deliveryDay >= today){
-                      status = 1
+                    if((deliveryDay >= today) && task.status!= 'Finalized' && task.status!= 'Deleted' ){
+                      ActiveActivityFunction(task.subjectId, task.taskId)
+                      status = 'Active'
                     }
-                    if(task.status == 3){
-                      status = 3
+                    if(task.status == 'Finalized'){
+                      status = 'Finalized'
                     }
-                    if(task.status == 2){
-                      status = 0;
+                    if(task.status == 'Deleted'){
+                      status = 'Deleted';
                     }
 
                     return {
@@ -135,7 +138,7 @@ export default function ActivitiesComponent({
     return <div>Loading...</div>;
   }
 
-  const getTasksByStatus = (status: number) =>
+  const getTasksByStatus = (status: string) =>
     subjects.filter((task) => task.status === status);
 
   const handleTaskClick = (task: Task) => {
@@ -228,7 +231,7 @@ export default function ActivitiesComponent({
       </div>
 
       <div style={containerStyles}>
-        {getTasksByStatus(1).map((task) => (
+        {getTasksByStatus('Active').map((task) => (
           <Button
             className="w-full"
             style={{
@@ -275,7 +278,7 @@ export default function ActivitiesComponent({
       </div>
 
       <div style={containerStyles}>
-        {getTasksByStatus(2).map((task) => (
+        {getTasksByStatus('Late').map((task) => (
           <Button
             className="w-full"
             style={{
@@ -322,7 +325,7 @@ export default function ActivitiesComponent({
       </div>
 
       <div style={containerStyles}>
-        {getTasksByStatus(3).map((task) => (
+        {getTasksByStatus('Finalized').map((task) => (
           <Button
             className="w-full"
             style={{
