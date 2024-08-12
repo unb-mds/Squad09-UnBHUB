@@ -6,7 +6,7 @@ import { Calendar } from 'primereact/calendar';
 import { MultiSelect } from 'primereact/multiselect';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import CreateSubjectFunction from '../../functions/CreateSubject';
+import CreateSubjectFunction from '../../functions/Subjects/CreateSubject';
 
 export default function CreateSubjectComponent(props: {
   visible: boolean;

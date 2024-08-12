@@ -1,5 +1,5 @@
 import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase';
+import { auth, db } from '../../../config/firebase';
 
 interface ICreateSubject {
   codeSubject: string;

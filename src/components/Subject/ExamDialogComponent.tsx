@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import CreateExamFunction from '../../functions/CreateExam';
+import CreateExamFunction from '../../functions/Subjects/CreateExam';
 
 interface ExamDialogComponentProps {
   visible: boolean;

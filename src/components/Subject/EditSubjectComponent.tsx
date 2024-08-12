@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import { Formik } from 'formik';
 import { Calendar } from 'primereact/calendar';
 import * as Yup from 'yup';
-import EditSubjectFunction from '../../functions/EditSubject';
+import EditSubjectFunction from '../../functions/Subjects/EditSubject';
 import { MultiSelect } from 'primereact/multiselect'; // Usando MultiSelect para escolher múltiplas opções
 import { useEffect, useState } from 'react';
 

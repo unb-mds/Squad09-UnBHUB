@@ -1,7 +1,7 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase';
+import { auth, db } from '../../../config/firebase';
 
-export default async function DeleteExamFunction(
+export default async function FinalizeExamFunction(
   SubjectID: string,
   ExamID: string
 ) {
@@ -9,6 +9,6 @@ export default async function DeleteExamFunction(
 
   const subjectRef = doc(db, 'Users', auth.currentUser.uid);
   await updateDoc(subjectRef, {
-    [`subjects.${SubjectID}.exams.${ExamID}.status`]: 'Deleted',
+    [`subjects.${SubjectID}.exams.${ExamID}.status`]: 'Finalized',
   });
 }

@@ -1,6 +1,17 @@
 import { Card } from 'primereact/card';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
+import CheckDate from '../../functions/CheckDateActivity';
+import { Timestamp } from 'firebase/firestore';
+
+interface Task {
+  deliveryDay: Timestamp;
+  description: string;
+  status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
+}
 
 export default function SpecificSubjectTasks({ subject, status }) {
   if (!subject || !subject.tasks) {
@@ -10,7 +21,33 @@ export default function SpecificSubjectTasks({ subject, status }) {
   // Filtra e mapeia as tarefas com base no status
   const filteredTasks = Object.values(subject.tasks)
     .filter((task) => task.status === status)
-    .map((task, index) => {
+    .map((task: Task, index) => {
+      const deliveryDay = task.deliveryDay.toDate();
+      const today = new Date();
+      let status = '';
+      if (
+        deliveryDay < today &&
+        task.status != 'Finalized' &&
+        task.status != 'Deleted'
+      ) {
+        CheckDate(deliveryDay, today, task.subjectId, task.taskId, task.status);
+        status = 'Late';
+      }
+      if (
+        deliveryDay >= today &&
+        task.status != 'Finalized' &&
+        task.status != 'Deleted'
+      ) {
+        CheckDate(deliveryDay, today, task.subjectId, task.taskId, task.status);
+        status = 'Active';
+      }
+      if (task.status == 'Finalized') {
+        status = 'Finalized';
+      }
+      if (task.status == 'Deleted') {
+        status = 'Deleted';
+      }
+
       const border = (() => {
         switch (status) {
           case 'Active':

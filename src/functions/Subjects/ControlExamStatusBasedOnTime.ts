@@ -1,6 +1,6 @@
 import FinalizeExamFunction from './FinalizeExam';
-import formatDate from './FormatDate';
-import formatTime from './FormatTime';
+import formatDate from '../FormatDate';
+import formatTime from '../FormatTime';
 import ActivateExamFunction from './ActivateExamFunction';
 
 import { Timestamp } from 'firebase/firestore';

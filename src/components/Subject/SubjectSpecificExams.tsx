@@ -6,7 +6,7 @@ import { useState } from 'react';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import EditExamDialog from './EditExamDialog';
-import ControlExamStatusBasedOnTime from '../../functions/ControlExamStatusBasedOnTime';
+import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
 
 interface Exam {
   code: string;
