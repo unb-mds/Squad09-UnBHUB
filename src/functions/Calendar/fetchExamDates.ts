@@ -14,7 +14,14 @@ interface Exam {
 
 interface Subject {
   codeSubject: string;
-  exams: Exam[];
+  exams: Map<string, Exam>;
+}
+
+interface UserData {
+  subjects: Record<
+    string,
+    { codeSubject: string; exams: Record<string, Exam> }
+  >;
 }
 
 export const fetchExamDates = async (): Promise<
@@ -29,15 +36,27 @@ export const fetchExamDates = async (): Promise<
         const userDocRef = doc(db, 'Users', user.uid);
         const unsubscribeSnapshot = onSnapshot(userDocRef, (doc) => {
           if (doc.exists()) {
-            const userData = doc.data();
+            const userData = doc.data() as UserData;
             if (userData && userData.subjects) {
-              const subjects: Map<string, Subject> = new Map(
-                Object.entries(userData.subjects)
+              const subjectsMap = new Map(
+                Object.entries(userData.subjects).map(
+                  ([subjectId, subjectData]) => {
+                    const examsMap = new Map(Object.entries(subjectData.exams));
+                    return [
+                      subjectId,
+                      { codeSubject: subjectData.codeSubject, exams: examsMap },
+                    ];
+                  }
+                )
               );
-              subjects.forEach((subject) => {
+
+              subjectsMap.forEach((subject) => {
                 subject.exams.forEach((exam) => {
                   examDates.push({
-                    date: exam.date.toDate().toLocaleDateString(),
+                    date:
+                      typeof exam.date === 'string'
+                        ? new Date(exam.date).toLocaleDateString()
+                        : exam.date.toDate().toLocaleDateString(),
                     codeSubject: subject.codeSubject,
                   });
                 });
