@@ -9,15 +9,15 @@ export default function Library() {
   const [visibleEdit1, EditsetVisible1] = useState<boolean>(false);
   const [selectedBookData, setSelectedBookData] = useState<{
     id: string;
-    codeBook: string;
-    nameBook: string;
+    codeSubject: string;
+    bookName: string;
     deliveryDay: string;
   } | null>(null);
 
   const handleEditClick = (bookData: {
     id: string;
-    codeBook: string;
-    nameBook: string;
+    codeSubject: string;
+    bookName: string;
     deliveryDay: string;
   }) => {
     setSelectedBookData(bookData);

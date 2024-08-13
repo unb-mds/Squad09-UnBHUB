@@ -1,26 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
+import { Timestamp } from 'firebase/firestore';
 import EditBookFunction from '../../functions/EditBook';
+import DeleteBookFunction from '../../functions/DeleteBook';
 
+interface BookData {
+  id: string;
+  codeSubject: string;
+  bookName: string;
+  deliveryDay: Timestamp | null; // Tipar como Timestamp ou null
+}
 export default function EditBookComponent(props: {
   visibleEdit1: boolean;
   EditsetVisible1: (visibleEdit1: boolean) => void;
-  bookData: {
-    codeSubject: string;
-    bookName: string;
-    deliveryDay: Date | null;
-  } | null;
-  onSave: (updatedBookData: {
-    codeSubject: string;
-    bookName: string;
-    deliveryDay: Date | null;
-  }) => void;
+  bookData: BookData | null;
+  onSave: (updatedBookData: BookData) => void;
   onDelete: () => void;
-  bookIndex: number; // Adiciona o índice do livro
 }) {
   const { bookData, visibleEdit1, EditsetVisible1 } = props;
   const [isEditing, setIsEditing] = useState(false);
@@ -35,7 +34,14 @@ export default function EditBookComponent(props: {
 
   useEffect(() => {
     if (bookData) {
-      setFormData(bookData);
+      setFormData({
+        codeSubject: bookData.codeSubject,
+        bookName: bookData.bookName,
+        deliveryDay:
+          bookData.deliveryDay instanceof Timestamp
+            ? bookData.deliveryDay.toDate()
+            : null,
+      });
     }
   }, [bookData]);
 
@@ -58,10 +64,20 @@ export default function EditBookComponent(props: {
     }
   };
 
-  const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (formData) {
-      EditBookFunction(formData); // Passa o índice do livro para a função
+    if (formData && bookData) {
+      // Verifica se deliveryDay não é null
+      const deliveryDayTimestamp = formData.deliveryDay
+        ? Timestamp.fromDate(formData.deliveryDay)
+        : null;
+
+      await EditBookFunction({
+        id: bookData.id,
+        codeSubject: formData.codeSubject,
+        bookName: formData.bookName,
+        deliveryDay: deliveryDayTimestamp,
+      });
       setIsEditing(false);
       EditsetVisible1(false);
     }
@@ -71,7 +87,14 @@ export default function EditBookComponent(props: {
     e.preventDefault();
     setIsEditing(false);
     if (bookData) {
-      setFormData(bookData);
+      setFormData({
+        codeSubject: bookData.codeSubject,
+        bookName: bookData.bookName,
+        deliveryDay:
+          bookData.deliveryDay instanceof Timestamp
+            ? bookData.deliveryDay.toDate()
+            : null,
+      });
     }
   };
 
@@ -81,7 +104,7 @@ export default function EditBookComponent(props: {
   };
 
   const confirmDelete = () => {
-    props.onDelete();
+    DeleteBookFunction(bookData?.id || '');
     setShowConfirmDialog(false);
     EditsetVisible1(false);
   };

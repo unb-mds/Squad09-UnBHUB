@@ -1,7 +1,8 @@
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
-import DeleteSubjectFunction from '../../functions/DeleteSubject';
-import FinalizeSubjectFunction from '../../functions/FinalizeSubject';
+import DeleteSubjectFunction from '../../functions/Subjects/DeleteSubject';
+import FinalizeSubjectFunction from '../../functions/Subjects/FinalizeSubject';
+import ReturnToActiveSubjectFunction from '../../functions/Subjects/ReturnToActiveSubject';
 
 export default function SubjectDialogComponent(props: {
   subject: object;
@@ -14,7 +15,6 @@ export default function SubjectDialogComponent(props: {
       <Dialog
         header="Escolha uma Ação" // Título do diálogo.
         visible={props.visibleSubject} // Define a visibilidade do diálogo.
-        style={{ width: '20vw', height: '23vw' }} // Define a largura do diálogo.
         onHide={() => props.setVisibleSubject(false)} // Função para esconder o diálogo quando for fechado.
       >
         <div className="flex flex-column gap-2">
@@ -32,13 +32,23 @@ export default function SubjectDialogComponent(props: {
               props.setEditVisible(true);
             }}
           />
-          <Button
-            label="Finalizar"
-            onClick={() => {
-              FinalizeSubjectFunction(props.subject.id);
-              props.setVisibleSubject(false);
-            }}
-          />
+          {props.subject.status === 'Active' ? (
+            <Button
+              label="Finalizar"
+              onClick={() => {
+                FinalizeSubjectFunction(props.subject.id);
+                props.setVisibleSubject(false);
+              }}
+            />
+          ) : props.subject.status === 'Finalized' ? (
+            <Button
+              label="Por em andamento"
+              onClick={() => {
+                ReturnToActiveSubjectFunction(props.subject.id);
+                props.setVisibleSubject(false);
+              }}
+            />
+          ) : null}
           <Button
             label="Excluir"
             style={{

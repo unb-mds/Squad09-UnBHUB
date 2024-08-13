@@ -1,12 +1,13 @@
 import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase';
+import { auth, db } from '../../../config/firebase';
 
 interface ICreateSubject {
   codeSubject: string;
   nameSubject: string;
   professor: string;
   weekDays: string;
-  schedule: string;
+  startTime: Date;
+  endTime: Date;
   local: string;
 }
 
@@ -25,7 +26,8 @@ export default async function CreateSubjectFunction(props: ICreateSubject) {
           nameSubject: props.nameSubject,
           professor: props.professor,
           weekDays: props.weekDays,
-          schedule: props.schedule,
+          startTime: props.startTime,
+          endTime: props.endTime,
           local: props.local,
           tasks: [],
           exams: [],
