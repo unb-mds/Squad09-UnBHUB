@@ -1,24 +1,34 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
+import { Timestamp } from 'firebase/firestore';
 
 interface Task {
-  deliveryTime: any; // Pode ser Timestamp ou Date, dependendo da origem dos dados
+  deliveryDay: Timestamp;
   description: string;
-  name: string;
   status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
 }
 
 interface Subject {
   codeSubject: string;
-  tasks: Task[];
+  tasks: Map<string, Task>;
+}
+
+interface UserData {
+  subjects: Record<
+    string,
+    { codeSubject: string; tasks: Record<string, Task> }
+  >;
 }
 
 export const fetchTaskDates = async (): Promise<
-  { deliveryTime: Date; description: string }[]
+  { deliveryDay: Date; description: string }[]
 > => {
   const auth = getAuth();
-  const taskDates: { deliveryTime: Date; description: string }[] = [];
+  const taskDates: { deliveryDay: Date; description: string }[] = [];
 
   return new Promise((resolve, reject) => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -26,17 +36,16 @@ export const fetchTaskDates = async (): Promise<
         const userDocRef = doc(db, 'Users', user.uid);
         const unsubscribeSnapshot = onSnapshot(userDocRef, (doc) => {
           if (doc.exists()) {
-            const userData = doc.data();
+            const userData = doc.data() as UserData;
             if (userData && userData.subjects) {
-              const subjects: Map<string, Subject> = new Map(
-                Object.entries(userData.subjects)
-              );
-              subjects.forEach((subject) => {
-                subject.tasks.forEach((task) => {
+              Object.values(userData.subjects).forEach((subject) => {
+                Object.values(subject.tasks).forEach((task) => {
+                  const deliveryDay =
+                    task.deliveryDay instanceof Timestamp
+                      ? task.deliveryDay.toDate()
+                      : new Date(task.deliveryDay.seconds * 1000); // Conversão alternativa
                   taskDates.push({
-                    deliveryTime: task.deliveryTime.toDate
-                      ? task.deliveryTime.toDate()
-                      : new Date(task.deliveryTime),
+                    deliveryDay: deliveryDay,
                     description: task.description,
                   });
                 });

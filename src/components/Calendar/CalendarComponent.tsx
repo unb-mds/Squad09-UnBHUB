@@ -20,7 +20,7 @@ export default function CalendarComp() {
     { date: string; codeSubject: string }[]
   >([]);
   const [taskDates, setTaskDates] = useState<
-    { deliveryTime: Date; description: string }[]
+    { deliveryDay: Date; description: string }[]
   >([]);
   const [bookDates, setBookDates] = useState<
     { deliveryDay: Date; bookName: string }[]
@@ -74,7 +74,7 @@ export default function CalendarComp() {
 
   const isTaskDate = (date: Date): string => {
     const taskDate = taskDates.find(
-      (d) => d.deliveryTime.toLocaleDateString() === date.toLocaleDateString()
+      (d) => d.deliveryDay.toLocaleDateString() === date.toLocaleDateString()
     );
     return taskDate ? 'blue' : '';
   };
