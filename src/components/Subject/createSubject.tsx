@@ -3,28 +3,39 @@ import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
+import { MultiSelect } from 'primereact/multiselect';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import CreateSubjectFunction from '../../functions/CreateSubject';
+import CreateSubjectFunction from '../../functions/Subjects/CreateSubject';
 
 export default function CreateSubjectComponent(props: {
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }) {
+  const weekDaysOptions = [
+    { label: 'Segunda', value: 'Segunda' },
+    { label: 'Terça', value: 'Terça' },
+    { label: 'Quarta', value: 'Quarta' },
+    { label: 'Quinta', value: 'Quinta' },
+    { label: 'Sexta', value: 'Sexta' },
+  ];
+
   return (
     <Formik
       initialValues={{
         codeSubject: '',
         nameSubject: '',
         professor: '',
-        weekDays: '',
-        schedule: null,
+        weekDays: [],
+        startTime: null,
+        endTime: null,
         local: '',
       }}
       onSubmit={(values) => {
-        // Ensure schedule is in correct format
-        values.schedule = values.schedule ? new Date(values.schedule) : null;
-        CreateSubjectFunction(values).then(() => {
+        CreateSubjectFunction({
+          ...values,
+          weekDays: values.weekDays.join(', '),
+        }).then(() => {
           props.setVisible(false);
         });
       }}
@@ -32,8 +43,12 @@ export default function CreateSubjectComponent(props: {
         codeSubject: Yup.string().required('O código da matéria é obrigatório'),
         nameSubject: Yup.string().required('O nome da matéria é obrigatório'),
         professor: Yup.string().required('O nome do professor é obrigatório'),
-        weekDays: Yup.string().required('Os dias da semana são obrigatórios'),
-        schedule: Yup.date().required('O horário é obrigatório').nullable(),
+        weekDays: Yup.array().min(
+          1,
+          'Pelo menos um dia da semana deve ser selecionado'
+        ),
+        startTime: Yup.date().required('O horário é obrigatório'),
+        endTime: Yup.date().required('O horário é obrigatório'),
         local: Yup.string().required('O local é obrigatório'),
       })}
     >
@@ -102,13 +117,15 @@ export default function CreateSubjectComponent(props: {
             ) : null}
 
             <FloatLabel>
-              <InputText
+              <MultiSelect
                 className="flex mt-5 mb-5 w-full"
                 id="weekDays"
                 name="weekDays"
                 value={values.weekDays}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                options={weekDaysOptions}
+                onChange={(e) => setFieldValue('weekDays', e.value)}
+                showSelectAll={false}
+                display="chip"
               />
               <label htmlFor="weekDays">Dias da semana</label>
             </FloatLabel>
@@ -116,22 +133,45 @@ export default function CreateSubjectComponent(props: {
               <div className="text-red-500">{errors.weekDays}</div>
             ) : null}
 
-            <FloatLabel>
-              <label htmlFor="schedule">Horário</label>
-              <Calendar
-                className="w-full"
-                id="schedule"
-                name="schedule"
-                value={values.schedule}
-                onChange={(e) => setFieldValue('schedule', e.value)}
-                icon={() => <i className="pi pi-clock" />}
-                showIcon
-                timeOnly
-              />
-            </FloatLabel>
-            {errors.schedule && touched.schedule ? (
-              <div className="text-red-500">{errors.schedule}</div>
-            ) : null}
+            <div className="flex gap-3">
+              <FloatLabel>
+                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                  Horário início
+                </label>
+                <Calendar
+                  className="flex-1"
+                  id="startTime"
+                  name="startTime"
+                  value={values.startTime}
+                  onChange={(e) => setFieldValue('startTime', e.value)}
+                  icon={() => <i className="pi pi-clock" />}
+                  showIcon
+                  timeOnly
+                />
+              </FloatLabel>
+              {errors.startTime && touched.startTime ? (
+                <div className="text-red-500">{errors.startTime}</div>
+              ) : null}
+
+              <FloatLabel>
+                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                  Horário fim
+                </label>
+                <Calendar
+                  className="flex-1"
+                  id="endTime"
+                  name="endTime"
+                  value={values.endTime}
+                  onChange={(e) => setFieldValue('endTime', e.value)}
+                  icon={() => <i className="pi pi-clock" />}
+                  showIcon
+                  timeOnly
+                />
+              </FloatLabel>
+              {errors.endTime && touched.endTime ? (
+                <div className="text-red-500">{errors.endTime}</div>
+              ) : null}
+            </div>
 
             <FloatLabel>
               <InputText

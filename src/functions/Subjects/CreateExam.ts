@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase';
+import { auth, db } from '../../../config/firebase';
 
 // Interface para definir a estrutura de um objeto Exam (prova)
 interface Exam {
@@ -20,8 +20,6 @@ const CreateExamFunction = async (subjectId: string, exam: Exam) => {
 
     // Cria uma referência ao documento do usuário no Firestore
     const examRef = doc(db, 'Users', auth.currentUser.uid);
-
-    console.log(examRef);
 
     await updateDoc(examRef, {
       [`subjects.${subjectId}.exams.${examID}`]: {

@@ -2,23 +2,28 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { Avatar } from 'primereact/avatar';
 import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../../config/firebase';
-import formatTime from '../../functions/FormatTime';
 
-const CardSubjectComponent = ({ subject }) => (
-  <div className="flex flex-column w-12">
-    <p className="pi pi-user mt-0 mb-2">{subject.professor}</p>
-    <p className="pi pi-calendar mb-2">{subject.weekDays}</p>
-    <p className="pi pi-clock mb-2">{formatTime(subject.schedule)}</p>
-    <p className="pi pi-map-marker">{subject.local}</p>
-  </div>
-);
+import SubjectCardConstructorComponent from './subjectsCardConstructor';
+
+interface Subject {
+  codeSubject: string;
+  nameSubject: string;
+  professor: string;
+  weekDays: string;
+  startTime: Date;
+  endTime: Date;
+  local: string;
+  status: string;
+  id: string;
+  tasks: [];
+  exams: [];
+}
 
 export default function SubjectsComponent(props: {
-  setSubject: (subject: any) => void;
+  setSubject: (subject: Subject) => void;
   setVisible: (visible: boolean) => void;
   setVisibleSubject: (visibleSubject: boolean) => void;
 }) {
@@ -31,7 +36,7 @@ export default function SubjectsComponent(props: {
           if (doc.exists() && doc.data().subjects) {
             setSubjects(doc.data().subjects);
           } else {
-            setSubjects([]); // Define como uma lista vazia se não existir
+            setSubjects([]);
           }
         });
 
@@ -98,75 +103,24 @@ export default function SubjectsComponent(props: {
       </div>
       <Divider className="mb-4"></Divider>
 
-      <div className="flex align-items-center flex-wrap">
-        {subjects === null || subjects.length === 0 ? (
-          <p>No subjects found</p>
-        ) : (
-          Object.values(subjects).map((subject, index) => {
-            if (subject.status === 'Active') {
-              return (
-                <a
-                  className="w-3 cursor-pointer"
-                  style={{ textDecoration: 'none' }}
-                  onClick={() => {
-                    props.setSubject(subject);
-                    props.setVisibleSubject(true);
-                  }}
-                  key={index}
-                >
-                  <Card
-                    title={subject.codeSubject + ' - ' + subject.nameSubject}
-                    className="h-20rem my-1"
-                    style={{
-                      color: 'white',
-                      border: '2px solid #3498db',
-                    }}
-                  >
-                    <CardSubjectComponent subject={subject} />
-                  </Card>
-                </a>
-              );
-            }
-          })
-        )}
-      </div>
+      <SubjectCardConstructorComponent
+        setSubject={props.setSubject}
+        setVisibleSubject={props.setVisibleSubject}
+        status="Active"
+        UserSubjects={subjects}
+      />
+
       <div className="flex align-items-center px-6">
         <i className="pi pi-check my-3 mx-3" style={{ color: 'green' }} />
         Finalizadas
       </div>
       <Divider className="mb-4"></Divider>
-      <div className="flex align-items-center flex-wrap">
-        {subjects === null || subjects.length === 0 ? (
-          <p>No subjects found</p>
-        ) : (
-          Object.values(subjects).map((subject, index) => {
-            if (subject.status === 'Finalized') {
-              return (
-                <a
-                  className="w-3 cursor-pointer"
-                  style={{ textDecoration: 'none' }}
-                  onClick={() => {
-                    props.setSubject(subject);
-                    props.setVisibleSubject(true);
-                  }}
-                  key={index}
-                >
-                  <Card
-                    title={subject.codeSubject + ' - ' + subject.nameSubject}
-                    className="h-20rem my-1"
-                    style={{
-                      color: 'white',
-                      border: '2px solid #3498db',
-                    }}
-                  >
-                    <CardSubjectComponent subject={subject} />
-                  </Card>
-                </a>
-              );
-            }
-          })
-        )}
-      </div>
+      <SubjectCardConstructorComponent
+        setSubject={props.setSubject}
+        setVisibleSubject={props.setVisibleSubject}
+        status="Finalized"
+        UserSubjects={subjects}
+      />
     </div>
   );
 }

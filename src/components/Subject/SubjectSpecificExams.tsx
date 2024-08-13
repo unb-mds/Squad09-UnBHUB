@@ -5,12 +5,14 @@ import { DataTable } from 'primereact/datatable';
 import { useState } from 'react';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
-import EditExamDialog from './EditExamDialog'; // Supondo que o componente de diálogo esteja neste caminho
+import EditExamDialog from './EditExamDialog';
+import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
 
 interface Exam {
   code: string;
   score: string;
   date: Date;
+  id: string;
   time: Date;
   room: string;
   status: string;
@@ -29,6 +31,8 @@ export default function SubjectSpecificExams({ subject }) {
     setDialogVisible(false);
     setCurrentExam(null);
   };
+
+  ControlExamStatusBasedOnTime(subject);
 
   const filteredExams = Object.values(subject.exams).filter(
     (exam) => exam.status !== 'Deleted'

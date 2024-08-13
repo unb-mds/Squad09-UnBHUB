@@ -1,10 +1,10 @@
+import { Timestamp } from 'firebase/firestore';
 import { Card } from 'primereact/card';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
-import { Timestamp } from "firebase/firestore";
 
 interface Task {
-  codeSubject: string;  
+  codeSubject: string;
   taskName: string;
   description: string;
   deliveryDay: Timestamp;
@@ -18,15 +18,23 @@ interface Subject {
 interface TasksComponentProps {
   subject: Subject;
   status: string;
+  handleEditClick: (activityData: {
+    taskName: string;
+    deliveryDay: Timestamp;
+    codeSubject: string;
+  }) => void;
 }
 
-export default function TasksComponent({ subject, status }: TasksComponentProps) {
+export default function TasksComponent({
+  subject,
+  status,
+  handleEditClick,
+}: TasksComponentProps) {
   if (!subject || !subject.tasks) {
-    return null; // Retorna null se subject ou subject.tasks não estiver definido
+    return null;
   }
 
-  // Filtra e mapeia as tarefas com base no status
-  const filteredTasks = subject.tasks
+  const filteredTasks = Object.values(subject.tasks)
     .filter((task) => task.status === status)
     .map((task, index) => {
       const border = (() => {
@@ -37,6 +45,8 @@ export default function TasksComponent({ subject, status }: TasksComponentProps)
             return '2px solid #e41223';
           case 'Finalized':
             return '2px solid #12e42b';
+          default:
+            return '2px solid gray'; // Default border color if status is not matched
         }
       })();
 
@@ -51,11 +61,22 @@ export default function TasksComponent({ subject, status }: TasksComponentProps)
           }}
         >
           <div className="flex flex-column">
-            <p className="pi pi-arrow-right mt-0"> {task.taskName}</p>
-            <p className="pi pi-arrow-right mt-0">  
+            <p
+              className="pi pi-arrow-right mt-0"
+              onClick={() =>
+                handleEditClick({
+                  taskName: task.taskName,
+                  deliveryDay: task.deliveryDay,
+                  codeSubject: task.codeSubject,
+                })
+              }
+            >
               {' '}
-              {formatDate(task.deliveryDay)} {formatTime(task.deliveryDay)}
-
+              {task.taskName}
+            </p>
+            <p className="pi pi-arrow-right mt-0">
+              {formatDate(task.deliveryDay.toDate())}{' '}
+              {formatTime(task.deliveryDay.toDate())}
             </p>
             <p className="pi pi-arrow-right mt-0"> {task.description}</p>
           </div>
@@ -65,7 +86,7 @@ export default function TasksComponent({ subject, status }: TasksComponentProps)
 
   return (
     <div className="flex w-full">
-      {filteredTasks.length > 0 ? filteredTasks : null}
+      {filteredTasks.length > 0 ? filteredTasks : <p>No tasks available</p>}
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
-import DeleteSubjectFunction from '../../functions/DeleteSubject';
-import FinalizeSubjectFunction from '../../functions/FinalizeSubject';
-import ReturnToActiveSubjectFunction from '../../functions/ReturnToActiveSubject';
+import DeleteSubjectFunction from '../../functions/Subjects/DeleteSubject';
+import FinalizeSubjectFunction from '../../functions/Subjects/FinalizeSubject';
+import ReturnToActiveSubjectFunction from '../../functions/Subjects/ReturnToActiveSubject';
 
 export default function SubjectDialogComponent(props: {
   subject: object;

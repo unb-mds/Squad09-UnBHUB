@@ -5,26 +5,57 @@ import { InputText } from 'primereact/inputtext';
 import { Formik } from 'formik';
 import { Calendar } from 'primereact/calendar';
 import * as Yup from 'yup';
-import EditSubjectFunction from '../../functions/EditSubject';
+import EditSubjectFunction from '../../functions/Subjects/EditSubject';
+import { MultiSelect } from 'primereact/multiselect'; // Usando MultiSelect para escolher múltiplas opções
+import { useEffect, useState } from 'react';
 
 export default function EditSubjectComponent(props: {
   visible: boolean;
   setVisible: (visible: boolean) => void;
   subject: any;
 }) {
+  const [weekDays, setWeekDays] = useState<string[]>(
+    props.subject?.weekDays?.split(',') || []
+  );
+
+  useEffect(() => {
+    if (props.subject) {
+      setWeekDays(
+        props.subject.weekDays ? props.subject.weekDays.split(',') : []
+      );
+    }
+  }, [props.subject]);
+
+  const weekDaysOptions = [
+    { label: 'Segunda', value: 'Segunda' },
+    { label: 'Terça', value: 'Terça' },
+    { label: 'Quarta', value: 'Quarta' },
+    { label: 'Quinta', value: 'Quinta' },
+    { label: 'Sexta', value: 'Sexta' },
+  ];
+
+  // Converte o array de dias em uma string separada por vírgulas
+  const getWeekDaysString = () => weekDays.join(',');
   return (
     <Formik
-      enableReinitialize // Add this to reinitialize the form when props.subject changes
+      enableReinitialize
       initialValues={{
         codeSubject: props.subject?.codeSubject || '',
         nameSubject: props.subject?.nameSubject || '',
         professor: props.subject?.professor || '',
-        weekDays: props.subject?.weekDays || '',
-        schedule: props.subject?.schedule || '',
+        weekDays: weekDays,
+        startTime: new Date(props.subject.startTime * 1000),
+        endTime: new Date(props.subject.endTime * 1000),
         local: props.subject?.local || '',
       }}
       onSubmit={(values) => {
-        EditSubjectFunction(values, props.subject.id).then(() => {
+        EditSubjectFunction(
+          {
+            ...values,
+            weekDays: getWeekDaysString(),
+          },
+          props.subject.id
+        ).then(() => {
           props.setVisible(false);
         });
       }}
@@ -32,8 +63,9 @@ export default function EditSubjectComponent(props: {
         codeSubject: Yup.string().required('O código da matéria é obrigatório'),
         nameSubject: Yup.string().required('O nome da matéria é obrigatório'),
         professor: Yup.string().required('O nome do professor é obrigatório'),
-        weekDays: Yup.string().required('Os dias da semana são obrigatórios'),
-        schedule: Yup.string().required('O horário é obrigatório'),
+        weekDays: Yup.array().min(1, 'Os dias da semana são obrigatórios'),
+        startTime: Yup.date().required('O horário é obrigatório'),
+        endTime: Yup.date().required('O horário é obrigatório'),
         local: Yup.string().required('O local é obrigatório'),
       })}
     >
@@ -102,36 +134,63 @@ export default function EditSubjectComponent(props: {
             ) : null}
 
             <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
+              <label htmlFor="weekDays">Dias da semana</label>
+              <MultiSelect
                 id="weekDays"
                 name="weekDays"
                 value={values.weekDays}
-                onChange={handleChange}
-                onBlur={handleBlur}
+                options={weekDaysOptions}
+                onChange={(e) => {
+                  setFieldValue('weekDays', e.value);
+                  setWeekDays(e.value);
+                }}
+                display="chip"
+                className="flex mt-5 mb-5 w-full"
               />
-              <label htmlFor="weekDays">Dias da semana</label>
+              {errors.weekDays && touched.weekDays ? (
+                <div className="text-red-500">{errors.weekDays}</div>
+              ) : null}
             </FloatLabel>
-            {errors.weekDays && touched.weekDays ? (
-              <div className="text-red-500">{errors.weekDays}</div>
-            ) : null}
 
-            <FloatLabel>
-              <label htmlFor="schedule">Horário</label>
-              <Calendar
-                className="flex w-full"
-                id="schedule"
-                name="schedule"
-                value={values.schedule}
-                onChange={(e) => setFieldValue('schedule', e.value)}
-                icon={() => <i className="pi pi-clock" />}
-                showIcon
-                timeOnly
-              />
-            </FloatLabel>
-            {errors.schedule && touched.schedule ? (
-              <div className="text-red-500">{errors.schedule}</div>
-            ) : null}
+            <div className="flex gap-3">
+              <FloatLabel>
+                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                  Horário início
+                </label>
+                <Calendar
+                  className="flex-1"
+                  id="startTime"
+                  name="startTime"
+                  value={values.startTime}
+                  onChange={(e) => setFieldValue('startTime', e.value)}
+                  icon={() => <i className="pi pi-clock" />}
+                  showIcon
+                  timeOnly
+                />
+              </FloatLabel>
+              {errors.startTime && touched.startTime ? (
+                <div className="text-red-500">{errors.startTime}</div>
+              ) : null}
+
+              <FloatLabel>
+                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                  Horário fim
+                </label>
+                <Calendar
+                  className="flex-1"
+                  id="endTime"
+                  name="endTime"
+                  value={values.endTime}
+                  onChange={(e) => setFieldValue('endTime', e.value)}
+                  icon={() => <i className="pi pi-clock" />}
+                  showIcon
+                  timeOnly
+                />
+              </FloatLabel>
+              {errors.endTime && touched.endTime ? (
+                <div className="text-red-500">{errors.endTime}</div>
+              ) : null}
+            </div>
 
             <FloatLabel>
               <InputText
