@@ -1,20 +1,23 @@
 import { Checkbox } from 'primereact/checkbox';
-import { useState } from 'react';
 
-export default function CheckboxComponent() {
-  const [checked, setChecked] = useState<boolean>(false);
+interface CheckboxProps {
+  checked: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  label: string;
+}
 
+export default function CheckboxComponent({ checked, onChange, label }: CheckboxProps) {
   return (
     <div className="card flex justify-content-center mx-1 my-2">
       <Checkbox
         inputId="checkbox"
-        name="checkbox1"
+        name="checkbox"
         value="Lembre-se"
-        onChange={(e) => setChecked(e?.checked ?? false)}
+        onChange={onChange}
         checked={checked}
-      ></Checkbox>
+      />
       <div className="mx-1">
-        <label htmlFor="rememberme">Lembre-se</label>
+        <label htmlFor="checkbox">{label}</label>
       </div>
     </div>
   );

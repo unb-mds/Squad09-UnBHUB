@@ -6,3 +6,4 @@ export default function formatDate(timestamp) {
     year: 'numeric',
   });
 }
+

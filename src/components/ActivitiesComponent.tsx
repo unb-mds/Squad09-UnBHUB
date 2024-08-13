@@ -1,66 +1,207 @@
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { auth, db } from '../../config/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import CheckDate from "../functions/CheckDateActivity";
+import {
+  doc,
+  onSnapshot,
+  Timestamp,
+  updateDoc,
+  deleteDoc,
+} from 'firebase/firestore';
+import EditActivityComponent from '../components/Activities/editActivity';
 
-export default function ActivitiesComponent1(props: {
+interface Task {
+  id: string;
+  nameSubject: string;
+  taskName: string;
+  deliveryDay: Timestamp;
+  status: string;
+  description: string;
+}
+
+interface ActivitiesComponentProps {
   CreatesetVisible: (visibleCreate: boolean) => void;
+  setTask: (task: Task) => void;
   EditsetVisible: (activityData: {
-    codeSubject: string;
-    nameActivity: string;
-    deliveryDay: string;
+    taskName: string;
+    deliveryDay: Timestamp;
+    description: string;
   }) => void;
-}) {
-  const cardButtonStyles: React.CSSProperties = {
-    color: 'white',
-    border: '2px solid',
-    padding: '1rem',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    width: '100%',
-    textAlign: 'left', // Alinhamento à esquerda
+}
+
+const cardButtonStyles: React.CSSProperties = {
+  color: 'white',
+  border: '2px solid',
+  padding: '1rem',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  width: '100%',
+  backgroundColor: '#2c3e50',
+  minHeight: '4rem',
+  marginBottom: '0.5rem',
+};
+
+const containerStyles: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem',
+};
+
+const getStatusLabelColor = (status: string) => {
+  switch (status) {
+    case 'Active':
+      return '#007bff';
+    case 'Late':
+      return '#dc3545';
+    case 'Finalized':
+      return '#28a745';
+    default:
+      return '#2c3e50';
+  }
+};
+
+export default function ActivitiesComponent({
+  CreatesetVisible,
+}: ActivitiesComponentProps) {
+  const [subjects, setSubjects] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [editDialogVisible, setEditDialogVisible] = useState(false);
+
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userDocRef = doc(db, 'Users', user.uid);
+
+        const unsubscribeSnapshot = onSnapshot(userDocRef, (docSnapshot) => {
+          try {
+            if (docSnapshot.exists()) {
+              const userData = docSnapshot.data();
+              if (userData && userData.subjects) {
+                const subjectsData = Object.values(userData.subjects) as Task[];
+                const today = new Date();
+
+                const tasks = subjectsData.flatMap((item) => {
+                  return Object.keys(item.tasks).map((key) => {
+                    const task = item.tasks[key];
+                    const deliveryDay = task.deliveryDay.toDate();
+                    let status = '';  
+                    if((deliveryDay < today) && task.status!= 'Finalized' && task.status!= 'Deleted'){
+                      CheckDate(deliveryDay, today,task.subjectId, task.taskId, task.status)
+                      status = 'Late' 
+                    }
+                    if((deliveryDay >= today) && task.status!= 'Finalized' && task.status!= 'Deleted' ){
+                      CheckDate(deliveryDay, today, task.subjectId, task.taskId, task.status)
+                      status = 'Active'
+                    }
+                    if(task.status == 'Finalized'){
+                      status = 'Finalized'
+                    }
+                    if(task.status == 'Deleted'){
+                      status = 'Deleted';
+                    }
+
+    
+
+                    return {
+                      
+                      ...task,
+                      id: key,
+                      nameSubject: item.nameSubject,
+                      status,
+                    } as Task;
+                  });
+                });
+
+                setSubjects(tasks);
+              }
+            }
+          } catch (error) {
+            console.error('Error fetching tasks:', error);
+          } finally {
+            setLoading(false);
+          }
+        });
+
+        return () => unsubscribeSnapshot();
+      } else {
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribeAuth();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const getTasksByStatus = (status: string) =>
+    subjects.filter((task) => task.status === status);
+
+  const handleTaskClick = (task: Task) => {
+    setSelectedTask(task);
+    setEditDialogVisible(true);
   };
 
-  // Função para renderizar um card de tarefa
-  const renderCard = (
-    backgroundColor: string,
-    borderColor: string,
-    codeSubject: string,
-    nameActivity: string,
-    deliveryDay: string
-  ) => (
-    <Button
-      className="w-12 my-0"
-      style={{
-        ...cardButtonStyles,
-        borderColor,
-        backgroundColor,
-        boxShadow: 'none', // Remove box-shadow if needed
-      }}
-      onClick={() => {
-        console.log('Edit button clicked for:', nameActivity);
-        const activityData = {
-          codeSubject,
-          nameActivity,
-          deliveryDay,
-        };
-        props.EditsetVisible(activityData); // Passando os dados do livro
-      }}
-    >
-      <h2 style={{ marginBottom: '1.5rem' }}>{codeSubject}</h2>
-      <div className="flex flex-column w-12" style={{ textAlign: 'left' }}>
-        <i className="pi pi-book mb-2" style={{ color: 'white' }}>
-          {' '}
-          Tarefa: {nameActivity}
-        </i>
-        <p className="pi pi-calendar mb-4" style={{ color: 'white' }}>
-          {' '}
-          {deliveryDay}
-        </p>
-      </div>
-    </Button>
-  );
+  const handleEditSave = async (updatedData: {
+    taskName: string;
+    deliveryDay: Date | null;
+    description: string;
+  }) => {
+    if (selectedTask) {
+      const updatedTask = {
+        ...selectedTask,
+        taskName: updatedData.taskName,
+        deliveryDay: Timestamp.fromDate(updatedData.deliveryDay as Date),
+        description: updatedData.description || selectedTask.description,
+      };
+
+      const userDocRef = doc(db, 'Users', auth.currentUser?.uid || '');
+      const taskRef = doc(
+        userDocRef,
+        'subjects',
+        selectedTask.nameSubject,
+        'tasks',
+        selectedTask.id
+      );
+
+      await updateDoc(taskRef, {
+        taskName: updatedTask.taskName,
+        deliveryDay: updatedTask.deliveryDay,
+        description: updatedTask.description,
+      });
+
+      setSubjects(
+        subjects.map((task) =>
+          task.id === selectedTask.id ? updatedTask : task
+        )
+      );
+      setEditDialogVisible(false);
+    }
+  };
+
+  const handleEditDelete = async () => {
+    if (selectedTask) {
+      const userDocRef = doc(db, 'Users', auth.currentUser?.uid || '');
+      const taskRef = doc(
+        userDocRef,
+        'subjects',
+        selectedTask.nameSubject,
+        'tasks',
+        selectedTask.id
+      );
+
+      await deleteDoc(taskRef);
+
+      setSubjects(subjects.filter((task) => task.id !== selectedTask.id));
+      setEditDialogVisible(false);
+    }
+  };
 
   return (
     <div className="flex flex-column mx-3 my-3 gap-0 w-full">
@@ -70,6 +211,7 @@ export default function ActivitiesComponent1(props: {
           <h1 style={{ color: 'white' }}>Tarefas</h1>
         </div>
       </div>
+
       <div
         className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
         style={{ color: 'white' }}
@@ -79,51 +221,53 @@ export default function ActivitiesComponent1(props: {
           Em andamento
         </div>
         <Button
+          type="button"
           label="Adicionar"
           icon="pi pi-plus"
           iconPos="left"
           size="small"
           text
           link
-          onClick={() => {
-            console.log('Adicionar button clicked');
-            props.CreatesetVisible(true);
-          }}
+          onClick={() => CreatesetVisible(true)}
         />
       </div>
 
-      <Divider className="my-0" />
+      <div style={containerStyles}>
+        {getTasksByStatus('Active').map((task) => (
+          <Button
+            className="w-full"
+            style={{
+              ...cardButtonStyles,
+              borderColor: getStatusLabelColor(task.status),
+            }}
+            key={task.id}
+            onClick={() => handleTaskClick(task)}
+          >
+            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <div
+              className="flex flex-column w-12"
+              style={{ alignItems: 'flex-start', textAlign: 'left' }}
+            >
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Nome da Tarefa: {task.taskName}
+              </i>
+              <p
+                className="pi pi-calendar mb-3"
+                style={{ color: 'white', margin: 0 }}
+              >
+                Data de Entrega:{' '}
+                {task.deliveryDay.toDate().toLocaleDateString()}
+              </p>
 
-      <div className="flex flex-row justify-content-between gap-2 my-4">
-        {renderCard(
-          '#2c3e50', // Cor de fundo para Em andamento
-          '#007bff', // Cor da borda para Em andamento
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#007bff',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#007bff',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#007bff',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Descrição: {task.description}
+              </i>
+            </div>
+          </Button>
+        ))}
       </div>
+
+      <Divider className="my-0" />
 
       <div
         className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
@@ -135,38 +279,42 @@ export default function ActivitiesComponent1(props: {
         </div>
       </div>
 
-      <Divider className="my-0" />
+      <div style={containerStyles}>
+        {getTasksByStatus('Late').map((task) => (
+          <Button
+            className="w-full"
+            style={{
+              ...cardButtonStyles,
+              borderColor: getStatusLabelColor(task.status),
+            }}
+            key={task.id}
+            onClick={() => handleTaskClick(task)}
+          >
+            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <div
+              className="flex flex-column w-12"
+              style={{ alignItems: 'flex-start', textAlign: 'left' }}
+            >
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Nome da Tarefa: {task.taskName}
+              </i>
+              <p
+                className="pi pi-calendar mb-3"
+                style={{ color: 'white', margin: 0 }}
+              >
+                Data de Entrega:{' '}
+                {task.deliveryDay.toDate().toLocaleDateString()}
+              </p>
 
-      <div className="flex flex-row justify-content-between gap-2 my-4">
-        {renderCard(
-          '#2c3e50', // Cor de fundo para Atrasadas
-          '#dc3545', // Cor da borda para Atrasadas
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#dc3545',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#dc3545',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#dc3545',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Descrição: {task.description}
+              </i>
+            </div>
+          </Button>
+        ))}
       </div>
+
+      <Divider className="my-0" />
 
       <div
         className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
@@ -178,38 +326,55 @@ export default function ActivitiesComponent1(props: {
         </div>
       </div>
 
-      <Divider className="my-0" />
+      <div style={containerStyles}>
+        {getTasksByStatus('Finalized').map((task) => (
+          <Button
+            className="w-full"
+            style={{
+              ...cardButtonStyles,
+              borderColor: getStatusLabelColor(task.status),
+            }}
+            key={task.id}
+            onClick={() => handleTaskClick(task)}
+          >
+            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <div
+              className="flex flex-column w-12"
+              style={{ alignItems: 'flex-start', textAlign: 'left' }}
+            >
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Nome da Tarefa: {task.taskName}
+              </i>
+              <p
+                className="pi pi-calendar mb-3"
+                style={{ color: 'white', margin: 0 }}
+              >
+                Data de Entrega:{' '}
+                {task.deliveryDay.toDate().toLocaleDateString()}
+              </p>
 
-      <div className="flex flex-row justify-content-between gap-2 my-4">
-        {renderCard(
-          '#2c3e50', // Cor de fundo para Finalizadas
-          '#28a745', // Cor da borda para Finalizadas
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#28a745',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#28a745',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
-        {renderCard(
-          '#2c3e50',
-          '#28a745',
-          'FGA0138 - MDS',
-          'Protótipo Figma',
-          'Quarta-feira'
-        )}
+              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                Descrição: {task.description}
+              </i>
+            </div>
+          </Button>
+        ))}
       </div>
+
+      {selectedTask && (
+        <EditActivityComponent
+          visibleEdit={editDialogVisible}
+          EditsetVisible={setEditDialogVisible}
+          activityData={{
+            taskName: selectedTask.taskName,
+            deliveryDay: selectedTask.deliveryDay.toDate(),
+            description: selectedTask.description,
+          }}
+          {...selectedTask}
+          onSave={handleEditSave}
+          onDelete={handleEditDelete}
+        />
+      )}
     </div>
   );
 }

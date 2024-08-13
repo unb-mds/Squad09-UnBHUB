@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
-import SideBarComponent from '../components/SideBar';
+import { useState } from 'react';
 import CreateActivityComponent from '../components/Activities/createActivity';
 import EditActivityComponent from '../components/Activities/editActivity';
-import ActivitiesComponent1 from '../components/ActivitiesComponent';
+import ActivitiesComponent from '../components/ActivitiesComponent';
+import SideBarComponent from '../components/SideBar';
 
 export default function Activities() {
   const [visibleCreate, CreatesetVisible] = useState<boolean>(false);
   const [visibleEdit, EditsetVisible] = useState<boolean>(false);
+  const [task, setTask] = useState({});
   const [selectedActivityData, setSelectedActivityData] = useState<{
-    codeSubject: string;
-    nameActivity: string;
+    taskName: string;
     deliveryDay: string;
   } | null>(null);
 
   const handleEditClick1 = (activityData: {
-    codeSubject: string;
-    nameActivity: string;
+    taskName: string;
     deliveryDay: string;
   }) => {
     setSelectedActivityData(activityData);
@@ -25,9 +24,11 @@ export default function Activities() {
   return (
     <div className="flex flex-row">
       <SideBarComponent />
-      <ActivitiesComponent1
+      <ActivitiesComponent
         CreatesetVisible={CreatesetVisible}
         EditsetVisible={handleEditClick1}
+        task={task}
+        setTask={setTask}
       />
       {visibleCreate && (
         <CreateActivityComponent
