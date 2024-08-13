@@ -15,7 +15,14 @@ interface Exam {
 
 interface Subject {
   codeSubject: string;
-  exams: Exam[];
+  exams: Map<string, Exam>;
+}
+
+interface UserData {
+  subjects: Record<
+    string,
+    { codeSubject: string; exams: Record<string, Exam> }
+  >;
 }
 
 export default function DataProvas() {
@@ -31,9 +38,20 @@ export default function DataProvas() {
         const userDocRef = doc(db, 'Users', user.uid);
         const unsubscribeSnapshot = onSnapshot(userDocRef, (doc) => {
           if (doc.exists()) {
-            const userData = doc.data();
+            const userData = doc.data() as UserData;
             if (userData && userData.subjects) {
-              setSubjects(new Map(Object.entries(userData.subjects)));
+              const subjectsMap = new Map(
+                Object.entries(userData.subjects).map(
+                  ([subjectId, subjectData]) => {
+                    const examsMap = new Map(Object.entries(subjectData.exams));
+                    return [
+                      subjectId,
+                      { codeSubject: subjectData.codeSubject, exams: examsMap },
+                    ];
+                  }
+                )
+              );
+              setSubjects(subjectsMap);
             }
           }
         });
@@ -53,17 +71,20 @@ export default function DataProvas() {
     return <p>Loading...</p>;
   }
 
-  const renderExams = (exams: Exam[]) => {
-    return exams.map((exam, index) => (
+  const renderExams = (exams: Map<string, Exam>) => {
+    return Array.from(exams.values()).map((exam, index) => (
       <li key={index} className="flex align-items-center mb-3">
         <i className="pi pi-angle-right mr-2 text-green-500" />
-        {exam.date.toDate().toLocaleDateString()}: {exam.code}
+        {typeof exam.date === 'string'
+          ? new Date(exam.date).toLocaleDateString()
+          : exam.date.toDate().toLocaleDateString()}
+        : {exam.code}
       </li>
     ));
   };
 
   const filteredSubjects = Array.from(subjects.entries()).filter(
-    ([, subject]) => subject.exams.length > 0
+    ([, subject]) => subject.exams.size > 0
   ); // Filtra matérias com exames
 
   return (
