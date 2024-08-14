@@ -7,6 +7,7 @@ import { Calendar } from 'primereact/calendar';
 import { Timestamp } from 'firebase/firestore';
 import EditBookFunction from '../../functions/EditBook';
 import DeleteBookFunction from '../../functions/DeleteBook';
+import FinalizeBookFunction from "../../functions/FinalizedBook";
 
 interface BookData {
   id: string;
@@ -187,12 +188,13 @@ export default function EditBookComponent(props: {
               <>
                 <Button
                   outlined
-                  label="Voltar"
+                  label="Finalizar"
                   style={{
                     borderColor: '#3e74aeb1',
                     color: '#3e74aeb1',
                   }}
-                  onClick={() => EditsetVisible1(false)}
+                  onClick={() => FinalizeBookFunction(bookData?.id) && EditsetVisible1(false)}
+                  
                 />
                 <Button
                   outlined
