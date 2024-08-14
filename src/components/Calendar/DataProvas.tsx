@@ -16,12 +16,13 @@ interface Exam {
 interface Subject {
   codeSubject: string;
   exams: Map<string, Exam>;
+  status: string; // Novo campo adicionado
 }
 
 interface UserData {
   subjects: Record<
     string,
-    { codeSubject: string; exams: Record<string, Exam> }
+    { codeSubject: string; exams: Record<string, Exam>; status: string }
   >;
 }
 
@@ -46,7 +47,11 @@ export default function DataProvas() {
                     const examsMap = new Map(Object.entries(subjectData.exams));
                     return [
                       subjectId,
-                      { codeSubject: subjectData.codeSubject, exams: examsMap },
+                      {
+                        codeSubject: subjectData.codeSubject,
+                        exams: examsMap,
+                        status: subjectData.status, // Captura o status aqui
+                      },
                     ];
                   }
                 )
@@ -72,20 +77,28 @@ export default function DataProvas() {
   }
 
   const renderExams = (exams: Map<string, Exam>) => {
-    return Array.from(exams.values()).map((exam, index) => (
-      <li key={index} className="flex align-items-center mb-3">
-        <i className="pi pi-angle-right mr-2 text-green-500" />
-        {typeof exam.date === 'string'
-          ? new Date(exam.date).toLocaleDateString()
-          : exam.date.toDate().toLocaleDateString()}
-        : {exam.code}
-      </li>
-    ));
+    return Array.from(exams.values())
+      .filter((exam) => exam.status !== 'Deleted') // Filtra exames com status "Deleted"
+      .map((exam, index) => (
+        <li key={index} className="flex align-items-center mb-3">
+          <i className="pi pi-angle-right mr-2 text-green-500" />
+          {typeof exam.date === 'string'
+            ? new Date(exam.date).toLocaleDateString()
+            : exam.date.toDate().toLocaleDateString()}
+          : {exam.code}
+        </li>
+      ));
   };
 
-  const filteredSubjects = Array.from(subjects.entries()).filter(
-    ([, subject]) => subject.exams.size > 0
-  ); // Filtra matérias com exames
+  const filteredSubjects = Array.from(subjects.entries())
+    .filter(
+      ([, subject]) => subject.exams.size > 0 && subject.status !== 'Deleted'
+    ) // Filtra matérias com status "Deleted"
+    .filter(([, subject]) =>
+      Array.from(subject.exams.values()).some(
+        (exam) => exam.status !== 'Deleted'
+      )
+    ); // Filtra matérias onde todas as provas estão "Deleted"
 
   return (
     <div className="col-12 lg:col-4">

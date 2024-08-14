@@ -6,7 +6,7 @@ import { db } from '../../../config/firebase';
 interface Task {
   deliveryDay: Date;
   description: string;
-  status: string;
+  status: string; // Adiciona o campo de status
   subjectId: string;
   taskId: string;
   taskName: string;
@@ -15,12 +15,13 @@ interface Task {
 interface Subject {
   codeSubject: string;
   tasks: Map<string, Task>;
+  status: string; // Novo campo adicionado
 }
 
 interface UserData {
   subjects: Record<
     string,
-    { codeSubject: string; tasks: Record<string, Task> }
+    { codeSubject: string; tasks: Record<string, Task>; status: string }
   >;
 }
 
@@ -45,7 +46,11 @@ export default function DataTarefas() {
                     const tasksMap = new Map(Object.entries(subjectData.tasks));
                     return [
                       subjectId,
-                      { codeSubject: subjectData.codeSubject, tasks: tasksMap },
+                      {
+                        codeSubject: subjectData.codeSubject,
+                        tasks: tasksMap,
+                        status: subjectData.status, // Captura o status aqui
+                      },
                     ];
                   }
                 )
@@ -71,20 +76,28 @@ export default function DataTarefas() {
   }
 
   const renderTasks = (tasks: Map<string, Task>) => {
-    return Array.from(tasks.values()).map((task, index) => (
-      <li key={index} className="flex align-items-center mb-3">
-        <i className="pi pi-angle-right mr-2 text-green-500" />
-        {typeof task.deliveryDay === 'string'
-          ? new Date(task.deliveryDay).toLocaleDateString()
-          : task.deliveryDay.toDate().toLocaleDateString()}
-        : {task.description}
-      </li>
-    ));
+    return Array.from(tasks.values())
+      .filter((task) => task.status !== 'Deleted') // Filtra tarefas com status "Deleted"
+      .map((task, index) => (
+        <li key={index} className="flex align-items-center mb-3">
+          <i className="pi pi-angle-right mr-2 text-green-500" />
+          {typeof task.deliveryDay === 'string'
+            ? new Date(task.deliveryDay).toLocaleDateString()
+            : task.deliveryDay.toDate().toLocaleDateString()}
+          : {task.description}
+        </li>
+      ));
   };
 
-  const filteredSubjects = Array.from(subjects.entries()).filter(
-    ([, subject]) => subject.tasks.size > 0
-  ); // Filtra matérias com tarefas
+  const filteredSubjects = Array.from(subjects.entries())
+    .filter(
+      ([, subject]) => subject.tasks.size > 0 && subject.status !== 'Deleted'
+    ) // Filtra matérias com status "Deleted"
+    .filter(([, subject]) =>
+      Array.from(subject.tasks.values()).some(
+        (task) => task.status !== 'Deleted'
+      )
+    ); // Filtra matérias onde todas as tarefas estão "Deleted"
 
   return (
     <div className="col-12 lg:col-4">
