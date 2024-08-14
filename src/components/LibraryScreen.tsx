@@ -19,6 +19,7 @@ export default function LibraryComponent(props: {
 }) {
   const [ongoingBooks, setOngoingBooks] = useState<ICreateBook[]>([]);
   const [overdueBooks, setOverdueBooks] = useState<ICreateBook[]>([]);
+  const [finalizedBooks, setfinalizedBooks] = useState<ICreateBook[]>([]);
 
   // Hook de efeito para configurar a escuta de mudanças na autenticação e nos dados do usuário no Firestore
   useEffect(() => {
@@ -35,14 +36,23 @@ export default function LibraryComponent(props: {
               const ongoing = Object.values(books).filter(
                 (bookData) =>
                   bookData.deliveryDay.toDate() >= today &&
-                  bookData.status !== 'Deleted'
+                  bookData.status !== ('Deleted' && 'Finalized')
                 // Converter Timestamp para Date
               );
               const overdue = Object.values(books).filter(
-                (bookData) => bookData.deliveryDay.toDate() < today // Converter Timestamp para Date
+                (bookData) => 
+                  bookData.deliveryDay.toDate() < today &&
+                  bookData.status !== ('Deleted' && 'Finalized')
+                 // Converter Timestamp para Date
+              );
+              const finalized = Object.values(books).filter(
+                (bookData) => 
+                  bookData.status !== ('Deleted' && 'Ongoing')
+                 // Converter Timestamp para Date
               );
               setOngoingBooks(ongoing);
               setOverdueBooks(overdue);
+              setfinalizedBooks(finalized)
             }
           }
         });
@@ -118,6 +128,7 @@ export default function LibraryComponent(props: {
           <h1 style={{ color: 'white' }}>Biblioteca</h1>
         </div>
       </div>
+  
       <div
         className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
         style={{ color: 'white' }}
@@ -138,9 +149,9 @@ export default function LibraryComponent(props: {
           }}
         />
       </div>
-
+  
       <Divider className="my-0" />
-
+  
       <div className="flex flex-row justify-content-between gap-2 my-4">
         {ongoingBooks.length ? (
           ongoingBooks.map((bookData) =>
@@ -157,24 +168,23 @@ export default function LibraryComponent(props: {
           <p>Nenhum livro em andamento</p>
         )}
       </div>
-
+  
       <div
         className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
         style={{ color: 'white' }}
       >
         <div>
           <i className="pi pi-clock mb-2 mx-3" style={{ color: 'red' }} />
-          Atrasadas
+          Atrasados
         </div>
       </div>
-
       <Divider className="my-0" />
 
       <div className="flex flex-row justify-content-between gap-2 my-4">
         {overdueBooks.length ? (
           overdueBooks.map((bookData) =>
             renderCard(
-              'red',
+              '#dc0d28',
               bookData.id,
               bookData.codeSubject,
               bookData.bookName,
@@ -186,6 +196,35 @@ export default function LibraryComponent(props: {
           <p>Nenhum livro atrasado</p>
         )}
       </div>
+  
+      <div className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg" style={{ color: 'white' }}>
+        <div>
+          <i className="pi pi-check mb-2 mx-3" style={{ color: '#25c440' }} />
+          Finalizados
+        </div>
+      </div>
+  
+      <Divider className="my-0" />
+  
+      <div className="flex flex-row justify-content-between gap-2 my-4">
+        {finalizedBooks.length ? (
+          finalizedBooks.map((bookData) =>
+            renderCard(
+              'green',
+              bookData.id,
+              bookData.codeSubject,
+              bookData.bookName,
+              bookData.deliveryDay,
+              bookData.status
+            )
+          )
+        ) : (
+          <p>Nenhum livro finalizado</p>
+        )}
+      </div>
     </div>
-  );
-}
+  )}
+  
+  
+    
+  
