@@ -15,12 +15,13 @@ interface Task {
 interface Subject {
   codeSubject: string;
   tasks: Map<string, Task>;
+  status: string; // Novo campo adicionado
 }
 
 interface UserData {
   subjects: Record<
     string,
-    { codeSubject: string; tasks: Record<string, Task> }
+    { codeSubject: string; tasks: Record<string, Task>; status: string }
   >;
 }
 
@@ -38,18 +39,26 @@ export const fetchTaskDates = async (): Promise<
           if (doc.exists()) {
             const userData = doc.data() as UserData;
             if (userData && userData.subjects) {
-              Object.values(userData.subjects).forEach((subject) => {
-                Object.values(subject.tasks).forEach((task) => {
-                  const deliveryDay =
-                    task.deliveryDay instanceof Timestamp
-                      ? task.deliveryDay.toDate()
-                      : new Date(task.deliveryDay.seconds * 1000); // Conversão alternativa
-                  taskDates.push({
-                    deliveryDay: deliveryDay,
-                    description: task.description,
-                  });
-                });
-              });
+              Object.entries(userData.subjects).forEach(
+                ([subjectId, subject]) => {
+                  // Verifica o status do subject
+                  if (subject.status !== 'Deleted') {
+                    Object.values(subject.tasks).forEach((task) => {
+                      // Verifica o status da task
+                      if (task.status !== 'Deleted') {
+                        const deliveryDay =
+                          task.deliveryDay instanceof Timestamp
+                            ? task.deliveryDay.toDate()
+                            : new Date(task.deliveryDay.seconds * 1000); // Conversão alternativa
+                        taskDates.push({
+                          deliveryDay: deliveryDay,
+                          description: task.description,
+                        });
+                      }
+                    });
+                  }
+                }
+              );
               resolve(taskDates);
             } else {
               resolve(taskDates);
