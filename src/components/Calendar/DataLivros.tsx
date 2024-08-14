@@ -11,6 +11,7 @@ interface Book {
     nanoseconds: number;
   };
   id: string;
+  status: string; // Novo campo adicionado
 }
 
 export default function DataLivros() {
@@ -58,6 +59,8 @@ export default function DataLivros() {
     return <p>No books data available.</p>;
   }
 
+  const filteredBooks = booksData.filter((book) => book.status !== 'Deleted'); // Filtra livros com status "Deleted"
+
   const renderBooks = (books: Book[]) => {
     return books.map((book, index) => (
       <li key={index} className="flex align-items-center mb-3">
@@ -80,7 +83,7 @@ export default function DataLivros() {
           <div className="flex align-items-center"></div>
 
           <ul className="list-none p-0 m-0 flex-grow-1">
-            {renderBooks(booksData)}
+            {renderBooks(filteredBooks)}
           </ul>
 
           <hr className="mb-3 mx-0 border-top-1 border-bottom-none surface-border mt-auto" />

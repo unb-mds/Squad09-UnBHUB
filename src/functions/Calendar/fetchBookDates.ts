@@ -7,6 +7,7 @@ interface Book {
   codeSubject: string;
   deliveryDay: any; // Pode ser Timestamp ou Date, dependendo da origem dos dados
   id: string;
+  status: string; // Novo campo adicionado
 }
 
 export const fetchBookDates = async (): Promise<
@@ -27,12 +28,15 @@ export const fetchBookDates = async (): Promise<
                 Object.entries(userData.books)
               );
               books.forEach((book) => {
-                bookDates.push({
-                  deliveryDay: book.deliveryDay.toDate
-                    ? book.deliveryDay.toDate()
-                    : new Date(book.deliveryDay),
-                  bookName: book.bookName,
-                });
+                // Verifica o status do book
+                if (book.status !== 'Deleted') {
+                  bookDates.push({
+                    deliveryDay: book.deliveryDay.toDate
+                      ? book.deliveryDay.toDate()
+                      : new Date(book.deliveryDay),
+                    bookName: book.bookName,
+                  });
+                }
               });
               resolve(bookDates);
             } else {

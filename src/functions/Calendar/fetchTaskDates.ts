@@ -1,24 +1,35 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
+import { Timestamp } from 'firebase/firestore';
 
 interface Task {
-  deliveryTime: any; // Pode ser Timestamp ou Date, dependendo da origem dos dados
+  deliveryDay: Timestamp;
   description: string;
-  name: string;
   status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
 }
 
 interface Subject {
   codeSubject: string;
-  tasks: Task[];
+  tasks: Map<string, Task>;
+  status: string; // Novo campo adicionado
+}
+
+interface UserData {
+  subjects: Record<
+    string,
+    { codeSubject: string; tasks: Record<string, Task>; status: string }
+  >;
 }
 
 export const fetchTaskDates = async (): Promise<
-  { deliveryTime: Date; description: string }[]
+  { deliveryDay: Date; description: string }[]
 > => {
   const auth = getAuth();
-  const taskDates: { deliveryTime: Date; description: string }[] = [];
+  const taskDates: { deliveryDay: Date; description: string }[] = [];
 
   return new Promise((resolve, reject) => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -26,21 +37,28 @@ export const fetchTaskDates = async (): Promise<
         const userDocRef = doc(db, 'Users', user.uid);
         const unsubscribeSnapshot = onSnapshot(userDocRef, (doc) => {
           if (doc.exists()) {
-            const userData = doc.data();
+            const userData = doc.data() as UserData;
             if (userData && userData.subjects) {
-              const subjects: Map<string, Subject> = new Map(
-                Object.entries(userData.subjects)
+              Object.entries(userData.subjects).forEach(
+                ([subjectId, subject]) => {
+                  // Verifica o status do subject
+                  if (subject.status !== 'Deleted') {
+                    Object.values(subject.tasks).forEach((task) => {
+                      // Verifica o status da task
+                      if (task.status !== 'Deleted') {
+                        const deliveryDay =
+                          task.deliveryDay instanceof Timestamp
+                            ? task.deliveryDay.toDate()
+                            : new Date(task.deliveryDay.seconds * 1000); // Conversão alternativa
+                        taskDates.push({
+                          deliveryDay: deliveryDay,
+                          description: task.description,
+                        });
+                      }
+                    });
+                  }
+                }
               );
-              subjects.forEach((subject) => {
-                subject.tasks.forEach((task) => {
-                  taskDates.push({
-                    deliveryTime: task.deliveryTime.toDate
-                      ? task.deliveryTime.toDate()
-                      : new Date(task.deliveryTime),
-                    description: task.description,
-                  });
-                });
-              });
               resolve(taskDates);
             } else {
               resolve(taskDates);
