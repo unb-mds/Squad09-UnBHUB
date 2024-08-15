@@ -1,76 +1,76 @@
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
-import { auth, db } from '../../config/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import CheckDate from "../functions/CheckDateActivity";
+import { auth, db } from '../../config/firebase'; // Importa as configurações de autenticação e banco de dados do Firebase.
+import { onAuthStateChanged } from 'firebase/auth'; // Importa a função para monitorar mudanças no estado de autenticação do usuário.
+import CheckDate from '../functions/CheckDateActivity'; // Importa uma função personalizada para verificar datas de atividades.
 import {
   doc,
   onSnapshot,
   Timestamp,
   updateDoc,
   deleteDoc,
-} from 'firebase/firestore';
-import EditActivityComponent from '../components/Activities/editActivity';
+} from 'firebase/firestore'; // Importa funções para interação com o Firestore do Firebase.
+import EditActivityComponent from '../components/Activities/editActivity'; // Importa o componente para edição de atividades.
 
 interface Task {
-  id: string;
+  id: string; // Identificador único da tarefa.
   nameSubject: string;
   taskName: string;
   deliveryDay: Timestamp;
-  status: string;
+  status: string; // Status da tarefa (por exemplo, 'Active', 'Late', 'Finalized').
   description: string;
 }
 
 interface ActivitiesComponentProps {
-  CreatesetVisible: (visibleCreate: boolean) => void;
-  setTask: (task: Task) => void;
+  CreatesetVisible: (visibleCreate: boolean) => void; // Função para atualizar a visibilidade do diálogo de criação.
+  setTask: (task: Task) => void; // Função para definir a tarefa selecionada.
   EditsetVisible: (activityData: {
     taskName: string;
     deliveryDay: Timestamp;
     description: string;
-  }) => void;
+  }) => void; // Função para atualizar a visibilidade do diálogo de edição.
 }
 
 const cardButtonStyles: React.CSSProperties = {
-  color: 'white',
-  border: '2px solid',
-  padding: '1rem',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  width: '100%',
-  backgroundColor: '#2c3e50',
-  minHeight: '4rem',
-  marginBottom: '0.5rem',
+  color: 'white', // Cor do texto do botão.
+  border: '2px solid', // Estilo da borda do botão.
+  padding: '1rem', // Espaçamento interno do botão.
+  display: 'flex', // Usa Flexbox para layout do botão.
+  flexDirection: 'column', // Direção dos itens dentro do botão.
+  alignItems: 'flex-start', // Alinha itens no início do botão.
+  width: '350px', // Largura fixa do botão.
+  height: '250px', // Altura fixa do botão.
+  backgroundColor: '#2c3e50', // Cor de fundo do botão.
 };
 
 const containerStyles: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.5rem',
+  display: 'flex', // Usa Flexbox para layout.
+  flexDirection: 'row', // Direção dos itens dentro do container.
+  gap: '0.5rem', // Espaçamento entre os itens.
 };
 
 const getStatusLabelColor = (status: string) => {
+  // Retorna a cor de acordo com o status da tarefa.
   switch (status) {
     case 'Active':
-      return '#007bff';
+      return '#007bff'; // Cor azul para tarefas ativas.
     case 'Late':
-      return '#dc3545';
+      return '#dc3545'; // Cor vermelha para tarefas atrasadas.
     case 'Finalized':
-      return '#28a745';
+      return '#28a745'; // Cor verde para tarefas finalizadas.
     default:
-      return '#2c3e50';
+      return '#2c3e50'; // Cor padrão para status desconhecido.
   }
 };
 
 export default function ActivitiesComponent({
   CreatesetVisible,
 }: ActivitiesComponentProps) {
-  const [subjects, setSubjects] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [editDialogVisible, setEditDialogVisible] = useState(false);
+  const [subjects, setSubjects] = useState<Task[]>([]); // Estado para armazenar as tarefas.
+  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento dos dados.
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null); // Estado para armazenar a tarefa selecionada.
+  const [editDialogVisible, setEditDialogVisible] = useState(false); // Estado para controlar a visibilidade do diálogo de edição.
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -85,30 +85,48 @@ export default function ActivitiesComponent({
                 const subjectsData = Object.values(userData.subjects) as Task[];
                 const today = new Date();
 
+                // Mapeia as tarefas e atualiza o status baseado na data de entrega.
                 const tasks = subjectsData.flatMap((item) => {
                   return Object.keys(item.tasks).map((key) => {
                     const task = item.tasks[key];
                     const deliveryDay = task.deliveryDay.toDate();
-                    let status = '';  
-                    if((deliveryDay < today) && task.status!= 'Finalized' && task.status!= 'Deleted'){
-                      CheckDate(deliveryDay, today,task.subjectId, task.taskId, task.status)
-                      status = 'Late' 
+                    let status = '';
+                    if (
+                      deliveryDay < today &&
+                      task.status != 'Finalized' &&
+                      task.status != 'Deleted'
+                    ) {
+                      CheckDate(
+                        deliveryDay,
+                        today,
+                        task.subjectId,
+                        task.taskId,
+                        task.status
+                      );
+                      status = 'Late';
                     }
-                    if((deliveryDay >= today) && task.status!= 'Finalized' && task.status!= 'Deleted' ){
-                      CheckDate(deliveryDay, today, task.subjectId, task.taskId, task.status)
-                      status = 'Active'
+                    if (
+                      deliveryDay >= today &&
+                      task.status != 'Finalized' &&
+                      task.status != 'Deleted'
+                    ) {
+                      CheckDate(
+                        deliveryDay,
+                        today,
+                        task.subjectId,
+                        task.taskId,
+                        task.status
+                      );
+                      status = 'Active';
                     }
-                    if(task.status == 'Finalized'){
-                      status = 'Finalized'
+                    if (task.status == 'Finalized') {
+                      status = 'Finalized';
                     }
-                    if(task.status == 'Deleted'){
+                    if (task.status == 'Deleted') {
                       status = 'Deleted';
                     }
 
-    
-
                     return {
-                      
                       ...task,
                       id: key,
                       nameSubject: item.nameSubject,
@@ -117,35 +135,35 @@ export default function ActivitiesComponent({
                   });
                 });
 
-                setSubjects(tasks);
+                setSubjects(tasks); // Atualiza o estado com as tarefas.
               }
             }
           } catch (error) {
-            console.error('Error fetching tasks:', error);
+            console.error('Error fetching tasks:', error); // Exibe erro caso ocorra um problema.
           } finally {
-            setLoading(false);
+            setLoading(false); // Atualiza o estado de carregamento.
           }
         });
 
-        return () => unsubscribeSnapshot();
+        return () => unsubscribeSnapshot(); // Limpa o listener quando o componente desmonta.
       } else {
-        setLoading(false);
+        setLoading(false); // Atualiza o estado de carregamento se o usuário não estiver autenticado.
       }
     });
 
-    return () => unsubscribeAuth();
-  }, []);
+    return () => unsubscribeAuth(); // Limpa o listener de autenticação quando o componente desmonta.
+  }, []); // Dependências vazias significam que o efeito é executado apenas uma vez após a montagem.
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; // Exibe mensagem de carregamento enquanto os dados estão sendo carregados.
   }
 
   const getTasksByStatus = (status: string) =>
-    subjects.filter((task) => task.status === status);
+    subjects.filter((task) => task.status === status); // Filtra tarefas com base no status.
 
   const handleTaskClick = (task: Task) => {
-    setSelectedTask(task);
-    setEditDialogVisible(true);
+    setSelectedTask(task); // Define a tarefa selecionada.
+    setEditDialogVisible(true); // Exibe o diálogo de edição.
   };
 
   const handleEditSave = async (updatedData: {
@@ -180,8 +198,8 @@ export default function ActivitiesComponent({
         subjects.map((task) =>
           task.id === selectedTask.id ? updatedTask : task
         )
-      );
-      setEditDialogVisible(false);
+      ); // Atualiza a lista de tarefas com a tarefa editada.
+      setEditDialogVisible(false); // Fecha o diálogo de edição.
     }
   };
 
@@ -196,10 +214,10 @@ export default function ActivitiesComponent({
         selectedTask.id
       );
 
-      await deleteDoc(taskRef);
+      await deleteDoc(taskRef); // Exclui a tarefa do banco de dados.
 
-      setSubjects(subjects.filter((task) => task.id !== selectedTask.id));
-      setEditDialogVisible(false);
+      setSubjects(subjects.filter((task) => task.id !== selectedTask.id)); // Remove a tarefa excluída da lista.
+      setEditDialogVisible(false); // Fecha o diálogo de edição.
     }
   };
 
@@ -213,7 +231,7 @@ export default function ActivitiesComponent({
       </div>
 
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
+        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
         style={{ color: 'white' }}
       >
         <div>
@@ -235,7 +253,7 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus('Active').map((task) => (
           <Button
-            className="w-full"
+            className="border-round-lg"
             style={{
               ...cardButtonStyles,
               borderColor: getStatusLabelColor(task.status),
@@ -243,9 +261,9 @@ export default function ActivitiesComponent({
             key={task.id}
             onClick={() => handleTaskClick(task)}
           >
-            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
             <div
-              className="flex flex-column w-12"
+              className="flex flex-column"
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
@@ -270,7 +288,7 @@ export default function ActivitiesComponent({
       <Divider className="my-0" />
 
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
+        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
         style={{ color: 'white' }}
       >
         <div>
@@ -282,7 +300,7 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus('Late').map((task) => (
           <Button
-            className="w-full"
+            className="w-border-round-lg"
             style={{
               ...cardButtonStyles,
               borderColor: getStatusLabelColor(task.status),
@@ -290,9 +308,9 @@ export default function ActivitiesComponent({
             key={task.id}
             onClick={() => handleTaskClick(task)}
           >
-            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
             <div
-              className="flex flex-column w-12"
+              className="flex flex-column"
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
@@ -317,7 +335,7 @@ export default function ActivitiesComponent({
       <Divider className="my-0" />
 
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
+        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
         style={{ color: 'white' }}
       >
         <div>
@@ -329,7 +347,7 @@ export default function ActivitiesComponent({
       <div style={containerStyles}>
         {getTasksByStatus('Finalized').map((task) => (
           <Button
-            className="w-full"
+            className="border-round-lg"
             style={{
               ...cardButtonStyles,
               borderColor: getStatusLabelColor(task.status),
@@ -337,9 +355,9 @@ export default function ActivitiesComponent({
             key={task.id}
             onClick={() => handleTaskClick(task)}
           >
-            <h2 style={{ color: 'white' }}>{task.nameSubject}</h2>
+            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
             <div
-              className="flex flex-column w-12"
+              className="flex flex-column"
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
