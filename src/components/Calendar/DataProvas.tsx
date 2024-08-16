@@ -5,18 +5,24 @@ import { db } from '../../../config/firebase';
 
 interface Exam {
   code: string;
-  date: Date;
+  date: {
+    seconds: number;
+    nanoseconds: number;
+  };
   id: string;
   room: string;
   score: string;
   status: string;
-  time: Date;
+  time: {
+    seconds: number;
+    nanoseconds: number;
+  };
 }
 
 interface Subject {
   codeSubject: string;
   exams: Map<string, Exam>;
-  status: string; // Novo campo adicionado
+  status: string;
 }
 
 interface UserData {
@@ -50,7 +56,7 @@ export default function DataProvas() {
                       {
                         codeSubject: subjectData.codeSubject,
                         exams: examsMap,
-                        status: subjectData.status, // Captura o status aqui
+                        status: subjectData.status,
                       },
                     ];
                   }
@@ -61,14 +67,12 @@ export default function DataProvas() {
           }
         });
 
-        // Cleanup listener on unmount
         return () => unsubscribeSnapshot();
       } else {
         setCurrentUserId(null);
       }
     });
 
-    // Cleanup auth listener on unmount
     return () => unsubscribeAuth();
   }, []);
 
@@ -78,14 +82,12 @@ export default function DataProvas() {
 
   const renderExams = (exams: Map<string, Exam>) => {
     return Array.from(exams.values())
-      .filter((exam) => exam.status !== 'Deleted') // Filtra exames com status "Deleted"
+      .filter((exam) => exam.status !== 'Deleted')
       .map((exam, index) => (
         <li key={index} className="flex align-items-center mb-3">
           <i className="pi pi-angle-right mr-2 text-green-500" />
-          {typeof exam.date === 'string'
-            ? new Date(exam.date).toLocaleDateString()
-            : exam.date.toDate().toLocaleDateString()}
-          : {exam.code}
+          {new Date(exam.date.seconds * 1000).toLocaleDateString()} :{' '}
+          {exam.code}
         </li>
       ));
   };
@@ -93,12 +95,12 @@ export default function DataProvas() {
   const filteredSubjects = Array.from(subjects.entries())
     .filter(
       ([, subject]) => subject.exams.size > 0 && subject.status !== 'Deleted'
-    ) // Filtra matérias com status "Deleted"
+    )
     .filter(([, subject]) =>
       Array.from(subject.exams.values()).some(
         (exam) => exam.status !== 'Deleted'
       )
-    ); // Filtra matérias onde todas as provas estão "Deleted"
+    );
 
   return (
     <div className="col-12 lg:col-4">

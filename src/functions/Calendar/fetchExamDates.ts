@@ -4,18 +4,15 @@ import { db } from '../../../config/firebase';
 
 interface Exam {
   code: string;
-  date: Date;
+  date: {
+    seconds: number;
+    nanoseconds: number;
+  };
   id: string;
   room: string;
   score: string;
   status: string;
   time: Date;
-}
-
-interface Subject {
-  codeSubject: string;
-  exams: Map<string, Exam>;
-  status: string; // Novo campo adicionado
 }
 
 interface UserData {
@@ -48,7 +45,7 @@ export const fetchExamDates = async (): Promise<
                       {
                         codeSubject: subjectData.codeSubject,
                         exams: examsMap,
-                        status: subjectData.status, // Captura o status aqui
+                        status: subjectData.status,
                       },
                     ];
                   }
@@ -56,16 +53,13 @@ export const fetchExamDates = async (): Promise<
               );
 
               subjectsMap.forEach((subject) => {
-                // Verifica o status do subject
                 if (subject.status !== 'Deleted') {
                   subject.exams.forEach((exam) => {
-                    // Verifica o status do exam
                     if (exam.status !== 'Deleted') {
                       examDates.push({
-                        date:
-                          typeof exam.date === 'string'
-                            ? new Date(exam.date).toLocaleDateString()
-                            : exam.date.toDate().toLocaleDateString(),
+                        date: new Date(
+                          exam.date.seconds * 1000
+                        ).toLocaleDateString(),
                         codeSubject: subject.codeSubject,
                       });
                     }
