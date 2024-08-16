@@ -1,7 +1,7 @@
-import FinalizeExamFunction from './FinalizeExam';
 import formatDate from '../FormatDate';
 import formatTime from '../FormatTime';
 import ActivateExamFunction from './ActivateExamFunction';
+import FinalizeExamFunction from './FinalizeExam';
 
 import { Timestamp } from 'firebase/firestore';
 
@@ -39,7 +39,6 @@ export default function ControlExamStatusBasedOnTime(subject: Subject) {
         formatTime(firebaseTimestamp) > formatTime(exam.time)) ||
         formatDate(firebaseTimestamp) > formatDate(exam.date))
     ) {
-      console.log(firebaseTimestamp.toDate());
       FinalizeExamFunction(subject.id, exam.id);
     } else if (exam.status != 'Deleted') {
       ActivateExamFunction(subject.id, exam.id);
