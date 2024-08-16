@@ -7,6 +7,7 @@ import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar
 import EditActivityFunction from '../../functions/EditActivity'; // Importa a função para editar a atividade.
 import FinalizeActivityFunction from '../../functions/FinalizedActivity'; // Importa a função para finalizar a atividade.
 import DeletedActivityFunction from '../../functions/DeleteActivity'; // Importa a função para excluir a atividade.
+import { ActiveActivityFunction } from "../../functions/CheckDateActivity";
 
 export default function EditActivityComponent(props: {
   visibleEdit: boolean; // Propriedade que controla se o diálogo de edição está visível.
@@ -83,6 +84,18 @@ export default function EditActivityComponent(props: {
     }
   };
 
+  const handleRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); 
+    ActiveActivityFunction(props.subjectId, props.taskId);
+    EditsetVisible(false);
+  };
+
+  const handleFinalized = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); 
+    FinalizeActivityFunction(props.subjectId, props.taskId);
+    EditsetVisible(false);
+  };
+
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault(); // Previne o comportamento padrão do botão.
     setShowConfirmDialog(true); // Mostra o diálogo de confirmação para a exclusão.
@@ -94,6 +107,7 @@ export default function EditActivityComponent(props: {
     DeletedActivityFunction(props.subjectId, props.taskId); // Chama a função para excluir a atividade.
     EditsetVisible(false); // Fecha o diálogo de edição.
   };
+
 
   const cancelDelete = () => {
     setShowConfirmDialog(false); // Fecha o diálogo de confirmação sem excluir.
@@ -172,21 +186,30 @@ export default function EditActivityComponent(props: {
               </>
             ) : (
               <>
-                <Button
-                  outlined
-                  label="Finalizar"
-                  style={{
+                {props.status === 'Finalized' && (
+                    <Button
+                     outlined
+                     label="Restaurar"
+                    style={{
                     borderColor: '#3e74aeb1', // Define a cor da borda do botão.
                     color: '#3e74aeb1', // Define a cor do texto do botão.
-                  }}
-                  onClick={
-                    () =>
-                      FinalizeActivityFunction(
-                        props.subjectId,
-                        props.taskId
-                      ).then(() => EditsetVisible(false)) // Finaliza a atividade e fecha o diálogo.
-                  }
-                />
+                    }}
+                    onClick={handleRestore}
+                    />
+                    )}
+
+                {(props.status === 'Active' || props.status === 'Late') && (
+                    <Button
+                     outlined
+                     label="Finalizar"
+                    style={{
+                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
+                    color: '#3e74aeb1', // Define a cor do texto do botão.
+                    }}
+                    onClick={handleFinalized}
+                    />
+                    )}
+                
                 <Button
                   outlined
                   label="Editar"

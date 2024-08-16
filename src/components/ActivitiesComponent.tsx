@@ -90,14 +90,15 @@ export default function ActivitiesComponent({
                   return Object.keys(item.tasks).map((key) => {
                     const task = item.tasks[key];
                     const deliveryDay = task.deliveryDay.toDate();
+                    const delayDay = deliveryDay.setDate(deliveryDay.getDate()+1)
                     let status = '';
                     if (
-                      deliveryDay < today &&
+                      delayDay < today &&
                       task.status != 'Finalized' &&
                       task.status != 'Deleted'
                     ) {
                       CheckDate(
-                        deliveryDay,
+                        delayDay,
                         today,
                         task.subjectId,
                         task.taskId,
@@ -106,12 +107,12 @@ export default function ActivitiesComponent({
                       status = 'Late';
                     }
                     if (
-                      deliveryDay >= today &&
+                      delayDay >= today &&
                       task.status != 'Finalized' &&
                       task.status != 'Deleted'
                     ) {
                       CheckDate(
-                        deliveryDay,
+                        delayDay,
                         today,
                         task.subjectId,
                         task.taskId,
