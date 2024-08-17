@@ -7,7 +7,8 @@ import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar
 import { Timestamp } from 'firebase/firestore'; // Importa o tipo Timestamp do Firestore
 import EditBookFunction from '../../functions/EditBook'; // Importa a função para editar um livro
 import DeleteBookFunction from '../../functions/DeleteBook'; // Importa a função para excluir um livro
-import FinalizeBookFunction from '../../functions/FinalizedBook'; // Importa a função para finalizar um livro
+import { FinalizedBookFunction } from "../../functions/FinalizedBook"; // Importa a função para finalizar um livro
+import { ActiveBookFunction } from "../../functions/FinalizedBook";
 
 interface BookData {
   // Define a interface para os dados do livro
@@ -15,6 +16,7 @@ interface BookData {
   codeSubject: string; // Código da matéria
   bookName: string; // Nome do livro
   deliveryDay: Timestamp | null; // Data de devolução (Timestamp ou null)
+  status: string;
 }
 
 export default function EditBookComponent(props: {
@@ -70,6 +72,18 @@ export default function EditBookComponent(props: {
         deliveryDay: e.value, // Atualiza a data de devolução
       }));
     }
+  };
+
+  const handleRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); 
+    ActiveBookFunction(bookData?.id);
+    EditsetVisible1(false);
+  };
+
+  const handleFinalized = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); 
+    FinalizedBookFunction(bookData?.id);
+    EditsetVisible1(false);
   };
 
   const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -204,17 +218,30 @@ export default function EditBookComponent(props: {
               </>
             ) : (
               <>
-                <Button
-                  outlined
-                  label="Finalizar" // Texto do botão
-                  style={{
-                    borderColor: '#3e74aeb1', // Cor da borda do botão
-                    color: '#3e74aeb1', // Cor do texto do botão
-                  }}
-                  onClick={() =>
-                    FinalizeBookFunction(bookData?.id) && EditsetVisible1(false)
-                  } // Finaliza o livro e fecha o modal
-                />
+                {bookData?.status === 'Finalized' && (
+                    <Button
+                     outlined
+                     label="Restaurar"
+                    style={{
+                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
+                    color: '#3e74aeb1', // Define a cor do texto do botão.
+                    }}
+                    onClick={handleRestore}
+                    />
+                    )}
+
+                {bookData?.status === 'Ongoing' && (
+                    <Button
+                     outlined
+                     label="Finalizar"
+                    style={{
+                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
+                    color: '#3e74aeb1', // Define a cor do texto do botão.
+                    }}
+                    onClick={handleFinalized}
+                    />
+                    )}
+
                 <Button
                   outlined
                   label="Editar" // Texto do botão

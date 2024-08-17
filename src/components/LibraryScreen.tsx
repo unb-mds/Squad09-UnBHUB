@@ -38,17 +38,20 @@ export default function LibraryComponent(props: {
               const books: ICreateBook[] = userData.books; // Converte os livros para o tipo ICreateBook
               const today = new Date(); // Obtém a data atual
               // Filtra livros em andamento
-              const ongoing = Object.values(books).filter(
-                (bookData) =>
-                  bookData.deliveryDay.toDate() >= today && // Data de devolução ainda não passou
-                  !['Deleted', 'Finalized'].includes(bookData.status) // Status não é "Deleted" ou "Finalized"
-              );
+
+              const ongoing = Object.values(books).filter((bookData) => {
+                const deliveryDay = bookData.deliveryDay.toDate();
+                deliveryDay.setDate(deliveryDay.getDate() + 1);
+                return deliveryDay >= today &&
+                       !['Deleted', 'Finalized'].includes(bookData.status);
+              });
               // Filtra livros atrasados
-              const overdue = Object.values(books).filter(
-                (bookData) =>
-                  bookData.deliveryDay.toDate() < today && // Data de devolução já passou
-                  !['Deleted', 'Finalized'].includes(bookData.status) // Status não é "Deleted" ou "Finalized"
-              );
+              const overdue = Object.values(books).filter((bookData) => {
+                const deliveryDay = bookData.deliveryDay.toDate();
+                deliveryDay.setDate(deliveryDay.getDate() + 1);
+                return deliveryDay < today &&
+                       !['Deleted', 'Finalized'].includes(bookData.status);
+              });
               // Filtra livros finalizados
               const finalized = Object.values(books).filter(
                 (bookData) => !['Deleted', 'Ongoing'].includes(bookData.status) // Status não é "Deleted" ou "Ongoing"
