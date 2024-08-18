@@ -1,7 +1,7 @@
 # Arquitetura do Projeto
 
-![Architecture](./assets/architecture.png)
-Link para melhor visualização: https://miro.com/app/board/uXjVKQTq3Zw=/
+![Architecture](./assets/newArchitecture.png)
+Link para melhor visualização: https://miro.com/app/board/uXjVKoxN9n8=/
 
 ## Visão Geral
 
@@ -23,7 +23,7 @@ O banco de dados é utilizado para armazenar informações essenciais da platafo
 
 ### 4. Serviços Externos
 
-Além dos componentes principais, a plataforma integra-se com serviços externos, como o site oficial da UnB para obter informações atualizadas, como as informações do calendário e cardápio.
+Além dos componentes principais, a plataforma integra-se com serviços externos, a partir de uma ferramenta de web scraping que coleta informações dos sites oficiais da UnB, como o calendário acadêmico e cardápio semanal do restaurante universitário que são exibidos no nosso site.
 
 ## Fluxo de Dados
 
