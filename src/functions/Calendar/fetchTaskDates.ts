@@ -1,21 +1,17 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
-import { Timestamp } from 'firebase/firestore';
 
 interface Task {
-  deliveryDay: Timestamp;
+  deliveryDay: {
+    seconds: number;
+    nanoseconds: number;
+  };
   description: string;
   status: string;
   subjectId: string;
   taskId: string;
   taskName: string;
-}
-
-interface Subject {
-  codeSubject: string;
-  tasks: Map<string, Task>;
-  status: string; // Novo campo adicionado
 }
 
 interface UserData {
@@ -35,21 +31,19 @@ export const fetchTaskDates = async (): Promise<
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
         const userDocRef = doc(db, 'Users', user.uid);
-        const unsubscribeSnapshot = onSnapshot(userDocRef, (doc) => {
-          if (doc.exists()) {
-            const userData = doc.data() as UserData;
-            if (userData && userData.subjects) {
-              Object.entries(userData.subjects).forEach(
-                ([subjectId, subject]) => {
-                  // Verifica o status do subject
+        const unsubscribeSnapshot = onSnapshot(
+          userDocRef,
+          (doc) => {
+            if (doc.exists()) {
+              const userData = doc.data() as UserData;
+              if (userData && userData.subjects) {
+                Object.entries(userData.subjects).forEach(([, subject]) => {
                   if (subject.status !== 'Deleted') {
                     Object.values(subject.tasks).forEach((task) => {
-                      // Verifica o status da task
                       if (task.status !== 'Deleted') {
-                        const deliveryDay =
-                          task.deliveryDay instanceof Timestamp
-                            ? task.deliveryDay.toDate()
-                            : new Date(task.deliveryDay.seconds * 1000); // Conversão alternativa
+                        const deliveryDay = new Date(
+                          task.deliveryDay.seconds * 1000
+                        );
                         taskDates.push({
                           deliveryDay: deliveryDay,
                           description: task.description,
@@ -57,16 +51,19 @@ export const fetchTaskDates = async (): Promise<
                       }
                     });
                   }
-                }
-              );
-              resolve(taskDates);
+                });
+                resolve(taskDates);
+              } else {
+                resolve(taskDates);
+              }
             } else {
               resolve(taskDates);
             }
-          } else {
-            resolve(taskDates);
+          },
+          (error) => {
+            reject(error);
           }
-        });
+        );
 
         // Cleanup listener on unmount
         return () => unsubscribeSnapshot();

@@ -5,9 +5,12 @@ import { db } from '../../../config/firebase';
 interface Book {
   bookName: string;
   codeSubject: string;
-  deliveryDay: any; // Pode ser Timestamp ou Date, dependendo da origem dos dados
+  deliveryDay: {
+    seconds: number;
+    nanoseconds: number;
+  };
   id: string;
-  status: string; // Novo campo adicionado
+  status: string;
 }
 
 export const fetchBookDates = async (): Promise<
@@ -16,7 +19,7 @@ export const fetchBookDates = async (): Promise<
   const auth = getAuth();
   const bookDates: { deliveryDay: Date; bookName: string }[] = [];
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
         const userDocRef = doc(db, 'Users', user.uid);
@@ -31,9 +34,7 @@ export const fetchBookDates = async (): Promise<
                 // Verifica o status do book
                 if (book.status !== 'Deleted') {
                   bookDates.push({
-                    deliveryDay: book.deliveryDay.toDate
-                      ? book.deliveryDay.toDate()
-                      : new Date(book.deliveryDay),
+                    deliveryDay: new Date(book.deliveryDay.seconds * 1000),
                     bookName: book.bookName,
                   });
                 }

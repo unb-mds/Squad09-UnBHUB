@@ -4,7 +4,10 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
 
 interface Task {
-  deliveryDay: Date;
+  deliveryDay: {
+    seconds: number;
+    nanoseconds: number;
+  };
   description: string;
   status: string; // Adiciona o campo de status
   subjectId: string;
@@ -81,10 +84,9 @@ export default function DataTarefas() {
       .map((task, index) => (
         <li key={index} className="flex align-items-center mb-3">
           <i className="pi pi-angle-right mr-2 text-green-500" />
-          {typeof task.deliveryDay === 'string'
-            ? new Date(task.deliveryDay).toLocaleDateString()
-            : task.deliveryDay.toDate().toLocaleDateString()}
-          : {task.description}
+          {new Date(
+            task.deliveryDay.seconds * 1000
+          ).toLocaleDateString()} : {task.description}
         </li>
       ));
   };
