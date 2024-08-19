@@ -4,7 +4,7 @@ import { Avatar } from 'primereact/avatar';
 export default function NavbarComponent() {
   return (
     <div className="flex justify-content-between align-items-center surface-50 my-1 mx-3 border-round-xl">
-      <div className="flex justify-content-between w-9 px-6">
+      <div className="flex justify-content-between px-6">
         <h2>👋 Bem-Vindo!</h2>
       </div>
       <div className="flex align-items-center">

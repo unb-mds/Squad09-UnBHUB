@@ -125,13 +125,13 @@ export default function SpecificSubjectComponents() {
         Em andamento
       </div>
       <Divider className="my-3 mt-1"></Divider>
-      <div className="flex flex-wrap">
-        {/* Renderiza as tarefas ativas da matéria se a matéria existir no estado */}
+      <div className="flex flex-row">
         {subjects.has(id) && (
           <SpecificSubjectTasks
             key={id}
             subject={subjects.get(id)!}
             status="Active"
+            styleOption="Horizontal"
           />
         )}
       </div>
@@ -147,6 +147,7 @@ export default function SpecificSubjectComponents() {
             key={id}
             subject={subjects.get(id)!}
             status="Late"
+            styleOption="Horizontal"
           />
         )}
       </div>
@@ -166,6 +167,7 @@ export default function SpecificSubjectComponents() {
             key={id}
             subject={subjects.get(id)!}
             status="Finalized"
+            styleOption="Horizontal"
           />
         )}
       </div>

@@ -14,7 +14,7 @@ import DashboardSubjectsComponent from '../components/Dashboard/DashboardSubject
 import DashboardTaskComponent from '../components/Dashboard/DashboardTaskComponent';
 
 function DashboardScreen() {
-  const [subjects, setSubjects] = useState(null);
+  const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -32,19 +32,19 @@ function DashboardScreen() {
     });
   }, []);
   return (
-    <div className="flex flex-row">
+    <div className="flex">
       <SideBarComponent />
       <div>
         <Outlet />
       </div>
-      <div className="flex flex-column pl-1 gap-1">
+      <div className="flex flex-column pl-1 gap-1 w-full">
         <NavbarComponent />
         <div className="flex flex-row">
           <div className="flex flex-column w-9">
             <DashboardSubjectsComponent subjects={subjects} />
             <DashboardExamsComponent />
           </div>
-          <div className="flex flex-column w-3 pl-3">
+          <div className="flex flex-column pl-3 w-3">
             <DashboardTaskComponent subjects={subjects} />
           </div>
         </div>
