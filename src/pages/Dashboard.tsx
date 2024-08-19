@@ -1,14 +1,36 @@
 import { Outlet } from 'react-router-dom';
 import { withAuth } from '../../utils/auth';
 
-import ExamsComponent from '../components/Dashboard/Exams';
+import { useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '../../config/firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
+
+import DashboardExamsComponent from '../components/Dashboard/DashboardExamsComponent';
 import NavbarComponent from '../components/Dashboard/Navbar';
 import SideBarComponent from '../components/SideBar';
 
 import DashboardSubjectsComponent from '../components/Dashboard/DashboardSubjects';
-import TasksComponent from '../components/Dashboard/Task';
+import DashboardTaskComponent from '../components/Dashboard/DashboardTaskComponent';
 
 function DashboardScreen() {
+  const [subjects, setSubjects] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const unsub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
+          if (doc.exists() && doc.data().subjects) {
+            setSubjects(doc.data().subjects);
+          } else {
+            setSubjects([]);
+          }
+        });
+
+        return () => unsub();
+      }
+    });
+  }, []);
   return (
     <div className="flex flex-row">
       <SideBarComponent />
@@ -17,14 +39,13 @@ function DashboardScreen() {
       </div>
       <div className="flex flex-column pl-1 gap-1">
         <NavbarComponent />
-        <div className="flex flex-row">{/* <PanelDashboardComponent /> */}</div>
         <div className="flex flex-row">
           <div className="flex flex-column w-9">
-            <DashboardSubjectsComponent />
-            <ExamsComponent />
+            <DashboardSubjectsComponent subjects={subjects} />
+            <DashboardExamsComponent />
           </div>
           <div className="flex flex-column w-3 pl-3">
-            <TasksComponent />
+            <DashboardTaskComponent subjects={subjects} />
           </div>
         </div>
       </div>

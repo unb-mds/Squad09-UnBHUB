@@ -2,8 +2,7 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
 
-
-export default function TasksComponent() {
+export default function DashboardTasksComponent() {
   return (
     <div className="flex flex-column mx-3 my-3">
       <div className="flex flex-column my-3 px-3">
