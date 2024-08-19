@@ -18,8 +18,6 @@ export default async function EditSubjectFunction(
 ) {
   if (!auth.currentUser) return;
 
-  console.log(props.startTime);
-
   const SubjectRef = doc(db, 'Users', auth.currentUser.uid);
   // Constrói o objeto com os campos atualizados
   const updatedFields: { [key: string]: any } = {};
