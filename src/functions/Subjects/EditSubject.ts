@@ -1,4 +1,4 @@
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, Timestamp } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase';
 
 interface IEditSubject {
@@ -17,6 +17,8 @@ export default async function EditSubjectFunction(
   subjectID: string
 ) {
   if (!auth.currentUser) return;
+
+  console.log(props.startTime);
 
   const SubjectRef = doc(db, 'Users', auth.currentUser.uid);
   // Constrói o objeto com os campos atualizados
