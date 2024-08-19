@@ -1,48 +1,44 @@
-// Importa componentes do PrimeReact, uma biblioteca de componentes UI para React.
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import { FloatLabel } from 'primereact/floatlabel';
-import { InputText } from 'primereact/inputtext';
-import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar
+import { Button } from 'primereact/button'; // Importa o componente Button da biblioteca PrimeReact.
+import { Dialog } from 'primereact/dialog'; // Importa o componente Dialog da biblioteca PrimeReact.
+import { FloatLabel } from 'primereact/floatlabel'; // Importa o componente FloatLabel da biblioteca PrimeReact.
+import { InputText } from 'primereact/inputtext'; // Importa o componente InputText da biblioteca PrimeReact.
+import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar da biblioteca PrimeReact.
 
-// Validadores de formulário
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { Formik } from 'formik'; // Importa o Formik para gerenciamento de formulários.
+import * as Yup from 'yup'; // Importa o Yup para validação de esquema de formulários.
 
-// Função para criar um novo componente de matéria
-import CreateActivityFunction from '../../functions/CreateActivity';
-import SearchDropdownComponent from './SearchDropdown';
+import CreateActivityFunction from '../../functions/CreateActivity'; // Importa a função para criar uma nova atividade.
+import SearchDropdownComponent from './SearchDropdown'; // Importa um componente de dropdown para seleção de matéria.
 
-// Define um componente funcional React chamado CreateActivityComponent.
 export default function CreateActivityComponent(props: {
-  visibleCreate: boolean; // Propriedade visível que determina se o diálogo está visível ou não.
-  CreatesetVisible: (visibleCreate: boolean) => void; // Função para definir a visibilidade do diálogo.
+  visibleCreate: boolean; // Propriedade que controla se o diálogo de criação está visível.
+  CreatesetVisible: (visibleCreate: boolean) => void; // Função para atualizar a visibilidade do diálogo.
 }) {
   return (
     <Formik
       initialValues={{
         subject: {
-          name: '',
-          code: '',
+          name: '', // Nome da matéria.
+          code: '', // Código da matéria.
         },
-        taskName: '',
-        deliveryDay: null, // Ajuste para inicializar com null
-        description:'',
+        taskName: '', // Nome da atividade.
+        deliveryDay: null, // Data de entrega da atividade (inicialmente null).
+        description: '', // Descrição da atividade.
       }}
       onSubmit={(values) => {
         CreateActivityFunction(values).then(() => {
-          props.CreatesetVisible(false);
+          props.CreatesetVisible(false); // Fecha o diálogo após a criação da atividade.
         });
       }}
       validationSchema={Yup.object().shape({
         subject: Yup.object().shape({
-          name: Yup.string().required('A matéria é obrigatória'),
-          code: Yup.string().required('O código da matéria é obrigatório'),
+          name: Yup.string().required('A matéria é obrigatória'), // Valida que o nome da matéria é obrigatório.
+          code: Yup.string().required('O código da matéria é obrigatório'), // Valida que o código da matéria é obrigatório.
         }),
-        taskName: Yup.string().required('O nome da atividade é obrigatório'),
+        taskName: Yup.string().required('O nome da atividade é obrigatório'), // Valida que o nome da atividade é obrigatório.
         deliveryDay: Yup.date()
           .nullable()
-          .required('O dia de entrega é obrigatório'), // Ajuste para validação de data
+          .required('O dia de entrega é obrigatório'), // Valida que a data de entrega é obrigatória.
       })}
     >
       {({
@@ -55,90 +51,86 @@ export default function CreateActivityComponent(props: {
         touched,
       }) => (
         <form
-          onSubmit={handleSubmit}
-          className="card flex justify-content-center gap-6"
+          onSubmit={handleSubmit} // Envia o formulário quando a função handleSubmit é chamada.
+          className="card flex justify-content-center gap-6" // Define o layout do formulário com espaçamento.
         >
-          {/* Componente de diálogo que é exibido ou não com base no valor de props.visible. */}
           <Dialog
-            header="Cadastrar atividade" // Título do diálogo.
+            header="Cadastrar atividade" // Título do diálogo de criação.
             visible={props.visibleCreate} // Define a visibilidade do diálogo.
             style={{ width: '30vw' }} // Define a largura do diálogo.
-            onHide={() => props.CreatesetVisible(false)} // Função para esconder o diálogo quando for fechado.
+            onHide={() => props.CreatesetVisible(false)} // Função chamada ao fechar o diálogo.
           >
-            {/* Campo de seleção de matéria */}
             <div className="my-4">
-            <SearchDropdownComponent
-              selectedSubject={values.subject}
-              setSelectedSubject={(props) =>
-                setFieldValue('subject', {
-                  name: props.name,
-                  code: props.code,
-                })
-              }
-            />
+              <SearchDropdownComponent
+                selectedSubject={values.subject}
+                setSelectedSubject={(props) =>
+                  setFieldValue('subject', {
+                    name: props.name,
+                    code: props.code,
+                  })
+                }
+              />
             </div>
-            
+
             <div>
               {errors.subject && touched.subject ? (
-                <div className="text-red-500">{errors.subject.name}</div>
+                <div className="text-red-500">{errors.subject.name}</div> // Exibe erros de validação para o campo de matéria.
               ) : null}
             </div>
 
-            {/* Campo de entrada para o nome da atividade com um rótulo flutuante. */}
             <FloatLabel>
               <InputText
-                className="flex mt-5 mb-5 w-full"
+                className="flex mt-5 mb-5 w-full" // Define o layout do campo de entrada com margem e largura total.
                 id="taskName"
-                value={values.taskName}
-                onChange={handleChange('taskName')}
-                onBlur={handleBlur}
+                value={values.taskName} // Define o valor do campo com base no estado do formulário.
+                onChange={handleChange('taskName')} // Função chamada ao alterar o valor do campo.
+                onBlur={handleBlur} // Função chamada ao sair do campo.
               />
               <label htmlFor="taskName">Nome da atividade</label>
             </FloatLabel>
             {errors.taskName && touched.taskName ? (
-              <div className="text-red-500">{errors.taskName}</div>
+              <div className="text-red-500">{errors.taskName}</div> // Exibe erros de validação para o campo de nome da atividade.
             ) : null}
 
-            {/* Seletor de data para o dia de entrega */}
             <FloatLabel>
               <Calendar
                 id="deliveryDay"
-                value={values.deliveryDay}
-                onChange={(e) => setFieldValue('deliveryDay', e.value)}
-                onBlur={handleBlur}
-                className="flex mt-5 mb-5 w-full"
-                dateFormat="dd/mm/yy"
-                showIcon
+                value={values.deliveryDay} // Define o valor do campo com base no estado do formulário.
+                onChange={(e) => setFieldValue('deliveryDay', e.value)} // Função chamada ao alterar a data.
+                onBlur={handleBlur} // Função chamada ao sair do campo.
+                className="flex mt-5 mb-5 w-full" // Define o layout do campo de calendário com margem e largura total.
+                dateFormat="dd/mm/yy" // Define o formato da data.
+                showIcon // Exibe um ícone de calendário.
               />
               <label htmlFor="deliveryDay">Dia de entrega</label>
             </FloatLabel>
             {errors.deliveryDay && touched.deliveryDay ? (
-              <div className="text-red-500 my-5">{errors.deliveryDay}</div>
+              <div className="text-red-500 my-5">{errors.deliveryDay}</div> // Exibe erros de validação para o campo de data de entrega.
             ) : null}
             <FloatLabel>
               <InputText
-                className="flex mt-5 mb-5 w-full"
+                className="flex mt-5 mb-5 w-full" // Define o layout do campo de entrada com margem e largura total.
                 id="description"
-                value={values.description}
-                onChange={handleChange('description')}
-                onBlur={handleBlur}
+                value={values.description} // Define o valor do campo com base no estado do formulário.
+                onChange={handleChange('description')} // Função chamada ao alterar o valor do campo.
+                onBlur={handleBlur} // Função chamada ao sair do campo.
               />
               <label htmlFor="description">Descrição (Opcional)</label>
             </FloatLabel>
 
-            {/* Botões para cancelar ou confirmar a operação. */}
             <div className="flex justify-content-between flex-wrap">
+              {' '}
               <Button
                 outlined
                 label="Fechar"
                 style={{
-                  borderColor: '#ff6060',
-                  color: '#ff6060',
+                  borderColor: '#ff6060', // Define a cor da borda do botão.
+                  color: '#ff6060', // Define a cor do texto do botão.
                 }}
-                onClick={() => props.CreatesetVisible(false)}
+                onClick={() => props.CreatesetVisible(false)} // Função chamada ao clicar no botão de fechar.
               />
-              {/* Botão de confirmar. */}
-              <Button onClick={() => handleSubmit()} label="Confirmar" />
+              <Button onClick={() => handleSubmit()} label="Confirmar" />{' '}
+              {/* Botão para confirmar a criação da atividade. */}
             </div>
           </Dialog>
         </form>
