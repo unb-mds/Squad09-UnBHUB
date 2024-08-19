@@ -7,7 +7,6 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import DeleteExam from '../../functions/Subjects/DeleteExam';
-import FinalizeExamFunction from '../../functions/Subjects/FinalizeExam';
 import EditExam from '../../functions/Subjects/EditExam';
 
 interface EditExamDialogProps {
@@ -16,8 +15,14 @@ interface EditExamDialogProps {
   exam: {
     code: string;
     score: string;
-    date: Date;
-    time: Date;
+    date: {
+      seconds: number;
+      nanoseconds: number;
+    };
+    time: {
+      seconds: number;
+      nanoseconds: number;
+    };
     room: string;
     status: string;
     id: string; // ID da prova para identificar o documento no Firestore
@@ -37,8 +42,12 @@ export default function EditExamDialog({
       initialValues={{
         code: exam.code,
         score: exam.score,
-        date: exam.date,
-        time: exam.time,
+        date: new Date(
+          exam.date.seconds * 1000 + exam.date.nanoseconds / 1000000
+        ),
+        time: new Date(
+          exam.time.seconds * 1000 + exam.time.nanoseconds / 1000000
+        ),
         room: exam.room,
         status: exam.status,
       }}
@@ -160,14 +169,6 @@ export default function EditExamDialog({
             ) : null}
 
             <div className="flex justify-content-between gap-3">
-              <Button
-                outlined
-                label="Finalizar"
-                onClick={async () => {
-                  await FinalizeExamFunction(subjectId, exam.id);
-                  onHide(); // Fechar o diálogo após a atualização
-                }}
-              />
               <Button
                 outlined
                 label="Excluir"

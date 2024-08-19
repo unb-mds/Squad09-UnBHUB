@@ -6,22 +6,33 @@ import { Formik } from 'formik';
 import { Calendar } from 'primereact/calendar';
 import * as Yup from 'yup';
 import EditSubjectFunction from '../../functions/Subjects/EditSubject';
-import { MultiSelect } from 'primereact/multiselect'; // Usando MultiSelect para escolher múltiplas opções
+import { MultiSelect } from 'primereact/multiselect';
 import { useEffect, useState } from 'react';
+
+interface Subject {
+  id: string;
+  codeSubject: string;
+  nameSubject: string;
+  professor: string;
+  weekDays: string;
+  startTime: Date;
+  endTime: Date;
+  local: string;
+}
 
 export default function EditSubjectComponent(props: {
   visible: boolean;
   setVisible: (visible: boolean) => void;
-  subject: any;
+  subject: Subject;
 }) {
   const [weekDays, setWeekDays] = useState<string[]>(
-    props.subject?.weekDays?.split(',') || []
+    props.subject?.weekDays?.split(', ') || []
   );
 
   useEffect(() => {
     if (props.subject) {
       setWeekDays(
-        props.subject.weekDays ? props.subject.weekDays.split(',') : []
+        props.subject.weekDays ? props.subject.weekDays.split(', ') : []
       );
     }
   }, [props.subject]);
@@ -34,8 +45,10 @@ export default function EditSubjectComponent(props: {
     { label: 'Sexta', value: 'Sexta' },
   ];
 
-  // Converte o array de dias em uma string separada por vírgulas
-  const getWeekDaysString = () => weekDays.join(',');
+  const getWeekDaysString = () => weekDays.join(', ');
+
+  console.log('startTime: ', new Date(Number(props.subject.startTime) * 1000));
+
   return (
     <Formik
       enableReinitialize
@@ -44,8 +57,8 @@ export default function EditSubjectComponent(props: {
         nameSubject: props.subject?.nameSubject || '',
         professor: props.subject?.professor || '',
         weekDays: weekDays,
-        startTime: new Date(props.subject.startTime * 1000),
-        endTime: new Date(props.subject.endTime * 1000),
+        startTime: new Date(Number(props.subject.startTime) * 1000),
+        endTime: new Date(Number(props.subject.endTime) * 1000),
         local: props.subject?.local || '',
       }}
       onSubmit={(values) => {
@@ -154,7 +167,7 @@ export default function EditSubjectComponent(props: {
 
             <div className="flex gap-3">
               <FloatLabel>
-                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                <label htmlFor="startTime" className="font-bold block mb-2">
                   Horário início
                 </label>
                 <Calendar
@@ -173,7 +186,7 @@ export default function EditSubjectComponent(props: {
               ) : null}
 
               <FloatLabel>
-                <label htmlFor="buttondisplay" className="font-bold block mb-2">
+                <label htmlFor="endTime" className="font-bold block mb-2">
                   Horário fim
                 </label>
                 <Calendar
@@ -217,7 +230,7 @@ export default function EditSubjectComponent(props: {
                 }}
                 onClick={() => props.setVisible(false)}
               />
-              <Button onClick={handleSubmit} label="Confirmar" />
+              <Button onClick={handleSubmit} label="Confirmar" type="submit" />
             </div>
           </Dialog>
         </form>
