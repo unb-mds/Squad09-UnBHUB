@@ -257,7 +257,7 @@ export default function EditActivityComponent(props: {
           </div>
         }
       >
-        <p>Você tem certeza que deseja excluir este livro?</p>
+        <p>Você tem certeza que deseja excluir esta tarefa?</p>
       </Dialog>
     </>
   );

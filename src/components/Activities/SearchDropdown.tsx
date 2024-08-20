@@ -29,8 +29,15 @@ export default function SearchDropdownComponent({
         // Obtém o documento do usuário do Firestore e escuta suas alterações.
         const unsub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
           if (doc.exists() && doc.data().subjects) {
-            // Se o documento existir e contiver assuntos.
-            setAllSearchSubjects(doc.data().subjects); // Atualiza o estado com os dados dos assuntos.
+            // Acessa a lista de assuntos do documento do usuário.
+            const subjectsData = doc.data().subjects;
+
+            // Filtra as matérias para exibir apenas aquelas com status "Active".
+            const activeSubjects = Object.values(subjectsData).filter(
+              (subject: { status: string }) => subject.status === 'Active'
+            );
+
+            setAllSearchSubjects(activeSubjects); // Atualiza o estado com as matérias filtradas.
           } else {
             setAllSearchSubjects([]); // Define o estado como uma lista vazia se não houver dados.
           }
@@ -42,7 +49,7 @@ export default function SearchDropdownComponent({
   }, []); // Executa o efeito apenas uma vez, quando o componente é montado.
 
   // Mapeia os assuntos disponíveis para um formato adequado para o Dropdown.
-  const filteredSubjects = Object.values(allSearchSubjects).map(
+  const filteredSubjects = allSearchSubjects.map(
     (subject: { nameSubject: string; id: string }) => {
       return {
         name: subject.nameSubject, // Nome do assunto.
