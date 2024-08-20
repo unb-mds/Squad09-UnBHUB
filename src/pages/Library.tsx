@@ -1,44 +1,49 @@
-import { useState } from 'react';
-import CreateBookComponent from '../components/Library/createLibrary';
-import EditBookComponent from '../components/Library/editBook';
-import LibraryComponent from '../components/LibraryScreen';
-import SideBarComponent from '../components/SideBar';
+import { useState } from 'react'; // Importa o hook useState do React para gerenciar o estado
+import CreateBookComponent from '../components/Library/createLibrary'; // Importa o componente para criar livros
+import EditBookComponent from '../components/Library/editBook'; // Importa o componente para editar livros
+import LibraryComponent from '../components/LibraryScreen'; // Importa o componente para exibir a biblioteca
+import SideBarComponent from '../components/SideBar'; // Importa o componente de barra lateral
 
 export default function Library() {
-  const [visibleCreate1, CreatesetVisible1] = useState<boolean>(false);
-  const [visibleEdit1, EditsetVisible1] = useState<boolean>(false);
+  // Define o componente funcional Library
+  const [visibleCreate1, CreatesetVisible1] = useState<boolean>(false); // Estado para controlar a visibilidade do modal de criação de livros
+  const [visibleEdit1, EditsetVisible1] = useState<boolean>(false); // Estado para controlar a visibilidade do modal de edição de livros
   const [selectedBookData, setSelectedBookData] = useState<{
-    id: string;
-    codeSubject: string;
-    bookName: string;
-    deliveryDay: string;
-  } | null>(null);
+    // Estado para armazenar os dados do livro selecionado para edição
+    id: string; // ID do livro
+    codeSubject: string; // Código da matéria
+    bookName: string; // Nome do livro
+    deliveryDay: string; // Data de devolução
+  } | null>(null); // Inicialmente, é null se nenhum livro for selecionado
 
   const handleEditClick = (bookData: {
-    id: string;
-    codeSubject: string;
-    bookName: string;
-    deliveryDay: string;
+    // Função para lidar com o clique no botão de editar livro
+    id: string; // ID do livro
+    codeSubject: string; // Código da matéria
+    bookName: string; // Nome do livro
+    deliveryDay: string; // Data de devolução
   }) => {
-    setSelectedBookData(bookData);
-    EditsetVisible1(true);
+    setSelectedBookData(bookData); // Define os dados do livro selecionado no estado
+    EditsetVisible1(true); // Torna visível o modal de edição
   };
 
   return (
     <div className="flex flex-row">
-      <SideBarComponent />
+      {' '}
+      {/* Define um contêiner flexível com orientação horizontal */}
+      <SideBarComponent /> {/* Renderiza o componente de barra lateral */}
       <LibraryComponent
-        CreatesetVisible1={CreatesetVisible1}
-        EditsetVisible1={handleEditClick}
+        CreatesetVisible1={CreatesetVisible1} // Passa a função para controlar a visibilidade do modal de criação
+        EditsetVisible1={handleEditClick} // Passa a função para controlar a edição de livros
       />
       <CreateBookComponent
-        visibleCreate1={visibleCreate1}
-        CreatesetVisible1={CreatesetVisible1}
+        visibleCreate1={visibleCreate1} // Controla a visibilidade do modal de criação de livros
+        CreatesetVisible1={CreatesetVisible1} // Passa a função para atualizar a visibilidade do modal de criação
       />
       <EditBookComponent
-        visibleEdit1={visibleEdit1}
-        EditsetVisible1={EditsetVisible1}
-        bookData={selectedBookData}
+        visibleEdit1={visibleEdit1} // Controla a visibilidade do modal de edição de livros
+        EditsetVisible1={EditsetVisible1} // Passa a função para atualizar a visibilidade do modal de edição
+        bookData={selectedBookData} // Passa os dados do livro selecionado para o componente de edição
       />
     </div>
   );
