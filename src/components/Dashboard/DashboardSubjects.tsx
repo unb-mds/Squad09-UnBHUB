@@ -1,7 +1,24 @@
-import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
+import { ScrollPanel } from 'primereact/scrollpanel';
+import SubjectCardConstructorComponent from '../Subject/subjectsCardConstructor';
 
-export default function DashboardSubjectsComponent() {
+interface Subject {
+  codeSubject: string;
+  nameSubject: string;
+  professor: string;
+  weekDays: string;
+  startTime: Date;
+  endTime: Date;
+  local: string;
+  status: string;
+  id: string;
+  tasks: [];
+  exams: [];
+}
+
+export default function DashboardSubjectsComponent(props: {
+  subjects: Subject[];
+}) {
   return (
     <div className="flex flex-column mx-3 my-3">
       <div className="flex justify-content-between">
@@ -21,40 +38,14 @@ export default function DashboardSubjectsComponent() {
         </a>
       </div>
 
-      <div className="flex flex-row justify-content-between gap-2 font-light">
-        <Card title="Matéria 01">
-          <p className="m-0 text-justify">
-            Lorem ipsum dolor sit amet. Quo repellat voluptas vel praesentium
-            quasi non consequatur optio ut consequatur corrupti a blanditiis
-            facere eum beatae dolor in dicta odio? Non facilis doloribus ab amet
-            itaque ea facilis nostrum.
-          </p>
-        </Card>
-        <Card title="Matéria 02">
-          <p className="m-0 text-justify">
-            Lorem ipsum dolor sit amet. Quo repellat voluptas vel praesentium
-            quasi non consequatur optio ut consequatur corrupti a blanditiis
-            facere eum beatae dolor in dicta odio? Non facilis doloribus ab amet
-            itaque ea facilis nostrum.
-          </p>
-        </Card>
-        <Card title="Matéria 03">
-          <p className="m-0 text-justify">
-            Lorem ipsum dolor sit amet. Quo repellat voluptas vel praesentium
-            quasi non consequatur optio ut consequatur corrupti a blanditiis
-            facere eum beatae dolor in dicta odio? Non facilis doloribus ab amet
-            itaque ea facilis nostrum.
-          </p>
-        </Card>
-        <Card title="Matéria 04">
-          <p className="m-0 text-justify">
-            Lorem ipsum dolor sit amet. Quo repellat voluptas vel praesentium
-            quasi non consequatur optio ut consequatur corrupti a blanditiis
-            facere eum beatae dolor in dicta odio? Non facilis doloribus ab amet
-            itaque ea facilis nostrum.
-          </p>
-        </Card>
-      </div>
+      <ScrollPanel style={{ width: '100%', height: '22rem' }}>
+        <div className="flex">
+          <SubjectCardConstructorComponent
+            UserSubjects={props.subjects}
+            status="Active"
+          />
+        </div>
+      </ScrollPanel>
     </div>
   );
 }
