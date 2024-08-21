@@ -14,6 +14,7 @@ interface Subject {
   endTime: Date;
   local: string;
   id: string;
+  status: string;
   tasks: [];
   exams: [];
 }
@@ -32,16 +33,18 @@ export default function ControlExamStatusBasedOnTime(subject: Subject) {
   const today = new Date();
   const firebaseTimestamp = Timestamp.fromDate(today);
 
-  Object.values(subject.exams).forEach((exam: Exam) => {
-    if (
-      exam.status != 'Deleted' &&
-      ((formatDate(firebaseTimestamp) == formatDate(exam.date) &&
-        formatTime(firebaseTimestamp) > formatTime(exam.time)) ||
-        formatDate(firebaseTimestamp) > formatDate(exam.date))
-    ) {
-      FinalizeExamFunction(subject.id, exam.id);
-    } else if (exam.status != 'Deleted') {
-      ActivateExamFunction(subject.id, exam.id);
-    }
-  });
+  if (subject.status == 'Active') {
+    Object.values(subject.exams).forEach((exam: Exam) => {
+      if (
+        exam.status != 'Deleted' &&
+        ((formatDate(firebaseTimestamp) == formatDate(exam.date) &&
+          formatTime(firebaseTimestamp) > formatTime(exam.time)) ||
+          formatDate(firebaseTimestamp) > formatDate(exam.date))
+      ) {
+        FinalizeExamFunction(subject.id, exam.id);
+      } else if (exam.status != 'Deleted') {
+        ActivateExamFunction(subject.id, exam.id);
+      }
+    });
+  }
 }

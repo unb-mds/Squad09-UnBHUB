@@ -47,8 +47,6 @@ export default function EditSubjectComponent(props: {
 
   const getWeekDaysString = () => weekDays.join(', ');
 
-  console.log('startTime: ', new Date(Number(props.subject.startTime) * 1000));
-
   return (
     <Formik
       enableReinitialize

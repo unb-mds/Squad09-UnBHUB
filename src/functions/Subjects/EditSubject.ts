@@ -1,4 +1,4 @@
-import { doc, updateDoc, Timestamp } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase';
 
 interface IEditSubject {
