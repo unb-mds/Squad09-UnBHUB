@@ -59,7 +59,7 @@ export default function DataLivros() {
     return <p>No books data available.</p>;
   }
 
-  const filteredBooks = booksData.filter((book) => book.status !== 'Deleted'); // Filtra livros com status "Deleted"
+  const filteredBooks = booksData.filter((book) => book.status !== 'Deleted' && book.status !== 'Finalized'); // Filtra livros com status "Deleted" e "Finalized" 
 
   const renderBooks = (books: Book[]) => {
     return books.map((book, index) => (

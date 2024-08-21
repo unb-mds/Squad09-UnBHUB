@@ -32,7 +32,7 @@ export const fetchBookDates = async (): Promise<
               );
               books.forEach((book) => {
                 // Verifica o status do book
-                if (book.status !== 'Deleted') {
+                if (book.status !== 'Deleted' && book.status !== 'Finalized') {
                   bookDates.push({
                     deliveryDay: new Date(book.deliveryDay.seconds * 1000),
                     bookName: book.bookName,

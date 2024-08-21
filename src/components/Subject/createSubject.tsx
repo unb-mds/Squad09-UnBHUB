@@ -7,6 +7,8 @@ import { MultiSelect } from 'primereact/multiselect';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import CreateSubjectFunction from '../../functions/Subjects/CreateSubject';
+import { useEffect } from 'react';
+
 
 export default function CreateSubjectComponent(props: {
   visible: boolean;
@@ -31,12 +33,13 @@ export default function CreateSubjectComponent(props: {
         endTime: null,
         local: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={(values, { resetForm }) => {
         CreateSubjectFunction({
           ...values,
           weekDays: values.weekDays.join(', '),
         }).then(() => {
-          props.setVisible(false);
+          resetForm(); // Reseta o formulário após a submissão.
+          props.setVisible(false); // Fecha o diálogo.
         });
       }}
       validationSchema={Yup.object().shape({
@@ -60,149 +63,164 @@ export default function CreateSubjectComponent(props: {
         errors,
         touched,
         setFieldValue,
-      }) => (
-        <form
-          onSubmit={handleSubmit}
-          className="card flex justify-content-center gap-6"
-        >
-          <Dialog
-            header="Cadastrar matéria"
-            visible={props.visible}
-            style={{ width: '30vw' }}
-            onHide={() => props.setVisible(false)}
+        resetForm, // Obtém a função resetForm do Formik.
+      }) => {
+        useEffect(() => {
+          if (props.visible) {
+            resetForm(); // Reseta o formulário toda vez que o diálogo for aberto.
+          }
+        }, [props.visible, resetForm]); // Executa o efeito quando a prop visible muda.
+
+        return (
+          <form
+            onSubmit={handleSubmit}
+            className="card flex justify-content-center gap-6"
           >
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="codeSubject"
-                name="codeSubject"
-                value={values.codeSubject}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <label htmlFor="codeSubject">Código da matéria</label>
-            </FloatLabel>
-            {errors.codeSubject && touched.codeSubject ? (
-              <div className="text-red-500">{errors.codeSubject}</div>
-            ) : null}
-
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="nameSubject"
-                name="nameSubject"
-                value={values.nameSubject}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <label htmlFor="nameSubject">Nome da matéria</label>
-            </FloatLabel>
-            {errors.nameSubject && touched.nameSubject ? (
-              <div className="text-red-500">{errors.nameSubject}</div>
-            ) : null}
-
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="professor"
-                name="professor"
-                value={values.professor}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <label htmlFor="professor">Professor</label>
-            </FloatLabel>
-            {errors.professor && touched.professor ? (
-              <div className="text-red-500">{errors.professor}</div>
-            ) : null}
-
-            <FloatLabel>
-              <MultiSelect
-                className="flex mt-5 mb-5 w-full"
-                id="weekDays"
-                name="weekDays"
-                value={values.weekDays}
-                options={weekDaysOptions}
-                onChange={(e) => setFieldValue('weekDays', e.value)}
-                showSelectAll={false}
-                display="chip"
-              />
-              <label htmlFor="weekDays">Dias da semana</label>
-            </FloatLabel>
-            {errors.weekDays && touched.weekDays ? (
-              <div className="text-red-500">{errors.weekDays}</div>
-            ) : null}
-
-            <div className="flex gap-3">
+            <Dialog
+              header="Cadastrar matéria"
+              visible={props.visible}
+              style={{ width: '30vw' }}
+              onHide={() => props.setVisible(false)}
+            >
               <FloatLabel>
-                <label htmlFor="buttondisplay" className="font-bold block mb-2">
-                  Horário início
-                </label>
-                <Calendar
-                  className="flex-1"
-                  id="startTime"
-                  name="startTime"
-                  value={values.startTime}
-                  onChange={(e) => setFieldValue('startTime', e.value)}
-                  icon={() => <i className="pi pi-clock" />}
-                  showIcon
-                  timeOnly
+                <InputText
+                  className="flex mt-5 mb-5 w-full"
+                  id="codeSubject"
+                  name="codeSubject"
+                  value={values.codeSubject}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                <label htmlFor="codeSubject">Código da matéria</label>
               </FloatLabel>
-              {errors.startTime && touched.startTime ? (
-                <div className="text-red-500">{errors.startTime}</div>
+              {errors.codeSubject && touched.codeSubject ? (
+                <div className="text-red-500">{errors.codeSubject}</div>
               ) : null}
 
               <FloatLabel>
-                <label htmlFor="buttondisplay" className="font-bold block mb-2">
-                  Horário fim
-                </label>
-                <Calendar
-                  className="flex-1"
-                  id="endTime"
-                  name="endTime"
-                  value={values.endTime}
-                  onChange={(e) => setFieldValue('endTime', e.value)}
-                  icon={() => <i className="pi pi-clock" />}
-                  showIcon
-                  timeOnly
+                <InputText
+                  className="flex mt-5 mb-5 w-full"
+                  id="nameSubject"
+                  name="nameSubject"
+                  value={values.nameSubject}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
+                <label htmlFor="nameSubject">Nome da matéria</label>
               </FloatLabel>
-              {errors.endTime && touched.endTime ? (
-                <div className="text-red-500">{errors.endTime}</div>
+              {errors.nameSubject && touched.nameSubject ? (
+                <div className="text-red-500">{errors.nameSubject}</div>
               ) : null}
-            </div>
 
-            <FloatLabel>
-              <InputText
-                className="flex mt-5 mb-5 w-full"
-                id="local"
-                name="local"
-                value={values.local}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-              <label htmlFor="local">Local</label>
-            </FloatLabel>
-            {errors.local && touched.local ? (
-              <div className="text-red-500">{errors.local}</div>
-            ) : null}
+              <FloatLabel>
+                <InputText
+                  className="flex mt-5 mb-5 w-full"
+                  id="professor"
+                  name="professor"
+                  value={values.professor}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <label htmlFor="professor">Professor</label>
+              </FloatLabel>
+              {errors.professor && touched.professor ? (
+                <div className="text-red-500">{errors.professor}</div>
+              ) : null}
 
-            <div className="flex justify-content-between flex-wrap">
-              <Button
-                outlined
-                label="Fechar"
-                style={{
-                  borderColor: '#ff6060',
-                  color: '#ff6060',
-                }}
-                onClick={() => props.setVisible(false)}
-              />
-              <Button onClick={handleSubmit} label="Confirmar" />
-            </div>
-          </Dialog>
-        </form>
-      )}
+              <FloatLabel>
+                <MultiSelect
+                  className="flex mt-5 mb-5 w-full"
+                  id="weekDays"
+                  name="weekDays"
+                  value={values.weekDays}
+                  options={weekDaysOptions}
+                  onChange={(e) => setFieldValue('weekDays', e.value)}
+                  showSelectAll={false}
+                  display="chip"
+                />
+                <label htmlFor="weekDays">Dias da semana</label>
+              </FloatLabel>
+              {errors.weekDays && touched.weekDays ? (
+                <div className="text-red-500">{errors.weekDays}</div>
+              ) : null}
+
+              <div className="flex gap-3">
+                <FloatLabel>
+                  <label
+                    htmlFor="buttondisplay"
+                    className="font-bold block mb-2"
+                  >
+                    Horário início
+                  </label>
+                  <Calendar
+                    className="flex-1"
+                    id="startTime"
+                    name="startTime"
+                    value={values.startTime}
+                    onChange={(e) => setFieldValue('startTime', e.value)}
+                    icon={() => <i className="pi pi-clock" />}
+                    showIcon
+                    timeOnly
+                  />
+                </FloatLabel>
+                {errors.startTime && touched.startTime ? (
+                  <div className="text-red-500">{errors.startTime}</div>
+                ) : null}
+
+                <FloatLabel>
+                  <label
+                    htmlFor="buttondisplay"
+                    className="font-bold block mb-2"
+                  >
+                    Horário fim
+                  </label>
+                  <Calendar
+                    className="flex-1"
+                    id="endTime"
+                    name="endTime"
+                    value={values.endTime}
+                    onChange={(e) => setFieldValue('endTime', e.value)}
+                    icon={() => <i className="pi pi-clock" />}
+                    showIcon
+                    timeOnly
+                  />
+                </FloatLabel>
+                {errors.endTime && touched.endTime ? (
+                  <div className="text-red-500">{errors.endTime}</div>
+                ) : null}
+              </div>
+
+              <FloatLabel>
+                <InputText
+                  className="flex mt-5 mb-5 w-full"
+                  id="local"
+                  name="local"
+                  value={values.local}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <label htmlFor="local">Local</label>
+              </FloatLabel>
+              {errors.local && touched.local ? (
+                <div className="text-red-500">{errors.local}</div>
+              ) : null}
+
+              <div className="flex justify-content-between flex-wrap">
+                <Button
+                  outlined
+                  label="Fechar"
+                  style={{
+                    borderColor: '#ff6060',
+                    color: '#ff6060',
+                  }}
+                  onClick={() => props.setVisible(false)}
+                />
+                <Button onClick={handleSubmit} label="Confirmar" />
+              </div>
+            </Dialog>
+          </form>
+        );
+      }}
     </Formik>
   );
 }
