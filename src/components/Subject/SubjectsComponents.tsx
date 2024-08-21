@@ -1,10 +1,12 @@
+import { useEffect, useState } from 'react';
+import { auth, db } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
+
 import { Avatar } from 'primereact/avatar';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import { useEffect, useState } from 'react';
-import { auth, db } from '../../../config/firebase';
+import { ScrollPanel } from 'primereact/scrollpanel';
 
 import SubjectCardConstructorComponent from './subjectsCardConstructor';
 
@@ -27,7 +29,7 @@ export default function SubjectsComponent(props: {
   setVisible: (visible: boolean) => void;
   setVisibleSubject: (visibleSubject: boolean) => void;
 }) {
-  const [subjects, setSubjects] = useState(null);
+  const [subjects, setSubjects] = useState([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -103,24 +105,28 @@ export default function SubjectsComponent(props: {
       </div>
       <Divider className="mb-4"></Divider>
 
-      <SubjectCardConstructorComponent
-        setSubject={props.setSubject}
-        setVisibleSubject={props.setVisibleSubject}
-        status="Active"
-        UserSubjects={subjects}
-      />
+      <ScrollPanel style={{ width: '100%', height: '22rem' }}>
+        <SubjectCardConstructorComponent
+          setSubject={props.setSubject}
+          setVisibleSubject={props.setVisibleSubject}
+          status="Active"
+          UserSubjects={subjects}
+        />
+      </ScrollPanel>
 
       <div className="flex align-items-center px-6">
         <i className="pi pi-check my-3 mx-3" style={{ color: 'green' }} />
         Finalizadas
       </div>
       <Divider className="mb-4"></Divider>
-      <SubjectCardConstructorComponent
-        setSubject={props.setSubject}
-        setVisibleSubject={props.setVisibleSubject}
-        status="Finalized"
-        UserSubjects={subjects}
-      />
+      <ScrollPanel style={{ width: '100%', height: '22rem' }}>
+        <SubjectCardConstructorComponent
+          setSubject={props.setSubject}
+          setVisibleSubject={props.setVisibleSubject}
+          status="Finalized"
+          UserSubjects={subjects}
+        />
+      </ScrollPanel>
     </div>
   );
 }

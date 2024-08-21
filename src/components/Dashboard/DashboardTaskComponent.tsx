@@ -4,6 +4,7 @@ import { ProgressBar } from 'primereact/progressbar';
 import { useState, useEffect } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../../../config/firebase';
+import { ScrollPanel } from 'primereact/scrollpanel';
 
 interface ITask {
   deliveryDay: Date;
@@ -90,16 +91,18 @@ export default function DashboardTasksComponent(props: {
           />
         </a>
       </div>
-      <div className="flex flex-column gap-2">
-        {activeSubjects.map((subject) => (
-          <SpecificSubjectTasks
-            key={subject.id}
-            subject={subject}
-            status="Active"
-            styleOption="Vertical"
-          />
-        ))}
-      </div>
+      <ScrollPanel style={{ width: '100%', height: '45rem' }}>
+        <div className="flex flex-column gap-2">
+          {activeSubjects.map((subject) => (
+            <SpecificSubjectTasks
+              key={subject.id}
+              subject={subject}
+              status="Active"
+              styleOption="Vertical"
+            />
+          ))}
+        </div>
+      </ScrollPanel>
     </div>
   );
 }

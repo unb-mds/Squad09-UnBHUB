@@ -1,7 +1,10 @@
 import { Card } from 'primereact/card';
+import { ScrollPanel } from 'primereact/scrollpanel';
+
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import CheckDate from '../../functions/CheckDateActivity';
+
 import { Timestamp } from 'firebase/firestore';
 
 interface ITask {
@@ -11,6 +14,14 @@ interface ITask {
   subjectId: string;
   taskId: string;
   taskName: string;
+}
+
+interface IExam {
+  code: string; // Código da prova
+  score: string; // Nota da prova
+  date: Date; // Data da prova
+  room: string; // Sala onde a prova será realizada
+  status: string; // Status da prova (por exemplo, agendada, realizada, etc.)
 }
 
 interface ISubject {
@@ -23,8 +34,8 @@ interface ISubject {
   local: string;
   status: string;
   id: string;
-  tasks: []; // Ajuste o tipo conforme necessário para suas tarefas
-  exams: []; // Ajuste o tipo conforme necessário para seus exames
+  tasks: ITask[]; // Ajuste o tipo conforme necessário para suas tarefas
+  exams: IExam[]; // Ajuste o tipo conforme necessário para seus exames
 }
 
 interface SpecificSubjectTasksProps {
@@ -124,11 +135,17 @@ export default function SpecificSubjectTasks({
     });
 
   if (styleOption == 'Horizontal') {
-    return (
-      <div className="flex w-full">
-        {filteredTasks.length > 0 ? filteredTasks : <p>No tasks found.</p>}
-      </div>
-    );
+    if (filteredTasks.length > 0) {
+      return (
+        <ScrollPanel style={{ width: '100%', height: '12rem' }}>
+          <div className="flex flex-wrap w-full">{filteredTasks}</div>
+        </ScrollPanel>
+      );
+    } else if (filteredTasks.length == 0) {
+      return (
+        <div className="flex flex-wrap w-full">{<p>No tasks found.</p>}</div>
+      );
+    }
   }
   if (styleOption == 'Vertical') {
     return (

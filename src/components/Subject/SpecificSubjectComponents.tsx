@@ -1,16 +1,17 @@
+import { useEffect, useState } from 'react';
+import { auth, db } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import { useEffect, useState } from 'react';
-import { auth, db } from '../../../config/firebase';
+
 import ExamDialogComponent from './ExamDialogComponent';
 import SpecificSubjectTasks from './SpecificSubjectTasks';
 import SubjectDetailsComponent from './SubjectDetailsComponent';
 import SubjectSpecificExams from './SubjectSpecificExams';
 
 // Interface para definir a estrutura de um objeto Exam (prova)
-interface Exam {
+interface IExam {
   code: string; // Código da prova
   score: string; // Nota da prova
   date: Date; // Data da prova
@@ -19,15 +20,24 @@ interface Exam {
 }
 
 // Interface para definir a estrutura de um objeto Subject (matéria)
-interface Subject {
-  id: string; // Identificador único da matéria
-  exams: Exam[]; // Lista de provas associadas à matéria
+interface ISubject {
+  codeSubject: string;
+  nameSubject: string;
+  professor: string;
+  weekDays: string;
+  startTime: Date;
+  endTime: Date;
+  local: string;
+  status: string;
+  id: string;
+  tasks: []; // Ajuste o tipo conforme necessário para suas tarefas
+  exams: IExam[]; // Ajuste o tipo conforme necessário para seus exames
 }
 
 // Componente funcional que gerencia e exibe os detalhes de uma matéria específica
 export default function SpecificSubjectComponents() {
   // Estado para armazenar as matérias do usuário. Usa um Map para associar IDs de matérias aos dados das matérias
-  const [subjects, setSubjects] = useState<Map<string, Subject>>(new Map());
+  const [subjects, setSubjects] = useState<Map<string, ISubject>>(new Map());
   // Estado para controlar a visibilidade do diálogo de adição de prova
   const [dialogVisible, setDialogVisible] = useState(false);
   // Obtém o ID da matéria armazenado no localStorage. Usado para identificar a matéria atual
@@ -60,7 +70,7 @@ export default function SpecificSubjectComponents() {
       // Escuta as mudanças no documento da matéria no Firestore
       const unsub = onSnapshot(doc(db, 'Subjects', id), (doc) => {
         if (doc.exists()) {
-          const updatedSubject = doc.data() as Subject;
+          const updatedSubject = doc.data() as ISubject;
           // Atualiza o estado com a matéria atualizada
           setSubjects((prevSubjects) => {
             const updatedMap = new Map(prevSubjects);
@@ -125,6 +135,7 @@ export default function SpecificSubjectComponents() {
         Em andamento
       </div>
       <Divider className="my-3 mt-1"></Divider>
+
       <div className="flex flex-row">
         {subjects.has(id) && (
           <SpecificSubjectTasks
@@ -135,6 +146,7 @@ export default function SpecificSubjectComponents() {
           />
         )}
       </div>
+
       <div>
         <i className="pi pi-clock my-3 mx-3" style={{ color: 'red' }} />
         Atrasadas

@@ -1,4 +1,5 @@
 import { Button } from 'primereact/button';
+import { ScrollPanel } from 'primereact/scrollpanel';
 import SubjectCardConstructorComponent from '../Subject/subjectsCardConstructor';
 
 interface Subject {
@@ -37,10 +38,14 @@ export default function DashboardSubjectsComponent(props: {
         </a>
       </div>
 
-      <SubjectCardConstructorComponent
-        UserSubjects={props.subjects}
-        status="Active"
-      />
+      <ScrollPanel style={{ width: '100%', height: '22rem' }}>
+        <div className="flex">
+          <SubjectCardConstructorComponent
+            UserSubjects={props.subjects}
+            status="Active"
+          />
+        </div>
+      </ScrollPanel>
     </div>
   );
 }
