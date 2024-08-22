@@ -8,6 +8,8 @@ import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { ScrollPanel } from 'primereact/scrollpanel';
 
+import GeneralHeader from '../Header';
+
 import SubjectCardConstructorComponent from './subjectsCardConstructor';
 
 interface Subject {
@@ -48,41 +50,13 @@ export default function SubjectsComponent(props: {
   }, []);
 
   return (
-    <div className="flex flex-column mx-3 my-3 w-full">
+    <div className="flex flex-column mx-3 my-0 w-full">
+      <GeneralHeader className="mb-1 mt-1" />
+      <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
         <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
           <i className="pi pi-book text-4xl"> </i>
           <h1>Matérias</h1>
-        </div>
-        <div className="flex align-items-center">
-          <a href="http://localhost:5173/Messages">
-            <Button
-              icon="pi pi-bell p-overlay-badge"
-              rounded
-              text
-              size="large"
-              badge="2"
-              badgeClassName="p-badge-danger"
-              link
-            />
-          </a>
-          <a href="http://localhost:5173/Messages">
-            <Button
-              icon="pi pi-inbox p-overlay-badge"
-              rounded
-              text
-              size="large"
-              link
-            />
-          </a>
-          <Button className="" rounded text>
-            <Avatar
-              image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-              size="large"
-              className="mr-2"
-              shape="circle"
-            />
-          </Button>
         </div>
       </div>
 

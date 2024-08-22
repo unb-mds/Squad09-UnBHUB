@@ -1,11 +1,15 @@
 import { Divider } from 'primereact/divider';
 import formatTime from '../../functions/FormatTime';
 
+import GeneralHeader from '../Header';
+
+
 export default function SubjectDetailsComponent(props) {
   const { subject } = props;
   return (
     <div className="flex flex-column">
-      <Divider className="mb-2 divider-center"></Divider>
+      <GeneralHeader />
+      <Divider className="mb-1 mt-1 divider-center"></Divider>
       <div className="flex h-1rem gap-2 align-items-center py-5">
         <i className="pi pi-book text-4xl"> </i>
         <h1>{subject.nameSubject}</h1>

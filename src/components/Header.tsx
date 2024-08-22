@@ -32,7 +32,6 @@ export default function GeneralHeader() {
   return (
     <div className="flex align-items-center justify-content-between border-round-lg p-2" style={{ height: '60px', width: '100%' }}>
       <div className="flex justify-content-between px-6">
-        {/* Conteúdo à esquerda, se necessário */}
       </div>
       <div className="flex align-items-center" style={{ marginLeft: 'auto' }}>
         <a href="./Messages">

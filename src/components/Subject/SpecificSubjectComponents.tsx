@@ -10,6 +10,7 @@ import SpecificSubjectTasks from './SpecificSubjectTasks';
 import SubjectDetailsComponent from './SubjectDetailsComponent';
 import SubjectSpecificExams from './SubjectSpecificExams';
 
+
 // Interface para definir a estrutura de um objeto Exam (prova)
 interface IExam {
   code: string; // Código da prova
@@ -86,8 +87,9 @@ export default function SpecificSubjectComponents() {
   };
 
   return (
-    <div className="flex flex-column mx-4 my-3 w-full">
+    <div className="flex flex-column mx-3 my-0 w-full">
       {/* Renderiza o componente de detalhes da matéria se a matéria existir no estado */}
+      
       {subjects.has(id) && (
         <SubjectDetailsComponent key={id} subject={subjects.get(id)!} />
       )}
