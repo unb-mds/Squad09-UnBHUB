@@ -6,7 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.min.css';
-import 'primereact/resources/themes/lara-dark-teal/theme.css';
+import 'primereact/resources/themes/lara-dark-teal/theme.css'; // primereact/resources/themes/saga-green/theme.css
 import router from './routes/index.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
