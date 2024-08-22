@@ -13,7 +13,7 @@ import { ActiveBookFunction } from "../../functions/FinalizedBook";
 interface BookData {
   // Define a interface para os dados do livro
   id: string; // ID do livro
-  codeSubject: string; // Código da matéria
+  author: string; // Código da matéria
   bookName: string; // Nome do livro
   deliveryDay: Timestamp | null; // Data de devolução (Timestamp ou null)
   status: string;
@@ -32,7 +32,7 @@ export default function EditBookComponent(props: {
 
   const [formData, setFormData] = useState<{
     // Estado para armazenar dados do formulário
-    codeSubject: string; // Código da matéria
+    author: string; // Código da matéria
     bookName: string; // Nome do livro
     deliveryDay: Date | null; // Data de devolução (Date ou null)
   } | null>(null);
@@ -43,7 +43,7 @@ export default function EditBookComponent(props: {
     // Efeito colateral para atualizar os dados do formulário quando bookData muda
     if (bookData) {
       setFormData({
-        codeSubject: bookData.codeSubject, // Define o código da matéria
+        author: bookData.author, // Define o código da matéria
         bookName: bookData.bookName, // Define o nome do livro
         deliveryDay:
           bookData.deliveryDay instanceof Timestamp
@@ -97,7 +97,7 @@ export default function EditBookComponent(props: {
       await EditBookFunction({
         // Chama a função para editar o livro
         id: bookData.id, // ID do livro
-        codeSubject: formData.codeSubject, // Código da matéria
+        author: formData.author, // Código da matéria
         bookName: formData.bookName, // Nome do livro
         deliveryDay: deliveryDayTimestamp, // Data de devolução
       });
@@ -112,7 +112,7 @@ export default function EditBookComponent(props: {
     setIsEditing(false); // Sai do modo de edição
     if (bookData) {
       setFormData({
-        codeSubject: bookData.codeSubject, // Restaura os dados do formulário
+        author: bookData.author, // Restaura os dados do formulário
         bookName: bookData.bookName,
         deliveryDay:
           bookData.deliveryDay instanceof Timestamp
@@ -160,12 +160,12 @@ export default function EditBookComponent(props: {
           <FloatLabel className="w-full">
             <InputText
               className="w-full" // Estilos do campo de entrada
-              id="codeSubject" // ID do campo
-              value={formData?.codeSubject || ''} // Valor atual do campo
+              id="author" // ID do campo
+              value={formData?.author || ''} // Valor atual do campo
               onChange={handleChange} // Lida com mudanças no campo
               disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
             />
-            <label htmlFor="codeSubject">Código do Livro</label>{' '}
+            <label htmlFor="author">Nome do Autor</label>{' '}
             {/* Rótulo para o campo */}
           </FloatLabel>
           <FloatLabel className="w-full">

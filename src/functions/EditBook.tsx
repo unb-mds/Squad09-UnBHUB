@@ -5,7 +5,7 @@ import { Timestamp } from 'firebase/firestore'; // Importa a classe Timestamp do
 interface IEditBook {
   // Define a interface para os dados do livro a ser editado
   id: string; // ID do livro
-  codeSubject: string; // Código da matéria
+  author: string; // Código da matéria
   bookName: string; // Nome do livro
   deliveryDay: Timestamp; // Data de devolução como Timestamp
 }
@@ -19,9 +19,9 @@ export default async function EditBookFunction(props: IEditBook) {
 
   // Constrói o objeto com os campos atualizados
   const updatedFields: { [key: string]: any } = {}; // Objeto para armazenar os campos a serem atualizados
-  if (props.codeSubject)
+  if (props.author)
     // Se o código da matéria estiver presente
-    updatedFields[`books.${props.id}.codeSubject`] = props.codeSubject; // Adiciona o código da matéria aos campos atualizados
+    updatedFields[`books.${props.id}.author`] = props.author; // Adiciona o código da matéria aos campos atualizados
   if (props.bookName)
     // Se o nome do livro estiver presente
     updatedFields[`books.${props.id}.bookName`] = props.bookName; // Adiciona o nome do livro aos campos atualizados

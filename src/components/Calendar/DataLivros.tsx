@@ -5,7 +5,7 @@ import { db } from '../../../config/firebase';
 
 interface Book {
   bookName: string;
-  codeSubject: string;
+  author: string;
   deliveryDay: {
     seconds: number;
     nanoseconds: number;

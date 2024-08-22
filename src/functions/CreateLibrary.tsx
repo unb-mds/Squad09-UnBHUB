@@ -3,7 +3,7 @@ import { auth, db } from '../../config/firebase'; // Importa configuração do F
 
 interface ICreateBook {
   // Define a interface para os dados do livro
-  codeSubject: string; // Código da matéria
+  author: string; // Código da matéria
   bookName: string; // Nome do livro
   deliveryDay: string; // Data de devolução no formato string
 }
@@ -23,7 +23,7 @@ export default async function CreateLibraryFunction(props: ICreateBook) {
       [`books.${bookId}`]: {
         // Adiciona o livro ao subdocumento 'books' do usuário
         id: bookId, // ID do livro
-        codeSubject: props.codeSubject, // Código da matéria
+        author: props.author, // Código da matéria
         bookName: props.bookName, // Nome do livro
         deliveryDay: props.deliveryDay, // Data de devolução
         status: 'Ongoing', // Status inicial do livro

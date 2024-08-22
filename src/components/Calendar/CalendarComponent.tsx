@@ -17,7 +17,7 @@ export default function CalendarComp() {
     Record<string, string>
   >({});
   const [examDates, setExamDates] = useState<
-    { date: string; codeSubject: string }[]
+    { date: string; author: string }[]
   >([]);
   const [taskDates, setTaskDates] = useState<
     { deliveryDay: Date; description: string }[]

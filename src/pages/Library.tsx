@@ -11,7 +11,7 @@ export default function Library() {
   const [selectedBookData, setSelectedBookData] = useState<{
     // Estado para armazenar os dados do livro selecionado para edição
     id: string; // ID do livro
-    codeSubject: string; // Código da matéria
+    author: string; // Código da matéria
     bookName: string; // Nome do livro
     deliveryDay: string; // Data de devolução
   } | null>(null); // Inicialmente, é null se nenhum livro for selecionado
@@ -19,7 +19,7 @@ export default function Library() {
   const handleEditClick = (bookData: {
     // Função para lidar com o clique no botão de editar livro
     id: string; // ID do livro
-    codeSubject: string; // Código da matéria
+    author: string; // Código da matéria
     bookName: string; // Nome do livro
     deliveryDay: string; // Data de devolução
   }) => {
