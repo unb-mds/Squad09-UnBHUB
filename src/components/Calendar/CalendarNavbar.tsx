@@ -1,41 +1,16 @@
-import { Button } from 'primereact/button';
-import { Avatar } from 'primereact/avatar';
+import GeneralHeader from '../Header';
+import { Divider } from 'primereact/divider';
 
 export default function NavbarComponent5() {
   return (
-    <div className="flex justify-content-between align-items-center surface-50 my-1 mx-3 border-round-xl">
-      <div className="flex justify-content-between w-9 px-6">
-        <h2>Calendário</h2>
-      </div>
-      <div className="flex align-items-center">
-        <a href="http://localhost:5173/Messages">
-          <Button
-            icon="pi pi-bell p-overlay-badge"
-            rounded
-            text
-            size="large"
-            badge="2"
-            badgeClassName="p-badge-danger"
-            link
-          />
-        </a>
-        <a href="http://localhost:5173/Messages">
-          <Button
-            icon="pi pi-inbox p-overlay-badge"
-            rounded
-            text
-            size="large"
-            link
-          />
-        </a>
-        <Button className="" rounded text>
-          <Avatar
-            image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-            size="large"
-            className="mr-2"
-            shape="circle"
-          />
-        </Button>
+    <div className="flex flex-column mx-3 my-0">
+      <GeneralHeader className="mb-1 mt-1" />
+      <Divider className="mb-2 mt-0" />
+      <div className="flex align-items-center justify-content-between border-round-lg">
+        <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
+          <i className="pi pi-calendar text-4xl" style={{ color: 'white' }} />
+          <h1 style={{ color: 'white' }}>Calendário</h1>
+        </div>
       </div>
     </div>
   );

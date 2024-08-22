@@ -11,9 +11,8 @@ function CalendarScreen() {
       <SideBarComponent />
       <div className="flex flex-column w-full">
         <NavbarComponent5 />
-        <div className="flex justify-content-between align-items-center surface-50 my-1 mx-3 border-round-xl">
+        <div className="flex justify-content-between align-items-center my-1 mx-3 border-round-xl">
           <div className="flex flex-column justify-content-center w-12 px-6">
-            <h1 className="text-center mb-4">📅 Calendário Acadêmico</h1>
             <div className="mb-4">
               <CalendarComp />
             </div>

@@ -15,7 +15,7 @@ export default function DisplayMenuComponent() {
   }, []);
 
   return (
-    <div className="flex justify-content-between align-items-center surface-50 my-1 mx-3 border-round-xl">
+    <div className="flex justify-content-between align-items-center my-1 mx-3 border-round-xl">
       <div className="flex justify-content-between  px-6">
         <div className="flex flex-column my-2">
           <span className="text-sm my-4">
