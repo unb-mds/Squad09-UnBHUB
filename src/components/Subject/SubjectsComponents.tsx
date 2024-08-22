@@ -3,7 +3,6 @@ import { auth, db } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 
-import { Avatar } from 'primereact/avatar';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { ScrollPanel } from 'primereact/scrollpanel';
@@ -31,7 +30,7 @@ export default function SubjectsComponent(props: {
   setVisible: (visible: boolean) => void;
   setVisibleSubject: (visibleSubject: boolean) => void;
 }) {
-  const [subjects, setSubjects] = useState([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -54,7 +53,7 @@ export default function SubjectsComponent(props: {
       <GeneralHeader className="mb-1 mt-1" />
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
-        <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
+        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
           <i className="pi pi-bookmark text-4xl"> </i>
           <h1>Matérias</h1>
         </div>
@@ -77,7 +76,7 @@ export default function SubjectsComponent(props: {
           />
         </a>
       </div>
-      <Divider className="mb-4"></Divider>
+      <Divider className="mb-4 mt-1"></Divider>
 
       <ScrollPanel style={{ width: '100%', height: '22rem' }}>
         <SubjectCardConstructorComponent
@@ -85,6 +84,7 @@ export default function SubjectsComponent(props: {
           setVisibleSubject={props.setVisibleSubject}
           status="Active"
           UserSubjects={subjects}
+          size="medium" // Defina o tamanho dos cards como 'small', 'medium' ou 'large'
         />
       </ScrollPanel>
 
@@ -92,13 +92,14 @@ export default function SubjectsComponent(props: {
         <i className="pi pi-check my-3 mx-3" style={{ color: 'green' }} />
         Finalizadas
       </div>
-      <Divider className="mb-4"></Divider>
+      <Divider className="mb-4 mt-1"></Divider>
       <ScrollPanel style={{ width: '100%', height: '22rem' }}>
         <SubjectCardConstructorComponent
           setSubject={props.setSubject}
           setVisibleSubject={props.setVisibleSubject}
           status="Finalized"
           UserSubjects={subjects}
+          size="medium" // Defina o tamanho dos cards como 'small', 'medium' ou 'large'
         />
       </ScrollPanel>
     </div>

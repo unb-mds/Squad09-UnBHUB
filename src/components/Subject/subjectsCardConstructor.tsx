@@ -15,14 +15,18 @@ interface Subject {
   exams: [];
 }
 
-const CardSubjectComponent = ({ subject }: { subject: Subject }) => (
-  <div className="flex flex-column">
-    <p className="pi pi-user mt-0 mb-2">{subject.professor}</p>
-    <p className="pi pi-calendar mb-2">{subject.weekDays}</p>
-    <p className="pi pi-clock mb-2">
+const truncateTitle = (title: string) => {
+  return title.length > 31 ? `${title.slice(0, 28)}...` : title; // Limite de caracteres ajustado para 31
+};
+
+const CardSubjectComponent = ({ subject, scale }: { subject: Subject; scale: number }) => (
+  <div className="flex flex-column" style={{ fontSize: `${scale * 1}rem` }}>
+    <p className="pi pi-user mt-0 mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.professor}</p>
+    <p className="pi pi-calendar mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.weekDays}</p>
+    <p className="pi pi-clock mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>
       {formatTime(subject.startTime)} - {formatTime(subject.endTime)}
     </p>
-    <p className="pi pi-map-marker">{subject.local}</p>
+    <p className="pi pi-map-marker" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.local}</p>
   </div>
 );
 
@@ -31,9 +35,24 @@ export default function SubjectCardConstructorComponent(props: {
   setVisibleSubject?: (visibleSubject: boolean) => void;
   UserSubjects: Subject[];
   status: string;
+  size: 'small' | 'medium' | 'large'; // Adiciona o parâmetro size
 }) {
+  // Define o tamanho do card e a escala do conteúdo com base no valor do parâmetro size
+  const getCardSize = () => {
+    switch (props.size) {
+      case 'small':
+        return { width: '250px', height: '250px', scale: 1 }; // Largura ajustada para ser igual à altura
+      case 'medium':
+        return { width: '300px', height: '300px', scale: 1.2 }; // Largura ajustada para ser igual à altura
+      case 'large':
+        return { width: '350px', height: '350px', scale: 1.5 }; // Largura ajustada para ser igual à altura
+      default:
+        return { width: '250px', height: '250px', scale: 1 }; // Tamanho padrão
+    }
+  };
+
   return (
-    <div className="flex align-items-center flex-wrap ">
+    <div className="flex align-items-center flex-wrap gap-3">
       {props.UserSubjects === null || props.UserSubjects.length === 0 ? (
         <p>No subjects found</p>
       ) : (
@@ -49,10 +68,13 @@ export default function SubjectCardConstructorComponent(props: {
                   return '2px solid #12e42b';
               }
             })();
+
+            const { width, height, scale } = getCardSize(); // Obtenha o tamanho e escala do card
+
             return (
               <a
-                className="w-3 cursor-pointer"
-                style={{ textDecoration: 'none' }}
+                className="cursor-pointer"
+                style={{ textDecoration: 'none', width: width }}
                 onClick={() => {
                   if (props.setSubject) {
                     props.setSubject(subject);
@@ -64,14 +86,17 @@ export default function SubjectCardConstructorComponent(props: {
                 key={index}
               >
                 <Card
-                  title={subject.codeSubject + ' - ' + subject.nameSubject}
-                  className="h-21rem my-1"
+                  title={truncateTitle(subject.codeSubject + ' - ' + subject.nameSubject)}
+                  className="my-1"
                   style={{
                     color: 'white',
                     border: border,
+                    width: width, // Defina a largura do card
+                    height: height, // Defina a altura do card
+                    fontSize: `${scale * 1}rem` // Ajuste o tamanho do texto do título
                   }}
                 >
-                  <CardSubjectComponent subject={subject} />
+                  <CardSubjectComponent subject={subject} scale={scale} />
                 </Card>
               </a>
             );
