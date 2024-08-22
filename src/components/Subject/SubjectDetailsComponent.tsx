@@ -11,7 +11,7 @@ export default function SubjectDetailsComponent(props) {
       <GeneralHeader />
       <Divider className="mb-1 mt-1 divider-center"></Divider>
       <div className="flex h-1rem gap-2 align-items-center py-5">
-        <i className="pi pi-book text-4xl"> </i>
+        <i className="pi pi-bookmark text-4xl"> </i>
         <h1>{subject.nameSubject}</h1>
       </div>
       <Divider className="mb-1 mt-1"></Divider>

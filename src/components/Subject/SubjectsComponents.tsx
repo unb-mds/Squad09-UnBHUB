@@ -55,7 +55,7 @@ export default function SubjectsComponent(props: {
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
         <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
-          <i className="pi pi-book text-4xl"> </i>
+          <i className="pi pi-bookmark text-4xl"> </i>
           <h1>Matérias</h1>
         </div>
       </div>

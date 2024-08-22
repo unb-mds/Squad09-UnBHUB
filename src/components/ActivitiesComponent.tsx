@@ -12,6 +12,9 @@ import {
   deleteDoc,
 } from 'firebase/firestore'; // Importa funções para interação com o Firestore do Firebase.
 import EditActivityComponent from '../components/Activities/editActivity'; // Importa o componente para edição de atividades.
+import GeneralHeader from './Header';
+
+
 
 interface Task {
   id: string; // Identificador único da tarefa.
@@ -223,10 +226,12 @@ export default function ActivitiesComponent({
   };
 
   return (
-    <div className="flex flex-column mx-3 my-3 gap-0 w-full">
+    <div className="flex flex-column mx-3 my-0 gap-0 w-full">
+      <GeneralHeader className="mb-1 mt-1" />
+      <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
         <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
-          <i className="pi pi-book text-4xl" style={{ color: 'white' }} />
+          <i className="pi pi-clipboard text-4xl" style={{ color: 'white' }} />
           <h1 style={{ color: 'white' }}>Tarefas</h1>
         </div>
       </div>

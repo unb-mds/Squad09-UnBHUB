@@ -4,6 +4,7 @@ import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../config/firebase'; // Importa as instâncias do Firebase Authentication e Firestore
+import GeneralHeader from './Header';
 
 interface ICreateBook {
   // Define a interface para os dados de um livro
@@ -135,7 +136,9 @@ export default function LibraryComponent(props: {
   };
 
   return (
-    <div className="flex flex-column mx-3 my-3 gap-0 w-full">
+    <div className="flex flex-column mx-3 my-0 gap-0 w-full">
+      <GeneralHeader className="mb-1 mt-1" />
+      <Divider className="mb-2 mt-0" />
       {' '}
       {/* Contêiner principal do componente */}
       <div className="flex align-items-center justify-content-between border-round-lg">
