@@ -26,7 +26,7 @@ export default function GeneralHeader() {
   }, []);
 
   const handleProfileClick = () => {
-    navigate('./Profile');
+    navigate('/Profile');
   };
 
   return (
