@@ -226,6 +226,14 @@ export default function ActivitiesComponent({
     }
   };
 
+  const truncateDescription = (title: string) => {
+    return title.length > 40 ? `${title.slice(0, 37)}...` : title; // Limite de caracteres ajustado para 31
+  };
+
+  const truncateTaskName = (title: string) => {
+    return title.length > 32 ? `${title.slice(0, 29)}...` : title; // Limite de caracteres ajustado para 31
+  };
+
   return (
     <div className="flex flex-column mx-3 my-0 gap-0 w-full">
       <GeneralHeader className="mb-1 mt-1" />
@@ -276,7 +284,7 @@ export default function ActivitiesComponent({
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Tarefa: {task.taskName}
+                Tarefa: {truncateTaskName(task.taskName)}
               </i>
               <p
                 className="pi pi-calendar mb-3"
@@ -287,7 +295,7 @@ export default function ActivitiesComponent({
               </p>
 
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {task.description}
+                Descrição: {truncateDescription(task.description)}
               </i>
             </div>
           </Button>
@@ -323,7 +331,7 @@ export default function ActivitiesComponent({
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Nome da Tarefa: {task.taskName}
+                Tarefa: {truncateTaskName(task.taskName)}
               </i>
               <p
                 className="pi pi-calendar mb-3"
@@ -334,7 +342,7 @@ export default function ActivitiesComponent({
               </p>
 
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {task.description}
+                Descrição: {truncateDescription(task.description)}
               </i>
             </div>
           </Button>
@@ -370,7 +378,7 @@ export default function ActivitiesComponent({
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Nome da Tarefa: {task.taskName}
+                Tarefa: {truncateTaskName(task.taskName)}
               </i>
               <p
                 className="pi pi-calendar mb-3"
@@ -381,7 +389,7 @@ export default function ActivitiesComponent({
               </p>
 
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {task.description}
+                Descrição: {truncateDescription(task.description)}
               </i>
             </div>
           </Button>
