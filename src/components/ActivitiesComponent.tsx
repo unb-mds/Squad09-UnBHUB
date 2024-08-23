@@ -18,7 +18,7 @@ import GeneralHeader from './Header';
 
 interface Task {
   id: string; // Identificador único da tarefa.
-  nameSubject: string;
+  codeSubject: string;
   taskName: string;
   deliveryDay: Timestamp;
   status: string; // Status da tarefa (por exemplo, 'Active', 'Late', 'Finalized').
@@ -44,7 +44,7 @@ const cardButtonStyles: React.CSSProperties = {
   alignItems: 'flex-start', // Alinha itens no início do botão.
   width: '350px', // Largura fixa do botão.
   height: '250px', // Altura fixa do botão.
-  backgroundColor: '#2c3e50', // Cor de fundo do botão.
+  backgroundColor: 'transparent', // Cor de fundo do botão.
 };
 
 const containerStyles: React.CSSProperties = {
@@ -134,7 +134,7 @@ export default function ActivitiesComponent({
                     return {
                       ...task,
                       id: key,
-                      nameSubject: item.nameSubject,
+                      codeSubject: item.codeSubject,
                       status,
                     } as Task;
                   });
@@ -188,7 +188,7 @@ export default function ActivitiesComponent({
       const taskRef = doc(
         userDocRef,
         'subjects',
-        selectedTask.nameSubject,
+        selectedTask.codeSubject,
         'tasks',
         selectedTask.id
       );
@@ -214,7 +214,7 @@ export default function ActivitiesComponent({
       const taskRef = doc(
         userDocRef,
         'subjects',
-        selectedTask.nameSubject,
+        selectedTask.codeSubject,
         'tasks',
         selectedTask.id
       );
@@ -227,7 +227,7 @@ export default function ActivitiesComponent({
   };
 
   const truncateDescription = (title: string) => {
-    return title.length > 40 ? `${title.slice(0, 37)}...` : title; // Limite de caracteres ajustado para 31
+    return title.length > 32 ? `${title.slice(0, 29)}...` : title; // Limite de caracteres ajustado para 31
   };
 
   const truncateTaskName = (title: string) => {
@@ -278,19 +278,22 @@ export default function ActivitiesComponent({
             key={task.id}
             onClick={() => handleTaskClick(task)}
           >
-            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
+            <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
+
+            <Divider className="mt-1" />
+
             <div
               className="flex flex-column"
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
                 Tarefa: {truncateTaskName(task.taskName)}
               </i>
               <p
                 className="pi pi-calendar mb-3"
                 style={{ color: 'white', margin: 0 }}
               >
-                Data de Entrega:{' '}
+                Entrega:{' '}
                 {task.deliveryDay.toDate().toLocaleDateString()}
               </p>
 
@@ -325,19 +328,22 @@ export default function ActivitiesComponent({
             key={task.id}
             onClick={() => handleTaskClick(task)}
           >
-            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
+            <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
+
+            <Divider className="mt-1" />
+
             <div
               className="flex flex-column"
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
                 Tarefa: {truncateTaskName(task.taskName)}
               </i>
               <p
                 className="pi pi-calendar mb-3"
                 style={{ color: 'white', margin: 0 }}
               >
-                Data de Entrega:{' '}
+                Entrega:{' '}
                 {task.deliveryDay.toDate().toLocaleDateString()}
               </p>
 
@@ -372,19 +378,22 @@ export default function ActivitiesComponent({
             key={task.id}
             onClick={() => handleTaskClick(task)}
           >
-            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
+            <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
+
+            <Divider className="mt-1" />
+
             <div
               className="flex flex-column"
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+              <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
                 Tarefa: {truncateTaskName(task.taskName)}
               </i>
               <p
                 className="pi pi-calendar mb-3"
                 style={{ color: 'white', margin: 0 }}
               >
-                Data de Entrega:{' '}
+                Entrega:{' '}
                 {task.deliveryDay.toDate().toLocaleDateString()}
               </p>
 
