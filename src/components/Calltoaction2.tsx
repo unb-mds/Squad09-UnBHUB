@@ -1,6 +1,5 @@
 export default function Calltoaction2() {
-  const url = 'https://ru.unb.br'; // Declare the 'url' variable before using it
-
+  const url = 'https://ru.unb.br/index.php/cardapio-refeitorio';
   return (
     <div
       className="flex justify-content-between align-items-center  my-1 mx-3 border-round-xl"
