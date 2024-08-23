@@ -51,7 +51,7 @@ export default function Footer() {
         className="text-blue-600 font-bold mb-3"
         style={{
           position: 'absolute',
-          top: '10px',
+          bottom: '10px',
           left: '10px',
           maxWidth: '50%', // Ajusta a largura máxima para evitar ultrapassar
           overflow: 'hidden', // Oculta o texto que ultrapassar o contêiner

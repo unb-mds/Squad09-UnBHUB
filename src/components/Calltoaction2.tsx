@@ -32,7 +32,7 @@ export default function Calltoaction2() {
         className="text-blue-600 font-bold mb-3 ml-4"
         style={{
           position: 'absolute',
-          top: '10px',
+          bottom: '10px',
           left: '10px',
           maxWidth: '50%', // Ajusta a largura máxima para evitar ultrapassar
           overflow: 'hidden', // Oculta o texto que ultrapassar o contêiner
