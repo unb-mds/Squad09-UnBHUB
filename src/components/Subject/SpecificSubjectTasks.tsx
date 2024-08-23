@@ -1,11 +1,11 @@
 import { Card } from 'primereact/card';
+import { Divider } from 'primereact/divider';
 import { ScrollPanel } from 'primereact/scrollpanel';
-
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import CheckDate from '../../functions/CheckDateActivity';
-
 import { Timestamp } from 'firebase/firestore';
+import React from 'react';
 
 interface ITask {
   deliveryDay: Timestamp;
@@ -14,14 +14,6 @@ interface ITask {
   subjectId: string;
   taskId: string;
   taskName: string;
-}
-
-interface IExam {
-  code: string; // Código da prova
-  score: string; // Nota da prova
-  date: Date; // Data da prova
-  room: string; // Sala onde a prova será realizada
-  status: string; // Status da prova (por exemplo, agendada, realizada, etc.)
 }
 
 interface ISubject {
@@ -34,57 +26,103 @@ interface ISubject {
   local: string;
   status: string;
   id: string;
-  tasks: ITask[]; // Ajuste o tipo conforme necessário para suas tarefas
-  exams: IExam[]; // Ajuste o tipo conforme necessário para seus exames
+  tasks: ITask[];
+  exams: IExam[];
 }
 
 interface SpecificSubjectTasksProps {
-  subject: ISubject | null; // Pode ser null se não houver um subject definido
+  subject: ISubject | null;
   status: string;
   styleOption: string;
+  size: 'small' | 'medium' | 'large';
 }
+
+const getCardStyles = (size: 'small' | 'medium' | 'large') => {
+  switch (size) {
+    case 'small':
+      return {
+        width: '250px',
+        height: '150px',
+        titleFontSize: '1rem',
+        textFontSize: '0.8rem',
+        margin: '0.5rem',
+        titleMarginBottom: '0.5rem',
+      };
+    case 'medium':
+      return {
+        width: '300px',
+        height: '180px',
+        titleFontSize: '1.2rem',
+        textFontSize: '1rem',
+        margin: '0.75rem',
+        titleMarginBottom: '1rem',
+      };
+    case 'large':
+      return {
+        width: '350px',
+        height: '210px',
+        titleFontSize: '1.5rem',
+        textFontSize: '1.2rem',
+        margin: '1rem',
+        titleMarginBottom: '1.25rem',
+      };
+    default:
+      return {
+        width: '250px',
+        height: '150px',
+        titleFontSize: '1rem',
+        textFontSize: '0.8rem',
+        margin: '0.5rem',
+        titleMarginBottom: '0.5rem',
+      };
+  }
+};
+
+const truncateText = (text: string, maxLength: number) => {
+  return text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
+};
 
 export default function SpecificSubjectTasks({
   subject,
   status,
   styleOption,
+  size,
 }: SpecificSubjectTasksProps) {
   if (!subject || !subject.tasks) {
-    return null; // Retorna null se subject ou subject.tasks não estiver definido
+    return null;
   }
 
-  // Filtra e mapeia as tarefas com base no status
   const filteredTasks = Object.values(subject.tasks)
     .filter((task: ITask) => task.status === status)
     .map((task: ITask, index) => {
       const deliveryDay = task.deliveryDay.toDate();
       const today = new Date();
-      let status = '';
+      let taskStatus = '';
       if (
         deliveryDay < today &&
-        task.status != 'Finalized' &&
-        task.status != 'Deleted'
+        task.status !== 'Finalized' &&
+        task.status !== 'Deleted'
       ) {
         CheckDate(deliveryDay, today, task.subjectId, task.taskId, task.status);
-        status = 'Late';
+        taskStatus = 'Late';
       }
       if (
         deliveryDay >= today &&
-        task.status != 'Finalized' &&
-        task.status != 'Deleted'
+        task.status !== 'Finalized' &&
+        task.status !== 'Deleted'
       ) {
         CheckDate(deliveryDay, today, task.subjectId, task.taskId, task.status);
-        status = 'Active';
+        taskStatus = 'Active';
       }
-      if (task.status == 'Finalized') {
-        status = 'Finalized';
+      if (task.status === 'Finalized') {
+        taskStatus = 'Finalized';
       }
-      if (task.status == 'Deleted') {
-        status = 'Deleted';
+      if (task.status === 'Deleted') {
+        taskStatus = 'Deleted';
       }
 
       const border = (() => {
-        switch (status) {
+        switch (taskStatus) {
           case 'Active':
             return '2px solid #3498db';
           case 'Late':
@@ -94,60 +132,77 @@ export default function SpecificSubjectTasks({
         }
       })();
 
-      if (styleOption == 'Horizontal') {
-        return (
-          <Card
-            title={task.taskName}
-            key={index}
-            className="w-3"
+      const { width, height, titleFontSize, textFontSize, margin, titleMarginBottom } = getCardStyles(size);
+
+      return (
+        <Card
+          key={index}
+          style={{
+            color: 'white',
+            border: border,
+            width: width,
+            height: height,
+            display: 'flex',
+            flexDirection: 'column',
+            padding: margin,
+            overflow: 'hidden',
+            boxSizing: 'border-box',
+          }}
+        >
+          <div
             style={{
-              color: 'white',
-              border: border,
+              fontSize: titleFontSize,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              width: '100%',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              marginBottom: titleMarginBottom,
+              marginTop: '-1.5rem', // Move title up
             }}
           >
-            <div className="flex flex-column">
-              <p className="pi pi-arrow-right mt-0"> {task.description}</p>
-              <p className="pi pi-arrow-right mt-0">
-                {formatDate(task.deliveryDay)} {formatTime(task.deliveryDay)}
-              </p>
-            </div>
-          </Card>
-        );
-      } else if (styleOption == 'Vertical') {
-        return (
-          <Card
-            title={task.taskName}
-            key={index}
+            {truncateText(task.taskName, 20)}
+          </div>
+          <Divider className='mb-3 mt-2' />
+          <div
             style={{
-              color: 'white',
-              border: border,
+              fontSize: textFontSize,
+              textAlign: 'left',
+              width: '100%',
+              overflowWrap: 'break-word',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
             }}
           >
-            <div className="flex flex-column">
-              <p className="pi pi-arrow-right mt-0"> {task.description}</p>
-              <p className="pi pi-arrow-right mt-0">
-                {formatDate(task.deliveryDay)} {formatTime(task.deliveryDay)}
-              </p>
-            </div>
-          </Card>
-        );
-      }
+            <p className="pi pi-book mt-0" style={{ marginBottom: '0.5rem' }}>
+              {truncateText(task.description, 31)}
+            </p>
+            <p className="pi pi-calendar mt-0">
+              {formatDate(task.deliveryDay)} {formatTime(task.deliveryDay)}
+            </p>
+          </div>
+        </Card>
+      );
     });
 
-  if (styleOption == 'Horizontal') {
+  if (styleOption === 'Horizontal') {
     if (filteredTasks.length > 0) {
       return (
         <ScrollPanel style={{ width: '100%', height: '12rem' }}>
-          <div className="flex flex-wrap w-full">{filteredTasks}</div>
+          <div className="flex flex-wrap w-full gap-4">{filteredTasks}</div>
         </ScrollPanel>
       );
-    } else if (filteredTasks.length == 0) {
+    } else if (filteredTasks.length === 0) {
       return (
-        <div className="flex flex-wrap w-full">{<p>No tasks found.</p>}</div>
+        <div className="flex flex-wrap w-full gap-4">
+          <p>No tasks found.</p>
+        </div>
       );
     }
   }
-  if (styleOption == 'Vertical') {
+  if (styleOption === 'Vertical') {
     return (
       <div className="flex flex-column w-full gap-2">
         {filteredTasks.length > 0 ? filteredTasks : <p>No tasks found.</p>}

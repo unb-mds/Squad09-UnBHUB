@@ -23,7 +23,7 @@ export default function DashboardSubjectsComponent(props: {
     <div className="flex flex-column mx-3 my-3">
       <div className="flex justify-content-between">
         <p className="flex w-4 h-1rem gap-2 align-items-center">
-          <i className="pi pi-book"></i>
+          <i className="pi pi-bookmark"></i>
           Matérias
         </p>
         <a href="http://localhost:5173/Subjects">

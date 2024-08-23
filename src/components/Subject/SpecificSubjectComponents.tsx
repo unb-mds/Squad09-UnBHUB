@@ -10,7 +10,6 @@ import SpecificSubjectTasks from './SpecificSubjectTasks';
 import SubjectDetailsComponent from './SubjectDetailsComponent';
 import SubjectSpecificExams from './SubjectSpecificExams';
 
-
 // Interface para definir a estrutura de um objeto Exam (prova)
 interface IExam {
   code: string; // Código da prova
@@ -31,7 +30,7 @@ interface ISubject {
   local: string;
   status: string;
   id: string;
-  tasks: []; // Ajuste o tipo conforme necessário para suas tarefas
+  tasks: ITask[]; // Ajuste o tipo conforme necessário para suas tarefas
   exams: IExam[]; // Ajuste o tipo conforme necessário para seus exames
 }
 
@@ -86,10 +85,12 @@ export default function SpecificSubjectComponents() {
     }
   };
 
+  // Defina o tamanho do card aqui (por exemplo, 'small', 'medium', 'large')
+  const cardSize: 'small' | 'medium' | 'large' = 'medium'; // Ajuste conforme necessário
+
   return (
     <div className="flex flex-column mx-3 my-0 w-full">
       {/* Renderiza o componente de detalhes da matéria se a matéria existir no estado */}
-      
       {subjects.has(id) && (
         <SubjectDetailsComponent key={id} subject={subjects.get(id)!} />
       )}
@@ -145,6 +146,7 @@ export default function SpecificSubjectComponents() {
             subject={subjects.get(id)!}
             status="Active"
             styleOption="Horizontal"
+            size={cardSize} // Passa o parâmetro size
           />
         )}
       </div>
@@ -154,7 +156,7 @@ export default function SpecificSubjectComponents() {
         Atrasadas
       </div>
       <Divider className="my-3 mt-1"></Divider>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-4">
         {/* Renderiza as tarefas atrasadas da matéria se a matéria existir no estado */}
         {subjects.has(id) && (
           <SpecificSubjectTasks
@@ -162,6 +164,7 @@ export default function SpecificSubjectComponents() {
             subject={subjects.get(id)!}
             status="Late"
             styleOption="Horizontal"
+            size={cardSize} // Passa o parâmetro size
           />
         )}
       </div>
@@ -174,7 +177,7 @@ export default function SpecificSubjectComponents() {
       </div>
       <Divider className="mb-4"></Divider>
 
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap gap-4">
         {/* Renderiza as tarefas finalizadas da matéria se a matéria existir no estado */}
         {subjects.has(id) && (
           <SpecificSubjectTasks
@@ -182,6 +185,7 @@ export default function SpecificSubjectComponents() {
             subject={subjects.get(id)!}
             status="Finalized"
             styleOption="Horizontal"
+            size={cardSize} // Passa o parâmetro size
           />
         )}
       </div>

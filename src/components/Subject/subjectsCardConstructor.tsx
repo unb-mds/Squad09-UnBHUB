@@ -1,4 +1,5 @@
 import { Card } from 'primereact/card';
+import { Divider } from 'primereact/divider';
 import formatTime from '../../functions/FormatTime';
 
 interface Subject {
@@ -15,18 +16,18 @@ interface Subject {
   exams: [];
 }
 
-const truncateTitle = (title: string) => {
-  return title.length > 31 ? `${title.slice(0, 28)}...` : title; // Limite de caracteres ajustado para 31
+const truncateTitle = (title: string, maxLength: number) => {
+  return title.length > maxLength ? `${title.slice(0, maxLength - 3)}...` : title;
 };
 
 const CardSubjectComponent = ({ subject, scale }: { subject: Subject; scale: number }) => (
-  <div className="flex flex-column" style={{ fontSize: `${scale * 1}rem` }}>
-    <p className="pi pi-user mt-0 mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.professor}</p>
-    <p className="pi pi-calendar mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.weekDays}</p>
-    <p className="pi pi-clock mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>
+  <div className="flex flex-column" style={{ fontSize: `${scale * 0.8}rem` }}>
+    <p className="pi pi-user mt-0 mb-1">{subject.professor}</p>
+    <p className="pi pi-calendar mb-1">{subject.weekDays}</p>
+    <p className="pi pi-clock mb-1">
       {formatTime(subject.startTime)} - {formatTime(subject.endTime)}
     </p>
-    <p className="pi pi-map-marker" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.local}</p>
+    <p className="pi pi-map-marker">{subject.local}</p>
   </div>
 );
 
@@ -41,13 +42,13 @@ export default function SubjectCardConstructorComponent(props: {
   const getCardSize = () => {
     switch (props.size) {
       case 'small':
-        return { width: '250px', height: '250px', scale: 1 }; // Largura ajustada para ser igual à altura
+        return { width: '250px', height: '250px', scale: 1 };
       case 'medium':
-        return { width: '300px', height: '300px', scale: 1.2 }; // Largura ajustada para ser igual à altura
+        return { width: '300px', height: '300px', scale: 1.2 };
       case 'large':
-        return { width: '350px', height: '350px', scale: 1.5 }; // Largura ajustada para ser igual à altura
+        return { width: '350px', height: '350px', scale: 1.5 };
       default:
-        return { width: '250px', height: '250px', scale: 1 }; // Tamanho padrão
+        return { width: '250px', height: '250px', scale: 1 };
     }
   };
 
@@ -66,10 +67,12 @@ export default function SubjectCardConstructorComponent(props: {
                   return '2px solid #e41223';
                 case 'Finalized':
                   return '2px solid #12e42b';
+                default:
+                  return '2px solid gray'; // Default border color
               }
             })();
 
-            const { width, height, scale } = getCardSize(); // Obtenha o tamanho e escala do card
+            const { width, height, scale } = getCardSize();
 
             return (
               <a
@@ -86,16 +89,35 @@ export default function SubjectCardConstructorComponent(props: {
                 key={index}
               >
                 <Card
-                  title={truncateTitle(subject.codeSubject + ' - ' + subject.nameSubject)}
                   className="my-1"
                   style={{
                     color: 'white',
                     border: border,
-                    width: width, // Defina a largura do card
-                    height: height, // Defina a altura do card
-                    fontSize: `${scale * 1}rem` // Ajuste o tamanho do texto do título
+                    width: width,
+                    height: height,
+                    fontSize: `${scale * 1}rem`,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '0.5rem',
+                    boxSizing: 'border-box',
                   }}
                 >
+                  <div
+                    style={{
+                      fontSize: `${scale * 1}rem`,
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      width: '100%',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      marginBottom: '0.5rem',
+                      marginTop: '-1rem', // Move title up
+                    }}
+                  >
+                    {truncateTitle(subject.codeSubject + ' - ' + subject.nameSubject, 31)}
+                  </div>
+                  <Divider className='mt-2'/>
                   <CardSubjectComponent subject={subject} scale={scale} />
                 </Card>
               </a>
