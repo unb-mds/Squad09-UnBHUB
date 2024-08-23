@@ -22,7 +22,7 @@ export default function Footer() {
 
   return (
     <div
-      className="flex justify-content-between align-items-center surface-50 my-1 mx-3 border-round-xl"
+      className="flex justify-content-between align-items-center  my-1 mx-3 border-round-xl"
       style={{ minHeight: '150px', position: 'relative' }}
     >
       <div

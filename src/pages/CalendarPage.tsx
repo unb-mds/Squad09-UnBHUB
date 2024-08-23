@@ -17,9 +17,9 @@ function CalendarScreen() {
               <CalendarComp />
             </div>
             <Index />
+            <Footer />
           </div>
         </div>
-        <Footer />
       </div>
     </div>
   );
