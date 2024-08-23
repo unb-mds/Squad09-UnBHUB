@@ -160,23 +160,23 @@ export default function EditBookComponent(props: {
           <FloatLabel className="w-full">
             <InputText
               className="w-full" // Estilos do campo de entrada
-              id="author" // ID do campo
-              value={formData?.author || ''} // Valor atual do campo
-              onChange={handleChange} // Lida com mudanças no campo
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
-            />
-            <label htmlFor="author">Nome do Autor</label>{' '}
-            {/* Rótulo para o campo */}
-          </FloatLabel>
-          <FloatLabel className="w-full">
-            <InputText
-              className="w-full" // Estilos do campo de entrada
               id="bookName" // ID do campo
               value={formData?.bookName || ''} // Valor atual do campo
               onChange={handleChange} // Lida com mudanças no campo
               disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
             />
             <label htmlFor="bookName">Nome do Livro</label>{' '}
+            {/* Rótulo para o campo */}
+          </FloatLabel>
+          <FloatLabel className="w-full">
+            <InputText
+              className="w-full" // Estilos do campo de entrada
+              id="author" // ID do campo
+              value={formData?.author || ''} // Valor atual do campo
+              onChange={handleChange} // Lida com mudanças no campo
+              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+            />
+            <label htmlFor="author">Nome do Autor</label>{' '}
             {/* Rótulo para o campo */}
           </FloatLabel>
           <FloatLabel className="w-full">

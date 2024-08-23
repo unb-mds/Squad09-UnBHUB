@@ -74,6 +74,10 @@ export default function LibraryComponent(props: {
     backgroundColor: '#2c3e50',
   };
 
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
+  };
+
   const renderCard = (
     borderColor: string,
     id: string,
@@ -102,13 +106,33 @@ export default function LibraryComponent(props: {
           props.EditsetVisible1(D);
         }}
       >
-        <h3 style={{ color: 'white' }}>{bookName}</h3> {/* Troca para exibir o nome do livro */}
-        <div
-          className="flex flex-column"
-          style={{ alignItems: 'flex-start', textAlign: 'left' }}
+        <h3
+          style={{
+            color: 'white',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            width: '100%',
+            marginBottom: '0.5rem',
+          }}
         >
-          <i className="pi pi-user mb-3" style={{ color: 'white' }}>
-            Autor: {author} {/* Troca para exibir o código da matéria */}
+          {truncateText(bookName, 31)}
+        </h3>
+        <div
+          className="flex flex-column mt-4"
+          style={{ alignItems: 'flex-start', textAlign: 'left', width: '100%' }}
+        >
+          <i
+            className="pi pi-user mb-4"
+            style={{
+              color: 'white',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              width: '100%',
+            }}
+          >
+            Autor: {truncateText(author, 31)}
           </i>
           <p
             className="pi pi-calendar mb-3"
@@ -126,7 +150,7 @@ export default function LibraryComponent(props: {
       <GeneralHeader className="mb-1 mt-1" />
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
-        <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
+        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
           <i className="pi pi-book text-4xl" style={{ color: 'white' }} />
           <h1 style={{ color: 'white' }}>Biblioteca</h1>
         </div>
@@ -136,8 +160,8 @@ export default function LibraryComponent(props: {
         style={{ color: 'white' }}
       >
         <div>
-          <i className="pi pi-forward mb-2 mx-3" style={{ color: '#3498db' }} />
-          Em andamento
+          <i className="pi pi-forward mx-3" style={{ color: '#3498db' }} />
+          Lendo
         </div>
         <Button
           label="Adicionar"
@@ -151,8 +175,8 @@ export default function LibraryComponent(props: {
           }}
         />
       </div>
-      <Divider className="my-0" />
-      <div className="flex flex-row flex-wrap gap-2 my-4">
+      <Divider className="mb-2 mt-1" />
+      <div className="flex flex-row flex-wrap gap-3 my-4">
         {ongoingBooks.length ? (
           ongoingBooks.map((bookData) =>
             renderCard(
@@ -165,7 +189,7 @@ export default function LibraryComponent(props: {
             )
           )
         ) : (
-          <p>Nenhum livro em andamento</p>
+          <p>Nenhum livro sendo lido</p>
         )}
       </div>
       <div
@@ -173,11 +197,11 @@ export default function LibraryComponent(props: {
         style={{ color: 'white' }}
       >
         <div>
-          <i className="pi pi-clock mb-2 mx-3" style={{ color: 'red' }} />
+          <i className="pi pi-clock mx-3" style={{ color: 'red' }} />
           Atrasados
         </div>
       </div>
-      <Divider className="my-0" />
+      <Divider className="mb-2 mt-1" />
       <div className="flex flex-row flex-wrap gap-2 my-4">
         {overdueBooks.length ? (
           overdueBooks.map((bookData) =>
@@ -199,11 +223,11 @@ export default function LibraryComponent(props: {
         style={{ color: 'white' }}
       >
         <div>
-          <i className="pi pi-check mb-2 mx-3" style={{ color: '#25c440' }} />
-          Finalizados
+          <i className="pi pi-check mx-3" style={{ color: '#25c440' }} />
+          Já Lidos
         </div>
       </div>
-      <Divider className="my-0" />
+      <Divider className="mb-2 mt-1" />
       <div className="flex flex-row flex-wrap gap-2 my-4">
         {finalizedBooks.length ? (
           finalizedBooks.map((bookData) =>
@@ -217,7 +241,7 @@ export default function LibraryComponent(props: {
             )
           )
         ) : (
-          <p>Nenhum livro finalizado</p>
+          <p>Nenhum livro lido</p>
         )}
       </div>
     </div>

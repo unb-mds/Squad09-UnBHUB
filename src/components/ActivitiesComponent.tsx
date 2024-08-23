@@ -50,7 +50,8 @@ const cardButtonStyles: React.CSSProperties = {
 const containerStyles: React.CSSProperties = {
   display: 'flex', // Usa Flexbox para layout.
   flexDirection: 'row', // Direção dos itens dentro do container.
-  gap: '0.5rem', // Espaçamento entre os itens.
+  flexWrap: 'wrap', // Adiciona o wrap para que os itens quebrem em novas linhas
+  gap: '1rem', // Espaçamento entre os itens.
 };
 
 const getStatusLabelColor = (status: string) => {
@@ -230,7 +231,7 @@ export default function ActivitiesComponent({
       <GeneralHeader className="mb-1 mt-1" />
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
-        <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
+        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
           <i className="pi pi-clipboard text-4xl" style={{ color: 'white' }} />
           <h1 style={{ color: 'white' }}>Tarefas</h1>
         </div>
@@ -241,7 +242,7 @@ export default function ActivitiesComponent({
         style={{ color: 'white' }}
       >
         <div>
-          <i className="pi pi-forward mb-2 mx-3" style={{ color: '#007bff' }} />
+          <i className="pi pi-forward mx-3" style={{ color: '#007bff' }} />
           Em andamento
         </div>
         <Button
@@ -255,8 +256,10 @@ export default function ActivitiesComponent({
           onClick={() => CreatesetVisible(true)}
         />
       </div>
-
-      <div style={containerStyles}>
+      
+      <Divider className="mb-2 mt-1" />
+      
+      <div style={containerStyles} className='my-4'>
         {getTasksByStatus('Active').map((task) => (
           <Button
             className="border-round-lg"
@@ -273,7 +276,7 @@ export default function ActivitiesComponent({
               style={{ alignItems: 'flex-start', textAlign: 'left' }}
             >
               <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Nome da Tarefa: {task.taskName}
+                Tarefa: {task.taskName}
               </i>
               <p
                 className="pi pi-calendar mb-3"
@@ -291,8 +294,6 @@ export default function ActivitiesComponent({
         ))}
       </div>
 
-      <Divider className="my-0" />
-
       <div
         className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
         style={{ color: 'white' }}
@@ -302,8 +303,10 @@ export default function ActivitiesComponent({
           Atrasadas
         </div>
       </div>
+      
+      <Divider className="mb-2 mt-1" />
 
-      <div style={containerStyles}>
+      <div style={containerStyles} className='my-4'>
         {getTasksByStatus('Late').map((task) => (
           <Button
             className="w-border-round-lg"
@@ -338,8 +341,6 @@ export default function ActivitiesComponent({
         ))}
       </div>
 
-      <Divider className="my-0" />
-
       <div
         className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
         style={{ color: 'white' }}
@@ -350,7 +351,9 @@ export default function ActivitiesComponent({
         </div>
       </div>
 
-      <div style={containerStyles}>
+      <Divider className="mb-2 mt-1" />
+
+      <div style={containerStyles} className='my-4'>
         {getTasksByStatus('Finalized').map((task) => (
           <Button
             className="border-round-lg"

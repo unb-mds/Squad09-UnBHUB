@@ -73,6 +73,23 @@ export default function CreateLibrary(props: {
               style={{ width: '30vw' }} // Define a largura do modal
               onHide={() => props.CreatesetVisible1(false)} // Fecha o modal quando necessário
             >
+              
+              <FloatLabel>
+                <InputText
+                  className="flex mt-5 mb-5 w-full" // Estilos do campo de entrada
+                  id="bookName" // ID do campo
+                  name="bookName" // Nome do campo
+                  value={values.bookName} // Valor atual do campo
+                  onChange={handleChange} // Lida com mudanças no campo
+                  onBlur={handleBlur} // Lida com o desfoque do campo
+                />
+                <label htmlFor="bookName">Nome do livro</label>{' '}
+                {/* Rótulo para o campo */}
+              </FloatLabel>
+              {errors.bookName && touched.bookName ? ( // Verifica e exibe erros de validação para nome do livro
+                <div className="text-red-500">{errors.bookName}</div>
+              ) : null}
+
               <FloatLabel>
                 <InputText
                   className="flex mt-5 mb-5 w-full" // Estilos do campo de entrada
@@ -89,21 +106,6 @@ export default function CreateLibrary(props: {
                 <div className="text-red-500">{errors.author}</div>
               ) : null}
 
-              <FloatLabel>
-                <InputText
-                  className="flex mt-5 mb-5 w-full" // Estilos do campo de entrada
-                  id="bookName" // ID do campo
-                  name="bookName" // Nome do campo
-                  value={values.bookName} // Valor atual do campo
-                  onChange={handleChange} // Lida com mudanças no campo
-                  onBlur={handleBlur} // Lida com o desfoque do campo
-                />
-                <label htmlFor="bookName">Nome do livro</label>{' '}
-                {/* Rótulo para o campo */}
-              </FloatLabel>
-              {errors.bookName && touched.bookName ? ( // Verifica e exibe erros de validação para nome do livro
-                <div className="text-red-500">{errors.bookName}</div>
-              ) : null}
 
               <FloatLabel>
                 <Calendar
