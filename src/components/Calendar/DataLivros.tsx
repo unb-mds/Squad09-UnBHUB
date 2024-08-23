@@ -11,7 +11,7 @@ interface Book {
     nanoseconds: number;
   };
   id: string;
-  status: string; // Novo campo adicionado
+  status: string;
 }
 
 export default function DataLivros() {
@@ -40,14 +40,12 @@ export default function DataLivros() {
           }
         });
 
-        // Cleanup listener on unmount
         return () => unsubscribeSnapshot();
       } else {
         setCurrentUserId(null);
       }
     });
 
-    // Cleanup auth listener on unmount
     return () => unsubscribeAuth();
   }, []);
 
@@ -59,11 +57,16 @@ export default function DataLivros() {
     return <p>No books data available.</p>;
   }
 
-  const filteredBooks = booksData.filter((book) => book.status !== 'Deleted' && book.status !== 'Finalized'); // Filtra livros com status "Deleted" e "Finalized" 
+  const filteredBooks = booksData.filter(
+    (book) => book.status !== 'Deleted' && book.status !== 'Finalized'
+  );
 
   const renderBooks = (books: Book[]) => {
     return books.map((book, index) => (
-      <li key={index} className="flex align-items-center mb-3">
+      <li
+        key={index}
+        className="flex align-items-center mb-3 overflow-hidden break-word"
+      >
         <i className="pi pi-angle-right mr-2 text-green-500" />
         {new Date(book.deliveryDay.seconds * 1000).toLocaleDateString()}:{' '}
         {book.bookName}
@@ -72,10 +75,10 @@ export default function DataLivros() {
   };
 
   return (
-    <div className="col-12 lg:col-4">
-      <div className="p-3 h-full">
+    <div className="col-12 lg:col-3">
+      <div className="p-1 h-full">
         <div className="shadow-2 p-3 h-full flex flex-column surface-card">
-          <div className="text-900 font-medium text-xl mb-2">
+          <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
             🟢 Datas de Entrega de Livros
           </div>
 

@@ -84,7 +84,10 @@ export default function DataProvas() {
     return Array.from(exams.values())
       .filter((exam) => exam.status !== 'Deleted')
       .map((exam, index) => (
-        <li key={index} className="flex align-items-center mb-3">
+        <li
+          key={index}
+          className="flex align-items-center mb-3 overflow-hidden break-word"
+        >
           <i className="pi pi-angle-right mr-2 text-green-500" />
           {new Date(exam.date.seconds * 1000).toLocaleDateString()} :{' '}
           {exam.code}
@@ -103,10 +106,10 @@ export default function DataProvas() {
     );
 
   return (
-    <div className="col-12 lg:col-4">
-      <div className="p-3 h-full">
+    <div className="col-12 lg:col-3">
+      <div className="p-1 h-full">
         <div className="shadow-2 p-3 h-full flex flex-column surface-card">
-          <div className="text-900 font-medium text-xl mb-2">
+          <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
             🔴 Datas de Provas
           </div>
 

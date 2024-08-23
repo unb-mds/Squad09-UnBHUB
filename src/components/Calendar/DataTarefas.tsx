@@ -82,7 +82,10 @@ export default function DataTarefas() {
     return Array.from(tasks.values())
       .filter((task) => task.status !== 'Deleted') // Filtra tarefas com status "Deleted"
       .map((task, index) => (
-        <li key={index} className="flex align-items-center mb-3">
+        <li
+          key={index}
+          className="flex align-items-center mb-3 overflow-hidden break-word"
+        >
           <i className="pi pi-angle-right mr-2 text-green-500" />
           {new Date(
             task.deliveryDay.seconds * 1000
@@ -102,10 +105,10 @@ export default function DataTarefas() {
     ); // Filtra matérias onde todas as tarefas estão "Deleted"
 
   return (
-    <div className="col-12 lg:col-4">
-      <div className="p-3 h-full">
-        <div className="shadow-2 p-3 h-full flex flex-column surface-card">
-          <div className="text-900 font-medium text-xl mb-2">
+    <div className="col-12 lg:col-3">
+      <div className="p-1 h-full">
+        <div className="shadow-2 p-3 h-full flex flex-column surface-card overflow-hidden">
+          <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
             🔵 Datas de Tarefas
           </div>
 
@@ -115,7 +118,7 @@ export default function DataTarefas() {
           <ul className="list-none p-0 m-0 flex-grow-1">
             {filteredSubjects.map(([subjectId, subject]) => (
               <li key={subjectId} className="flex flex-column mb-3">
-                <div className="font-bold mb-2">
+                <div className="font-bold mb-2 overflow-hidden break-word">
                   Código da Matéria: {subject.codeSubject}
                 </div>
                 <ul>{renderTasks(subject.tasks)}</ul>
