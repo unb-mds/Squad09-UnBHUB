@@ -6,7 +6,7 @@ import { InputText } from 'primereact/inputtext'; // Importa o componente InputT
 import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar da biblioteca PrimeReact
 import { Timestamp } from 'firebase/firestore'; // Importa o tipo Timestamp do Firestore
 import EditBookFunction from '../../functions/EditBook'; // Importa a função para editar um livro
-import DeleteBookFunction from '../../functions/DeleteBook'; // Importa a função para excluir um livro
+import {DeleteBookFunction} from '../../functions/DeleteBook'; // Importa a função para excluir um livro
 import { FinalizedBookFunction } from "../../functions/FinalizedBook"; // Importa a função para finalizar um livro
 import { ActiveBookFunction } from "../../functions/FinalizedBook";
 
@@ -230,7 +230,7 @@ export default function EditBookComponent(props: {
                     />
                     )}
 
-                {bookData?.status === 'Ongoing' && (
+                {(bookData?.status === 'Ongoing' || bookData?.status === 'Late')  && (
                     <Button
                      outlined
                      label="Finalizar"

@@ -5,6 +5,8 @@ import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../config/firebase'; // Importa as instâncias do Firebase Authentication e Firestore
 import GeneralHeader from './Header';
+import { ActiveBookFunction } from "../functions/DeleteBook";
+import { LateBookFunction } from "../functions/DeleteBook";
 
 interface ICreateBook {
   id: string;
@@ -35,17 +37,24 @@ export default function LibraryComponent(props: {
               const ongoing = Object.values(books).filter((bookData) => {
                 const deliveryDay = bookData.deliveryDay.toDate();
                 deliveryDay.setDate(deliveryDay.getDate() + 1);
-                return deliveryDay >= today && !['Deleted', 'Finalized'].includes(bookData.status);
+                if (deliveryDay >= today && !['Deleted', 'Finalized'].includes(bookData.status)) {
+                  ActiveBookFunction(bookData.id);
+                  return true
+                }
+                
               });
 
               const overdue = Object.values(books).filter((bookData) => {
                 const deliveryDay = bookData.deliveryDay.toDate();
                 deliveryDay.setDate(deliveryDay.getDate() + 1);
-                return deliveryDay < today && !['Deleted', 'Finalized'].includes(bookData.status);
+                if (deliveryDay < today && !['Deleted', 'Finalized','Ongoing'].includes(bookData.status)) {
+                  LateBookFunction(bookData.id);
+                  return true
+                }
               });
 
               const finalized = Object.values(books).filter(
-                (bookData) => !['Deleted', 'Ongoing'].includes(bookData.status)
+                (bookData) => !['Deleted', 'Ongoing','Late'].includes(bookData.status)
               );
 
               setOngoingBooks(ongoing);
