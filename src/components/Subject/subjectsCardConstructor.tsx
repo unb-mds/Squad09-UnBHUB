@@ -1,8 +1,30 @@
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import formatTime from '../../functions/FormatTime';
+import { Timestamp } from 'firebase/firestore';
 
-interface Subject {
+interface ITask {
+  deliveryDay: Timestamp;
+  description: string;
+  status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
+}
+
+// Interface para definir a estrutura de um objeto Exam (prova)
+interface IExam {
+  code: string;
+  score: string;
+  date: Timestamp;
+  room: string;
+  status: string;
+  id: string;
+  time: Timestamp;
+}
+
+// Interface para definir a estrutura de um objeto Subject (matéria)
+interface ISubject {
   codeSubject: string;
   nameSubject: string;
   professor: string;
@@ -12,15 +34,23 @@ interface Subject {
   local: string;
   status: string;
   id: string;
-  tasks: [];
-  exams: [];
+  tasks: ITask[]; // Ajuste o tipo conforme necessário para suas tarefas
+  exams: IExam[]; // Ajuste o tipo conforme necessário para seus exames
 }
 
 const truncateTitle = (title: string, maxLength: number) => {
-  return title.length > maxLength ? `${title.slice(0, maxLength - 3)}...` : title;
+  return title.length > maxLength
+    ? `${title.slice(0, maxLength - 3)}...`
+    : title;
 };
 
-const CardSubjectComponent = ({ subject, scale }: { subject: Subject; scale: number }) => (
+const CardSubjectComponent = ({
+  subject,
+  scale,
+}: {
+  subject: ISubject;
+  scale: number;
+}) => (
   <div className="flex flex-column" style={{ fontSize: `${scale * 0.8}rem` }}>
     <p className="pi pi-user mt-0 mb-1">{subject.professor}</p>
     <p className="pi pi-calendar mb-1">{subject.weekDays}</p>
@@ -32,9 +62,9 @@ const CardSubjectComponent = ({ subject, scale }: { subject: Subject; scale: num
 );
 
 export default function SubjectCardConstructorComponent(props: {
-  setSubject?: (subject: Subject) => void;
+  setSubject?: (subject: ISubject) => void;
   setVisibleSubject?: (visibleSubject: boolean) => void;
-  UserSubjects: Subject[];
+  UserSubjects: ISubject[];
   status: string;
   size: 'small' | 'medium' | 'large'; // Adiciona o parâmetro size
 }) {
@@ -55,7 +85,7 @@ export default function SubjectCardConstructorComponent(props: {
   return (
     <div className="flex align-items-center flex-wrap gap-3">
       {props.UserSubjects === null || props.UserSubjects.length === 0 ? (
-        <p>No subjects found</p>
+        <p>Nenhuma matéria encontrada</p>
       ) : (
         Object.values(props.UserSubjects).map((subject, index) => {
           if (subject.status === props.status) {
@@ -115,15 +145,18 @@ export default function SubjectCardConstructorComponent(props: {
                       marginTop: '-1rem', // Move title up
                     }}
                   >
-                    {truncateTitle(subject.codeSubject + ' - ' + subject.nameSubject, 31)}
+                    {truncateTitle(
+                      subject.codeSubject + ' - ' + subject.nameSubject,
+                      31
+                    )}
                   </div>
-                  <Divider className='mt-2'/>
+                  <Divider className="mt-2" />
                   <CardSubjectComponent subject={subject} scale={scale} />
                 </Card>
               </a>
             );
           }
-          return null;
+          return <p>Nenhuma matéria encontrada</p>;
         })
       )}
     </div>

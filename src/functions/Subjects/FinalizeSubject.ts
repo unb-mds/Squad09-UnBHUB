@@ -13,11 +13,14 @@ export default async function FinalizeSubjectFunction(id: string) {
     const tasks = subjectSnapshot.get(`subjects.${id}.tasks`);
     const exams = subjectSnapshot.get(`subjects.${id}.exams`);
 
-    // Finalizar cada tarefa
+    // Finalizar cada tarefa cujo status não seja "Deleted"
     if (tasks) {
       const taskIds = Object.keys(tasks);
       for (const taskId of taskIds) {
-        await FinalizeActivityFunction(id, taskId);
+        const taskStatus = tasks[taskId].status;
+        if (taskStatus !== 'Deleted') {
+          await FinalizeActivityFunction(id, taskId);
+        }
       }
     }
 
@@ -26,11 +29,14 @@ export default async function FinalizeSubjectFunction(id: string) {
       [`subjects.${id}.status`]: 'Finalized',
     });
 
-    // Finalizar cada exame
+    // Finalizar cada exame cujo status não seja "Deleted"
     if (exams) {
       const examIds = Object.keys(exams);
       for (const examId of examIds) {
-        await FinalizeExamFunction(id, examId);
+        const examStatus = exams[examId].status;
+        if (examStatus !== 'Deleted') {
+          await FinalizeExamFunction(id, examId);
+        }
       }
     }
   }

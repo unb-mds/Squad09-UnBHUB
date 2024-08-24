@@ -14,8 +14,6 @@ import {
 import EditActivityComponent from '../components/Activities/editActivity'; // Importa o componente para edição de atividades.
 import GeneralHeader from './Header';
 
-
-
 interface Task {
   id: string; // Identificador único da tarefa.
   codeSubject: string;
@@ -94,7 +92,9 @@ export default function ActivitiesComponent({
                   return Object.keys(item.tasks).map((key) => {
                     const task = item.tasks[key];
                     const deliveryDay = task.deliveryDay.toDate();
-                    const delayDay = deliveryDay.setDate(deliveryDay.getDate()+1)
+                    const delayDay = deliveryDay.setDate(
+                      deliveryDay.getDate() + 1
+                    );
                     let status = '';
                     if (
                       delayDay < today &&
@@ -264,45 +264,48 @@ export default function ActivitiesComponent({
           onClick={() => CreatesetVisible(true)}
         />
       </div>
-      
+
       <Divider className="mb-2 mt-1" />
-      
-      <div style={containerStyles} className='my-4'>
-        {getTasksByStatus('Active').map((task) => (
-          <Button
-            className="border-round-lg"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            onClick={() => handleTaskClick(task)}
-          >
-            <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
 
-            <Divider className="mt-1" />
-
-            <div
-              className="flex flex-column"
-              style={{ alignItems: 'flex-start', textAlign: 'left' }}
+      <div style={containerStyles} className="my-4">
+        {getTasksByStatus('Active').length == 0 ? (
+          <p>Nenhuma tarefa encontrada</p>
+        ) : (
+          getTasksByStatus('Active').map((task) => (
+            <Button
+              className="border-round-lg"
+              style={{
+                ...cardButtonStyles,
+                borderColor: getStatusLabelColor(task.status),
+              }}
+              key={task.id}
+              onClick={() => handleTaskClick(task)}
             >
-              <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
-                Tarefa: {truncateTaskName(task.taskName)}
-              </i>
-              <p
-                className="pi pi-calendar mb-3"
-                style={{ color: 'white', margin: 0 }}
-              >
-                Entrega:{' '}
-                {task.deliveryDay.toDate().toLocaleDateString()}
-              </p>
+              <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
 
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {truncateDescription(task.description)}
-              </i>
-            </div>
-          </Button>
-        ))}
+              <Divider className="mt-1" />
+
+              <div
+                className="flex flex-column"
+                style={{ alignItems: 'flex-start', textAlign: 'left' }}
+              >
+                <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
+                  Tarefa: {truncateTaskName(task.taskName)}
+                </i>
+                <p
+                  className="pi pi-calendar mb-3"
+                  style={{ color: 'white', margin: 0 }}
+                >
+                  Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
+                </p>
+
+                <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                  Descrição: {truncateDescription(task.description)}
+                </i>
+              </div>
+            </Button>
+          ))
+        )}
       </div>
 
       <div
@@ -314,45 +317,48 @@ export default function ActivitiesComponent({
           Atrasadas
         </div>
       </div>
-      
+
       <Divider className="mb-2 mt-1" />
 
-      <div style={containerStyles} className='my-4'>
-        {getTasksByStatus('Late').map((task) => (
-          <Button
-            className="w-border-round-lg"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            onClick={() => handleTaskClick(task)}
-          >
-            <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
-
-            <Divider className="mt-1" />
-
-            <div
-              className="flex flex-column"
-              style={{ alignItems: 'flex-start', textAlign: 'left' }}
+      <div style={containerStyles} className="my-4">
+        {getTasksByStatus('Late').length == 0 ? (
+          <p>Nenhuma tarefa encontrada</p>
+        ) : (
+          getTasksByStatus('Late').map((task) => (
+            <Button
+              className="w-border-round-lg"
+              style={{
+                ...cardButtonStyles,
+                borderColor: getStatusLabelColor(task.status),
+              }}
+              key={task.id}
+              onClick={() => handleTaskClick(task)}
             >
-              <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
-                Tarefa: {truncateTaskName(task.taskName)}
-              </i>
-              <p
-                className="pi pi-calendar mb-3"
-                style={{ color: 'white', margin: 0 }}
-              >
-                Entrega:{' '}
-                {task.deliveryDay.toDate().toLocaleDateString()}
-              </p>
+              <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
 
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {truncateDescription(task.description)}
-              </i>
-            </div>
-          </Button>
-        ))}
+              <Divider className="mt-1" />
+
+              <div
+                className="flex flex-column"
+                style={{ alignItems: 'flex-start', textAlign: 'left' }}
+              >
+                <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
+                  Tarefa: {truncateTaskName(task.taskName)}
+                </i>
+                <p
+                  className="pi pi-calendar mb-3"
+                  style={{ color: 'white', margin: 0 }}
+                >
+                  Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
+                </p>
+
+                <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                  Descrição: {truncateDescription(task.description)}
+                </i>
+              </div>
+            </Button>
+          ))
+        )}
       </div>
 
       <div
@@ -367,42 +373,45 @@ export default function ActivitiesComponent({
 
       <Divider className="mb-2 mt-1" />
 
-      <div style={containerStyles} className='my-4'>
-        {getTasksByStatus('Finalized').map((task) => (
-          <Button
-            className="border-round-lg"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            onClick={() => handleTaskClick(task)}
-          >
-            <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
-
-            <Divider className="mt-1" />
-
-            <div
-              className="flex flex-column"
-              style={{ alignItems: 'flex-start', textAlign: 'left' }}
+      <div style={containerStyles} className="my-4">
+        {getTasksByStatus('Finalized').length == 0 ? (
+          <p>Nenhuma tarefa encontrada</p>
+        ) : (
+          getTasksByStatus('Finalized').map((task) => (
+            <Button
+              className="border-round-lg"
+              style={{
+                ...cardButtonStyles,
+                borderColor: getStatusLabelColor(task.status),
+              }}
+              key={task.id}
+              onClick={() => handleTaskClick(task)}
             >
-              <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
-                Tarefa: {truncateTaskName(task.taskName)}
-              </i>
-              <p
-                className="pi pi-calendar mb-3"
-                style={{ color: 'white', margin: 0 }}
-              >
-                Entrega:{' '}
-                {task.deliveryDay.toDate().toLocaleDateString()}
-              </p>
+              <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
 
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {truncateDescription(task.description)}
-              </i>
-            </div>
-          </Button>
-        ))}
+              <Divider className="mt-1" />
+
+              <div
+                className="flex flex-column"
+                style={{ alignItems: 'flex-start', textAlign: 'left' }}
+              >
+                <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
+                  Tarefa: {truncateTaskName(task.taskName)}
+                </i>
+                <p
+                  className="pi pi-calendar mb-3"
+                  style={{ color: 'white', margin: 0 }}
+                >
+                  Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
+                </p>
+
+                <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                  Descrição: {truncateDescription(task.description)}
+                </i>
+              </div>
+            </Button>
+          ))
+        )}
       </div>
 
       {selectedTask && (

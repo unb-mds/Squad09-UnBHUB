@@ -5,7 +5,6 @@ import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import CheckDate from '../../functions/CheckDateActivity';
 import { Timestamp } from 'firebase/firestore';
-import React from 'react';
 
 interface ITask {
   deliveryDay: Timestamp;
@@ -14,6 +13,16 @@ interface ITask {
   subjectId: string;
   taskId: string;
   taskName: string;
+}
+
+interface IExam {
+  code: string;
+  score: string;
+  date: Timestamp;
+  room: string;
+  status: string;
+  id: string;
+  time: Timestamp;
 }
 
 interface ISubject {
@@ -97,6 +106,7 @@ export default function SpecificSubjectTasks({
     .map((task: ITask, index) => {
       const deliveryDay = task.deliveryDay.toDate();
       const today = new Date();
+      today.setDate(today.getDate() - 1);
       let taskStatus = '';
       if (
         deliveryDay < today &&
@@ -132,7 +142,14 @@ export default function SpecificSubjectTasks({
         }
       })();
 
-      const { width, height, titleFontSize, textFontSize, margin, titleMarginBottom } = getCardStyles(size);
+      const {
+        width,
+        height,
+        titleFontSize,
+        textFontSize,
+        margin,
+        titleMarginBottom,
+      } = getCardStyles(size);
 
       return (
         <Card
@@ -164,7 +181,7 @@ export default function SpecificSubjectTasks({
           >
             {truncateText(task.taskName, 20)}
           </div>
-          <Divider className='mb-3 mt-2' />
+          <Divider className="mb-3 mt-2" />
           <div
             style={{
               fontSize: textFontSize,
@@ -197,7 +214,7 @@ export default function SpecificSubjectTasks({
     } else if (filteredTasks.length === 0) {
       return (
         <div className="flex flex-wrap w-full gap-4">
-          <p>No tasks found.</p>
+          <p>Nenhuma tarefa encontrada</p>
         </div>
       );
     }
@@ -205,7 +222,11 @@ export default function SpecificSubjectTasks({
   if (styleOption === 'Vertical') {
     return (
       <div className="flex flex-column w-full gap-2">
-        {filteredTasks.length > 0 ? filteredTasks : <p>No tasks found.</p>}
+        {filteredTasks.length > 0 ? (
+          filteredTasks
+        ) : (
+          <p>Nenhuma tarefa encontrada</p>
+        )}
       </div>
     );
   }

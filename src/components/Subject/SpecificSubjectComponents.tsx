@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
+
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 
@@ -10,13 +12,24 @@ import SpecificSubjectTasks from './SpecificSubjectTasks';
 import SubjectDetailsComponent from './SubjectDetailsComponent';
 import SubjectSpecificExams from './SubjectSpecificExams';
 
+interface ITask {
+  deliveryDay: Timestamp;
+  description: string;
+  status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
+}
+
 // Interface para definir a estrutura de um objeto Exam (prova)
 interface IExam {
-  code: string; // Código da prova
-  score: string; // Nota da prova
-  date: Date; // Data da prova
-  room: string; // Sala onde a prova será realizada
-  status: string; // Status da prova (por exemplo, agendada, realizada, etc.)
+  code: string;
+  score: string;
+  date: Timestamp;
+  room: string;
+  status: string;
+  id: string;
+  time: Timestamp;
 }
 
 // Interface para definir a estrutura de um objeto Subject (matéria)
