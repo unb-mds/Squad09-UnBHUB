@@ -73,14 +73,13 @@ export default function LibraryComponent(props: {
 
   const cardButtonStyles: React.CSSProperties = {
     color: 'white',
-    border: '2px solid',
+    border: '1px solid',
     padding: '1rem',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     width: '350px',
     height: '200px',
-    backgroundColor: '#2c3e50',
   };
 
   const truncateText = (text: string, maxLength: number) => {
@@ -89,6 +88,7 @@ export default function LibraryComponent(props: {
 
   const renderCard = (
     borderColor: string,
+    bgColor: string,
     id: string,
     author: string,
     bookName: string,
@@ -102,7 +102,7 @@ export default function LibraryComponent(props: {
     return (
       <Button
         key={id}
-        className="my-0"
+        className={`my-0 bg-${bgColor}-200`}
         style={{ ...cardButtonStyles, borderColor }}
         onClick={() => {
           const D = {
@@ -190,6 +190,7 @@ export default function LibraryComponent(props: {
           ongoingBooks.map((bookData) =>
             renderCard(
               '#3498db',
+              'blue',
               bookData.id,
               bookData.author,
               bookData.bookName,
@@ -216,6 +217,7 @@ export default function LibraryComponent(props: {
           overdueBooks.map((bookData) =>
             renderCard(
               '#dc0d28',
+              'red',
               bookData.id,
               bookData.author,
               bookData.bookName,
@@ -241,6 +243,7 @@ export default function LibraryComponent(props: {
         {finalizedBooks.length ? (
           finalizedBooks.map((bookData) =>
             renderCard(
+              'green',
               'green',
               bookData.id,
               bookData.author,

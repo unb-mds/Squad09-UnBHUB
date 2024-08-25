@@ -35,7 +35,7 @@ interface ActivitiesComponentProps {
 
 const cardButtonStyles: React.CSSProperties = {
   color: 'white', // Cor do texto do botão.
-  border: '2px solid', // Estilo da borda do botão.
+  border: '1px solid', // Estilo da borda do botão.
   padding: '1rem', // Espaçamento interno do botão.
   display: 'flex', // Usa Flexbox para layout do botão.
   flexDirection: 'column', // Direção dos itens dentro do botão.
@@ -273,7 +273,7 @@ export default function ActivitiesComponent({
         ) : (
           getTasksByStatus('Active').map((task) => (
             <Button
-              className="border-round-lg bg-blue-100"
+              className="border-round-lg surface-200"
               style={{
                 ...cardButtonStyles,
                 borderColor: getStatusLabelColor(task.status),
@@ -326,7 +326,7 @@ export default function ActivitiesComponent({
         ) : (
           getTasksByStatus('Late').map((task) => (
             <Button
-              className="border-round-lg bg-red-100"
+              className="border-round-lg surface-200"
               style={{
                 ...cardButtonStyles,
                 borderColor: getStatusLabelColor(task.status),
@@ -379,7 +379,7 @@ export default function ActivitiesComponent({
         ) : (
           getTasksByStatus('Finalized').map((task) => (
             <Button
-              className="border-round-lg bg-green-100"
+              className="border-round-lg surface-200"
               style={{
                 ...cardButtonStyles,
                 borderColor: getStatusLabelColor(task.status),

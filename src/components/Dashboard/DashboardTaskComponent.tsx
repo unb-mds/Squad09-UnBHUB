@@ -110,7 +110,6 @@ export default function DashboardTasksComponent(props: {
             <DashBoardActivitiesComponent
               key={subject.id}
               subject={subject}
-              status="Active"
             />
           ))}
         </div>

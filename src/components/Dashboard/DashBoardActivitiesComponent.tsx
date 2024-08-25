@@ -41,7 +41,6 @@ interface ISubject {
 
 interface DashBoardActivitiesProps {
   subject: ISubject | null;
-  status: string;
 }
 
 const truncateText = (text: string, maxLength: number) => {
@@ -55,14 +54,13 @@ const getStatusClass = (status: string) => {
 
 export default function DashBoardActivitiesComponent({
   subject,
-  status,
 }: DashBoardActivitiesProps) {
   if (!subject || !subject.tasks) {
     return null;
   }
 
   const filteredTasks = Object.values(subject.tasks)
-    .filter((task: ITask) => task.status === status)
+    .filter((task: ITask) => task.status === 'Active' || task.status === 'Late')
     .map((task: ITask, index) => {
       const deliveryDay = task.deliveryDay.toDate();
       const today = new Date();
@@ -82,7 +80,7 @@ export default function DashBoardActivitiesComponent({
           key={index}
           style={{
             color: '#4b4b4b',
-            border: '2px solid',
+            border: `2px solid ${getColorForTask(task.taskId)}`,
             width: '300px',
             height: '150px',
             display: 'flex',
@@ -92,7 +90,6 @@ export default function DashBoardActivitiesComponent({
             boxSizing: 'border-box',
             backgroundColor: 'var(--surface-200)',
           }}
-          className={`border-${getColorForTask(task.taskId)}-300`}
         >
           <div
             style={{
