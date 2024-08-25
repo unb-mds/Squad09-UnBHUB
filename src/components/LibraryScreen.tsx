@@ -47,7 +47,7 @@ export default function LibraryComponent(props: {
               const overdue = Object.values(books).filter((bookData) => {
                 const deliveryDay = bookData.deliveryDay.toDate();
                 deliveryDay.setDate(deliveryDay.getDate() + 1);
-                if (deliveryDay < today && !['Deleted', 'Finalized','Ongoing'].includes(bookData.status)) {
+                if (deliveryDay < today && !['Deleted', 'Finalized'].includes(bookData.status)) {
                   LateBookFunction(bookData.id);
                   return true
                 }
