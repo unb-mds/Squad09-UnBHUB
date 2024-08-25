@@ -94,7 +94,7 @@ export default function DashboardTasksComponent(props: {
           <i className="pi pi-clipboard" />
           Tarefas
         </p>
-        <a href="http://localhost:5173/Tasks">
+        <a href="/Tasks">
           <Button
             label="Ver Tudo"
             icon="pi pi-angle-right"

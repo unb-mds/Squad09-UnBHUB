@@ -201,18 +201,14 @@ export default function EditBookComponent(props: {
                   outlined
                   label="Cancelar" // Texto do botão
                   style={{
-                    borderColor: '#156eccb0', // Cor da borda do botão
-                    color: '#156eccb0', // Cor do texto do botão
+                    borderColor: '#ff6060', // Cor da borda do botão
+                    color: 'white', // Cor do texto do botão
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={handleCancel} // Lida com o clique no botão cancelar
                 />
                 <Button
-                  outlined
                   label="Salvar" // Texto do botão
-                  style={{
-                    borderColor: '#f3d300', // Cor da borda do botão
-                    color: '#f3d300', // Cor do texto do botão
-                  }}
                   onClick={handleSave} // Lida com o clique no botão salvar
                 />
               </>
@@ -220,13 +216,8 @@ export default function EditBookComponent(props: {
               <>
                 {bookData?.status === 'Finalized' && (
                     <Button
-                     outlined
                      label="Restaurar"
-                    style={{
-                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
-                    color: '#3e74aeb1', // Define a cor do texto do botão.
-                    }}
-                    onClick={handleRestore}
+                     onClick={handleRestore}
                     />
                     )}
 
@@ -235,8 +226,9 @@ export default function EditBookComponent(props: {
                      outlined
                      label="Finalizar"
                     style={{
-                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
-                    color: '#3e74aeb1', // Define a cor do texto do botão.
+                    borderColor: 'green', // Define a cor da borda do botão.
+                    color: 'white', // Define a cor do texto do botão.
+                    backgroundColor: 'green',
                     }}
                     onClick={handleFinalized}
                     />
@@ -247,7 +239,8 @@ export default function EditBookComponent(props: {
                   label="Editar" // Texto do botão
                   style={{
                     borderColor: '#f3d300', // Cor da borda do botão
-                    color: '#f3d300', // Cor do texto do botão
+                    color: 'white', // Cor do texto do botão
+                    backgroundColor: '#f3d300',
                   }}
                   onClick={() => setIsEditing(true)} // Habilita o modo de edição
                 />
@@ -256,7 +249,8 @@ export default function EditBookComponent(props: {
                   label="Excluir" // Texto do botão
                   style={{
                     borderColor: '#ff6060', // Cor da borda do botão
-                    color: '#ff6060', // Cor do texto do botão
+                    color: 'white', // Cor do texto do botão
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={handleDelete} // Exclui o livro após confirmação
                 />

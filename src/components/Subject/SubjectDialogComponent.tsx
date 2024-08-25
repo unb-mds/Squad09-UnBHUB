@@ -22,7 +22,7 @@ export default function SubjectDialogComponent(props: {
             label="Ver detalhes"
             onClick={() => {
               localStorage.setItem('subjectId', props.subject.id);
-              window.location.href = 'http://localhost:5173/SpecificSubject';
+              window.location.href = '/SpecificSubject';
             }}
           />
           <Button

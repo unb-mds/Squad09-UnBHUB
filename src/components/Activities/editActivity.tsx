@@ -169,18 +169,14 @@ export default function EditActivityComponent(props: {
                   outlined
                   label="Cancelar"
                   style={{
-                    borderColor: '#156eccb0', // Define a cor da borda do botão.
-                    color: '#156eccb0', // Define a cor do texto do botão.
+                    borderColor: '#ff6060', // Define a cor da borda do botão.
+                    color: 'white', // Define a cor do texto do botão.
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={handleCancel} // Função chamada ao clicar no botão de cancelar.
                 />
                 <Button
-                  outlined
                   label="Salvar"
-                  style={{
-                    borderColor: '#f3d300', // Define a cor da borda do botão.
-                    color: '#f3d300', // Define a cor do texto do botão.
-                  }}
                   onClick={handleSave} // Função chamada ao clicar no botão de salvar.
                 />
               </>
@@ -188,13 +184,8 @@ export default function EditActivityComponent(props: {
               <>
                 {props.status === 'Finalized' && (
                     <Button
-                     outlined
                      label="Restaurar"
-                    style={{
-                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
-                    color: '#3e74aeb1', // Define a cor do texto do botão.
-                    }}
-                    onClick={handleRestore}
+                     onClick={handleRestore}
                     />
                     )}
 
@@ -202,11 +193,12 @@ export default function EditActivityComponent(props: {
                     <Button
                      outlined
                      label="Finalizar"
-                    style={{
-                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
-                    color: '#3e74aeb1', // Define a cor do texto do botão.
+                     style={{
+                      borderColor: 'green', // Define a cor da borda do botão.
+                      color: 'white', // Define a cor do texto do botão.
+                      backgroundColor: 'green',
                     }}
-                    onClick={handleFinalized}
+                     onClick={handleFinalized}
                     />
                     )}
                 
@@ -215,7 +207,8 @@ export default function EditActivityComponent(props: {
                   label="Editar"
                   style={{
                     borderColor: '#f3d300', // Define a cor da borda do botão.
-                    color: '#f3d300', // Define a cor do texto do botão.
+                    color: 'white', // Define a cor do texto do botão.
+                    backgroundColor: '#f3d300', 
                   }}
                   onClick={() => setIsEditing(true)} // Ativa o modo de edição ao clicar no botão de editar.
                 />
@@ -224,7 +217,8 @@ export default function EditActivityComponent(props: {
                   label="Excluir"
                   style={{
                     borderColor: '#ff6060', // Define a cor da borda do botão.
-                    color: '#ff6060', // Define a cor do texto do botão.
+                    color: 'white', // Define a cor do texto do botão.
+                    backgroundColor: '#ff6060', 
                   }}
                   onClick={handleDelete} // Função chamada ao clicar no botão de excluir.
                 />

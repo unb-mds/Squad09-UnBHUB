@@ -49,7 +49,7 @@ export default function DashboardSubjectsComponent(props: {
           <i className="pi pi-bookmark"></i>
           Matérias
         </p>
-        <a href="http://localhost:5173/Subjects">
+        <a href="/Subjects">
           <Button
             label="Ver Tudo"
             icon="pi pi-angle-right"

@@ -14,7 +14,7 @@ export default function NavbarComponent2() {
         <Image src="/images/logo.svg" width="100" height="100" alt="UnBHUB" />
       </div>
       <div className="flex align-items-center justify-content-end w-9 flex-nowrap">
-        <a href="http://localhost:5173/SignIn" className="mx-2">
+        <a href="/SignIn" className="mx-2">
           <Button
             style={{
               minWidth: '120px',
@@ -25,7 +25,7 @@ export default function NavbarComponent2() {
             label="Entrar"
           />
         </a>
-        <a href="http://localhost:5173/signUp" className="mx-2">
+        <a href="/signUp" className="mx-2">
           <Button
             style={{
               minWidth: '120px',

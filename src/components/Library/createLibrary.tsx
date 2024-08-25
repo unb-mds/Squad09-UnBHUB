@@ -133,7 +133,8 @@ export default function CreateLibrary(props: {
                   label="Fechar" // Texto do botão
                   style={{
                     borderColor: '#ff6060', // Cor da borda do botão
-                    color: '#ff6060', // Cor do texto do botão
+                    color: 'white', // Cor do texto do botão
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={() => props.CreatesetVisible1(false)} // Fecha o modal ao clicar
                 />
