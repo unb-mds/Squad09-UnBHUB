@@ -43,48 +43,15 @@ interface SpecificSubjectTasksProps {
   subject: ISubject | null;
   status: string;
   styleOption: string;
-  size: 'small' | 'medium' | 'large';
 }
 
-const getCardStyles = (size: 'small' | 'medium' | 'large') => {
-  switch (size) {
-    case 'small':
-      return {
-        width: '250px',
-        height: '150px',
-        titleFontSize: '1rem',
-        textFontSize: '0.8rem',
-        margin: '0.5rem',
-        titleMarginBottom: '0.5rem',
-      };
-    case 'medium':
-      return {
-        width: '300px',
-        height: '180px',
-        titleFontSize: '1.2rem',
-        textFontSize: '1rem',
-        margin: '0.75rem',
-        titleMarginBottom: '1rem',
-      };
-    case 'large':
-      return {
-        width: '350px',
-        height: '210px',
-        titleFontSize: '1.5rem',
-        textFontSize: '1.2rem',
-        margin: '1rem',
-        titleMarginBottom: '1.25rem',
-      };
-    default:
-      return {
-        width: '250px',
-        height: '150px',
-        titleFontSize: '1rem',
-        textFontSize: '0.8rem',
-        margin: '0.5rem',
-        titleMarginBottom: '0.5rem',
-      };
-  }
+const mediumCardStyles = {
+  width: '300px',
+  height: '170px',
+  titleFontSize: '1rem',
+  textFontSize: '1rem',
+  margin: '0.75rem',
+  titleMarginBottom: '1rem',
 };
 
 const truncateText = (text: string, maxLength: number) => {
@@ -109,7 +76,6 @@ export default function SpecificSubjectTasks({
   subject,
   status,
   styleOption,
-  size,
 }: SpecificSubjectTasksProps) {
   if (!subject || !subject.tasks) {
     return null;
@@ -163,7 +129,7 @@ export default function SpecificSubjectTasks({
         textFontSize,
         margin,
         titleMarginBottom,
-      } = getCardStyles(size);
+      } = mediumCardStyles;
 
       return (
         <Card
@@ -208,10 +174,10 @@ export default function SpecificSubjectTasks({
               flexDirection: 'column',
             }}
           >
-            <p className="pi pi-book mt-0" style={{ marginBottom: '0.5rem' }}>
+            <p className="pi pi-book mt-2" style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}>
               {truncateText(task.description, 31)}
             </p>
-            <p className="pi pi-calendar mt-0">
+            <p className="pi pi-calendar mt-1" style={{ fontSize: '0.9rem' }}>
               {formatDate(task.deliveryDay)} {formatTime(task.deliveryDay)}
             </p>
           </div>

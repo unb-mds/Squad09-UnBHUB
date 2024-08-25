@@ -80,7 +80,7 @@ export default function DashBoardActivitiesComponent({
           key={index}
           style={{
             color: '#4b4b4b',
-            border: `2px solid ${getColorForTask(task.taskId)}`,
+            border: '2px solid',
             width: '300px',
             height: '150px',
             display: 'flex',
@@ -90,6 +90,7 @@ export default function DashBoardActivitiesComponent({
             boxSizing: 'border-box',
             backgroundColor: 'var(--surface-200)',
           }}
+          className={`border-${getColorForTask(task.taskId)}-300`}
         >
           <div
             style={{

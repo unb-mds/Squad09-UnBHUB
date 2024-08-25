@@ -99,7 +99,6 @@ export default function SpecificSubjectComponents() {
   };
 
   // Defina o tamanho do card aqui (por exemplo, 'small', 'medium', 'large')
-  const cardSize: 'small' | 'medium' | 'large' = 'medium'; // Ajuste conforme necessário
 
   return (
     <div className="flex flex-column mx-3 my-0 w-full">
@@ -108,9 +107,9 @@ export default function SpecificSubjectComponents() {
         <SubjectDetailsComponent key={id} subject={subjects.get(id)!} />
       )}
 
-      <div className="flex flex-column my-3">
+      <div className="flex flex-column my-5">
         <div className="flex justify-content-between align-items-center">
-          <p className="flex w-4 h-1rem gap-2 align-items-center pb-2">
+          <p className="flex w-4 h-1rem gap-2 align-items-center pb-2 mb-6">
             <i className="pi pi-file"></i>
             Provas
           </p>
@@ -122,9 +121,10 @@ export default function SpecificSubjectComponents() {
             size="small"
             text
             onClick={() => setDialogVisible(true)}
+            className='mb-0'
           />
         </div>
-        <Divider className="mb-1 mt-1"></Divider>
+        <Divider className="mb-1 mt-0"></Divider>
         <div className="pt-3 pb-3">
           {/* Renderiza a tabela de provas da matéria se a matéria existir no estado */}
           {subjects.has(id) && (
@@ -141,16 +141,16 @@ export default function SpecificSubjectComponents() {
         refreshExams={refreshExams}
       />
 
-      <div className="flex align-items-center mb-3">
+      <div className="flex align-items-center mb-6">
         <i className="pi pi-file mr-2"></i>
         Tarefas
       </div>
 
-      <div>
-        <i className="pi pi-forward mb-2 mx-3" style={{ color: '#3498db' }} />
-        Em andamento
+      <div style={{ color: '#4b4b4b'}}>
+        <i className="pi pi-forward mx-2" style={{ color: '#3498db' }} />
+        Em Andamento
       </div>
-      <Divider className="my-3 mt-1"></Divider>
+      <Divider className="mt-2"></Divider>
 
       <div className="flex flex-row">
         {subjects.has(id) && (
@@ -159,16 +159,15 @@ export default function SpecificSubjectComponents() {
             subject={subjects.get(id)!}
             status="Active"
             styleOption="Horizontal"
-            size={cardSize} // Passa o parâmetro size
           />
         )}
       </div>
 
-      <div>
-        <i className="pi pi-clock my-3 mx-3" style={{ color: 'red' }} />
+      <div style={{ color: '#4b4b4b'}}>
+        <i className="pi pi-clock mx-2 mt-3" style={{ color: 'red' }} />
         Atrasadas
       </div>
-      <Divider className="my-3 mt-1"></Divider>
+      <Divider className="mt-2"></Divider>
       <div className="flex flex-wrap gap-4">
         {/* Renderiza as tarefas atrasadas da matéria se a matéria existir no estado */}
         {subjects.has(id) && (
@@ -177,18 +176,17 @@ export default function SpecificSubjectComponents() {
             subject={subjects.get(id)!}
             status="Late"
             styleOption="Horizontal"
-            size={cardSize} // Passa o parâmetro size
           />
         )}
       </div>
 
       <div className="flex mt-3 align-items-center">
-        <div>
-          <i className="pi pi-check mb-2 mx-3" style={{ color: 'green' }} />
+        <div style={{ color: '#4b4b4b'}}>
+          <i className="pi pi-check mx-2" style={{ color: 'green' }} />
           Finalizadas
         </div>
       </div>
-      <Divider className="mb-4"></Divider>
+      <Divider className="mt-2"></Divider>
 
       <div className="flex flex-wrap gap-4">
         {/* Renderiza as tarefas finalizadas da matéria se a matéria existir no estado */}
@@ -198,7 +196,6 @@ export default function SpecificSubjectComponents() {
             subject={subjects.get(id)!}
             status="Finalized"
             styleOption="Horizontal"
-            size={cardSize} // Passa o parâmetro size
           />
         )}
       </div>
