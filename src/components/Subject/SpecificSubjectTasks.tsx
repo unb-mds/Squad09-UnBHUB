@@ -91,6 +91,20 @@ const truncateText = (text: string, maxLength: number) => {
   return text.length > maxLength ? `${text.slice(0, maxLength - 3)}...` : text;
 };
 
+// Função para obter a classe CSS de acordo com o status da tarefa
+const getCardBackgroundClass = (taskStatus: string) => {
+  switch (taskStatus) {
+    case 'Late':
+      return 'bg-red-100';
+    case 'Finalized':
+      return 'bg-green-100';
+    case 'Ongoing':
+      return 'bg-cyan-100';
+    default:
+      return 'bg-cyan-100';
+  }
+};
+
 export default function SpecificSubjectTasks({
   subject,
   status,
@@ -155,7 +169,7 @@ export default function SpecificSubjectTasks({
         <Card
           key={index}
           style={{
-            color: 'white',
+            color: '#4b4b4b',
             border: border,
             width: width,
             height: height,
@@ -165,6 +179,7 @@ export default function SpecificSubjectTasks({
             overflow: 'hidden',
             boxSizing: 'border-box',
           }}
+          className={getCardBackgroundClass(taskStatus)} // Aplica a classe CSS de fundo
         >
           <div
             style={{

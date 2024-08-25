@@ -14,7 +14,6 @@ const sidebarStyle = {
   left: 0,
   height: '100vh',
   width: '15rem', // Ajuste conforme necessário
-  boxShadow: '2px 0 5px rgba(0, 0, 0, 0.1)', // Sombra para destaque
   zIndex: 1000, // Garante que o sidebar fique acima do conteúdo principal
   overflowY: 'auto' // Adiciona rolagem se o conteúdo exceder a altura
 };
@@ -27,11 +26,13 @@ const mainContentStyle = {
 const sidebarItemStyle = {
   padding: '1rem', // Aumenta o padding dos itens
   fontSize: '1rem', // Aumenta o tamanho da fonte dos itens
+  color: 'white'
 };
 
 const smallTextStyle = {
-  fontSize: '0.875rem', // Reduz o tamanho da fonte para textos pequenos
+  fontSize: '0.800rem', // Reduz o tamanho da fonte para textos pequenos
   paddingLeft: '1rem', // Ajusta o padding para o texto pequeno
+  color: 'gray'
 };
 
 export default function SideBarComponent() {
@@ -45,7 +46,7 @@ export default function SideBarComponent() {
           <span className="inline-flex align-items-center gap-1 px-2 py-0">
             <Image src="/images/logo.svg" alt="logo" width="60" height="60" />
             <span className="text-xl font-semibold">
-              UnB<span className="text-primary">HUB</span>
+              UnB<span className="text-green-500">HUB</span>
             </span>
           </span>
           <Divider className='mb-3 mt-0' />
@@ -69,8 +70,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/' }
               )}
             >
               <i className="pi pi-fw pi-home mr-2"></i>
@@ -85,8 +86,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/CalendarPage' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/CalendarPage' }
               )}
             >
               <i className="pi pi-fw pi-calendar mr-2"></i>
@@ -99,8 +100,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/Subjects' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Subjects' }
               )}
             >
               <i className="pi pi-fw pi-bookmark mr-2" />
@@ -113,8 +114,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/Tasks' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Tasks' }
               )}
             >
               <i className="pi pi-fw pi-clipboard mr-2" />
@@ -127,8 +128,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/Library' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Library' }
               )}
             >
               <i className="pi pi-fw pi-book mr-2"></i>
@@ -141,8 +142,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/Menu' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Menu' }
               )}
             >
               <i className="pi pi-fw pi-th-large mr-2"></i>
@@ -155,8 +156,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/Exams' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Exams' }
               )}
             >
               <i className="pi pi-fw pi-calendar-times mr-2"></i>
@@ -169,8 +170,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/Events' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Events' }
               )}
             >
               <i className="pi pi-fw pi-calendar-plus mr-2"></i>
@@ -185,8 +186,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/Settings' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Settings' }
               )}
             >
               <i className="pi pi-fw pi-cog mr-2"></i>
@@ -199,8 +200,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/Notifications' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Notifications' }
               )}
             >
               <i className="pi pi-fw pi-bell mr-2"></i>
@@ -213,8 +214,8 @@ export default function SideBarComponent() {
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
-                'w-full p-link flex align-items-center text-color hover:surface-200 border-noround',
-                { 'surface-300': location.pathname === '/User' }
+                'w-full p-link flex hover:bg-blue-800 border-noround',
+                { 'bg-blue-800': location.pathname === '/Profile' }
               )}
             >
               <i className="pi pi-fw pi-user mr-2"></i>
@@ -223,7 +224,7 @@ export default function SideBarComponent() {
           </Link>
           <Divider className='mb-4'/>
           <button
-            className="w-full p-link flex align-items-center p-2 pl-4 text-color hover:surface-200 border-noround mb-4"
+            className="w-full p-link flex p-2 pl-3 text-white hover:bg-blue-800 border-noround mb-4"
             onClick={() => auth.signOut()}
           >
             <i className="pi pi-fw pi-power-off mr-2"></i>
@@ -237,10 +238,9 @@ export default function SideBarComponent() {
   return (
     <div>
       <div style={sidebarStyle}>
-        <Menu model={items} className="w-full" />
+        <Menu model={items} className="w-full h-full bg-blue-900 text-white" />
       </div>
       <div style={mainContentStyle}>
-        {/* Conteúdo principal */}
       </div>
     </div>
   );

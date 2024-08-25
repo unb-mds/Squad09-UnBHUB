@@ -240,14 +240,14 @@ export default function ActivitiesComponent({
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
         <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
-          <i className="pi pi-clipboard text-4xl" style={{ color: 'white' }} />
-          <h1 style={{ color: 'white' }}>Tarefas</h1>
+          <i className="pi pi-clipboard text-4xl" style={{ color: '#4b4b4b' }} />
+          <h1 style={{ color: '#4b4b4b' }}>Tarefas</h1>
         </div>
       </div>
 
       <div
         className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        style={{ color: '#4b4b4b' }}
       >
         <div>
           <i className="pi pi-forward mx-3" style={{ color: '#007bff' }} />
@@ -281,7 +281,7 @@ export default function ActivitiesComponent({
               key={task.id}
               onClick={() => handleTaskClick(task)}
             >
-              <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
+              <h3 style={{ color: '#4b4b4b' }}>{task.codeSubject}</h3>
 
               <Divider className="mt-1" />
 
@@ -289,17 +289,17 @@ export default function ActivitiesComponent({
                 className="flex flex-column"
                 style={{ alignItems: 'flex-start', textAlign: 'left' }}
               >
-                <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
+                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
                   Tarefa: {truncateTaskName(task.taskName)}
                 </i>
                 <p
                   className="pi pi-calendar mb-3"
-                  style={{ color: 'white', margin: 0 }}
+                  style={{ color: '#4b4b4b', margin: 0 }}
                 >
                   Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
                 </p>
 
-                <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                <i className="pi pi-book mb-3" style={{ color: '#4b4b4b' }}>
                   Descrição: {truncateDescription(task.description)}
                 </i>
               </div>
@@ -310,7 +310,7 @@ export default function ActivitiesComponent({
 
       <div
         className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        style={{ color: '#4b4b4b' }}
       >
         <div>
           <i className="pi pi-clock mb-2 mx-3" style={{ color: '#dc3545' }} />
@@ -334,7 +334,7 @@ export default function ActivitiesComponent({
               key={task.id}
               onClick={() => handleTaskClick(task)}
             >
-              <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
+              <h3 style={{ color: '#4b4b4b' }}>{task.codeSubject}</h3>
 
               <Divider className="mt-1" />
 
@@ -342,17 +342,17 @@ export default function ActivitiesComponent({
                 className="flex flex-column"
                 style={{ alignItems: 'flex-start', textAlign: 'left' }}
               >
-                <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
+                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
                   Tarefa: {truncateTaskName(task.taskName)}
                 </i>
                 <p
                   className="pi pi-calendar mb-3"
-                  style={{ color: 'white', margin: 0 }}
+                  style={{ color: '#4b4b4b', margin: 0 }}
                 >
                   Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
                 </p>
 
-                <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                <i className="pi pi-book mb-3" style={{ color: '#4b4b4b' }}>
                   Descrição: {truncateDescription(task.description)}
                 </i>
               </div>
@@ -363,7 +363,7 @@ export default function ActivitiesComponent({
 
       <div
         className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        style={{ color: '#4b4b4b' }}
       >
         <div>
           <i className="pi pi-check mb-2 mx-3" style={{ color: '#28a745' }} />
@@ -387,7 +387,7 @@ export default function ActivitiesComponent({
               key={task.id}
               onClick={() => handleTaskClick(task)}
             >
-              <h3 style={{ color: 'white' }}>{task.codeSubject}</h3>
+              <h3 style={{ color: '#4b4b4b' }}>{task.codeSubject}</h3>
 
               <Divider className="mt-1" />
 
@@ -395,17 +395,17 @@ export default function ActivitiesComponent({
                 className="flex flex-column"
                 style={{ alignItems: 'flex-start', textAlign: 'left' }}
               >
-                <i className="pi pi-clipboard mb-3" style={{ color: 'white' }}>
+                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
                   Tarefa: {truncateTaskName(task.taskName)}
                 </i>
                 <p
                   className="pi pi-calendar mb-3"
-                  style={{ color: 'white', margin: 0 }}
+                  style={{ color: '#4b4b4b', margin: 0 }}
                 >
                   Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
                 </p>
 
-                <i className="pi pi-book mb-3" style={{ color: 'white' }}>
+                <i className="pi pi-book mb-3" style={{ color: '#4b4b4b' }}>
                   Descrição: {truncateDescription(task.description)}
                 </i>
               </div>

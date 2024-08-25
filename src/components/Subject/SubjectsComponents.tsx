@@ -50,16 +50,16 @@ export default function SubjectsComponent(props: {
   return (
     <div className="flex flex-column mx-3 my-0 w-full">
       <GeneralHeader />
-      <Divider className="mb-2 mt-0" />
+      <Divider className="mb-2 mt-0" style={{ color: '#4b4b4b'}}/>
       <div className="flex align-items-center justify-content-between border-round-lg">
-        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
+        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6" style={{ color: '#4b4b4b'}}>
           <i className="pi pi-bookmark text-4xl"> </i>
           <h1>Matérias</h1>
         </div>
       </div>
 
       <div className="flex justify-content-between align-items-center px-6">
-        <div>
+        <div style={{ color: '#4b4b4b'}}>
           <i className="pi pi-forward mx-3" style={{ color: '#3498db' }} />
           Em Andamento
         </div>
