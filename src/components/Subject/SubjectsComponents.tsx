@@ -48,7 +48,7 @@ export default function SubjectsComponent(props: {
   }, []);
 
   return (
-    <div className="flex flex-column mx-3 my-0 w-full">
+    <div className="flex flex-column mx-3 my-1 w-full">
       <GeneralHeader />
       <Divider className="mb-2 mt-0" style={{ color: '#4b4b4b'}}/>
       <div className="flex align-items-center justify-content-between border-round-lg">
@@ -58,9 +58,9 @@ export default function SubjectsComponent(props: {
         </div>
       </div>
 
-      <div className="flex justify-content-between align-items-center px-6">
+      <div className="flex justify-content-between align-items-center px-2">
         <div style={{ color: '#4b4b4b'}}>
-          <i className="pi pi-forward mx-3" style={{ color: '#3498db' }} />
+          <i className="pi pi-forward mx-2" style={{ color: '#3498db' }} />
           Em Andamento
         </div>
         <a>
@@ -85,8 +85,8 @@ export default function SubjectsComponent(props: {
         size="medium"
       />
 
-      <div className="flex align-items-center px-6">
-        <i className="pi pi-check my-3 mx-3" style={{ color: 'green' }} />
+      <div className="flex align-items-center px-2" style={{ color: '#4b4b4b'}}>
+        <i className="pi pi-check my-3 mx-2" style={{ color: 'green' }} />
         Finalizadas
       </div>
       <Divider className="mb-4 mt-1"></Divider>

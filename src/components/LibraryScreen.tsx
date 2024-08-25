@@ -155,21 +155,21 @@ export default function LibraryComponent(props: {
   };
 
   return (
-    <div className="flex flex-column mx-3 my-0 gap-0 w-full">
+    <div className="flex flex-column mx-3 my-1 w-full">
       <GeneralHeader className="mb-1 mt-1" />
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
         <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
-          <i className="pi pi-book text-4xl" style={{ color: 'white' }} />
-          <h1 style={{ color: 'white' }}>Biblioteca</h1>
+          <i className="pi pi-book text-4xl" style={{ color: '#4b4b4b' }} />
+          <h1 style={{ color: '#4b4b4b' }}>Biblioteca</h1>
         </div>
       </div>
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-forward mx-3" style={{ color: '#3498db' }} />
+          <i className="pi pi-forward mx-2" style={{ color: '#3498db' }} />
           Lendo
         </div>
         <Button
@@ -202,11 +202,11 @@ export default function LibraryComponent(props: {
         )}
       </div>
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-clock mx-3" style={{ color: 'red' }} />
+          <i className="pi pi-clock mx-2" style={{ color: 'red' }} />
           Atrasados
         </div>
       </div>
@@ -228,11 +228,11 @@ export default function LibraryComponent(props: {
         )}
       </div>
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-check mx-3" style={{ color: '#25c440' }} />
+          <i className="pi pi-check mx-2" style={{ color: '#25c440' }} />
           Já Lidos
         </div>
       </div>

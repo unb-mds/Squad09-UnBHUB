@@ -10,7 +10,7 @@ import GeneralHeader from '../components/Header';
   return (
     <div className="flex">
       <SideBarComponent />
-      <div className="flex flex-column w-full ml-2">
+      <div className="flex flex-column w-full ml-2 my-1">
         <GeneralHeader />
         <Divider className="mb-2 mt-0" />
         <User />

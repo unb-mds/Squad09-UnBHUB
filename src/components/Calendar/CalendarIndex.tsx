@@ -12,7 +12,7 @@ export default function Index() {
         importantes para o semestre acadêmico.
       </div>
 
-      <div className="grid">
+      <div className="grid surface-ground">
         <DataImportante />
 
         <DataProvas />

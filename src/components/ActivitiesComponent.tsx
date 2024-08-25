@@ -235,7 +235,7 @@ export default function ActivitiesComponent({
   };
 
   return (
-    <div className="flex flex-column mx-3 my-0 gap-0 w-full">
+    <div className="flex flex-column mx-3 my-1 w-full">
       <GeneralHeader className="mb-1 mt-1" />
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
@@ -246,12 +246,12 @@ export default function ActivitiesComponent({
       </div>
 
       <div
-        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
         style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-forward mx-3" style={{ color: '#007bff' }} />
-          Em andamento
+          <i className="pi pi-forward mx-2" style={{ color: '#007bff' }} />
+          Em Andamento
         </div>
         <Button
           type="button"
@@ -273,7 +273,7 @@ export default function ActivitiesComponent({
         ) : (
           getTasksByStatus('Active').map((task) => (
             <Button
-              className="border-round-lg"
+              className="border-round-lg bg-blue-100"
               style={{
                 ...cardButtonStyles,
                 borderColor: getStatusLabelColor(task.status),
@@ -309,11 +309,11 @@ export default function ActivitiesComponent({
       </div>
 
       <div
-        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
         style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-clock mb-2 mx-3" style={{ color: '#dc3545' }} />
+          <i className="pi pi-clock mb-2 mx-2" style={{ color: '#dc3545' }} />
           Atrasadas
         </div>
       </div>
@@ -326,7 +326,7 @@ export default function ActivitiesComponent({
         ) : (
           getTasksByStatus('Late').map((task) => (
             <Button
-              className="w-border-round-lg"
+              className="border-round-lg bg-red-100"
               style={{
                 ...cardButtonStyles,
                 borderColor: getStatusLabelColor(task.status),
@@ -362,11 +362,11 @@ export default function ActivitiesComponent({
       </div>
 
       <div
-        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
         style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-check mb-2 mx-3" style={{ color: '#28a745' }} />
+          <i className="pi pi-check mb-2 mx-2" style={{ color: '#28a745' }} />
           Finalizadas
         </div>
       </div>
@@ -379,7 +379,7 @@ export default function ActivitiesComponent({
         ) : (
           getTasksByStatus('Finalized').map((task) => (
             <Button
-              className="border-round-lg"
+              className="border-round-lg bg-green-100"
               style={{
                 ...cardButtonStyles,
                 borderColor: getStatusLabelColor(task.status),
