@@ -1,10 +1,10 @@
-import SpecificSubjectTasks from '../Subject/SpecificSubjectTasks';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
 import { useState, useEffect } from 'react';
 import { Timestamp, doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../../../config/firebase';
 import { ScrollPanel } from 'primereact/scrollpanel';
+import DashBoardActivitiesComponent from './DashBoardActivitiesComponent';
 
 interface ITask {
   deliveryDay: Timestamp;
@@ -107,12 +107,10 @@ export default function DashboardTasksComponent(props: {
       <ScrollPanel style={{ width: '100%', height: '45rem' }}>
         <div className="flex flex-column gap-2">
           {activeSubjects.map((subject) => (
-            <SpecificSubjectTasks
+            <DashBoardActivitiesComponent
               key={subject.id}
               subject={subject}
               status="Active"
-              styleOption="Vertical"
-              size="small"
             />
           ))}
         </div>
