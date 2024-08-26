@@ -43,15 +43,21 @@ class Cardapio:
         doc = doc_ref.get()
         existing_data = doc.to_dict() if doc.exists else {}
 
-        # Atualiza o documento com os novos endereços, evitando duplicatas
+        # Inicializa ou atualiza o dicionário associado à keyword
+        if self.keyword not in existing_data:
+            existing_data[self.keyword] = {}
+
+        # Atualiza o dicionário com novos endereços, evitando duplicatas
         new_data = {}
         for item in self.addresses:
             for text, url in item.items():
-                if text and url and text not in existing_data:
+                if text and url and text not in existing_data[self.keyword]:
                     new_data[text] = url
 
+        # Atualiza o Firestore se houver novos dados
         if new_data:
-            doc_ref.set(new_data, merge=True)
+            existing_data[self.keyword].update(new_data)
+            doc_ref.set(existing_data, merge=True)
             print('\033[32mDocumento atualizado com novos dados: \033[0m', new_data)
         else:
             print('\033[31mNenhum dado novo para adicionar no Banco de Dados\033[0m')

@@ -20,8 +20,8 @@ if __name__ == "__main__":
     url_base_saa_unb = 'https://www.saa.unb.br'
 
     url_ru_unb = 'https://ru.unb.br/index.php/cardapio-refeitorio'
-    chave_de_busca_cardapio = 'Gama'
     url_base_ru_unb = 'https://ru.unb.br'
+
 
     while True:
         flag = False
@@ -34,9 +34,37 @@ if __name__ == "__main__":
             db
         )
 
-        ru_webscraper = Cardapio(
+        gama_ru_webscraper = Cardapio(
             url_ru_unb,
-            chave_de_busca_cardapio,
+            'Gama',
+            url_base_ru_unb,
+            db
+        )
+
+        darcy_ru_webscraper = Cardapio(
+            url_ru_unb,
+            'Darcy',
+            url_base_ru_unb,
+            db
+        )
+
+        planaltina_ru_webscraper = Cardapio(
+            url_ru_unb,
+            'Planaltina',
+            url_base_ru_unb,
+            db
+        )
+
+        ceilandia_ru_webscraper = Cardapio(
+            url_ru_unb,
+            'Ceilandia',
+            url_base_ru_unb,
+            db
+        )
+
+        fazenda_ru_webscraper = Cardapio(
+            url_ru_unb,
+            'Fazenda',
             url_base_ru_unb,
             db
         )
@@ -57,12 +85,47 @@ if __name__ == "__main__":
                 print(f"{'=-=' * 16}")
 
                 flag = True
+
+                print('Gama:')
                 print('\033[36m-->\033[0m', end=' ')
-                ru_webscraper.html_request()
+                gama_ru_webscraper.html_request()
                 print('\033[36m-->\033[0m', end=' ')
-                ru_webscraper.anchor_finder()
+                gama_ru_webscraper.anchor_finder()
                 print('\033[36m-->\033[0m', end=' ')
-                ru_webscraper.save_to_firestore()
+                gama_ru_webscraper.save_to_firestore()
+
+                print('Darcy Ribeiro:')
+                print('\033[36m-->\033[0m', end=' ')
+                darcy_ru_webscraper.html_request()
+                print('\033[36m-->\033[0m', end=' ')
+                darcy_ru_webscraper.anchor_finder()
+                print('\033[36m-->\033[0m', end=' ')
+                darcy_ru_webscraper.save_to_firestore()
+
+                print('Planaltina:')
+                print('\033[36m-->\033[0m', end=' ')
+                planaltina_ru_webscraper.html_request()
+                print('\033[36m-->\033[0m', end=' ')
+                planaltina_ru_webscraper.anchor_finder()
+                print('\033[36m-->\033[0m', end=' ')
+                planaltina_ru_webscraper.save_to_firestore()
+
+                print('Ceilândia:')
+                print('\033[36m-->\033[0m', end=' ')
+                ceilandia_ru_webscraper.html_request()
+                print('\033[36m-->\033[0m', end=' ')
+                ceilandia_ru_webscraper.anchor_finder()
+                print('\033[36m-->\033[0m', end=' ')
+                ceilandia_ru_webscraper.save_to_firestore()
+
+                print('Fazenda:')
+                print('\033[36m-->\033[0m', end=' ')
+                fazenda_ru_webscraper.html_request()
+                print('\033[36m-->\033[0m', end=' ')
+                fazenda_ru_webscraper.anchor_finder()
+                print('\033[36m-->\033[0m', end=' ')
+                fazenda_ru_webscraper.save_to_firestore()
+
                 print(f"{'---' * 16}")
 
             case "2":
