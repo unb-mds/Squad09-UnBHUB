@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { fetchItems } from '../functions/Cardapio/fetchGama';
+import { fetchItems } from '../../functions/Cardapio/fetchDarcy';
 
-export default function LinksCardapioGama() {
+export default function LinksCardapioDarcy() {
   const [links, setLinks] = useState<{ name: string; url: string }[]>([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function LinksCardapioGama() {
       <div className="p-1 h-full">
         <div className="shadow-2 p-3 h-full flex flex-column surface-card">
           <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
-            Gama:
+            Darcy:
           </div>
 
           <hr className="my-3 mx-0 border-top-1 border-bottom-none surface-border" />

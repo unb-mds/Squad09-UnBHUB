@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchItems } from '../functions/Cardapio/fetchPlanaltina';
+import { fetchItems } from '../../functions/Cardapio/fetchPlanaltina';
 
 export default function LinksCardapioPlanaltina() {
   const [links, setLinks] = useState<{ name: string; url: string }[]>([]);

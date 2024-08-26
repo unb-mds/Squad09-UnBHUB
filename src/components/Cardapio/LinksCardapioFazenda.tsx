@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchItems } from '../functions/Cardapio/fetchFazenda';
+import { fetchItems } from '../../functions/Cardapio/fetchFazenda';
 
 export default function LinksCardapioFazenda() {
   const [links, setLinks] = useState<{ name: string; url: string }[]>([]);
