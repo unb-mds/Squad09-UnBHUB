@@ -7,6 +7,8 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import formatDate from '../functions/FormatDate';
+import { useNavigate } from 'react-router-dom';
+
 
 
 interface ICreateBook {
@@ -40,6 +42,7 @@ export default function GeneralHeader() {
   const [overdueBooks, setOverdueBooks] = useState<ICreateBook[]>([]);
   const [overdueTasks, setOverdueTasks] = useState<Task[]>([]);
   const [upcomingExams, setUpcomingExams] = useState<Exam[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -135,7 +138,7 @@ export default function GeneralHeader() {
   }, []);
 
   const handleProfileClick = () => {
-    // Código para lidar com o clique no perfil (remover useNavigate)
+    navigate('/Profile');
   };
 
   const handleNotificationClick = () => {
