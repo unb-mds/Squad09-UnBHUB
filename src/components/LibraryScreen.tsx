@@ -4,59 +4,59 @@ import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../config/firebase'; // Importa as instâncias do Firebase Authentication e Firestore
+import GeneralHeader from './Header';
+import { ActiveBookFunction } from "../functions/DeleteBook";
+import { LateBookFunction } from "../functions/DeleteBook";
 
 interface ICreateBook {
-  // Define a interface para os dados de um livro
-  id: string; // ID do livro
-  codeSubject: string; // Código da matéria
-  bookName: string; // Nome do livro
-  deliveryDay: Timestamp; // Data de devolução como Timestamp do Firestore
+  id: string;
+  author: string;
+  bookName: string;
+  deliveryDay: Timestamp;
   status: string;
 }
 
 export default function LibraryComponent(props: {
-  // Componente funcional que recebe propriedades
-  CreatesetVisible1: (visibleCreate1: boolean) => void; // Função para definir a visibilidade do modal de criação
-  EditsetVisible1: (D: ICreateBook) => void; // Função para definir a visibilidade do modal de edição com dados do livro
+  CreatesetVisible1: (visibleCreate1: boolean) => void;
+  EditsetVisible1: (D: ICreateBook) => void;
 }) {
-  const [ongoingBooks, setOngoingBooks] = useState<ICreateBook[]>([]); // Estado para armazenar livros em andamento
-  const [overdueBooks, setOverdueBooks] = useState<ICreateBook[]>([]); // Estado para armazenar livros atrasados
-  const [finalizedBooks, setfinalizedBooks] = useState<ICreateBook[]>([]); // Estado para armazenar livros finalizados
+  const [ongoingBooks, setOngoingBooks] = useState<ICreateBook[]>([]);
+  const [overdueBooks, setOverdueBooks] = useState<ICreateBook[]>([]);
+  const [finalizedBooks, setfinalizedBooks] = useState<ICreateBook[]>([]);
 
   useEffect(() => {
-    // Efeito colateral para escutar mudanças no estado de autenticação
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Se um usuário está autenticado
-        // Escuta mudanças no documento do usuário no Firestore
         const unsub = onSnapshot(doc(db, 'Users', user.uid), (doc) => {
           if (doc.exists()) {
-            // Se o documento do usuário existe
-            const userData = doc.data(); // Obtém os dados do documento
+            const userData = doc.data();
             if (userData && userData.books) {
-              // Se os dados do usuário contêm livros
-              const books: ICreateBook[] = userData.books; // Converte os livros para o tipo ICreateBook
-              const today = new Date(); // Obtém a data atual
-              // Filtra livros em andamento
+              const books: ICreateBook[] = userData.books;
+              const today = new Date();
 
               const ongoing = Object.values(books).filter((bookData) => {
                 const deliveryDay = bookData.deliveryDay.toDate();
                 deliveryDay.setDate(deliveryDay.getDate() + 1);
-                return deliveryDay >= today &&
-                       !['Deleted', 'Finalized'].includes(bookData.status);
+                if (deliveryDay >= today && !['Deleted', 'Finalized'].includes(bookData.status)) {
+                  ActiveBookFunction(bookData.id);
+                  return true
+                }
+                
               });
-              // Filtra livros atrasados
+
               const overdue = Object.values(books).filter((bookData) => {
                 const deliveryDay = bookData.deliveryDay.toDate();
                 deliveryDay.setDate(deliveryDay.getDate() + 1);
-                return deliveryDay < today &&
-                       !['Deleted', 'Finalized'].includes(bookData.status);
+                if (deliveryDay < today && !['Deleted', 'Finalized'].includes(bookData.status)) {
+                  LateBookFunction(bookData.id);
+                  return true
+                }
               });
-              // Filtra livros finalizados
+
               const finalized = Object.values(books).filter(
-                (bookData) => !['Deleted', 'Ongoing'].includes(bookData.status) // Status não é "Deleted" ou "Ongoing"
+                (bookData) => !['Deleted', 'Ongoing','Late'].includes(bookData.status)
               );
-              // Atualiza o estado com os livros filtrados
+
               setOngoingBooks(ongoing);
               setOverdueBooks(overdue);
               setfinalizedBooks(finalized);
@@ -64,70 +64,90 @@ export default function LibraryComponent(props: {
           }
         });
 
-        // Limpa a escuta quando o componente é desmontado
         return () => unsub();
       }
     });
 
-    // Limpa a escuta quando o componente é desmontado
     return () => unsubscribe();
-  }, []); // Dependências vazias significam que o efeito é executado apenas na montagem e desmontagem
+  }, []);
 
-  // Estilo para o botão de livro
   const cardButtonStyles: React.CSSProperties = {
-    color: 'white', // Cor do texto
-    border: '2px solid', // Estilo da borda
-    padding: '1rem', // Espaçamento interno
-    display: 'flex', // Usa Flexbox para layout
-    flexDirection: 'column', // Direção dos itens no flex container
-    alignItems: 'flex-start', // Alinha itens no início do container
-    width: '350px', // Largura fixa do botão
-    height: '200px', // Altura fixa do botão
-    backgroundColor: '#2c3e50', // Cor de fundo
+    color: 'white',
+    border: '1px solid',
+    padding: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    width: '350px',
+    height: '200px',
   };
 
-  // Função para renderizar um cartão de livro
-  const renderCard = (
-    borderColor: string, // Cor da borda do cartão
-    id: string, // ID do livro
-    codeSubject: string, // Código do assunto
-    bookName: string, // Nome do livro
-    deliveryDay: Timestamp, // Data de devolução
-    status: string // Status do livro
-  ) => {
-    const formattedDate = deliveryDay.toDate().toLocaleDateString(); // Formata a data de devolução como string
+  const truncateText = (text: string, maxLength: number) => {
+    return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
+  };
 
-    if (status === 'Deleted') return null; // Não renderiza livros com status "Deleted"
+  const renderCard = (
+    borderColor: string,
+    bgColor: string,
+    id: string,
+    author: string,
+    bookName: string,
+    deliveryDay: Timestamp,
+    status: string
+  ) => {
+    const formattedDate = deliveryDay.toDate().toLocaleDateString();
+
+    if (status === 'Deleted') return null;
+
     return (
       <Button
-        key={id} // Usa o ID do livro como chave para o componente
-        className="my-0" // Remove a margem vertical
-        style={{ ...cardButtonStyles, borderColor }} // Aplica os estilos e a cor da borda
+        key={id}
+        className={`my-0 bg-${bgColor}-200`}
+        style={{ ...cardButtonStyles, borderColor }}
         onClick={() => {
           const D = {
             id: id,
-            codeSubject: codeSubject,
+            author: author,
             bookName: bookName,
             deliveryDay: deliveryDay,
             status: status,
           };
-          props.EditsetVisible1(D); // Passa os dados do livro para o método de edição
+          props.EditsetVisible1(D);
         }}
       >
-        <h3 style={{ color: 'white' }}>{codeSubject}</h3>{' '}
-        {/* Exibe o código do assunto */}
-        <div
-          className="flex flex-column"
-          style={{ alignItems: 'flex-start', textAlign: 'left' }} // Alinha texto à esquerda
+        <h3
+          style={{
+            color: 'white',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            width: '100%',
+            marginBottom: '0.5rem',
+          }}
         >
-          <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-            Livro: {bookName} {/* Exibe o nome do livro */}
+          {truncateText(bookName, 31)}
+        </h3>
+        <div
+          className="flex flex-column mt-4"
+          style={{ alignItems: 'flex-start', textAlign: 'left', width: '100%' }}
+        >
+          <i
+            className="pi pi-user mb-4"
+            style={{
+              color: 'white',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              width: '100%',
+            }}
+          >
+            Autor: {truncateText(author, 31)}
           </i>
           <p
             className="pi pi-calendar mb-3"
-            style={{ color: 'white', margin: 0 }} // Remove a margem
+            style={{ color: 'white', margin: 0 }}
           >
-            Devolução: {formattedDate} {/* Exibe a data de devolução */}
+            Devolução: {formattedDate}
           </p>
         </div>
       </Button>
@@ -135,114 +155,105 @@ export default function LibraryComponent(props: {
   };
 
   return (
-    <div className="flex flex-column mx-3 my-3 gap-0 w-full">
-      {' '}
-      {/* Contêiner principal do componente */}
+    <div className="flex flex-column mx-3 my-1 w-full">
+      <GeneralHeader className="mb-1 mt-1" />
+      <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
-        {' '}
-        {/* Cabeçalho da biblioteca */}
-        <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
-          <i className="pi pi-book text-4xl" style={{ color: 'white' }} />{' '}
-          {/* Ícone de livro */}
-          <h1 style={{ color: 'white' }}>Biblioteca</h1> {/* Título */}
+        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
+          <i className="pi pi-book text-4xl" style={{ color: '#4b4b4b' }} />
+          <h1 style={{ color: '#4b4b4b' }}>Biblioteca</h1>
         </div>
       </div>
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }} // Cor do texto
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-forward mb-2 mx-3" style={{ color: '#3498db' }} />{' '}
-          {/* Ícone de andamento */}
-          Em andamento {/* Texto para seção de livros em andamento */}
+          <i className="pi pi-forward mx-2" style={{ color: '#3498db' }} />
+          Lendo
         </div>
         <Button
-          label="Adicionar" // Texto do botão
-          icon="pi pi-plus" // Ícone do botão
-          iconPos="left" // Posiciona o ícone à esquerda do texto
-          size="small" // Tamanho do botão
-          text // Tipo do botão (aparece como texto)
-          link // Estilo de link
+          label="Adicionar"
+          icon="pi pi-plus"
+          iconPos="left"
+          size="small"
+          text
+          link
           onClick={() => {
-            props.CreatesetVisible1(true); // Abre o modal para adicionar um livro
+            props.CreatesetVisible1(true);
           }}
         />
       </div>
-      <Divider className="my-0" /> {/* Divisor entre seções */}
-      <div className="flex flex-row flex-wrap gap-2 my-4">
-        {' '}
-        {/* Contêiner para livros em andamento */}
+      <Divider className="mb-2 mt-1" />
+      <div className="flex flex-row flex-wrap gap-3 my-4">
         {ongoingBooks.length ? (
           ongoingBooks.map((bookData) =>
             renderCard(
-              '#3498db', // Cor da borda para livros em andamento
+              '#3498db',
+              'blue',
               bookData.id,
-              bookData.codeSubject,
+              bookData.author,
               bookData.bookName,
               bookData.deliveryDay,
               bookData.status
             )
           )
         ) : (
-          <p>Nenhum livro em andamento</p> // Mensagem quando não há livros em andamento
+          <p>Nenhum livro sendo lido</p>
         )}
       </div>
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }} // Cor do texto
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-clock mb-2 mx-3" style={{ color: 'red' }} />{' '}
-          {/* Ícone de atraso */}
-          Atrasados {/* Texto para seção de livros atrasados */}
+          <i className="pi pi-clock mx-2" style={{ color: 'red' }} />
+          Atrasados
         </div>
       </div>
-      <Divider className="my-0" /> {/* Divisor entre seções */}
+      <Divider className="mb-2 mt-1" />
       <div className="flex flex-row flex-wrap gap-2 my-4">
-        {' '}
-        {/* Contêiner para livros atrasados */}
         {overdueBooks.length ? (
           overdueBooks.map((bookData) =>
             renderCard(
-              '#dc0d28', // Cor da borda para livros atrasados
+              '#dc0d28',
+              'red',
               bookData.id,
-              bookData.codeSubject,
+              bookData.author,
               bookData.bookName,
               bookData.deliveryDay,
               bookData.status
             )
           )
         ) : (
-          <p>Nenhum livro atrasado</p> // Mensagem quando não há livros atrasados
+          <p>Nenhum livro atrasado</p>
         )}
       </div>
       <div
-        className="flex h-3rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }} // Cor do texto
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-check mb-2 mx-3" style={{ color: '#25c440' }} />{' '}
-          {/* Ícone de finalizado */}
-          Finalizados {/* Texto para seção de livros finalizados */}
+          <i className="pi pi-check mx-2" style={{ color: '#25c440' }} />
+          Já Lidos
         </div>
       </div>
-      <Divider className="my-0" /> {/* Divisor entre seções */}
+      <Divider className="mb-2 mt-1" />
       <div className="flex flex-row flex-wrap gap-2 my-4">
-        {' '}
-        {/* Contêiner para livros finalizados */}
         {finalizedBooks.length ? (
           finalizedBooks.map((bookData) =>
             renderCard(
-              'green', // Cor da borda para livros finalizados
+              'green',
+              'green',
               bookData.id,
-              bookData.codeSubject,
+              bookData.author,
               bookData.bookName,
               bookData.deliveryDay,
               bookData.status
             )
           )
         ) : (
-          <p>Nenhum livro finalizado</p> // Mensagem quando não há livros finalizados
+          <p>Nenhum livro lido</p>
         )}
       </div>
     </div>

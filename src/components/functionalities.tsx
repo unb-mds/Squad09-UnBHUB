@@ -13,9 +13,7 @@ export default function Functionalities() {
       <div className="grid">
         <div className="col-12 lg:col-4">
           <div className="p-3 h-full">
-            <div
-              className="shadow-2 p-3 h-full flex flex-column surface-card"
-            >
+            <div className="shadow-2 p-3 h-full flex flex-column surface-card">
               <div className="text-900 font-medium text-xl mb-2">
                 Técnologias Utilizadas
               </div>
@@ -45,9 +43,7 @@ export default function Functionalities() {
                 </li>
                 <li className="flex align-items-center mb-3">
                   <i className="pi pi-check-circle text-green-500 mr-2" />
-                  <span>
-                    Bibliotecas: PrimeFlex, PrimeReact
-                  </span>
+                  <span>Bibliotecas: PrimeFlex, PrimeReact</span>
                 </li>
               </ul>
               <hr className="mb-3 mx-0 border-top-1 border-bottom-none surface-border mt-auto" />
@@ -57,9 +53,7 @@ export default function Functionalities() {
 
         <div className="col-12 lg:col-4">
           <div className="p-3 h-full">
-            <div
-              className="shadow-2 p-3 h-full flex flex-column surface-card"
-            >
+            <div className="shadow-2 p-3 h-full flex flex-column surface-card">
               <div className="text-900 font-medium text-xl mb-2">
                 Funcionalidades
               </div>
@@ -99,9 +93,7 @@ export default function Functionalities() {
 
         <div className="col-12 lg:col-4">
           <div className="p-3 h-full">
-            <div
-              className="shadow-2 p-3 flex flex-column surface-card"
-            >
+            <div className="shadow-2 p-3 flex flex-column surface-card">
               <div className="text-900 font-medium text-xl mb-2">
                 Arquitetura
               </div>
@@ -128,6 +120,10 @@ export default function Functionalities() {
                 <li className="flex align-items-center mb-3">
                   <i className="pi pi-check-circle text-green-500 mr-2" />
                   <span>Serviços Externos: API do Site Oficial da Unb</span>
+                </li>
+                <li className="flex align-items-center mb-3">
+                  <i className="pi pi-check-circle text-green-500 mr-2" />
+                  <span>Autenticação: Firebase Authentication</span>
                 </li>
               </ul>
               <hr className="mb-3 mx-0 border-top-1 border-bottom-none surface-border" />

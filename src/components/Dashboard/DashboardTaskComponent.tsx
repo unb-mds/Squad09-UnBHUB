@@ -1,13 +1,13 @@
-import SpecificSubjectTasks from '../Subject/SpecificSubjectTasks';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
 import { useState, useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { Timestamp, doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../../../config/firebase';
 import { ScrollPanel } from 'primereact/scrollpanel';
+import DashBoardActivitiesComponent from './DashBoardActivitiesComponent';
 
 interface ITask {
-  deliveryDay: Date;
+  deliveryDay: Timestamp;
   description: string;
   status: string;
   subjectId: string;
@@ -15,6 +15,18 @@ interface ITask {
   taskName: string;
 }
 
+// Interface para definir a estrutura de um objeto Exam (prova)
+interface IExam {
+  code: string;
+  score: string;
+  date: Timestamp;
+  room: string;
+  status: string;
+  id: string;
+  time: Timestamp;
+}
+
+// Interface para definir a estrutura de um objeto Subject (matéria)
 interface ISubject {
   codeSubject: string;
   nameSubject: string;
@@ -25,8 +37,8 @@ interface ISubject {
   local: string;
   status: string;
   id: string;
-  tasks: [];
-  exams: [];
+  tasks: ITask[]; // Ajuste o tipo conforme necessário para suas tarefas
+  exams: IExam[]; // Ajuste o tipo conforme necessário para seus exames
 }
 
 export default function DashboardTasksComponent(props: {
@@ -76,12 +88,13 @@ export default function DashboardTasksComponent(props: {
         </p>
         <ProgressBar value={parseInt(progress)}></ProgressBar>
       </div>
+
       <div className="flex justify-content-between">
         <p className="flex w-4 h-1rem gap-2 align-items-center">
           <i className="pi pi-clipboard" />
           Tarefas
         </p>
-        <a href="http://localhost:5173/Tasks">
+        <a href="/Tasks">
           <Button
             label="Ver Tudo"
             icon="pi pi-angle-right"
@@ -94,11 +107,9 @@ export default function DashboardTasksComponent(props: {
       <ScrollPanel style={{ width: '100%', height: '45rem' }}>
         <div className="flex flex-column gap-2">
           {activeSubjects.map((subject) => (
-            <SpecificSubjectTasks
+            <DashBoardActivitiesComponent
               key={subject.id}
               subject={subject}
-              status="Active"
-              styleOption="Vertical"
             />
           ))}
         </div>

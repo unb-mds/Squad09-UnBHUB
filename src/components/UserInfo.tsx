@@ -140,7 +140,7 @@ export default function User() {
   const progress = ((userInfo.currentSemester / userInfo.endSemester) * 100).toFixed(2);
 
   return (
-    <div className="surface-50 my-1 mx-3 border-round-xl px-3 py-2">
+    <div className="my-1 mx-3 border-round-xl px-3 py-2">
       <div className="relative flex align-items-center">
         <Avatar
           image={userInfo.profileImageUrl}

@@ -18,7 +18,7 @@ export default function CreateLibrary(props: {
     <Formik
       initialValues={{
         // Valores iniciais do formulário
-        codeSubject: '', // Código da matéria
+        author: '', // Código da matéria
         bookName: '', // Nome do livro
         deliveryDay: null, // Data de devolução (inicialmente nula)
       }}
@@ -27,7 +27,7 @@ export default function CreateLibrary(props: {
         const deliveryDayTimestamp = Timestamp.fromDate(values.deliveryDay); // Converte a data de devolução para Timestamp do Firestore
 
         CreateLibraryFunction({
-          codeSubject: values.codeSubject, // Passa o código da matéria
+          author: values.author, // Passa o código da matéria
           bookName: values.bookName, // Passa o nome do livro
           deliveryDay: deliveryDayTimestamp, // Passa a data de devolução
         }).then(() => {
@@ -38,8 +38,8 @@ export default function CreateLibrary(props: {
       }}
       validationSchema={Yup.object().shape({
         // Define o esquema de validação usando Yup
-        codeSubject: Yup.string().required(
-          'Obrigatório fornecer nome da matéria'
+        author: Yup.string().required(
+          'Obrigatório fornecer nome do autor'
         ), // Validação para código da matéria
         bookName: Yup.string().required('Obrigatório fornecer nome do livro'), // Validação para nome do livro
         deliveryDay: Yup.date().required('Obrigatório fornecer data'), // Validação para data de devolução
@@ -73,22 +73,7 @@ export default function CreateLibrary(props: {
               style={{ width: '30vw' }} // Define a largura do modal
               onHide={() => props.CreatesetVisible1(false)} // Fecha o modal quando necessário
             >
-              <FloatLabel>
-                <InputText
-                  className="flex mt-5 mb-5 w-full" // Estilos do campo de entrada
-                  id="codeSubject" // ID do campo
-                  name="codeSubject" // Nome do campo
-                  value={values.codeSubject} // Valor atual do campo
-                  onChange={handleChange} // Lida com mudanças no campo
-                  onBlur={handleBlur} // Lida com o desfoque do campo
-                />
-                <label htmlFor="codeSubject">Nome da matéria</label>{' '}
-                {/* Rótulo para o campo */}
-              </FloatLabel>
-              {errors.codeSubject && touched.codeSubject ? ( // Verifica e exibe erros de validação para código da matéria
-                <div className="text-red-500">{errors.codeSubject}</div>
-              ) : null}
-
+              
               <FloatLabel>
                 <InputText
                   className="flex mt-5 mb-5 w-full" // Estilos do campo de entrada
@@ -104,6 +89,23 @@ export default function CreateLibrary(props: {
               {errors.bookName && touched.bookName ? ( // Verifica e exibe erros de validação para nome do livro
                 <div className="text-red-500">{errors.bookName}</div>
               ) : null}
+
+              <FloatLabel>
+                <InputText
+                  className="flex mt-5 mb-5 w-full" // Estilos do campo de entrada
+                  id="author" // ID do campo
+                  name="author" // Nome do campo
+                  value={values.author} // Valor atual do campo
+                  onChange={handleChange} // Lida com mudanças no campo
+                  onBlur={handleBlur} // Lida com o desfoque do campo
+                />
+                <label htmlFor="author">Nome do Autor</label>{' '}
+                {/* Rótulo para o campo */}
+              </FloatLabel>
+              {errors.author && touched.author ? ( // Verifica e exibe erros de validação para código da matéria
+                <div className="text-red-500">{errors.author}</div>
+              ) : null}
+
 
               <FloatLabel>
                 <Calendar
@@ -131,7 +133,8 @@ export default function CreateLibrary(props: {
                   label="Fechar" // Texto do botão
                   style={{
                     borderColor: '#ff6060', // Cor da borda do botão
-                    color: '#ff6060', // Cor do texto do botão
+                    color: 'white', // Cor do texto do botão
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={() => props.CreatesetVisible1(false)} // Fecha o modal ao clicar
                 />

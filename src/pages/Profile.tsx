@@ -1,15 +1,18 @@
-import NavbarComponent3 from '../components/Navbar3';
 import SideBarComponent from '../components/SideBar';
 import User from '../components/UserInfo';
 import { withAuth } from '../../utils/auth';
+import { Divider } from 'primereact/divider';
+
+import GeneralHeader from '../components/Header';
 
 
  function ProfileScreen() {
   return (
     <div className="flex">
       <SideBarComponent />
-      <div className="flex flex-column w-full ml-2">
-        <NavbarComponent3 />
+      <div className="flex flex-column w-full ml-2 my-1">
+        <GeneralHeader />
+        <Divider className="mb-2 mt-0" />
         <User />
       </div>
     </div>

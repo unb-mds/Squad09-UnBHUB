@@ -1,7 +1,7 @@
 export default function Calltoaction() {
   return (
     <div
-      className="surface-section text-700 text-center"
+      className=" text-700 text-center"
       style={{ minHeight: '150px', position: 'relative' }}
     >
       <div

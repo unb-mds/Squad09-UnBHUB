@@ -8,21 +8,23 @@ import formatTime from '../../functions/FormatTime';
 import EditExamDialog from './EditExamDialog';
 import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
 
-interface Exam {
+import { Timestamp } from 'firebase/firestore';
+
+interface IExam {
   code: string;
   score: string;
-  date: Date;
-  id: string;
-  time: Date;
+  date: Timestamp;
   room: string;
   status: string;
+  id: string;
+  time: Timestamp;
 }
 
 export default function SubjectSpecificExams({ subject }) {
   const [dialogVisible, setDialogVisible] = useState(false);
-  const [currentExam, setCurrentExam] = useState<Exam | null>(null);
+  const [currentExam, setCurrentExam] = useState<IExam | null>(null);
 
-  const showEditDialog = (exam: Exam) => {
+  const showEditDialog = (exam: IExam) => {
     setCurrentExam(exam);
     setDialogVisible(true);
   };
@@ -40,7 +42,11 @@ export default function SubjectSpecificExams({ subject }) {
 
   return (
     <>
-      <DataTable value={filteredExams} tableStyle={{ minWidth: '50rem' }}>
+      <DataTable
+        value={filteredExams}
+        tableStyle={{ minWidth: '50rem' }}
+        emptyMessage="Nenhuma prova encontrada"
+      >
         <Column field="code" header="Código" />
         <Column field="score" header="Nota" />
         <Column

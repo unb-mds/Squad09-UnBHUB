@@ -1,42 +1,45 @@
 import { Divider } from 'primereact/divider';
 import formatTime from '../../functions/FormatTime';
 
+import GeneralHeader from '../Header';
+
+
 export default function SubjectDetailsComponent(props) {
   const { subject } = props;
   return (
-    <div className="flex flex-column">
-      <Divider className="mb-2 divider-center"></Divider>
-      <div className="flex h-1rem gap-2 align-items-center py-5">
-        <i className="pi pi-book text-4xl"> </i>
-        <h1>{subject.nameSubject}</h1>
+    <div className="flex flex-column mb-5">
+      <GeneralHeader />
+      <Divider className="mb-2 mt-1 divider-center"></Divider>
+      <div className="flex h-1rem gap-3 align-items-center py-5" style={{ color: '#4b4b4b'}}>
+        <i className="pi pi-bookmark text-4xl"> </i>
+        <h1>{subject.codeSubject} - {subject.nameSubject}</h1>
       </div>
-      <Divider className="mb-1 mt-1"></Divider>
+      <Divider className="mb-2 mt-2"></Divider>
       <div className="flex align-items-center">
-        <div className="flex flex-column w-12 gap-3 mt-3">
+        <div className="flex flex-column w-12 gap-4 mt-3" style={{ fontSize: '0.9rem', color: '#4b4b4b' }}>
           <div>
             <i className="pi pi-user mr-2" />
-            {subject.professor}
+             Professor(a): {subject.professor}
           </div>
           <div>
             <i className="pi pi-calendar mr-2" />
-            {subject.weekDays}
+            Dias da semana: {subject.weekDays}
           </div>
         </div>
 
-        <div className="flex flex-column w-12 gap-3 mt-3">
+        <div className="flex flex-column w-12 gap-4 mt-3" style={{ fontSize: '0.9rem', color: '#4b4b4b' }}>
           <div>
             <i className="pi pi-map-marker mr-2" />
-            {subject.local}
+            Sala: {subject.local}
           </div>
           <div>
             <i className="pi pi-clock mr-2" />
             <span>
-              {formatTime(subject.startTime)} as {formatTime(subject.endTime)}
+              Horários: {formatTime(subject.startTime)} - {formatTime(subject.endTime)}
             </span>
           </div>
         </div>
       </div>
-      <Divider className="mb-2 divider-center"></Divider>
     </div>
   );
 }

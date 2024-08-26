@@ -3,10 +3,10 @@ import { auth, db } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 
-import { Avatar } from 'primereact/avatar';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-import { ScrollPanel } from 'primereact/scrollpanel';
+
+import GeneralHeader from '../Header';
 
 import SubjectCardConstructorComponent from './subjectsCardConstructor';
 
@@ -29,7 +29,7 @@ export default function SubjectsComponent(props: {
   setVisible: (visible: boolean) => void;
   setVisibleSubject: (visibleSubject: boolean) => void;
 }) {
-  const [subjects, setSubjects] = useState([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -48,47 +48,19 @@ export default function SubjectsComponent(props: {
   }, []);
 
   return (
-    <div className="flex flex-column mx-3 my-3 w-full">
+    <div className="flex flex-column mx-3 my-1 w-full">
+      <GeneralHeader />
+      <Divider className="mb-2 mt-0" style={{ color: '#4b4b4b'}}/>
       <div className="flex align-items-center justify-content-between border-round-lg">
-        <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
-          <i className="pi pi-book text-4xl"> </i>
+        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6" style={{ color: '#4b4b4b'}}>
+          <i className="pi pi-bookmark text-4xl"> </i>
           <h1>Matérias</h1>
-        </div>
-        <div className="flex align-items-center">
-          <a href="http://localhost:5173/Messages">
-            <Button
-              icon="pi pi-bell p-overlay-badge"
-              rounded
-              text
-              size="large"
-              badge="2"
-              badgeClassName="p-badge-danger"
-              link
-            />
-          </a>
-          <a href="http://localhost:5173/Messages">
-            <Button
-              icon="pi pi-inbox p-overlay-badge"
-              rounded
-              text
-              size="large"
-              link
-            />
-          </a>
-          <Button className="" rounded text>
-            <Avatar
-              image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
-              size="large"
-              className="mr-2"
-              shape="circle"
-            />
-          </Button>
         </div>
       </div>
 
-      <div className="flex justify-content-between align-items-center px-6">
-        <div>
-          <i className="pi pi-forward mx-3" style={{ color: '#3498db' }} />
+      <div className="flex justify-content-between align-items-center px-2">
+        <div style={{ color: '#4b4b4b'}}>
+          <i className="pi pi-forward mx-2" style={{ color: '#3498db' }} />
           Em Andamento
         </div>
         <a>
@@ -103,30 +75,29 @@ export default function SubjectsComponent(props: {
           />
         </a>
       </div>
-      <Divider className="mb-4"></Divider>
+      <Divider className="mb-4 mt-1"></Divider>
 
-      <ScrollPanel style={{ width: '100%', height: '22rem' }}>
-        <SubjectCardConstructorComponent
-          setSubject={props.setSubject}
-          setVisibleSubject={props.setVisibleSubject}
-          status="Active"
-          UserSubjects={subjects}
-        />
-      </ScrollPanel>
+      <SubjectCardConstructorComponent
+        setSubject={props.setSubject}
+        setVisibleSubject={props.setVisibleSubject}
+        status="Active"
+        UserSubjects={subjects}
+        size="medium"
+      />
 
-      <div className="flex align-items-center px-6">
-        <i className="pi pi-check my-3 mx-3" style={{ color: 'green' }} />
+      <div className="flex align-items-center px-2" style={{ color: '#4b4b4b'}}>
+        <i className="pi pi-check my-3 mx-2" style={{ color: 'green' }} />
         Finalizadas
       </div>
-      <Divider className="mb-4"></Divider>
-      <ScrollPanel style={{ width: '100%', height: '22rem' }}>
-        <SubjectCardConstructorComponent
-          setSubject={props.setSubject}
-          setVisibleSubject={props.setVisibleSubject}
-          status="Finalized"
-          UserSubjects={subjects}
-        />
-      </ScrollPanel>
+      <Divider className="mb-4 mt-1"></Divider>
+
+      <SubjectCardConstructorComponent
+        setSubject={props.setSubject}
+        setVisibleSubject={props.setVisibleSubject}
+        status="Finalized"
+        UserSubjects={subjects}
+        size="medium" // Defina o tamanho dos cards como 'small', 'medium' ou 'large'
+      />
     </div>
   );
 }

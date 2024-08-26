@@ -211,7 +211,8 @@ export default function CreateSubjectComponent(props: {
                   label="Fechar"
                   style={{
                     borderColor: '#ff6060',
-                    color: '#ff6060',
+                    color: 'white',
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={() => props.setVisible(false)}
                 />

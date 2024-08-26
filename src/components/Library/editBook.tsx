@@ -6,14 +6,14 @@ import { InputText } from 'primereact/inputtext'; // Importa o componente InputT
 import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar da biblioteca PrimeReact
 import { Timestamp } from 'firebase/firestore'; // Importa o tipo Timestamp do Firestore
 import EditBookFunction from '../../functions/EditBook'; // Importa a função para editar um livro
-import DeleteBookFunction from '../../functions/DeleteBook'; // Importa a função para excluir um livro
+import {DeleteBookFunction} from '../../functions/DeleteBook'; // Importa a função para excluir um livro
 import { FinalizedBookFunction } from "../../functions/FinalizedBook"; // Importa a função para finalizar um livro
 import { ActiveBookFunction } from "../../functions/FinalizedBook";
 
 interface BookData {
   // Define a interface para os dados do livro
   id: string; // ID do livro
-  codeSubject: string; // Código da matéria
+  author: string; // Código da matéria
   bookName: string; // Nome do livro
   deliveryDay: Timestamp | null; // Data de devolução (Timestamp ou null)
   status: string;
@@ -32,7 +32,7 @@ export default function EditBookComponent(props: {
 
   const [formData, setFormData] = useState<{
     // Estado para armazenar dados do formulário
-    codeSubject: string; // Código da matéria
+    author: string; // Código da matéria
     bookName: string; // Nome do livro
     deliveryDay: Date | null; // Data de devolução (Date ou null)
   } | null>(null);
@@ -43,7 +43,7 @@ export default function EditBookComponent(props: {
     // Efeito colateral para atualizar os dados do formulário quando bookData muda
     if (bookData) {
       setFormData({
-        codeSubject: bookData.codeSubject, // Define o código da matéria
+        author: bookData.author, // Define o código da matéria
         bookName: bookData.bookName, // Define o nome do livro
         deliveryDay:
           bookData.deliveryDay instanceof Timestamp
@@ -97,7 +97,7 @@ export default function EditBookComponent(props: {
       await EditBookFunction({
         // Chama a função para editar o livro
         id: bookData.id, // ID do livro
-        codeSubject: formData.codeSubject, // Código da matéria
+        author: formData.author, // Código da matéria
         bookName: formData.bookName, // Nome do livro
         deliveryDay: deliveryDayTimestamp, // Data de devolução
       });
@@ -112,7 +112,7 @@ export default function EditBookComponent(props: {
     setIsEditing(false); // Sai do modo de edição
     if (bookData) {
       setFormData({
-        codeSubject: bookData.codeSubject, // Restaura os dados do formulário
+        author: bookData.author, // Restaura os dados do formulário
         bookName: bookData.bookName,
         deliveryDay:
           bookData.deliveryDay instanceof Timestamp
@@ -160,23 +160,23 @@ export default function EditBookComponent(props: {
           <FloatLabel className="w-full">
             <InputText
               className="w-full" // Estilos do campo de entrada
-              id="codeSubject" // ID do campo
-              value={formData?.codeSubject || ''} // Valor atual do campo
-              onChange={handleChange} // Lida com mudanças no campo
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
-            />
-            <label htmlFor="codeSubject">Código do Livro</label>{' '}
-            {/* Rótulo para o campo */}
-          </FloatLabel>
-          <FloatLabel className="w-full">
-            <InputText
-              className="w-full" // Estilos do campo de entrada
               id="bookName" // ID do campo
               value={formData?.bookName || ''} // Valor atual do campo
               onChange={handleChange} // Lida com mudanças no campo
               disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
             />
             <label htmlFor="bookName">Nome do Livro</label>{' '}
+            {/* Rótulo para o campo */}
+          </FloatLabel>
+          <FloatLabel className="w-full">
+            <InputText
+              className="w-full" // Estilos do campo de entrada
+              id="author" // ID do campo
+              value={formData?.author || ''} // Valor atual do campo
+              onChange={handleChange} // Lida com mudanças no campo
+              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+            />
+            <label htmlFor="author">Nome do Autor</label>{' '}
             {/* Rótulo para o campo */}
           </FloatLabel>
           <FloatLabel className="w-full">
@@ -201,18 +201,14 @@ export default function EditBookComponent(props: {
                   outlined
                   label="Cancelar" // Texto do botão
                   style={{
-                    borderColor: '#156eccb0', // Cor da borda do botão
-                    color: '#156eccb0', // Cor do texto do botão
+                    borderColor: '#ff6060', // Cor da borda do botão
+                    color: 'white', // Cor do texto do botão
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={handleCancel} // Lida com o clique no botão cancelar
                 />
                 <Button
-                  outlined
                   label="Salvar" // Texto do botão
-                  style={{
-                    borderColor: '#f3d300', // Cor da borda do botão
-                    color: '#f3d300', // Cor do texto do botão
-                  }}
                   onClick={handleSave} // Lida com o clique no botão salvar
                 />
               </>
@@ -220,23 +216,19 @@ export default function EditBookComponent(props: {
               <>
                 {bookData?.status === 'Finalized' && (
                     <Button
-                     outlined
                      label="Restaurar"
-                    style={{
-                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
-                    color: '#3e74aeb1', // Define a cor do texto do botão.
-                    }}
-                    onClick={handleRestore}
+                     onClick={handleRestore}
                     />
                     )}
 
-                {bookData?.status === 'Ongoing' && (
+                {(bookData?.status === 'Ongoing' || bookData?.status === 'Late')  && (
                     <Button
                      outlined
                      label="Finalizar"
                     style={{
-                    borderColor: '#3e74aeb1', // Define a cor da borda do botão.
-                    color: '#3e74aeb1', // Define a cor do texto do botão.
+                    borderColor: 'green', // Define a cor da borda do botão.
+                    color: 'white', // Define a cor do texto do botão.
+                    backgroundColor: 'green',
                     }}
                     onClick={handleFinalized}
                     />
@@ -247,7 +239,8 @@ export default function EditBookComponent(props: {
                   label="Editar" // Texto do botão
                   style={{
                     borderColor: '#f3d300', // Cor da borda do botão
-                    color: '#f3d300', // Cor do texto do botão
+                    color: 'white', // Cor do texto do botão
+                    backgroundColor: '#f3d300',
                   }}
                   onClick={() => setIsEditing(true)} // Habilita o modo de edição
                 />
@@ -256,7 +249,8 @@ export default function EditBookComponent(props: {
                   label="Excluir" // Texto do botão
                   style={{
                     borderColor: '#ff6060', // Cor da borda do botão
-                    color: '#ff6060', // Cor do texto do botão
+                    color: 'white', // Cor do texto do botão
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={handleDelete} // Exclui o livro após confirmação
                 />

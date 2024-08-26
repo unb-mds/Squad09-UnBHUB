@@ -17,9 +17,12 @@ export default async function ReactivateSubjectFunction(id: string) {
     if (tasks) {
       const taskIds = Object.keys(tasks);
       for (const taskId of taskIds) {
-        await updateDoc(doc(db, 'Users', auth.currentUser.uid), {
-          [`subjects.${id}.tasks.${taskId}.status`]: 'Active',
-        });
+        const taskStatus = tasks[taskId].status;
+        if (taskStatus !== 'Deleted') {
+          await updateDoc(doc(db, 'Users', auth.currentUser.uid), {
+            [`subjects.${id}.tasks.${taskId}.status`]: 'Active',
+          });
+        }
       }
     }
   }

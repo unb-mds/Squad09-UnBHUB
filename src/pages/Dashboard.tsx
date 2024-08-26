@@ -13,6 +13,9 @@ import SideBarComponent from '../components/SideBar';
 import DashboardSubjectsComponent from '../components/Dashboard/DashboardSubjects';
 import DashboardTaskComponent from '../components/Dashboard/DashboardTaskComponent';
 
+import GeneralHeader from '../components/Header';
+import { Divider } from 'primereact/divider';
+
 function DashboardScreen() {
   const [subjects, setSubjects] = useState([]);
 
@@ -31,6 +34,7 @@ function DashboardScreen() {
       }
     });
   }, []);
+
   return (
     <div className="flex">
       <SideBarComponent />
@@ -38,7 +42,9 @@ function DashboardScreen() {
         <Outlet />
       </div>
       <div className="flex flex-column pl-1 gap-1 w-full">
-        <NavbarComponent />
+        <GeneralHeader className="mb-2" /> 
+        <Divider className="mb-2 mt-0" />
+        <NavbarComponent className="mt-0" />
         <div className="flex flex-row">
           <div className="flex flex-column w-9">
             <DashboardSubjectsComponent subjects={subjects} />

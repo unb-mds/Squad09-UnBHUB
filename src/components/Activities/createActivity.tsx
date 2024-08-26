@@ -122,10 +122,11 @@ export default function CreateActivityComponent(props: {
               {' '}
               <Button
                 outlined
-                label="Fechar"
+                label="Cancelar"
                 style={{
                   borderColor: '#ff6060', // Define a cor da borda do botão.
-                  color: '#ff6060', // Define a cor do texto do botão.
+                  backgroundColor: '#ff6060', // Define a cor do texto do botão.
+                  color: 'white',
                 }}
                 onClick={() => props.CreatesetVisible(false)} // Função chamada ao clicar no botão de fechar.
               />

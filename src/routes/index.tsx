@@ -4,7 +4,7 @@ import DashboardScreen from '../pages/Dashboard';
 import LandingPage from '../pages/Landing';
 import LibraryScreen from '../pages/Library';
 import MenuScreen from '../pages/Menu';
-import MessagesPage from '../pages/Messages';
+import EventsPage from '../pages/EventsPage';
 import SignInScreen from '../pages/SignIn';
 import SignUpScreen from '../pages/SignUp';
 import ProfilePage from '../pages/Profile';
@@ -13,6 +13,7 @@ import SubjectsScreen from '../pages/Subjects';
 import Activities from '../pages/TaskScreen';
 import CalendarScreen from '../pages/CalendarPage';
 import SignUserScreen from '../pages/SignUser';
+import TestScreen from '../pages/TestsPage';
 
 const router = createBrowserRouter([
   {
@@ -30,8 +31,8 @@ const router = createBrowserRouter([
     element: <SubjectsScreen />,
   },
   {
-    path: '/Messages',
-    element: <MessagesPage />,
+    path: '/Events',
+    element: <EventsPage />,
   },
   {
     path: '/SignIn',
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
   {
     path: '/SignUser',
     element: <SignUserScreen />,
+  },
+  {
+    path: '/Tests',
+    element: <TestScreen />,
   },
 ]);
 

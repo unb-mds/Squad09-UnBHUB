@@ -12,10 +12,11 @@ import {
   deleteDoc,
 } from 'firebase/firestore'; // Importa funções para interação com o Firestore do Firebase.
 import EditActivityComponent from '../components/Activities/editActivity'; // Importa o componente para edição de atividades.
+import GeneralHeader from './Header';
 
 interface Task {
   id: string; // Identificador único da tarefa.
-  nameSubject: string;
+  codeSubject: string;
   taskName: string;
   deliveryDay: Timestamp;
   status: string; // Status da tarefa (por exemplo, 'Active', 'Late', 'Finalized').
@@ -34,20 +35,21 @@ interface ActivitiesComponentProps {
 
 const cardButtonStyles: React.CSSProperties = {
   color: 'white', // Cor do texto do botão.
-  border: '2px solid', // Estilo da borda do botão.
+  border: '1px solid', // Estilo da borda do botão.
   padding: '1rem', // Espaçamento interno do botão.
   display: 'flex', // Usa Flexbox para layout do botão.
   flexDirection: 'column', // Direção dos itens dentro do botão.
   alignItems: 'flex-start', // Alinha itens no início do botão.
   width: '350px', // Largura fixa do botão.
   height: '250px', // Altura fixa do botão.
-  backgroundColor: '#2c3e50', // Cor de fundo do botão.
+  backgroundColor: 'transparent', // Cor de fundo do botão.
 };
 
 const containerStyles: React.CSSProperties = {
   display: 'flex', // Usa Flexbox para layout.
   flexDirection: 'row', // Direção dos itens dentro do container.
-  gap: '0.5rem', // Espaçamento entre os itens.
+  flexWrap: 'wrap', // Adiciona o wrap para que os itens quebrem em novas linhas
+  gap: '1rem', // Espaçamento entre os itens.
 };
 
 const getStatusLabelColor = (status: string) => {
@@ -90,7 +92,9 @@ export default function ActivitiesComponent({
                   return Object.keys(item.tasks).map((key) => {
                     const task = item.tasks[key];
                     const deliveryDay = task.deliveryDay.toDate();
-                    const delayDay = deliveryDay.setDate(deliveryDay.getDate()+1)
+                    const delayDay = deliveryDay.setDate(
+                      deliveryDay.getDate() + 1
+                    );
                     let status = '';
                     if (
                       delayDay < today &&
@@ -130,7 +134,7 @@ export default function ActivitiesComponent({
                     return {
                       ...task,
                       id: key,
-                      nameSubject: item.nameSubject,
+                      codeSubject: item.codeSubject,
                       status,
                     } as Task;
                   });
@@ -184,7 +188,7 @@ export default function ActivitiesComponent({
       const taskRef = doc(
         userDocRef,
         'subjects',
-        selectedTask.nameSubject,
+        selectedTask.codeSubject,
         'tasks',
         selectedTask.id
       );
@@ -210,7 +214,7 @@ export default function ActivitiesComponent({
       const taskRef = doc(
         userDocRef,
         'subjects',
-        selectedTask.nameSubject,
+        selectedTask.codeSubject,
         'tasks',
         selectedTask.id
       );
@@ -222,22 +226,32 @@ export default function ActivitiesComponent({
     }
   };
 
+  const truncateDescription = (title: string) => {
+    return title.length > 32 ? `${title.slice(0, 29)}...` : title; // Limite de caracteres ajustado para 31
+  };
+
+  const truncateTaskName = (title: string) => {
+    return title.length > 32 ? `${title.slice(0, 29)}...` : title; // Limite de caracteres ajustado para 31
+  };
+
   return (
-    <div className="flex flex-column mx-3 my-3 gap-0 w-full">
+    <div className="flex flex-column mx-3 my-1 w-full">
+      <GeneralHeader className="mb-1 mt-1" />
+      <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
-        <div className="flex h-1rem gap-2 align-items-center px-6 py-5">
-          <i className="pi pi-book text-4xl" style={{ color: 'white' }} />
-          <h1 style={{ color: 'white' }}>Tarefas</h1>
+        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
+          <i className="pi pi-clipboard text-4xl" style={{ color: '#4b4b4b' }} />
+          <h1 style={{ color: '#4b4b4b' }}>Tarefas</h1>
         </div>
       </div>
 
       <div
-        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-forward mb-2 mx-3" style={{ color: '#007bff' }} />
-          Em andamento
+          <i className="pi pi-forward mx-2" style={{ color: '#007bff' }} />
+          Em Andamento
         </div>
         <Button
           type="button"
@@ -251,133 +265,153 @@ export default function ActivitiesComponent({
         />
       </div>
 
-      <div style={containerStyles}>
-        {getTasksByStatus('Active').map((task) => (
-          <Button
-            className="border-round-lg"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            onClick={() => handleTaskClick(task)}
-          >
-            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
-            <div
-              className="flex flex-column"
-              style={{ alignItems: 'flex-start', textAlign: 'left' }}
-            >
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Nome da Tarefa: {task.taskName}
-              </i>
-              <p
-                className="pi pi-calendar mb-3"
-                style={{ color: 'white', margin: 0 }}
-              >
-                Data de Entrega:{' '}
-                {task.deliveryDay.toDate().toLocaleDateString()}
-              </p>
+      <Divider className="mb-2 mt-1" />
 
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {task.description}
-              </i>
-            </div>
-          </Button>
-        ))}
+      <div style={containerStyles} className="my-4">
+        {getTasksByStatus('Active').length == 0 ? (
+          <p>Nenhuma tarefa encontrada</p>
+        ) : (
+          getTasksByStatus('Active').map((task) => (
+            <Button
+              className="border-round-lg surface-200"
+              style={{
+                ...cardButtonStyles,
+                borderColor: getStatusLabelColor(task.status),
+              }}
+              key={task.id}
+              onClick={() => handleTaskClick(task)}
+            >
+              <h3 style={{ color: '#4b4b4b' }}>{task.codeSubject}</h3>
+
+              <Divider className="mt-1" />
+
+              <div
+                className="flex flex-column"
+                style={{ alignItems: 'flex-start', textAlign: 'left' }}
+              >
+                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
+                  Tarefa: {truncateTaskName(task.taskName)}
+                </i>
+                <p
+                  className="pi pi-calendar mb-3"
+                  style={{ color: '#4b4b4b', margin: 0 }}
+                >
+                  Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
+                </p>
+
+                <i className="pi pi-book mb-3" style={{ color: '#4b4b4b' }}>
+                  Descrição: {truncateDescription(task.description)}
+                </i>
+              </div>
+            </Button>
+          ))
+        )}
       </div>
 
-      <Divider className="my-0" />
-
       <div
-        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-clock mb-2 mx-3" style={{ color: '#dc3545' }} />
+          <i className="pi pi-clock mb-2 mx-2" style={{ color: '#dc3545' }} />
           Atrasadas
         </div>
       </div>
 
-      <div style={containerStyles}>
-        {getTasksByStatus('Late').map((task) => (
-          <Button
-            className="w-border-round-lg"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            onClick={() => handleTaskClick(task)}
-          >
-            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
-            <div
-              className="flex flex-column"
-              style={{ alignItems: 'flex-start', textAlign: 'left' }}
-            >
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Nome da Tarefa: {task.taskName}
-              </i>
-              <p
-                className="pi pi-calendar mb-3"
-                style={{ color: 'white', margin: 0 }}
-              >
-                Data de Entrega:{' '}
-                {task.deliveryDay.toDate().toLocaleDateString()}
-              </p>
+      <Divider className="mb-2 mt-1" />
 
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {task.description}
-              </i>
-            </div>
-          </Button>
-        ))}
+      <div style={containerStyles} className="my-4">
+        {getTasksByStatus('Late').length == 0 ? (
+          <p>Nenhuma tarefa encontrada</p>
+        ) : (
+          getTasksByStatus('Late').map((task) => (
+            <Button
+              className="border-round-lg surface-200"
+              style={{
+                ...cardButtonStyles,
+                borderColor: getStatusLabelColor(task.status),
+              }}
+              key={task.id}
+              onClick={() => handleTaskClick(task)}
+            >
+              <h3 style={{ color: '#4b4b4b' }}>{task.codeSubject}</h3>
+
+              <Divider className="mt-1" />
+
+              <div
+                className="flex flex-column"
+                style={{ alignItems: 'flex-start', textAlign: 'left' }}
+              >
+                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
+                  Tarefa: {truncateTaskName(task.taskName)}
+                </i>
+                <p
+                  className="pi pi-calendar mb-3"
+                  style={{ color: '#4b4b4b', margin: 0 }}
+                >
+                  Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
+                </p>
+
+                <i className="pi pi-book mb-3" style={{ color: '#4b4b4b' }}>
+                  Descrição: {truncateDescription(task.description)}
+                </i>
+              </div>
+            </Button>
+          ))
+        )}
       </div>
 
-      <Divider className="my-0" />
-
       <div
-        className="flex h-4rem gap-2 justify-content-between align-items-center px-6 border-round-lg"
-        style={{ color: 'white' }}
+        className="flex justify-content-between align-items-center px-2 border-round-lg"
+        style={{ color: '#4b4b4b' }}
       >
         <div>
-          <i className="pi pi-check mb-2 mx-3" style={{ color: '#28a745' }} />
+          <i className="pi pi-check mb-2 mx-2" style={{ color: '#28a745' }} />
           Finalizadas
         </div>
       </div>
 
-      <div style={containerStyles}>
-        {getTasksByStatus('Finalized').map((task) => (
-          <Button
-            className="border-round-lg"
-            style={{
-              ...cardButtonStyles,
-              borderColor: getStatusLabelColor(task.status),
-            }}
-            key={task.id}
-            onClick={() => handleTaskClick(task)}
-          >
-            <h3 style={{ color: 'white' }}>{task.nameSubject}</h3>
-            <div
-              className="flex flex-column"
-              style={{ alignItems: 'flex-start', textAlign: 'left' }}
-            >
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Nome da Tarefa: {task.taskName}
-              </i>
-              <p
-                className="pi pi-calendar mb-3"
-                style={{ color: 'white', margin: 0 }}
-              >
-                Data de Entrega:{' '}
-                {task.deliveryDay.toDate().toLocaleDateString()}
-              </p>
+      <Divider className="mb-2 mt-1" />
 
-              <i className="pi pi-book mb-3" style={{ color: 'white' }}>
-                Descrição: {task.description}
-              </i>
-            </div>
-          </Button>
-        ))}
+      <div style={containerStyles} className="my-4">
+        {getTasksByStatus('Finalized').length == 0 ? (
+          <p>Nenhuma tarefa encontrada</p>
+        ) : (
+          getTasksByStatus('Finalized').map((task) => (
+            <Button
+              className="border-round-lg surface-200"
+              style={{
+                ...cardButtonStyles,
+                borderColor: getStatusLabelColor(task.status),
+              }}
+              key={task.id}
+              onClick={() => handleTaskClick(task)}
+            >
+              <h3 style={{ color: '#4b4b4b' }}>{task.codeSubject}</h3>
+
+              <Divider className="mt-1" />
+
+              <div
+                className="flex flex-column"
+                style={{ alignItems: 'flex-start', textAlign: 'left' }}
+              >
+                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
+                  Tarefa: {truncateTaskName(task.taskName)}
+                </i>
+                <p
+                  className="pi pi-calendar mb-3"
+                  style={{ color: '#4b4b4b', margin: 0 }}
+                >
+                  Entrega: {task.deliveryDay.toDate().toLocaleDateString()}
+                </p>
+
+                <i className="pi pi-book mb-3" style={{ color: '#4b4b4b' }}>
+                  Descrição: {truncateDescription(task.description)}
+                </i>
+              </div>
+            </Button>
+          ))
+        )}
       </div>
 
       {selectedTask && (
