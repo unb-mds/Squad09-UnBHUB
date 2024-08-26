@@ -5,7 +5,26 @@ import FinalizeExamFunction from './FinalizeExam';
 
 import { Timestamp } from 'firebase/firestore';
 
-interface Subject {
+interface ITask {
+  deliveryDay: Timestamp;
+  description: string;
+  status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
+}
+
+interface IExam {
+  code: string;
+  score: string;
+  date: Timestamp;
+  room: string;
+  status: string;
+  id: string;
+  time: Timestamp;
+}
+
+interface ISubject {
   codeSubject: string;
   nameSubject: string;
   professor: string;
@@ -13,28 +32,18 @@ interface Subject {
   startTime: Date;
   endTime: Date;
   local: string;
-  id: string;
   status: string;
-  tasks: [];
-  exams: [];
+  id: string;
+  tasks: ITask[];
+  exams: IExam[];
 }
 
-interface Exam {
-  code: string;
-  score: string;
-  date: Date;
-  id: string;
-  time: Date;
-  room: string;
-  status: string;
-}
-
-export default function ControlExamStatusBasedOnTime(subject: Subject) {
+export default function ControlExamStatusBasedOnTime(subject: ISubject) {
   const today = new Date();
   const firebaseTimestamp = Timestamp.fromDate(today);
 
   if (subject.status == 'Active') {
-    Object.values(subject.exams).forEach((exam: Exam) => {
+    Object.values(subject.exams).forEach((exam: IExam) => {
       if (
         exam.status != 'Deleted' &&
         ((formatDate(firebaseTimestamp) == formatDate(exam.date) &&

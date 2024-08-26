@@ -42,13 +42,13 @@ function DashboardScreen() {
         <Outlet />
       </div>
       <div className="flex flex-column pl-1 gap-1 w-full">
-        <GeneralHeader className="mb-2" /> 
+        <GeneralHeader />
         <Divider className="mb-2 mt-0" />
-        <NavbarComponent className="mt-0" />
+        <NavbarComponent />
         <div className="flex flex-row">
           <div className="flex flex-column w-9">
             <DashboardSubjectsComponent subjects={subjects} />
-            <DashboardExamsComponent />
+            <DashboardExamsComponent subjects={subjects} />
           </div>
           <div className="flex flex-column pl-3 w-3">
             <DashboardTaskComponent subjects={subjects} />
