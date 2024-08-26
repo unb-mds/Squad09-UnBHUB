@@ -1,7 +1,7 @@
 export default function FeaturesCardapio() {
   return (
     <div className="surface-section text-center">
-      <div className="mb-3 font-bold text-2xl my-2">
+      <div className="mb-3 font-bold text-2xl mt-6">
         <span className="text-900">Um Restaurante, </span>
         <span className="text-primary ">Muitas Opções</span>
       </div>

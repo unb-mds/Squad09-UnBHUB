@@ -1,4 +1,4 @@
-import GeneralHeader from './Header';
+import GeneralHeader from '../Header';
 import { Divider } from 'primereact/divider';
 
 export default function NavbarComponent5() {

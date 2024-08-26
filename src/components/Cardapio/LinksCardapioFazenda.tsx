@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { fetchItems } from '../functions/FirebaseService';
+import { fetchItems } from '../../functions/Cardapio/fetchFazenda';
 
-export default function LinksCardapio() {
+export default function LinksCardapioFazenda() {
   const [links, setLinks] = useState<{ name: string; url: string }[]>([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function LinksCardapio() {
       <div className="p-1 h-full">
         <div className="shadow-2 p-3 h-full flex flex-column surface-card">
           <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
-            Gama:
+            Fazenda:
           </div>
 
           <hr className="my-3 mx-0 border-top-1 border-bottom-none surface-border" />

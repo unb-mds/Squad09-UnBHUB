@@ -1,6 +1,9 @@
-import BackgroungImage from './Backgroung';
+import BackgroungImage from '../Backgroung';
 import FeaturesCardapio from './FeaturesCardapio';
-import LinksCardapio from './LinksCardapio';
+import LinksCardapioGama from './LinksCardapioGama';
+import LinksCardapioDarcy from './linksCardapioDarcy';
+import LinksCardapioPlanaltina from './LinksCardapioPlanaltina';
+import LinksCardapioFazenda from './LinksCardapioFazenda';
 
 export default function DisplayMenuComponent() {
   return (
@@ -13,7 +16,12 @@ export default function DisplayMenuComponent() {
             Abaixo estão os links para o cardápio da semana do Restaurante
             Universitário:
           </span>
-          <LinksCardapio />
+          <div className="grid surface-ground">
+            <LinksCardapioGama />
+            <LinksCardapioDarcy />
+            <LinksCardapioPlanaltina />
+            <LinksCardapioFazenda />
+          </div>
         </div>
       </div>
     </div>
