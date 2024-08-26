@@ -12,13 +12,16 @@ const colors = [
   'teal',
   'orange',
   'purple',
-  'red'
+  'red',
 ];
 
 // Função para gerar uma cor fixa baseada no ID do assunto
 const getColorForSubject = (subjectId: string) => {
   // Use um hash simples para obter um índice de cor a partir do ID
-  const hash = Array.from(subjectId).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const hash = Array.from(subjectId).reduce(
+    (acc, char) => acc + char.charCodeAt(0),
+    0
+  );
   return colors[hash % colors.length];
 };
 
@@ -41,12 +44,24 @@ const CardSubjectComponent = ({
   scale: number;
 }) => (
   <div className="flex flex-column" style={{ fontSize: `${scale * 1.2}rem` }}>
-    <p className="pi pi-user mt-0 mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.professor}</p>
-    <p className="pi pi-calendar mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.weekDays}</p>
+    <p
+      className="pi pi-user mt-0 mb-1"
+      style={{ fontSize: `${scale * 0.8}rem` }}
+    >
+      {subject.professor}
+    </p>
+    <p
+      className="pi pi-calendar mb-1"
+      style={{ fontSize: `${scale * 0.8}rem` }}
+    >
+      {subject.weekDays}
+    </p>
     <p className="pi pi-clock mb-1" style={{ fontSize: `${scale * 0.8}rem` }}>
       {formatTime(subject.startTime)} - {formatTime(subject.endTime)}
     </p>
-    <p className="pi pi-map-marker" style={{ fontSize: `${scale * 0.8}rem` }}>{subject.local}</p>
+    <p className="pi pi-map-marker" style={{ fontSize: `${scale * 0.8}rem` }}>
+      {subject.local}
+    </p>
   </div>
 );
 
@@ -70,70 +85,71 @@ export default function SubjectCardConstructorComponent(props: {
     }
   };
 
+  const filteredSubjects = Object.values(props.UserSubjects).filter(
+    (UserSubjects) => UserSubjects.status === props.status
+  );
+
   return (
     <div className="flex align-items-center flex-wrap gap-3">
-      {props.UserSubjects === null || props.UserSubjects.length === 0 ? (
+      {filteredSubjects.length === 0 ? (
         <p>Nenhuma matéria encontrada</p>
       ) : (
-        Object.values(props.UserSubjects).map((subject, index) => {
-          if (subject.status === props.status) {
-            const { width, height, scale } = getCardSize();
-            const backgroundColor = getColorForSubject(subject.id); // Obtém a cor fixa
-            const shade = getShadeForStatus(subject.status); // Obtém o shade baseado no status
+        filteredSubjects.map((subject, index) => {
+          const { width, height, scale } = getCardSize();
+          const backgroundColor = getColorForSubject(subject.id); // Obtém a cor fixa
+          const shade = getShadeForStatus(subject.status); // Obtém o shade baseado no status
 
-            return (
-              <a
-                className="cursor-pointer"
-                style={{ textDecoration: 'none', width: width }}
-                onClick={() => {
-                  if (props.setSubject) {
-                    props.setSubject(subject);
-                  }
-                  if (props.setVisibleSubject) {
-                    props.setVisibleSubject(true);
-                  }
+          return (
+            <a
+              className="cursor-pointer"
+              style={{ textDecoration: 'none', width: width }}
+              onClick={() => {
+                if (props.setSubject) {
+                  props.setSubject(subject);
+                }
+                if (props.setVisibleSubject) {
+                  props.setVisibleSubject(true);
+                }
+              }}
+              key={index}
+            >
+              <Card
+                className={`my-1 bg-${backgroundColor}-${shade}`} // Usa a cor e o shade fixos
+                style={{
+                  color: '#4b4b4b',
+                  border: 'none', // Remove a borda
+                  width: width,
+                  height: height,
+                  fontSize: `${scale * 1}rem`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '0.5rem',
+                  boxSizing: 'border-box',
                 }}
-                key={index}
               >
-                <Card
-                  className={`my-1 bg-${backgroundColor}-${shade}`} // Usa a cor e o shade fixos
+                <div
                   style={{
-                    color: '#4b4b4b',
-                    border: 'none', // Remove a borda
-                    width: width,
-                    height: height,
                     fontSize: `${scale * 1}rem`,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    padding: '0.5rem',
-                    boxSizing: 'border-box',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    width: '100%',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    marginBottom: '0.5rem',
+                    marginTop: '-1rem',
                   }}
                 >
-                  <div
-                    style={{
-                      fontSize: `${scale * 1}rem`,
-                      fontWeight: 'bold',
-                      textAlign: 'center',
-                      width: '100%',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                      marginBottom: '0.5rem',
-                      marginTop: '-1rem',
-                    }}
-                  >
-                    {truncateTitle(
-                      subject.codeSubject + ' - ' + subject.nameSubject,
-                      31
-                    )}
-                  </div>
-                  <Divider className="mt-2" />
-                  <CardSubjectComponent subject={subject} scale={scale} />
-                </Card>
-              </a>
-            );
-          }
-          return <p>Nenhuma matéria encontrada</p>;
+                  {truncateTitle(
+                    subject.codeSubject + ' - ' + subject.nameSubject,
+                    31
+                  )}
+                </div>
+                <Divider className="mt-2" />
+                <CardSubjectComponent subject={subject} scale={scale} />
+              </Card>
+            </a>
+          );
         })
       )}
     </div>
