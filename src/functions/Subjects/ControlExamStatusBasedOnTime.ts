@@ -42,17 +42,20 @@ export default function ControlExamStatusBasedOnTime(subject: ISubject) {
   const today = new Date();
   const firebaseTimestamp = Timestamp.fromDate(today);
 
-  if (subject.status == 'Active') {
+  if (subject.status === 'Active') {
     Object.values(subject.exams).forEach((exam: IExam) => {
       if (
-        exam.status != 'Deleted' &&
-        ((formatDate(firebaseTimestamp) == formatDate(exam.date) &&
+        exam.status !== 'Deleted' &&
+        ((formatDate(firebaseTimestamp) === formatDate(exam.date) &&
           formatTime(firebaseTimestamp) > formatTime(exam.time)) ||
           formatDate(firebaseTimestamp) > formatDate(exam.date))
       ) {
         FinalizeExamFunction(subject.id, exam.id);
-      } else if (exam.status != 'Deleted') {
-        ActivateExamFunction(subject.id, exam.id);
+      } else {
+        console.log(exam.status);
+        if (exam.status !== 'Deleted') {
+          ActivateExamFunction(subject.id, exam.id);
+        }
       }
     });
   }

@@ -8,6 +8,7 @@ export default async function DeleteExamFunction(
   if (!auth.currentUser) return;
 
   const subjectRef = doc(db, 'Users', auth.currentUser.uid);
+
   await updateDoc(subjectRef, {
     [`subjects.${SubjectID}.exams.${ExamID}.status`]: 'Deleted',
   });
