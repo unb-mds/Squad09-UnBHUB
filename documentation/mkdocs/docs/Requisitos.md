@@ -31,7 +31,7 @@
 | #A1  | Admin  | Cadastrar Evento        | Salvar cadastro de evento            | Baixa      | Waiting |
 | #A2  | Admin  | Remover Evento          | Remover cadastro de evento           | Baixa      | Waiting |
 
-ESCOPO DO MVP1: #U1, #U2, #AU1, #U3, #U4, #U5, #U6, #U7, #U8, #U9, #U10, #U11, #U12, #U13, #U14, #U15.
+ESCOPO MÍNIMO DO MVP1: #U1, #U2, #AU1, #U3, #U4, #U5, #U6, #U7, #U8, #U9, #U10, #U11, #U12, #U13, #U14, #U15.
 
 
 # Requisitos das Páginas
@@ -46,7 +46,7 @@ ESCOPO DO MVP1: #U1, #U2, #AU1, #U3, #U4, #U5, #U6, #U7, #U8, #U9, #U10, #U11, #
 ## SignIn
 - Entrar no DashBoard com email e senha ✅
 - Recuperar senha ❌
-- Entrar no DashBoard com Google ❌
+- Entrar no DashBoard com Google  ♻️ 
 - Acessar página do SignUp ("Não possui uma conta") ✅
 - Voltar para a página Inicial ✅
 
@@ -85,9 +85,9 @@ ESCOPO DO MVP1: #U1, #U2, #AU1, #U3, #U4, #U5, #U6, #U7, #U8, #U9, #U10, #U11, #
 - Editar provas dessa matéria ✅
 - Remover provas dessa matéria ✅
 - Ver tarefas dessa matéria ✅
-- Editar tarefas dessa matéria ❌
-- Adicionar tarefas para essa matéria ❌
-- Remover tarefas dessa matéria ❌
+- Editar tarefas dessa matéria ♻️
+- Adicionar tarefas para essa matéria ♻️
+- Remover tarefas dessa matéria ♻️
 
 ## Tarefas
 - Ver tarefas concluidas ✅
@@ -99,11 +99,14 @@ ESCOPO DO MVP1: #U1, #U2, #AU1, #U3, #U4, #U5, #U6, #U7, #U8, #U9, #U10, #U11, #
 
 ## Calendário
 - Ver o calendário acadêmico do SAA ✅
+- Ver datas de entrega de Tarefas ➕ ✅
+- Ver datas de entrega de Livros ➕ ✅
+- Ver datas de realização de Provas ➕ ✅
 
 ## Cardápio do RU
 - Ver o cardápio semanal de café da manhã do RU ✅
 - Ver o cardápio semanal de almoço do RU ✅
-- Ver o cardápio semanal de Jantar do RU ✅
+- Ver o cardápio semanal de jantar do RU ✅
 
 ## Biblioteca
 - Ver livros emprestados da biblioteca ✅
@@ -119,7 +122,7 @@ ESCOPO DO MVP1: #U1, #U2, #AU1, #U3, #U4, #U5, #U6, #U7, #U8, #U9, #U10, #U11, #
 - Notificar sobre prova próxima ✅
 - Notificar sobre devolução de livro atrasado ✅
 - Notificar sobre tarefa atrasada ✅ 
-- Notificar mensagem do Admin ❌
+- Notificar mensagem do Admin ♻️
 
 ## Configurações
 - Editar nome de Usuário ✅
