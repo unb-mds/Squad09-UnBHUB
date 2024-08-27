@@ -1,9 +1,9 @@
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
-import { auth, db } from '../../config/firebase'; // Importa as configurações de autenticação e banco de dados do Firebase.
+import { auth, db } from '../../../config/firebase'; // Importa as configurações de autenticação e banco de dados do Firebase.
 import { onAuthStateChanged } from 'firebase/auth'; // Importa a função para monitorar mudanças no estado de autenticação do usuário.
-import CheckDate from '../functions/CheckDateActivity'; // Importa uma função personalizada para verificar datas de atividades.
+import CheckDate from '../../functions/Activities/CheckDateActivity'; // Importa uma função personalizada para verificar datas de atividades.
 import {
   doc,
   onSnapshot,
@@ -11,8 +11,8 @@ import {
   updateDoc,
   deleteDoc,
 } from 'firebase/firestore'; // Importa funções para interação com o Firestore do Firebase.
-import EditActivityComponent from '../components/Activities/editActivity'; // Importa o componente para edição de atividades.
-import GeneralHeader from './Header';
+import EditActivityComponent from '../../components/Activities/editActivity'; // Importa o componente para edição de atividades.
+import GeneralHeader from '../Header';
 
 interface Task {
   id: string; // Identificador único da tarefa.
@@ -240,7 +240,10 @@ export default function ActivitiesComponent({
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
         <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
-          <i className="pi pi-clipboard text-4xl" style={{ color: '#4b4b4b' }} />
+          <i
+            className="pi pi-clipboard text-4xl"
+            style={{ color: '#4b4b4b' }}
+          />
           <h1 style={{ color: '#4b4b4b' }}>Tarefas</h1>
         </div>
       </div>
@@ -289,7 +292,10 @@ export default function ActivitiesComponent({
                 className="flex flex-column"
                 style={{ alignItems: 'flex-start', textAlign: 'left' }}
               >
-                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
+                <i
+                  className="pi pi-clipboard mb-3"
+                  style={{ color: '#4b4b4b' }}
+                >
                   Tarefa: {truncateTaskName(task.taskName)}
                 </i>
                 <p
@@ -342,7 +348,10 @@ export default function ActivitiesComponent({
                 className="flex flex-column"
                 style={{ alignItems: 'flex-start', textAlign: 'left' }}
               >
-                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
+                <i
+                  className="pi pi-clipboard mb-3"
+                  style={{ color: '#4b4b4b' }}
+                >
                   Tarefa: {truncateTaskName(task.taskName)}
                 </i>
                 <p
@@ -395,7 +404,10 @@ export default function ActivitiesComponent({
                 className="flex flex-column"
                 style={{ alignItems: 'flex-start', textAlign: 'left' }}
               >
-                <i className="pi pi-clipboard mb-3" style={{ color: '#4b4b4b' }}>
+                <i
+                  className="pi pi-clipboard mb-3"
+                  style={{ color: '#4b4b4b' }}
+                >
                   Tarefa: {truncateTaskName(task.taskName)}
                 </i>
                 <p

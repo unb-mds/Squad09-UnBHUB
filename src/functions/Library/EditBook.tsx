@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore'; // Importa funções para acessar e atualizar documentos no Firestore
-import { auth, db } from '../../config/firebase'; // Importa configuração do Firebase
+import { auth, db } from '../../../config/firebase'; // Importa configuração do Firebase
 import { Timestamp } from 'firebase/firestore'; // Importa a classe Timestamp do Firestore
 
 interface IEditBook {

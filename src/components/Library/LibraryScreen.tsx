@@ -3,10 +3,10 @@ import { doc, onSnapshot, Timestamp } from 'firebase/firestore'; // Importa fun�
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { useEffect, useState } from 'react';
-import { auth, db } from '../../config/firebase'; // Importa as instâncias do Firebase Authentication e Firestore
-import GeneralHeader from './Header';
-import { ActiveBookFunction } from "../functions/DeleteBook";
-import { LateBookFunction } from "../functions/DeleteBook";
+import { auth, db } from '../../../config/firebase'; // Importa as instâncias do Firebase Authentication e Firestore
+import GeneralHeader from '../Header';
+import { ActiveBookFunction } from '../../functions/Library/DeleteBook';
+import { LateBookFunction } from '../../functions/Library/DeleteBook';
 
 interface ICreateBook {
   id: string;
@@ -37,24 +37,30 @@ export default function LibraryComponent(props: {
               const ongoing = Object.values(books).filter((bookData) => {
                 const deliveryDay = bookData.deliveryDay.toDate();
                 deliveryDay.setDate(deliveryDay.getDate() + 1);
-                if (deliveryDay >= today && !['Deleted', 'Finalized'].includes(bookData.status)) {
+                if (
+                  deliveryDay >= today &&
+                  !['Deleted', 'Finalized'].includes(bookData.status)
+                ) {
                   ActiveBookFunction(bookData.id);
-                  return true
+                  return true;
                 }
-                
               });
 
               const overdue = Object.values(books).filter((bookData) => {
                 const deliveryDay = bookData.deliveryDay.toDate();
                 deliveryDay.setDate(deliveryDay.getDate() + 1);
-                if (deliveryDay < today && !['Deleted', 'Finalized'].includes(bookData.status)) {
+                if (
+                  deliveryDay < today &&
+                  !['Deleted', 'Finalized'].includes(bookData.status)
+                ) {
                   LateBookFunction(bookData.id);
-                  return true
+                  return true;
                 }
               });
 
               const finalized = Object.values(books).filter(
-                (bookData) => !['Deleted', 'Ongoing','Late'].includes(bookData.status)
+                (bookData) =>
+                  !['Deleted', 'Ongoing', 'Late'].includes(bookData.status)
               );
 
               setOngoingBooks(ongoing);
@@ -83,7 +89,9 @@ export default function LibraryComponent(props: {
   };
 
   const truncateText = (text: string, maxLength: number) => {
-    return text.length > maxLength ? text.substring(0, maxLength - 3) + '...' : text;
+    return text.length > maxLength
+      ? text.substring(0, maxLength - 3) + '...'
+      : text;
   };
 
   const renderCard = (

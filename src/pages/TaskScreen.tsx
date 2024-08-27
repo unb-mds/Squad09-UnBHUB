@@ -1,7 +1,7 @@
 import { useState } from 'react'; // Importa o hook useState do React para gerenciar estados no componente.
 import CreateActivityComponent from '../components/Activities/createActivity'; // Importa o componente para criar atividades.
 import EditActivityComponent from '../components/Activities/editActivity'; // Importa o componente para editar atividades.
-import ActivitiesComponent from '../components/ActivitiesComponent'; // Importa o componente principal de atividades.
+import ActivitiesComponent from '../components/Activities/ActivitiesComponent'; // Importa o componente principal de atividades.
 import SideBarComponent from '../components/SideBar'; // Importa o componente de barra lateral.
 
 export default function Activities() {

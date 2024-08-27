@@ -82,23 +82,23 @@ export default function DashboardTasksComponent(props: {
   );
 
   return (
-    <div className="flex flex-column mx-4" style={{ width: 'auto'}}>
-      
+    <div className="flex flex-column mx-4" style={{ width: 'auto' }}>
       <div className="flex flex-column">
         <p className="text-medium">
-          Semestre <b className='text-blue-600'>{currentSemester}</b> de {endSemester}
+          Semestre <b className="text-blue-600">{currentSemester}</b> de{' '}
+          {endSemester}
         </p>
-        <ProgressBar 
-          value={parseInt(progress)} 
-          style={{ height: '0.5rem', marginTop: '-0.6rem'}} 
-          showValue={false} 
+        <ProgressBar
+          value={parseInt(progress)}
+          style={{ height: '0.5rem', marginTop: '-0.6rem' }}
+          showValue={false}
         />
       </div>
 
       <p className="flex h-1rem gap-2 align-items-center">
-          <i className="pi pi-th-large" />
-          Cardápio RU
-        </p>
+        <i className="pi pi-th-large" />
+        Cardápio RU
+      </p>
       <DashboardLinksCard />
 
       <div className="flex justify-content-between">
@@ -113,17 +113,14 @@ export default function DashboardTasksComponent(props: {
             iconPos="right"
             size="small"
             text
-            style={{ marginBottom: '-1.4rem'}}
+            style={{ marginBottom: '-1.4rem' }}
           />
         </a>
       </div>
       <ScrollPanel style={{ width: '100%', height: '35rem' }}>
         <div className="flex flex-column gap-2">
           {activeSubjects.map((subject) => (
-            <DashBoardActivitiesComponent
-              key={subject.id}
-              subject={subject}
-            />
+            <DashBoardActivitiesComponent key={subject.id} subject={subject} />
           ))}
         </div>
       </ScrollPanel>

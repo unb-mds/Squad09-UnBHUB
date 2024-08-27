@@ -5,10 +5,10 @@ import { FloatLabel } from 'primereact/floatlabel'; // Importa o componente Floa
 import { InputText } from 'primereact/inputtext'; // Importa o componente InputText da biblioteca PrimeReact
 import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar da biblioteca PrimeReact
 import { Timestamp } from 'firebase/firestore'; // Importa o tipo Timestamp do Firestore
-import EditBookFunction from '../../functions/EditBook'; // Importa a função para editar um livro
-import {DeleteBookFunction} from '../../functions/DeleteBook'; // Importa a função para excluir um livro
-import { FinalizedBookFunction } from "../../functions/FinalizedBook"; // Importa a função para finalizar um livro
-import { ActiveBookFunction } from "../../functions/FinalizedBook";
+import EditBookFunction from '../../functions/Library/EditBook'; // Importa a função para editar um livro
+import { DeleteBookFunction } from '../../functions/Library/DeleteBook'; // Importa a função para excluir um livro
+import { FinalizedBookFunction } from '../../functions/Library/FinalizedBook'; // Importa a função para finalizar um livro
+import { ActiveBookFunction } from '../../functions/Library/FinalizedBook';
 
 interface BookData {
   // Define a interface para os dados do livro
@@ -75,13 +75,13 @@ export default function EditBookComponent(props: {
   };
 
   const handleRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
     ActiveBookFunction(bookData?.id);
     EditsetVisible1(false);
   };
 
   const handleFinalized = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
     FinalizedBookFunction(bookData?.id);
     EditsetVisible1(false);
   };
@@ -215,24 +215,22 @@ export default function EditBookComponent(props: {
             ) : (
               <>
                 {bookData?.status === 'Finalized' && (
-                    <Button
-                     label="Restaurar"
-                     onClick={handleRestore}
-                    />
-                    )}
+                  <Button label="Restaurar" onClick={handleRestore} />
+                )}
 
-                {(bookData?.status === 'Ongoing' || bookData?.status === 'Late')  && (
-                    <Button
-                     outlined
-                     label="Finalizar"
+                {(bookData?.status === 'Ongoing' ||
+                  bookData?.status === 'Late') && (
+                  <Button
+                    outlined
+                    label="Finalizar"
                     style={{
-                    borderColor: 'green', // Define a cor da borda do botão.
-                    color: 'white', // Define a cor do texto do botão.
-                    backgroundColor: 'green',
+                      borderColor: 'green', // Define a cor da borda do botão.
+                      color: 'white', // Define a cor do texto do botão.
+                      backgroundColor: 'green',
                     }}
                     onClick={handleFinalized}
-                    />
-                    )}
+                  />
+                )}
 
                 <Button
                   outlined

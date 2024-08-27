@@ -1,7 +1,7 @@
 import { useState } from 'react'; // Importa o hook useState do React para gerenciar o estado
 import CreateBookComponent from '../components/Library/createLibrary'; // Importa o componente para criar livros
 import EditBookComponent from '../components/Library/editBook'; // Importa o componente para editar livros
-import LibraryComponent from '../components/LibraryScreen'; // Importa o componente para exibir a biblioteca
+import LibraryComponent from '../components/Library/LibraryScreen'; // Importa o componente para exibir a biblioteca
 import SideBarComponent from '../components/SideBar'; // Importa o componente de barra lateral
 
 export default function Library() {

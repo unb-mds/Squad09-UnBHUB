@@ -3,7 +3,7 @@ import { Divider } from 'primereact/divider';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
-import CheckDate from '../../functions/CheckDateActivity';
+import CheckDate from '../../functions/Activities/CheckDateActivity';
 import { Timestamp } from 'firebase/firestore';
 
 interface ITask {
@@ -174,7 +174,10 @@ export default function SpecificSubjectTasks({
               flexDirection: 'column',
             }}
           >
-            <p className="pi pi-book mt-2" style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+            <p
+              className="pi pi-book mt-2"
+              style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}
+            >
               {truncateText(task.description, 31)}
             </p>
             <p className="pi pi-calendar mt-1" style={{ fontSize: '0.9rem' }}>

@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext'; // Importa o componente InputT
 import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar da biblioteca PrimeReact
 import { Formik } from 'formik'; // Importa o Formik para gerenciamento de formulários
 import * as Yup from 'yup'; // Importa Yup para validação de formulários
-import CreateLibraryFunction from '../../functions/CreateLibrary'; // Importa a função para criar um livro na biblioteca
+import CreateLibraryFunction from '../../functions/Library/CreateLibrary'; // Importa a função para criar um livro na biblioteca
 import { Timestamp } from 'firebase/firestore'; // Importa o tipo Timestamp do Firestore
 import { useEffect } from 'react'; // Importa o useEffect para lidar com efeitos colaterais
 
@@ -38,9 +38,7 @@ export default function CreateLibrary(props: {
       }}
       validationSchema={Yup.object().shape({
         // Define o esquema de validação usando Yup
-        author: Yup.string().required(
-          'Obrigatório fornecer nome do autor'
-        ), // Validação para código da matéria
+        author: Yup.string().required('Obrigatório fornecer nome do autor'), // Validação para código da matéria
         bookName: Yup.string().required('Obrigatório fornecer nome do livro'), // Validação para nome do livro
         deliveryDay: Yup.date().required('Obrigatório fornecer data'), // Validação para data de devolução
       })}
@@ -73,7 +71,6 @@ export default function CreateLibrary(props: {
               style={{ width: '30vw' }} // Define a largura do modal
               onHide={() => props.CreatesetVisible1(false)} // Fecha o modal quando necessário
             >
-              
               <FloatLabel>
                 <InputText
                   className="flex mt-5 mb-5 w-full" // Estilos do campo de entrada
@@ -105,7 +102,6 @@ export default function CreateLibrary(props: {
               {errors.author && touched.author ? ( // Verifica e exibe erros de validação para código da matéria
                 <div className="text-red-500">{errors.author}</div>
               ) : null}
-
 
               <FloatLabel>
                 <Calendar

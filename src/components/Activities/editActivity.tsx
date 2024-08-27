@@ -4,10 +4,10 @@ import { Dialog } from 'primereact/dialog'; // Importa o componente Dialog da bi
 import { FloatLabel } from 'primereact/floatlabel'; // Importa o componente FloatLabel da biblioteca PrimeReact.
 import { InputText } from 'primereact/inputtext'; // Importa o componente InputText da biblioteca PrimeReact.
 import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar da biblioteca PrimeReact.
-import EditActivityFunction from '../../functions/EditActivity'; // Importa a função para editar a atividade.
-import FinalizeActivityFunction from '../../functions/FinalizedActivity'; // Importa a função para finalizar a atividade.
-import DeletedActivityFunction from '../../functions/DeleteActivity'; // Importa a função para excluir a atividade.
-import { ActiveActivityFunction } from "../../functions/CheckDateActivity";
+import EditActivityFunction from '../../functions/Activities/EditActivity'; // Importa a função para editar a atividade.
+import FinalizeActivityFunction from '../../functions/Activities/FinalizedActivity'; // Importa a função para finalizar a atividade.
+import DeletedActivityFunction from '../../functions/Activities/DeleteActivity'; // Importa a função para excluir a atividade.
+import { ActiveActivityFunction } from '../../functions/Activities/CheckDateActivity';
 
 export default function EditActivityComponent(props: {
   visibleEdit: boolean; // Propriedade que controla se o diálogo de edição está visível.
@@ -85,13 +85,13 @@ export default function EditActivityComponent(props: {
   };
 
   const handleRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
     ActiveActivityFunction(props.subjectId, props.taskId);
     EditsetVisible(false);
   };
 
   const handleFinalized = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
     FinalizeActivityFunction(props.subjectId, props.taskId);
     EditsetVisible(false);
   };
@@ -107,7 +107,6 @@ export default function EditActivityComponent(props: {
     DeletedActivityFunction(props.subjectId, props.taskId); // Chama a função para excluir a atividade.
     EditsetVisible(false); // Fecha o diálogo de edição.
   };
-
 
   const cancelDelete = () => {
     setShowConfirmDialog(false); // Fecha o diálogo de confirmação sem excluir.
@@ -183,32 +182,29 @@ export default function EditActivityComponent(props: {
             ) : (
               <>
                 {props.status === 'Finalized' && (
-                    <Button
-                     label="Restaurar"
-                     onClick={handleRestore}
-                    />
-                    )}
+                  <Button label="Restaurar" onClick={handleRestore} />
+                )}
 
                 {(props.status === 'Active' || props.status === 'Late') && (
-                    <Button
-                     outlined
-                     label="Finalizar"
-                     style={{
+                  <Button
+                    outlined
+                    label="Finalizar"
+                    style={{
                       borderColor: 'green', // Define a cor da borda do botão.
                       color: 'white', // Define a cor do texto do botão.
                       backgroundColor: 'green',
                     }}
-                     onClick={handleFinalized}
-                    />
-                    )}
-                
+                    onClick={handleFinalized}
+                  />
+                )}
+
                 <Button
                   outlined
                   label="Editar"
                   style={{
                     borderColor: '#f3d300', // Define a cor da borda do botão.
                     color: 'white', // Define a cor do texto do botão.
-                    backgroundColor: '#f3d300', 
+                    backgroundColor: '#f3d300',
                   }}
                   onClick={() => setIsEditing(true)} // Ativa o modo de edição ao clicar no botão de editar.
                 />
@@ -218,7 +214,7 @@ export default function EditActivityComponent(props: {
                   style={{
                     borderColor: '#ff6060', // Define a cor da borda do botão.
                     color: 'white', // Define a cor do texto do botão.
-                    backgroundColor: '#ff6060', 
+                    backgroundColor: '#ff6060',
                   }}
                   onClick={handleDelete} // Função chamada ao clicar no botão de excluir.
                 />

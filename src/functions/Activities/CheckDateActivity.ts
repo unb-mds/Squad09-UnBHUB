@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase';
+import { auth, db } from '../../../config/firebase';
 
 export async function LateActivityFunction(id: string, taskId: string) {
   if (!auth.currentUser) return;
@@ -26,17 +26,10 @@ export default async function CheckDate(
   taskId: string,
   status: string
 ) {
-  if (
-    deliveryDay < today &&
-    status != 'Finalized' &&
-    status != 'Deleted'
-  ) {
+  if (deliveryDay < today && status != 'Finalized' && status != 'Deleted') {
     await LateActivityFunction(subjectId, taskId);
-  }if (
-    deliveryDay >= today &&
-    status != 'Finalized' &&
-    status != 'Deleted'
-  ) {
+  }
+  if (deliveryDay >= today && status != 'Finalized' && status != 'Deleted') {
     await ActiveActivityFunction(subjectId, taskId);
   }
 }

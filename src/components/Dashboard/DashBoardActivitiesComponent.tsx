@@ -2,18 +2,27 @@ import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
-import CheckDate from '../../functions/CheckDateActivity';
+import CheckDate from '../../functions/Activities/CheckDateActivity';
 import { Timestamp } from 'firebase/firestore';
 
 // Define os tons de cores disponíveis
 const colors = [
-  'green', 'yellow', 'cyan', 'pink', 'indigo', 
-  'teal', 'orange', 'purple'
+  'green',
+  'yellow',
+  'cyan',
+  'pink',
+  'indigo',
+  'teal',
+  'orange',
+  'purple',
 ];
 
 // Função para gerar uma cor fixa baseada no ID da tarefa
 const getColorForTask = (taskId: string) => {
-  const hash = Array.from(taskId).reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const hash = Array.from(taskId).reduce(
+    (acc, char) => acc + char.charCodeAt(0),
+    0
+  );
   return colors[hash % colors.length];
 };
 
@@ -67,7 +76,11 @@ export default function DashBoardActivitiesComponent({
       today.setDate(today.getDate() - 1);
       let taskStatus = '';
 
-      if (deliveryDay < today && task.status !== 'Finalized' && task.status !== 'Deleted') {
+      if (
+        deliveryDay < today &&
+        task.status !== 'Finalized' &&
+        task.status !== 'Deleted'
+      ) {
         CheckDate(deliveryDay, today, task.subjectId, task.taskId, task.status);
         taskStatus = 'Atrasada';
       } else if (task.status !== 'Finalized' && task.status !== 'Deleted') {
@@ -138,7 +151,10 @@ export default function DashBoardActivitiesComponent({
               flexDirection: 'column',
             }}
           >
-            <p className="pi pi-book mt-0" style={{ marginBottom: '0.2rem', fontSize: '0.8rem' }}>
+            <p
+              className="pi pi-book mt-0"
+              style={{ marginBottom: '0.2rem', fontSize: '0.8rem' }}
+            >
               {truncateText(task.description, 31)}
             </p>
             <p className="pi pi-calendar" style={{ fontSize: '0.8rem' }}>
@@ -151,7 +167,11 @@ export default function DashBoardActivitiesComponent({
 
   return (
     <div className="flex flex-wrap w-full gap-2">
-      {filteredTasks.length > 0 ? filteredTasks : <p>Nenhuma tarefa encontrada</p>}
+      {filteredTasks.length > 0 ? (
+        filteredTasks
+      ) : (
+        <p>Nenhuma tarefa encontrada</p>
+      )}
     </div>
   );
 }
