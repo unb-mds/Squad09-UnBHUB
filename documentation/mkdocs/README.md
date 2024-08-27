@@ -1,12 +1,20 @@
 
 # Como executar localmente a página de documentação
 
+## Pré-Requisitos
+- [**Python3**: v3.10.12](https://realpython.com/installing-python/)
+- [**Pip**: v24.1.2](https://pip.pypa.io/en/stable/installation/)
+
 ## Instalar as dependências
+
+Para instalar as dependências do projeto execute o seguinte comando:
 ```
-sudo apt Python3-pip 
+pip install mkdocs
 pip install mkdocs-material
 ```
 ## Executar em local host
+
+> Para rodar a página de documentação, dentro do diretorio `/Squad09-UnBHUB/documentation/mkdocs/` execute esse comando:
 ```
 mkdocs serve
 ```

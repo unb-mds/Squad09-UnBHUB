@@ -1,6 +1,8 @@
+# Como rodar a ferramenta de WebScraping
+
 ## Dependências
 
-Para rodar o projeto, você precisará das seguintes dependências:
+Para rodar a ferramenta, você precisará das seguintes dependências:
 
 - **FireBase**: Projeto gratuito
 - **Python3**: v3.10.12
@@ -13,7 +15,7 @@ Para rodar o projeto, você precisará das seguintes dependências:
 - **Pdf Plumber**: v0.11.2
 - **FireBase Admin**: v6.5.0
 
-Para instalar as bibliotecas do projeto execute o seguinte comando:
+Para instalar as bibliotecas da ferramenta execute o seguinte comando:
 
 ```
 pip install -r requirements.txt
@@ -28,11 +30,11 @@ Para linkar o seu projeto do FireBase com o web scraper basta seguir as seguinte
 
 ## Execução
 
-Para executar o projeto utilize o seguinte comando:
+Para executar a ferramenta, dentro do diretorio `/Squad09-UnBHUB/WebScraping/` utilize o seguinte comando:
 
 ```
 python3 main.py
 ```
 Após a sua execução é aberto um prompt dentro do terminal que pode ser interagido digitando:
-- **"1"**: Atualiza as informações do cardápio do Restaurante Universitário da UNB a partir dos dados retirados pelo web scraping
-- **"2"**: Atualiza as informações do Calendário acadêmico de Atividades UNB a partir dos dados retirados pelo web scraping
+- **"1"**: Atualiza as informações do cardápio do Restaurante Universitário da UNB a partir dos dados mais recentes retirados pelo web scraping
+- **"2"**: Atualiza as informações do Calendário acadêmico de Atividades UNB a partir dos dados mais recentes retirados pelo web scraping

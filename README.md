@@ -87,7 +87,11 @@ VITE_APP_ID=
 ```bash
 yarn run dev
 ```
-Por fim o projeto pode ser acessado em http://localhost:5173/
+Por fim o projeto pode ser acessado em localmente pela porta de acesso exibida no terminal
+
+### Ferramenta de WebScraping
+Para facilitar o preenchimento dos dados do cardápio do RU e do Calendário Acadêmico foi criada uma ferramenta de web scraping que faz o envio desses dados automaticamente para o firestore database que pode ser encontrada [Aqui](./WebScraping/)
+
 
 ## 👥 Desenvolvedores
 
