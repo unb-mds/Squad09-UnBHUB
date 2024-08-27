@@ -5,6 +5,7 @@ import { Timestamp, doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../../../config/firebase';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import DashBoardActivitiesComponent from './DashBoardActivitiesComponent';
+import DashboardLinksCard from './DashboardLinksCard';
 
 interface ITask {
   deliveryDay: Timestamp;
@@ -81,13 +82,24 @@ export default function DashboardTasksComponent(props: {
   );
 
   return (
-    <div className="flex flex-column mx-3 my-3">
-      <div className="flex flex-column my-3 px-3">
-        <p className="text-lg">
-          Semestre {currentSemester} de {endSemester}
+    <div className="flex flex-column mx-4" style={{ width: 'auto'}}>
+      
+      <div className="flex flex-column">
+        <p className="text-medium">
+          Semestre <b className='text-blue-600'>{currentSemester}</b> de {endSemester}
         </p>
-        <ProgressBar value={parseInt(progress)}></ProgressBar>
+        <ProgressBar 
+          value={parseInt(progress)} 
+          style={{ height: '0.5rem', marginTop: '-0.6rem'}} 
+          showValue={false} 
+        />
       </div>
+
+      <p className="flex h-1rem gap-2 align-items-center">
+          <i className="pi pi-th-large" />
+          Cardápio RU
+        </p>
+      <DashboardLinksCard />
 
       <div className="flex justify-content-between">
         <p className="flex w-4 h-1rem gap-2 align-items-center">
@@ -101,10 +113,11 @@ export default function DashboardTasksComponent(props: {
             iconPos="right"
             size="small"
             text
+            style={{ marginBottom: '-1.4rem'}}
           />
         </a>
       </div>
-      <ScrollPanel style={{ width: '100%', height: '45rem' }}>
+      <ScrollPanel style={{ width: '100%', height: '35rem' }}>
         <div className="flex flex-column gap-2">
           {activeSubjects.map((subject) => (
             <DashBoardActivitiesComponent

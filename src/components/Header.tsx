@@ -4,7 +4,7 @@ import { Avatar } from 'primereact/avatar';
 import { Dialog } from 'primereact/dialog';
 import { auth, db } from '../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import formatDate from '../functions/FormatDate';
 import { useNavigate } from 'react-router-dom';
@@ -150,7 +150,7 @@ export default function GeneralHeader() {
   };
 
   return (
-    <div className="flex align-items-center justify-content-between border-round-lg p-2" style={{ height: '60px', width: '100%' }}>
+    <div className="flex align-items-center justify-content-between border-round-lg p-2" style={{ height: '60px', width: '98%' }}>
       <div className="flex justify-content-between px-6">
       </div>
       <div className="flex align-items-center" style={{ marginLeft: 'auto' }}>
@@ -163,13 +163,6 @@ export default function GeneralHeader() {
           badgeClassName="p-badge-danger"
           link
           onClick={handleNotificationClick}
-        />
-        <Button
-          icon="pi pi-inbox p-overlay-badge"
-          rounded
-          text
-          size="small"
-          link
         />
         <Button className="" rounded text onClick={handleProfileClick}>
           <Avatar

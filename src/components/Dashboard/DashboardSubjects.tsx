@@ -61,7 +61,7 @@ export default function DashboardSubjectsComponent(props: {
         </a>
       </div>
 
-      <ScrollPanel style={{ width: '100%', height: '22rem' }}>
+      <ScrollPanel style={{ width: '100%', height: '14rem' }}>
         <div className="flex">
           <SubjectCardConstructorComponent
             UserSubjects={props.subjects}
