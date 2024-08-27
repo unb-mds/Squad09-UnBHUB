@@ -1,7 +1,7 @@
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase';
-import DeleteExamFunction from './DeleteExam';
-import DeletedActivityFunction from '../../functions/Activities/DeleteActivity';
+import DeleteExamFunction from './SpecificSubjects/DeleteExam';
+import DeletedActivityFunction from '../DeleteActivity';
 
 export default async function DeleteSubjectFunction(id: string) {
   if (!auth.currentUser) return;

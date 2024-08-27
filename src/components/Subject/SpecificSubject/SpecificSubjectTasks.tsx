@@ -1,9 +1,9 @@
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import { ScrollPanel } from 'primereact/scrollpanel';
-import formatDate from '../../functions/FormatDate';
-import formatTime from '../../functions/FormatTime';
-import CheckDate from '../../functions/Activities/CheckDateActivity';
+import formatDate from '../../../functions/FormatDate';
+import formatTime from '../../../functions/FormatTime';
+import CheckDate from '../../../functions/CheckDateActivity';
 import { Timestamp } from 'firebase/firestore';
 
 interface ITask {

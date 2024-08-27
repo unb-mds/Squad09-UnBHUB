@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { auth, db } from '../../../config/firebase';
+import { auth, db } from '../../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
-
 import ExamDialogComponent from './ExamDialogComponent';
 import SpecificSubjectTasks from './SpecificSubjectTasks';
-import SubjectDetailsComponent from './SubjectDetailsComponent';
+import SubjectDetailsComponent from '../SubjectDetailsComponent';
 import SubjectSpecificExams from './SubjectSpecificExams';
 
 interface ITask {
@@ -121,7 +120,7 @@ export default function SpecificSubjectComponents() {
             size="small"
             text
             onClick={() => setDialogVisible(true)}
-            className='mb-0'
+            className="mb-0"
           />
         </div>
         <Divider className="mb-1 mt-0"></Divider>
@@ -146,7 +145,7 @@ export default function SpecificSubjectComponents() {
         Tarefas
       </div>
 
-      <div style={{ color: '#4b4b4b'}}>
+      <div style={{ color: '#4b4b4b' }}>
         <i className="pi pi-forward mx-2" style={{ color: '#3498db' }} />
         Em Andamento
       </div>
@@ -163,7 +162,7 @@ export default function SpecificSubjectComponents() {
         )}
       </div>
 
-      <div style={{ color: '#4b4b4b'}}>
+      <div style={{ color: '#4b4b4b' }}>
         <i className="pi pi-clock mx-2 mt-3" style={{ color: 'red' }} />
         Atrasadas
       </div>
@@ -181,7 +180,7 @@ export default function SpecificSubjectComponents() {
       </div>
 
       <div className="flex mt-3 align-items-center">
-        <div style={{ color: '#4b4b4b'}}>
+        <div style={{ color: '#4b4b4b' }}>
           <i className="pi pi-check mx-2" style={{ color: 'green' }} />
           Finalizadas
         </div>
