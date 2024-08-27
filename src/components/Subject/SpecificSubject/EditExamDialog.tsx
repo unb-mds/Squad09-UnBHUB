@@ -6,8 +6,8 @@ import { Calendar } from 'primereact/calendar';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import DeleteExam from '../../functions/Subjects/DeleteExam';
-import EditExam from '../../functions/Subjects/EditExam';
+import DeleteExam from '../../../functions/Subjects/SpecificSubjects/DeleteExam';
+import EditExam from '../../../functions/Subjects/SpecificSubjects/EditExam';
 
 interface EditExamDialogProps {
   visible: boolean;

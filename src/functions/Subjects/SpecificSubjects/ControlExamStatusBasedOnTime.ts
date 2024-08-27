@@ -1,8 +1,7 @@
-import formatDate from '../FormatDate';
-import formatTime from '../FormatTime';
+import formatDate from '../../FormatDate';
+import formatTime from '../../FormatTime';
 import ActivateExamFunction from './ActivateExamFunction';
-import FinalizeExamFunction from './FinalizeExam';
-
+import FinalizeExamFunction from '././FinalizeExam';
 import { Timestamp } from 'firebase/firestore';
 
 interface ITask {

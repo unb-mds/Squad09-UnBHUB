@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../../../config/firebase';
+import { auth, db } from '../../../../config/firebase';
 
 // Interface para definir a estrutura de um objeto Exam (prova)
 interface Exam {

@@ -1,4 +1,4 @@
-import SpecificSubjectComponents from '../components/Subject/SpecificSubjectComponents';
+import SpecificSubjectComponents from '../components/Subject/SpecificSubject/SpecificSubjectComponents';
 import SideBarComponent from '../components/SideBar';
 import { withAuth } from '../../utils/auth';
 
