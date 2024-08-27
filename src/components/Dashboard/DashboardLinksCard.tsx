@@ -48,7 +48,7 @@ export default function DashboardLinksCard() {
 
   return (
     <div>
-      <Card className="mb-3" style={{ maxHeight: '210px', overflowY: 'auto',maxWidth: '300px'  }}>
+      <Card className="mb-3" style={{ maxHeight: '210px', overflowY: 'auto', maxWidth: '300px', border: '1px solid var(--gray-300)' }}>
         <div className="p-2 h-full flex flex-column" style={{ marginBottom: '-1rem', marginTop: '-1rem' }}>
           <div className="text-800 font-medium text-sm mb-2 overflow-hidden break-word">
             Gama:

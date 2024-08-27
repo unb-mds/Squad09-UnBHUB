@@ -4,6 +4,8 @@ import { Timestamp } from 'firebase/firestore';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
+import { Divider } from 'primereact/divider';
+import { Button } from 'primereact/button';
 
 interface ITask {
   deliveryDay: Timestamp;
@@ -56,13 +58,26 @@ export default function DashboardExamsComponent(props: {
 
   return (
     <div className="flex flex-column mx-3 my-3">
-      <div className="flex justify-content-between align-items-center">
-        <p className="flex w-4 h-1rem gap-2 align-items-center">
-          <i className="pi pi-file"></i>
+      <div className="flex justify-content-between">
+        <p className="flex w-4 h-1rem gap-2 align-items-center text-sm">
+          <i className="pi pi-file" />
           Provas
         </p>
+        <a href="/Exams">
+          <Button
+            label="Ver Tudo"
+            icon="pi pi-angle-right"
+            iconPos="right"
+            size="small"
+            text
+            style={{ marginBottom: '-1.4rem'}}
+          />
+        </a>
       </div>
-      <DataTable value={exams} tableStyle={{ minWidth: '50rem' }}>
+
+      <Divider className='mt-0'/>
+
+      <DataTable value={exams} tableStyle={{ minWidth: '50rem' }} className='text-sm'>
         <Column field="codeSubject" header="Matéria"></Column>
         <Column field="code" header="Nome"></Column>
         <Column field="score" header="Nota"></Column>
