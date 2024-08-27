@@ -37,7 +37,7 @@ export default function NavbarComponent() {
   return (
     <div className="flex justify-content-between align-items-center my-1 mx-3 border-round-xl">
       <div className="flex justify-content-start px-2">
-        <h2 className="m-0">👋 Bem-Vindo{userName ? `, ${userName}!` : '!'}</h2>
+        <h2 className="m-0">👋 Bem-Vindo,<b className='text-green-600'>{userName ? ` ${userName}` : 'User'}</b>!</h2>
       </div>
       <div className="flex align-items-center">
         <span className="text-sm">{currentDate}</span>

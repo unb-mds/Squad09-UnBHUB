@@ -1,10 +1,10 @@
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { withAuth } from '../../utils/auth';
 
-import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from '../../config/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
+import { auth, db } from '../../config/firebase';
 
 import DashboardExamsComponent from '../components/Dashboard/DashboardExamsComponent';
 import NavbarComponent from '../components/Dashboard/Navbar';
@@ -15,7 +15,7 @@ import DashboardTaskComponent from '../components/Dashboard/DashboardTaskCompone
 
 import GeneralHeader from '../components/Header';
 import { Divider } from 'primereact/divider';
-import DashboardLinksCard from '../components/Dashboard/DashboardLinksCard';
+
 
 function DashboardScreen() {
   const [subjects, setSubjects] = useState([]);
@@ -45,14 +45,13 @@ function DashboardScreen() {
       <div className="flex flex-column pl-1 gap-1 w-full">
         <GeneralHeader />
         <Divider className="mb-2 mt-0" />
-        <NavbarComponent />
         <div className="flex flex-row">
-          <div className="flex flex-column w-9">
+          <div className="flex flex-column w-11">
+            <NavbarComponent />
             <DashboardSubjectsComponent subjects={subjects} />
-            <DashboardExamsComponent subjects={subjects} />
+            <DashboardExamsComponent subjects={subjects}/>
           </div>
-          <div className="flex flex-column pl-3 w-3">
-            <DashboardLinksCard />
+          <div className="flex flex-column w-3">
             <DashboardTaskComponent subjects={subjects} />
           </div>
         </div>

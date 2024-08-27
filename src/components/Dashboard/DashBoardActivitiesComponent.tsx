@@ -82,10 +82,9 @@ export default function DashBoardActivitiesComponent({
             color: '#4b4b4b',
             border: '2px solid',
             width: '300px',
-            height: '150px',
+            height: '120px',
             display: 'flex',
             flexDirection: 'column',
-            padding: '0.5rem',
             overflow: 'hidden',
             boxSizing: 'border-box',
             backgroundColor: 'var(--surface-200)',
@@ -98,7 +97,7 @@ export default function DashBoardActivitiesComponent({
               justifyContent: 'space-between',
               alignItems: 'center',
               marginBottom: '0.5rem',
-              marginTop: '-1rem',
+              marginTop: '-1.2rem',
             }}
           >
             <div
@@ -110,6 +109,7 @@ export default function DashBoardActivitiesComponent({
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
                 marginLeft: '0.5rem',
+                marginBottom: '-0.4rem',
               }}
             >
               {truncateText(task.taskName, 20)}
@@ -138,7 +138,7 @@ export default function DashBoardActivitiesComponent({
               flexDirection: 'column',
             }}
           >
-            <p className="pi pi-book mt-0" style={{ marginBottom: '0.5rem', fontSize: '0.8rem' }}>
+            <p className="pi pi-book mt-0" style={{ marginBottom: '0.2rem', fontSize: '0.8rem' }}>
               {truncateText(task.description, 31)}
             </p>
             <p className="pi pi-calendar" style={{ fontSize: '0.8rem' }}>

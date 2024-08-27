@@ -75,7 +75,7 @@ const router = createBrowserRouter([
     element: <SignUserScreen />,
   },
   {
-    path: '/Tests',
+    path: '/Exams',
     element: <TestScreen />,
   },
 ]);

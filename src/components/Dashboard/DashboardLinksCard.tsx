@@ -48,122 +48,119 @@ export default function DashboardLinksCard() {
 
   return (
     <div>
-      <h2 className="text-900 font-medium text-xl mb-3">Cardápio</h2>
-      <Card className="mb-3" style={{ maxHeight: '250px', overflowY: 'auto' }}>
-        <div className="p-1 h-full">
-          <div className="shadow-2 p-3 h-full flex flex-column surface-card">
-            <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
-              Gama:
-            </div>
-            <ul className="list-none p-0 m-0 flex-grow-1">
-              {gamaLinks.length > 0 ? (
-                gamaLinks.map((link) => (
-                  <li
-                    key={link.name}
-                    className="flex align-items-center mb-3 overflow-hidden break-word"
-                  >
-                    <i className="pi pi-angle-right mr-2 text-green-500" />
-                    <a
-                      href={link.url}
-                      className="text-sm text-primary my-2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))
-              ) : (
-                <li className="flex align-items-center mb-3 overflow-hidden break-word">
-                  <span className="text-sm my-2">Nenhum item disponível</span>
-                </li>
-              )}
-            </ul>
-
-            <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
-              Planaltina:
-            </div>
-            <ul className="list-none p-0 m-0 flex-grow-1">
-              {planaltinaLinks.length > 0 ? (
-                planaltinaLinks.map((link) => (
-                  <li
-                    key={link.name}
-                    className="flex align-items-center mb-3 overflow-hidden break-word"
-                  >
-                    <i className="pi pi-angle-right mr-2 text-green-500" />
-                    <a
-                      href={link.url}
-                      className="text-sm text-primary my-2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))
-              ) : (
-                <li className="flex align-items-center mb-3 overflow-hidden break-word">
-                  <span className="text-sm my-2">Nenhum item disponível</span>
-                </li>
-              )}
-            </ul>
-
-            <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
-              Fazenda:
-            </div>
-            <ul className="list-none p-0 m-0 flex-grow-1">
-              {fazendaLinks.length > 0 ? (
-                fazendaLinks.map((link) => (
-                  <li
-                    key={link.name}
-                    className="flex align-items-center mb-3 overflow-hidden break-word"
-                  >
-                    <i className="pi pi-angle-right mr-2 text-green-500" />
-                    <a
-                      href={link.url}
-                      className="text-sm text-primary my-2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))
-              ) : (
-                <li className="flex align-items-center mb-3 overflow-hidden break-word">
-                  <span className="text-sm my-2">Nenhum item disponível</span>
-                </li>
-              )}
-            </ul>
-
-            <div className="text-900 font-medium text-xl mb-2 overflow-hidden break-word">
-              Darcy:
-            </div>
-            <ul className="list-none p-0 m-0 flex-grow-1">
-              {darcyLinks.length > 0 ? (
-                darcyLinks.map((link) => (
-                  <li
-                    key={link.name}
-                    className="flex align-items-center mb-3 overflow-hidden break-word"
-                  >
-                    <i className="pi pi-angle-right mr-2 text-green-500" />
-                    <a
-                      href={link.url}
-                      className="text-sm text-primary my-2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.name}
-                    </a>
-                  </li>
-                ))
-              ) : (
-                <li className="flex align-items-center mb-3 overflow-hidden break-word">
-                  <span className="text-sm my-2">Nenhum item disponível</span>
-                </li>
-              )}
-            </ul>
+      <Card className="mb-3" style={{ maxHeight: '210px', overflowY: 'auto',maxWidth: '300px'  }}>
+        <div className="p-2 h-full flex flex-column" style={{ marginBottom: '-1rem', marginTop: '-1rem' }}>
+          <div className="text-800 font-medium text-sm mb-2 overflow-hidden break-word">
+            Gama:
           </div>
+          <ul className="list-none p-0 m-0 flex-grow-1">
+            {gamaLinks.length > 0 ? (
+              gamaLinks.map((link) => (
+                <li
+                  key={link.name}
+                  className="flex align-items-center mb-3 overflow-hidden break-word px-3"
+                >
+                  <i className="pi pi-angle-right mr-2 text-green-500" />
+                  <a
+                    href={link.url}
+                    className="text-sm text-primary my-2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))
+            ) : (
+              <li className="flex align-items-center mb-3 overflow-hidden break-word">
+                <span className="text-sm my-2">Nenhum item disponível</span>
+              </li>
+            )}
+          </ul>
+  
+          <div className="text-800 font-medium text-sm mb-2 overflow-hidden break-word">
+            Planaltina:
+          </div>
+          <ul className="list-none p-0 m-0 flex-grow-1">
+            {planaltinaLinks.length > 0 ? (
+              planaltinaLinks.map((link) => (
+                <li
+                  key={link.name}
+                  className="flex align-items-center mb-3 overflow-hidden break-word px-3"
+                >
+                  <i className="pi pi-angle-right mr-2 text-green-500" />
+                  <a
+                    href={link.url}
+                    className="text-sm text-primary my-2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))
+            ) : (
+              <li className="flex align-items-center mb-3 overflow-hidden break-word">
+                <span className="text-sm my-2">Nenhum item disponível</span>
+              </li>
+            )}
+          </ul>
+  
+          <div className="text-800 font-medium text-sm mb-2 overflow-hidden break-word">
+            Fazenda:
+          </div>
+          <ul className="list-none p-0 m-0 flex-grow-1">
+            {fazendaLinks.length > 0 ? (
+              fazendaLinks.map((link) => (
+                <li
+                  key={link.name}
+                  className="flex align-items-center mb-3 overflow-hidden break-word px-3"
+                >
+                  <i className="pi pi-angle-right mr-2 text-green-500" />
+                  <a
+                    href={link.url}
+                    className="text-sm text-primary my-2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))
+            ) : (
+              <li className="flex align-items-center mb-3 overflow-hidden break-word">
+                <span className="text-sm my-2">Nenhum item disponível</span>
+              </li>
+            )}
+          </ul>
+  
+          <div className="text-800 font-medium text-sm mb-2 overflow-hidden break-word">
+            Darcy:
+          </div>
+          <ul className="list-none p-0 m-0 flex-grow-1">
+            {darcyLinks.length > 0 ? (
+              darcyLinks.map((link) => (
+                <li
+                  key={link.name}
+                  className="flex align-items-center mb-3 overflow-hidden break-word px-3"
+                >
+                  <i className="pi pi-angle-right mr-2 text-green-500" />
+                  <a
+                    href={link.url}
+                    className="text-sm text-primary my-2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))
+            ) : (
+              <li className="flex align-items-center mb-3 overflow-hidden break-word">
+                <span className="text-sm my-2">Nenhum item disponível</span>
+              </li>
+            )}
+          </ul>
         </div>
       </Card>
     </div>
