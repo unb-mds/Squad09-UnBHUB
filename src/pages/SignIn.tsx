@@ -1,4 +1,4 @@
-import SignInCardComponent from '../components/SignInCard';
+import SignInCardComponent from '../components/SignIn/SignInCard';
 
 export default function SignInScreen() {
   return (
