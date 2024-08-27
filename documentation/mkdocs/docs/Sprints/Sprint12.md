@@ -4,50 +4,15 @@
 
 ## Descrição
 
-Nesta Sprint, o objetivo principal é a organização e documentação de processos essenciais, além da correção de erros críticos para garantir o bom funcionamento da plataforma. A Sprint focará na reestruturação dos arquivos, estilização da plataforma, documentação dos testes unitários e correção de erros relacionados ao Typescript. Também serão abordadas tarefas gerais e de estilo para melhorar a funcionalidade e a aparência do projeto.
+Nessa Sprint o foco será a estilização geral da plataforma. Iremos alterar o espaçamento, posionamento e as cores dos componentes das páginas para padronizá-los de acordo com os protótipos do figma. Além disso será corrigido alguns bugs no site e também atualizaremos a documentação de acordo com as mudanças.
 
 ---
 
 ## Objetivos
 
-- **Reorganizar Arquivos Dentro de Pastas**: Melhorar a estrutura de arquivos para facilitar a manutenção e a acessibilidade.
-- **Estilizar Cores da Plataforma**: Aplicar uma estilização adequada para aprimorar a estética e a consistência visual da plataforma.
-- **Iniciar Documentação de Testes Unitários**: Documentar os testes unitários para assegurar que todas as funcionalidades estejam bem testadas e documentadas.
-- **Corrigir Erros do Typescript para Deploy**: Resolver erros críticos no Typescript que estão impedindo o deploy da aplicação.
-- **Documentar Reuniões e Sprints**: Atualizar a documentação com as reuniões e sprints faltantes.
-
----
-
-## Tarefas
-
-### Reorganização de Arquivos Dentro de Pastas
-
-- **Issue #132**
-  - **Prioridade:** Alta
-  - **Descrição:** Reorganizar a estrutura de arquivos nas pastas para melhorar a organização e facilitar a manutenção do projeto.
-
-### Estilização de Cores da Plataforma
-
-- **Issue #131**
-  - **Prioridade:** Baixa
-  - **Descrição:** Aplicar estilização adequada às cores da plataforma para aprimorar a estética e a consistência visual.
-
-### Iniciação da Documentação de Testes Unitários
-
-- **Issue #130**
-  - **Prioridade:** Alta
-  - **Descrição:** Começar a documentação dos testes unitários para assegurar que todas as funcionalidades estejam bem testadas e documentadas.
-
-### Correção de Erros do Typescript para Deploy
-
-- **Issue #129**
-  - **Prioridade:** Alta
-  - **Descrição:** Corrigir erros relacionados ao Typescript que estão impedindo o deploy da aplicação.
-
-### Documentação de Reuniões e Sprints
-
-- **Issue #134**
-  - **Descrição:** Documentar reuniões e sprints faltantes em Docs.
+- **Estilizar a Plataforma** : Aplicar estilização adequada às cores da plataforma para aprimorar a estética e a consistência visual seguindo os protótipos do figma.
+- **Atualizar a documentação**: Adicionar as novas reuniões e sprints, além de  atualizar a parte de arquitetura para alinhar com o projeto.
+- **Arrumar Bugs**: Arrumar bugs gerais da plataforma para aprimorar o seu uso.
 
 ---
 
@@ -64,26 +29,6 @@ Nesta Sprint, o objetivo principal é a organização e documentação de proces
 
 A reunião teve como objetivo discutir as tarefas da Sprint 12 e organizar a documentação dos processos essenciais, bem como corrigir erros críticos para garantir o bom funcionamento da plataforma. Cada membro discutiu as responsabilidades atribuídas e os seguintes pontos foram abordados:
 
-- **Sprint 12**: Foco na organização, documentação e correção de erros críticos.
-
-  - **Reorganização de Arquivos Dentro de Pastas**:
-
-    - **Issue #132**: Reorganizar a estrutura de arquivos nas pastas para melhorar a organização e facilitar a manutenção do projeto. Prioridade: Alta.
-
-  - **Estilização de Cores da Plataforma**:
-
-    - **Issue #131**: Aplicar estilização adequada às cores da plataforma para aprimorar a estética e a consistência visual. Prioridade: Baixa.
-
-  - **Iniciação da Documentação de Testes Unitários**:
-
-    - **Issue #130**: Começar a documentação dos testes unitários para assegurar que todas as funcionalidades estejam bem testadas e documentadas. Prioridade: Alta.
-
-  - **Correção de Erros do Typescript para Deploy**:
-
-    - **Issue #129**: Corrigir erros relacionados ao Typescript que estão impedindo o deploy da aplicação. Prioridade: Alta.
-
-  - **Documentação de Reuniões e Sprints**:
-    - **Issue #134**: Documentar reuniões e sprints faltantes em Docs.
 
 #### Tarefas Gerais
 
