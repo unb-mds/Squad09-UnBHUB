@@ -15,6 +15,7 @@ import DashboardTaskComponent from '../components/Dashboard/DashboardTaskCompone
 
 import GeneralHeader from '../components/Header';
 import { Divider } from 'primereact/divider';
+import DashboardLinksCard from '../components/Dashboard/DashboardLinksCard';
 
 function DashboardScreen() {
   const [subjects, setSubjects] = useState([]);
@@ -51,6 +52,7 @@ function DashboardScreen() {
             <DashboardExamsComponent subjects={subjects} />
           </div>
           <div className="flex flex-column pl-3 w-3">
+            <DashboardLinksCard />
             <DashboardTaskComponent subjects={subjects} />
           </div>
         </div>
