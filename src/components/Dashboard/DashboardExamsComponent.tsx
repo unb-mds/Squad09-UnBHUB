@@ -1,51 +1,58 @@
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { useEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { auth, db } from '../../../config/firebase';
+import { Timestamp } from 'firebase/firestore';
+import formatDate from '../../functions/FormatDate';
+import formatTime from '../../functions/FormatTime';
+import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
 
-interface Exam {
-  code: string;
-  score: string;
-  date: Date;
-  time: Date;
-  room: string;
+interface ITask {
+  deliveryDay: Timestamp;
+  description: string;
   status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
 }
 
-export default function DashboardExamsComponent() {
-  const [exams, setExams] = useState<Exam[]>([]);
+interface IExam {
+  code: string;
+  score: string;
+  date: Timestamp;
+  room: string;
+  status: string;
+  id: string;
+  time: Timestamp;
+}
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const unsub = onSnapshot(doc(db, 'Users', user.uid), (docSnapshot) => {
-          if (docSnapshot.exists() && docSnapshot.data().subjects) {
-            const subjects = docSnapshot.data().subjects;
-            const allExams = Object.values(subjects)
-              .flatMap((subject: any) => Object.values(subject.exams || {}))
-              .map((exam: any) => ({
-                code: exam.code,
-                score: exam.score,
-                date: exam.date.toDate(), // Convert Firestore Timestamp to Date
-                time: exam.time.toDate(), // Convert Firestore Timestamp to Date
-                room: exam.room,
-                status: exam.status,
-              }));
+interface ISubject {
+  codeSubject: string;
+  nameSubject: string;
+  professor: string;
+  weekDays: string;
+  startTime: Date;
+  endTime: Date;
+  local: string;
+  status: string;
+  id: string;
+  tasks: ITask[];
+  exams: IExam[];
+}
 
-            setExams(allExams);
-          } else {
-            setExams([]);
-          }
-        });
-
-        return () => unsub();
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+export default function DashboardExamsComponent(props: {
+  subjects: ISubject[];
+}) {
+  const exams = Object.values(props.subjects)
+    .map((subject: ISubject) => {
+      ControlExamStatusBasedOnTime(subject);
+      return subject;
+    })
+    .flatMap((subject) =>
+      Object.values(subject.exams).map((exam) => ({
+        ...exam,
+        codeSubject: subject.codeSubject,
+      }))
+    )
+    .filter((exam) => exam.status === 'Active');
 
   return (
     <div className="flex flex-column mx-3 my-3">
@@ -56,17 +63,18 @@ export default function DashboardExamsComponent() {
         </p>
       </div>
       <DataTable value={exams} tableStyle={{ minWidth: '50rem' }}>
+        <Column field="codeSubject" header="Matéria"></Column>
         <Column field="code" header="Nome"></Column>
         <Column field="score" header="Nota"></Column>
         <Column
           field="date"
           header="Data"
-          body={(rowData) => rowData.date.toLocaleDateString()}
+          body={(rowData) => formatDate(rowData.date)}
         />
         <Column
           field="time"
           header="Horário"
-          body={(rowData) => rowData.time.toLocaleTimeString()}
+          body={(rowData) => formatTime(rowData.time)}
         />
         <Column field="room" header="Sala"></Column>
         <Column
