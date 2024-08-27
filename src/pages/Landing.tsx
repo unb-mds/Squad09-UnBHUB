@@ -1,8 +1,8 @@
-import Calltoaction from '../components/Calltoaction';
-import Feature from '../components/feature';
-import Hero from '../components/Hero';
-import NavbarComponent2 from '../components/Navbar2';
-import Functionalities from '../components/functionalities';
+import Calltoaction from '../components/Landing/Calltoaction';
+import Feature from '../components/Landing/feature';
+import Hero from '../components/Landing/Hero';
+import NavbarComponent2 from '../components/Landing/Navbar2';
+import Functionalities from '../components/Landing/functionalities';
 
 export default function LandingPage() {
   return (
