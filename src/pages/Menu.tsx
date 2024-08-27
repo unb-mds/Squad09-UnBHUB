@@ -1,7 +1,7 @@
 import SideBarComponent from '../components/SideBar';
 import NavbarComponent4 from '../components/Cardapio/Navbar4';
 import DisplayMenuComponent from '../components/Cardapio/DisplayMenu';
-import Calltoaction2 from '../components/Calltoaction2';
+import Calltoaction2 from '../components/Cardapio/Calltoaction2';
 
 export default function MenuScreen() {
   return (
