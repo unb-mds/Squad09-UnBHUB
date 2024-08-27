@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Image } from 'primereact/image';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
@@ -6,6 +6,7 @@ import { classNames } from 'primereact/utils';
 import { useLocation, Link } from 'react-router-dom';
 import { auth } from '../../config/firebase';
 import { Divider } from 'primereact/divider';
+import NotificationSettingsModal from './NotificationSettingsModal'; // Importe o componente do modal
 
 // Estilos para o Sidebar e Conteúdo Principal
 const sidebarStyle = {
@@ -36,7 +37,7 @@ const smallTextStyle = {
 };
 
 export default function SideBarComponent() {
-  const toast = React.useRef(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const location = useLocation();
 
   const items: MenuItem[] = [
@@ -54,14 +55,7 @@ export default function SideBarComponent() {
       ),
     },
     {
-      command: () => {
-        toast.current.show({
-          severity: 'info',
-          summary: 'Info',
-          detail: 'Item Selected',
-          life: 3000,
-        });
-      },
+      command: () => {},
       template: (options) => (
         <div>
           <Link to="/" style={{ textDecoration: 'none' }}>
@@ -180,34 +174,17 @@ export default function SideBarComponent() {
           </Link>
           <Divider className='mb-4 mt-3' />
           <span className="block" style={smallTextStyle}>Configurações</span>
-          <Link to="/Settings" style={{ textDecoration: 'none' }}>
-            <button
-              onClick={(e) => options.onClick(e)}
-              style={sidebarItemStyle}
-              className={classNames(
-                options.className,
-                'w-full p-link flex hover:bg-blue-800 border-noround',
-                { 'bg-blue-800': location.pathname === '/Settings' }
-              )}
-            >
-              <i className="pi pi-fw pi-cog mr-2"></i>
-              <span>Configurações</span>
-            </button>
-          </Link>
-          <Link to="/Notifications" style={{ textDecoration: 'none' }}>
-            <button
-              onClick={(e) => options.onClick(e)}
-              style={sidebarItemStyle}
-              className={classNames(
-                options.className,
-                'w-full p-link flex hover:bg-blue-800 border-noround',
-                { 'bg-blue-800': location.pathname === '/Notifications' }
-              )}
-            >
-              <i className="pi pi-fw pi-bell mr-2"></i>
-              <span>Notificações</span>
-            </button>
-          </Link>
+          <button
+            onClick={() => setModalVisible(true)}
+            style={sidebarItemStyle}
+            className={classNames(
+              'w-full p-link flex hover:bg-blue-800 border-noround',
+              { 'bg-blue-800': location.pathname === '/Notifications' }
+            )}
+          >
+            <i className="pi pi-fw pi-bell mr-2"></i>
+            <span>Notificações</span>
+          </button>
           <Link to="/Profile" style={{ textDecoration: 'none' }}>
             <button
               onClick={(e) => options.onClick(e)}
@@ -241,6 +218,7 @@ export default function SideBarComponent() {
         <Menu model={items} className="w-full h-full bg-blue-900 text-white" />
       </div>
       <div style={mainContentStyle}>
+        <NotificationSettingsModal visible={modalVisible} onHide={() => setModalVisible(false)} />
       </div>
     </div>
   );
