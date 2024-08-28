@@ -4,7 +4,7 @@ import { Avatar } from 'primereact/avatar';
 import { Dialog } from 'primereact/dialog';
 import { auth, db } from '../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 import formatDate from '../functions/FormatDate';
 import { useNavigate } from 'react-router-dom';
@@ -43,92 +43,93 @@ export default function GeneralHeader() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const userDoc = doc(db, 'Users', user.uid);
 
-        // Recuperar dados do usuário
-        const userSnapshot = await getDoc(userDoc);
-        if (userSnapshot.exists()) {
-          const data = userSnapshot.data();
-          setProfileImageUrl(data.UserInfo?.profileImageUrl || null);
+        // Usar onSnapshot para ouvir mudanças em tempo real
+        const unsubscribeSnapshot = onSnapshot(userDoc, (userSnapshot) => {
+          if (userSnapshot.exists()) {
+            const data = userSnapshot.data();
+            setProfileImageUrl(data.UserInfo?.profileImageUrl || null);
 
-          // Recuperar livros atrasados
-          if (data.books) {
-            const overdue = Object.values(data.books).filter((bookData: ICreateBook) => {
-              return bookData.status === 'Late';
-            });
-            setOverdueBooks(overdue);
-          }
-
-          // Recuperar tarefas atrasadas
-          if (data.subjects) {
-            const subjectsData = Object.values(data.subjects) as Task[];
-            const today = new Date();
-
-            const tasks = subjectsData.flatMap((item) => {
-              return Object.keys(item.tasks).map((key) => {
-                const task = item.tasks[key];
-                const deliveryDay = task.deliveryDay.toDate();
-                const delayDay = deliveryDay.setDate(
-                  deliveryDay.getDate() + 1
-                );
-                let status = '';
-                if (
-                  delayDay < today &&
-                  task.status !== 'Finalized' &&
-                  task.status !== 'Deleted'
-                ) {
-                  status = 'Late';
-                }
-                if (
-                  delayDay >= today &&
-                  task.status !== 'Finalized' &&
-                  task.status !== 'Deleted'
-                ) {
-                  status = 'Active';
-                }
-                if (task.status === 'Finalized') {
-                  status = 'Finalized';
-                }
-                if (task.status === 'Deleted') {
-                  status = 'Deleted';
-                }
-
-                return {
-                  ...task,
-                  id: key,
-                  codeSubject: item.codeSubject,
-                  status,
-                } as Task;
+            // Atualizar livros atrasados em tempo real
+            if (data.books) {
+              const overdue = Object.values(data.books).filter((bookData: ICreateBook) => {
+                return bookData.status === 'Late';
               });
-            });
+              setOverdueBooks(overdue);
+            }
 
-            const overdueTasks = tasks.filter(task => task.status === 'Late');
-            setOverdueTasks(overdueTasks);
-          }
+            // Atualizar tarefas atrasadas em tempo real
+            if (data.subjects) {
+              const subjectsData = Object.values(data.subjects) as Task[];
+              const today = new Date();
 
-          // Recuperar provas
-          if (data.subjects) {
-            const subjectsData = Object.values(data.subjects);
-            const today = new Date();
-            const upcomingExams = subjectsData.flatMap((item: any) => {
-              return Object.keys(item.exams).map((key: string) => {
-                const exam = item.exams[key];
-                const examDate = exam.date.toDate();
-                const diffDays = Math.floor((examDate.getTime() - today.getTime()) / (1000 * 3600 * 24));
+              const tasks = subjectsData.flatMap((item) => {
+                return Object.keys(item.tasks).map((key) => {
+                  const task = item.tasks[key];
+                  const deliveryDay = task.deliveryDay.toDate();
+                  const delayDay = deliveryDay.setDate(deliveryDay.getDate() + 1);
+                  let status = '';
+                  if (
+                    delayDay < today &&
+                    task.status !== 'Finalized' &&
+                    task.status !== 'Deleted'
+                  ) {
+                    status = 'Late';
+                  }
+                  if (
+                    delayDay >= today &&
+                    task.status !== 'Finalized' &&
+                    task.status !== 'Deleted'
+                  ) {
+                    status = 'Active';
+                  }
+                  if (task.status === 'Finalized') {
+                    status = 'Finalized';
+                  }
+                  if (task.status === 'Deleted') {
+                    status = 'Deleted';
+                  }
 
-                return {
-                  ...exam,
-                  id: key,
-                  isUpcoming: diffDays >= 0 && diffDays <= 7,
-                } as Exam;
+                  return {
+                    ...task,
+                    id: key,
+                    codeSubject: item.codeSubject,
+                    status,
+                  } as Task;
+                });
               });
-            }).filter(exam => exam.isUpcoming && exam.status !== 'Deleted');
 
-            setUpcomingExams(upcomingExams);
+              const overdueTasks = tasks.filter(task => task.status === 'Late');
+              setOverdueTasks(overdueTasks);
+            }
+
+            // Atualizar provas em tempo real
+            if (data.subjects) {
+              const subjectsData = Object.values(data.subjects);
+              const today = new Date();
+              const upcomingExams = subjectsData.flatMap((item: any) => {
+                return Object.keys(item.exams).map((key: string) => {
+                  const exam = item.exams[key];
+                  const examDate = exam.date.toDate();
+                  const diffDays = Math.floor((examDate.getTime() - today.getTime()) / (1000 * 3600 * 24));
+
+                  return {
+                    ...exam,
+                    id: key,
+                    isUpcoming: diffDays >= 0 && diffDays <= 7,
+                  } as Exam;
+                });
+              }).filter(exam => exam.isUpcoming && exam.status !== 'Deleted');
+
+              setUpcomingExams(upcomingExams);
+            }
           }
-        }
+        });
+
+        return () => unsubscribeSnapshot();
       }
     });
 
