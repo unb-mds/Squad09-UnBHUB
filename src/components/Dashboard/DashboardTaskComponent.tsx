@@ -83,9 +83,9 @@ export default function DashboardTasksComponent(props: {
   );
 
   return (
-    <div className="flex flex-column mx-4" style={{ width: '82%', marginTop: '-0.7rem' }}>
+    <div className="flex flex-column mx-4" style={{ width: '82%', marginTop: '-0.5rem' }}>
       
-      <div className="flex flex-column mb-3">
+      <div className="flex flex-column mb-3 text-sm">
         <p className="text-medium">
           Semestre <b className='text-blue-600'>{currentSemester}</b> de {endSemester}
         </p>
@@ -119,7 +119,7 @@ export default function DashboardTasksComponent(props: {
         </a>
       </div>
       <Divider className='mt-0 pr-4'/>
-      <ScrollPanel style={{ width: '100%', height: '35rem' }}>
+      <ScrollPanel style={{ width: '100%', height: '32rem' }}>
         <div className="flex flex-column gap-2">
           {activeSubjects.map((subject) => (
             <DashBoardActivitiesComponent

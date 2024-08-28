@@ -57,7 +57,7 @@ export default function DashboardExamsComponent(props: {
     .filter((exam) => exam.status === 'Active');
 
   return (
-    <div className="flex flex-column mx-3 my-3">
+    <div className="flex flex-column mx-3">
       <div className="flex justify-content-between">
         <p className="flex w-4 h-1rem gap-2 align-items-center text-sm">
           <i className="pi pi-file" />
@@ -77,7 +77,8 @@ export default function DashboardExamsComponent(props: {
 
       <Divider className='mt-0'/>
 
-      <DataTable value={exams} tableStyle={{ minWidth: '50rem' }} className='text-sm'>
+      
+      <DataTable value={exams} tableStyle={{ minWidth: '50rem' }} className='text-sm' scrollable scrollHeight='450px'>
         <Column field="codeSubject" header="Matéria"></Column>
         <Column field="code" header="Nome"></Column>
         <Column field="score" header="Nota"></Column>
