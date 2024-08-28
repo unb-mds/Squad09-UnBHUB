@@ -54,11 +54,19 @@ export default function GeneralHeader() {
             setProfileImageUrl(data.UserInfo?.profileImageUrl || null);
 
             // Atualizar livros atrasados em tempo real
-            if (data.books) {
+            if (data.books){
+              if(data.notifications.book.state){ 
               const overdue = Object.values(data.books).filter((bookData: ICreateBook) => {
                 return bookData.status === 'Late';
               });
               setOverdueBooks(overdue);
+              }
+              else{
+                const overdue = Object.values(data.books).filter((bookData: ICreateBook) => {
+                  return bookData.status === null;
+                });
+                setOverdueBooks(overdue);
+              }
             }
 
             // Atualizar tarefas atrasadas em tempo real
@@ -75,21 +83,30 @@ export default function GeneralHeader() {
                   if (
                     delayDay < today &&
                     task.status !== 'Finalized' &&
+                    data.notifications.task.state == true &&
                     task.status !== 'Deleted'
-                  ) {
+                  ) 
+                  {
                     status = 'Late';
                   }
                   if (
                     delayDay >= today &&
+                    data.notifications.task.state == true &&
                     task.status !== 'Finalized' &&
                     task.status !== 'Deleted'
                   ) {
                     status = 'Active';
                   }
-                  if (task.status === 'Finalized') {
+                  if (task.status === 'Finalized' &&
+                    data.notifications.task.state == true 
+                  ) {
                     status = 'Finalized';
                   }
-                  if (task.status === 'Deleted') {
+                  if (task.status === 'Deleted' &&
+                    data.notifications.task.state == true 
+
+                  )
+                  {
                     status = 'Deleted';
                   }
 
@@ -122,7 +139,7 @@ export default function GeneralHeader() {
                     isUpcoming: diffDays >= 0 && diffDays <= 7,
                   } as Exam;
                 });
-              }).filter(exam => exam.isUpcoming && exam.status !== 'Deleted');
+              }).filter(exam => exam.isUpcoming && exam.status !== 'Deleted' && data.notifications.exam.state === true);
 
               setUpcomingExams(upcomingExams);
             }
