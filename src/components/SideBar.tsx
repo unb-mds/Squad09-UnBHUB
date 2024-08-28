@@ -16,7 +16,8 @@ const sidebarStyle = {
   height: '100vh',
   width: '15rem', // Ajuste conforme necessário
   zIndex: 1000, // Garante que o sidebar fique acima do conteúdo principal
-  overflowY: 'auto' // Adiciona rolagem se o conteúdo exceder a altura
+  overflowY: 'auto', // Adiciona rolagem se o conteúdo exceder a altura
+  backgroundColor: 'var(--blue-900)'
 };
 
 const mainContentStyle = {

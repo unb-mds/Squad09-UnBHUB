@@ -3,6 +3,7 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 import SubjectCardConstructorComponent from '../Subject/subjectsCardConstructor';
 
 import { Timestamp } from 'firebase/firestore';
+import { Divider } from 'primereact/divider';
 
 interface ITask {
   deliveryDay: Timestamp;
@@ -45,7 +46,7 @@ export default function DashboardSubjectsComponent(props: {
   return (
     <div className="flex flex-column mx-3 my-3">
       <div className="flex justify-content-between">
-        <p className="flex w-4 h-1rem gap-2 align-items-center">
+        <p className="flex w-4 h-1rem gap-2 align-items-center text-sm">
           <i className="pi pi-bookmark"></i>
           Matérias
         </p>
@@ -56,10 +57,12 @@ export default function DashboardSubjectsComponent(props: {
             iconPos="right"
             size="small"
             text
-            link
+            style={{ marginBottom: '-1.4rem'}}
           />
         </a>
       </div>
+
+      <Divider className='mt-0'/>
 
       <ScrollPanel style={{ width: '100%', height: '14rem' }}>
         <div className="flex">

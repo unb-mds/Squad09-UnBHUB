@@ -12,6 +12,7 @@ import EditExam from '../../functions/Subjects/EditExam';
 interface EditExamDialogProps {
   visible: boolean;
   onHide: () => void;
+  subjectID: string; // Agora é obrigatório
   exam: {
     code: string;
     score: string;
@@ -29,12 +30,11 @@ interface EditExamDialogProps {
   };
 }
 
-const subjectId = localStorage.getItem('subjectId');
-
 export default function EditExamDialog({
   visible,
   onHide,
   exam,
+  subjectID,
 }: EditExamDialogProps) {
   return (
     <Formik
@@ -65,9 +65,8 @@ export default function EditExamDialog({
           date: new Date(values.date),
           time: new Date(values.time),
         };
-
         // Atualiza o exame
-        await EditExam(formattedValues, exam.id, subjectId);
+        await EditExam(formattedValues, exam.id, subjectID); // Passa o subjectID aqui
         onHide(); // Fechar o diálogo após a atualização
       }}
     >
@@ -168,20 +167,23 @@ export default function EditExamDialog({
               <div className="text-red-500">{errors.room}</div>
             ) : null}
 
-            <div className="flex justify-content-between gap-3">
+            <div className="flex justify-content-between">
               <Button
-                outlined
                 label="Excluir"
-                style={{
-                  borderColor: '#ff6060',
-                  color: '#ff6060',
-                }}
-                onClick={async () => {
-                  await DeleteExam(subjectId, exam.id);
-                  onHide(); // Fechar o diálogo após a atualização
+                icon="pi pi-trash"
+                className="p-button-danger"
+                onClick={() => {
+                  DeleteExam(subjectID, exam.id);
+                  onHide();
                 }}
               />
-              <Button onClick={handleSubmit} label="Confirmar" />
+              <Button
+                label="Salvar"
+                icon="pi pi-check"
+                className="mr-2"
+                type="submit"
+                onClick={handleSubmit}
+              />
             </div>
           </Dialog>
         </form>

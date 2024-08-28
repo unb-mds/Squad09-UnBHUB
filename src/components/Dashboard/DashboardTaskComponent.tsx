@@ -6,6 +6,7 @@ import { db, auth } from '../../../config/firebase';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import DashBoardActivitiesComponent from './DashBoardActivitiesComponent';
 import DashboardLinksCard from './DashboardLinksCard';
+import { Divider } from 'primereact/divider';
 
 interface ITask {
   deliveryDay: Timestamp;
@@ -82,9 +83,9 @@ export default function DashboardTasksComponent(props: {
   );
 
   return (
-    <div className="flex flex-column mx-4" style={{ width: 'auto'}}>
+    <div className="flex flex-column mx-4" style={{ width: '82%', marginTop: '-0.5rem', maxWidth: '300px' }}>
       
-      <div className="flex flex-column">
+      <div className="flex flex-column mb-3 text-sm">
         <p className="text-medium">
           Semestre <b className='text-blue-600'>{currentSemester}</b> de {endSemester}
         </p>
@@ -95,14 +96,14 @@ export default function DashboardTasksComponent(props: {
         />
       </div>
 
-      <p className="flex h-1rem gap-2 align-items-center">
+      <p className="flex h-1rem gap-2 align-items-center text-sm">
           <i className="pi pi-th-large" />
           Cardápio RU
         </p>
       <DashboardLinksCard />
 
       <div className="flex justify-content-between">
-        <p className="flex w-4 h-1rem gap-2 align-items-center">
+        <p className="flex w-4 h-1rem gap-2 align-items-center text-sm">
           <i className="pi pi-clipboard" />
           Tarefas
         </p>
@@ -117,7 +118,8 @@ export default function DashboardTasksComponent(props: {
           />
         </a>
       </div>
-      <ScrollPanel style={{ width: '100%', height: '35rem' }}>
+      <Divider className='mt-0 pr-4'/>
+      <ScrollPanel style={{ width: '100%', height: '32rem' }}>
         <div className="flex flex-column gap-2">
           {activeSubjects.map((subject) => (
             <DashBoardActivitiesComponent
