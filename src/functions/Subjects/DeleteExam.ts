@@ -9,6 +9,7 @@ export default async function DeleteExamFunction(
 
   const subjectRef = doc(db, 'Users', auth.currentUser.uid);
   await updateDoc(subjectRef, {
+    [`subjects.${SubjectID}.exams.${ExamID}.score`]: 'Deleted',
     [`subjects.${SubjectID}.exams.${ExamID}.status`]: 'Deleted',
   });
 }

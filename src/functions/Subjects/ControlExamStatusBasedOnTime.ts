@@ -1,6 +1,5 @@
-import formatDate from '../FormatDate';
-import formatTime from '../FormatTime';
 import ActivateExamFunction from './ActivateExamFunction';
+import DeleteExamFunction from './DeleteExam';
 import FinalizeExamFunction from './FinalizeExam';
 
 import { Timestamp } from 'firebase/firestore';
@@ -40,20 +39,37 @@ interface ISubject {
 
 export default function ControlExamStatusBasedOnTime(subject: ISubject) {
   const today = new Date();
-  const firebaseTimestamp = Timestamp.fromDate(today);
+
+  const todayDateOnly = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
 
   if (subject.status === 'Active') {
     Object.values(subject.exams).forEach((exam: IExam) => {
-      if (
-        exam.status !== 'Deleted' &&
-        ((formatDate(firebaseTimestamp) === formatDate(exam.date) &&
-          formatTime(firebaseTimestamp) > formatTime(exam.time)) ||
-          formatDate(firebaseTimestamp) > formatDate(exam.date))
-      ) {
-        FinalizeExamFunction(subject.id, exam.id);
-      } else {
-        console.log(exam.status);
-        if (exam.status !== 'Deleted') {
+      if (exam.score == 'Deleted' && exam.status != 'Deleted') {
+        DeleteExamFunction(subject.id, exam.id);
+      }
+      if (!(exam.status == 'Deleted' || exam.score == 'Deleted')) {
+        const examDateOnly = new Date(exam.date.seconds * 1000);
+        const examDate = new Date(
+          examDateOnly.getFullYear(),
+          examDateOnly.getMonth(),
+          examDateOnly.getDate()
+        );
+
+        const examTime = new Date(todayDateOnly.getTime());
+        examTime.setHours(new Date(exam.time.seconds * 1000).getHours());
+        examTime.setMinutes(new Date(exam.time.seconds * 1000).getMinutes());
+
+        if (
+          (todayDateOnly.getTime() === examDate.getTime() &&
+            today > examTime) ||
+          todayDateOnly > examDate
+        ) {
+          FinalizeExamFunction(subject.id, exam.id);
+        } else {
           ActivateExamFunction(subject.id, exam.id);
         }
       }
