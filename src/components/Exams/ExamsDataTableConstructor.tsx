@@ -1,14 +1,22 @@
-import 'primeicons/primeicons.css';
-import { Button } from 'primereact/button';
-import { Column } from 'primereact/column';
-import { DataTable } from 'primereact/datatable';
 import { useState } from 'react';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
+import EditExamDialog from '../Subject/EditExamDialog';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
-import EditExamDialog from './EditExamDialog';
 import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
 
 import { Timestamp } from 'firebase/firestore';
+
+interface ITask {
+  deliveryDay: Timestamp;
+  description: string;
+  status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
+}
 
 interface IExam {
   code: string;
@@ -18,9 +26,28 @@ interface IExam {
   status: string;
   id: string;
   time: Timestamp;
+  codeSubject: string;
+  subjectID: string;
 }
 
-export default function SubjectSpecificExams({ subject }) {
+interface ISubject {
+  codeSubject: string;
+  nameSubject: string;
+  professor: string;
+  weekDays: string;
+  startTime: Date;
+  endTime: Date;
+  local: string;
+  status: string;
+  id: string;
+  tasks: ITask[];
+  exams: IExam[];
+}
+
+export default function ExamsDataTableConstructorComponent(props: {
+  Usersubjects: ISubject[];
+  status: string;
+}) {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [currentExam, setCurrentExam] = useState<IExam | null>(null);
 
@@ -34,21 +61,32 @@ export default function SubjectSpecificExams({ subject }) {
     setCurrentExam(null);
   };
 
-  ControlExamStatusBasedOnTime(subject);
-
-  const filteredExams = Object.values(subject.exams).filter(
-    (exam) => exam.status !== 'Deleted'
-  );
+  const exams = Object.values(props.Usersubjects)
+    .map((subject: ISubject) => {
+      ControlExamStatusBasedOnTime(subject);
+      return subject;
+    })
+    .flatMap((subject) =>
+      Object.values(subject.exams).map((exam) => ({
+        ...exam,
+        codeSubject: subject.codeSubject,
+        subjectID: subject.id,
+      }))
+    )
+    .filter((exam) => exam.status === props.status);
 
   return (
-    <>
+    <div className="flex flex-column">
       <DataTable
-        value={filteredExams}
+        value={exams}
         tableStyle={{ minWidth: '50rem' }}
-        emptyMessage="Nenhuma prova encontrada"
+        className="text-sm"
+        scrollable
+        scrollHeight="450px"
       >
-        <Column field="code" header="Código" />
-        <Column field="score" header="Nota" />
+        <Column field="codeSubject" header="Matéria"></Column>
+        <Column field="code" header="Nome"></Column>
+        <Column field="score" header="Nota"></Column>
         <Column
           field="date"
           header="Data"
@@ -59,7 +97,7 @@ export default function SubjectSpecificExams({ subject }) {
           header="Horário"
           body={(rowData) => formatTime(rowData.time)}
         />
-        <Column field="room" header="Sala" />
+        <Column field="room" header="Sala"></Column>
         <Column
           field="status"
           header="Status"
@@ -86,9 +124,9 @@ export default function SubjectSpecificExams({ subject }) {
           visible={dialogVisible}
           onHide={handleDialogClose}
           exam={currentExam}
-          subjectID={subject.id}
+          subjectID={currentExam?.subjectID} // Passa o subjectID para o diálogo
         />
       )}
-    </>
+    </div>
   );
 }

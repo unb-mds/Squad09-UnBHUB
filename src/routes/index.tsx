@@ -13,7 +13,7 @@ import SubjectsScreen from '../pages/Subjects';
 import Activities from '../pages/TaskScreen';
 import CalendarScreen from '../pages/CalendarPage';
 import SignUserScreen from '../pages/SignUser';
-import TestScreen from '../pages/TestsPage';
+import ExamsScreen from '../pages/ExamScreen';
 
 const router = createBrowserRouter([
   {
@@ -76,7 +76,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/Exams',
-    element: <TestScreen />,
+    element: <ExamsScreen />,
   },
 ]);
 
