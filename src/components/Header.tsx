@@ -9,8 +9,6 @@ import { Timestamp } from 'firebase/firestore';
 import formatDate from '../functions/FormatDate';
 import { useNavigate } from 'react-router-dom';
 
-
-
 interface ICreateBook {
   id: string;
   author: string;
@@ -78,22 +76,22 @@ export default function GeneralHeader() {
                 let status = '';
                 if (
                   delayDay < today &&
-                  task.status != 'Finalized' &&
-                  task.status != 'Deleted'
+                  task.status !== 'Finalized' &&
+                  task.status !== 'Deleted'
                 ) {
                   status = 'Late';
                 }
                 if (
                   delayDay >= today &&
-                  task.status != 'Finalized' &&
-                  task.status != 'Deleted'
+                  task.status !== 'Finalized' &&
+                  task.status !== 'Deleted'
                 ) {
                   status = 'Active';
                 }
-                if (task.status == 'Finalized') {
+                if (task.status === 'Finalized') {
                   status = 'Finalized';
                 }
-                if (task.status == 'Deleted') {
+                if (task.status === 'Deleted') {
                   status = 'Deleted';
                 }
 
@@ -163,12 +161,33 @@ export default function GeneralHeader() {
           badgeClassName="p-badge-danger"
           link
           onClick={handleNotificationClick}
-        />
+          style={{ position: 'relative' }} // Mantém a posição relativa do botão para centralizar a badge
+        >
+          {overdueBooks.length + overdueTasks.length + upcomingExams.length > 0 && (
+            <span
+              style={{
+                fontSize: '10px',  // Diminui o tamanho do texto
+                display: 'flex',    // Centraliza o conteúdo da badge
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: '16px',   // Mantém o formato redondo
+                height: '16px',     // Mantém o formato redondo
+                padding: '0',       // Remove o padding extra
+                lineHeight: '1',    // Ajusta o espaçamento vertical
+                position: 'absolute',  // Posiciona a badge no canto do botão
+                top: '0',              // Ajusta a posição no topo
+                right: '0',            // Ajusta a posição à direita
+                transform: 'translate(50%, -50%)'  // Ajusta a posição para centralizar melhor
+              }}
+            >
+              {overdueBooks.length + overdueTasks.length + upcomingExams.length}
+            </span>
+          )}
+        </Button>
         <Button className="" rounded text onClick={handleProfileClick}>
           <Avatar
             image={profileImageUrl || undefined}
             icon={!profileImageUrl ? 'pi pi-user' : undefined}
-            size="small"
             className="mr-2"
             shape="circle"
           />
