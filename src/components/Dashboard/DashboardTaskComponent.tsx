@@ -83,7 +83,7 @@ export default function DashboardTasksComponent(props: {
   );
 
   return (
-    <div className="flex flex-column mx-4" style={{ width: '82%', marginTop: '-0.5rem' }}>
+    <div className="flex flex-column mx-4" style={{ width: '82%', marginTop: '-0.5rem', maxWidth: '300px' }}>
       
       <div className="flex flex-column mb-3 text-sm">
         <p className="text-medium">
