@@ -1,11 +1,24 @@
 import { Divider } from 'primereact/divider';
 import formatTime from '../../functions/FormatTime';
-
 import GeneralHeader from '../Header';
+import { Timestamp } from 'firebase/firestore';
 
+// Define a interface para as propriedades do componente.
+interface SubjectDetailsComponentProps {
+  subject: {
+    codeSubject: string;
+    nameSubject: string;
+    professor: string;
+    weekDays: string;
+    local: string;
+    startTime: Timestamp; // Assumindo que startTime e endTime são objetos Date
+    endTime: Timestamp;
+  };
+}
 
-export default function SubjectDetailsComponent(props) {
-  const { subject } = props;
+export default function SubjectDetailsComponent({
+  subject,
+}: SubjectDetailsComponentProps) {
   return (
     <div className="flex flex-column mb-5">
       <GeneralHeader />
@@ -19,7 +32,7 @@ export default function SubjectDetailsComponent(props) {
         <div className="flex flex-column w-12 gap-4 mt-3" style={{ fontSize: '0.9rem', color: '#4b4b4b' }}>
           <div>
             <i className="pi pi-user mr-2" />
-             Professor(a): {subject.professor}
+            Professor(a): {subject.professor}
           </div>
           <div>
             <i className="pi pi-calendar mr-2" />

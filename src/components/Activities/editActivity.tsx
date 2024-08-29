@@ -129,7 +129,7 @@ export default function EditActivityComponent(props: {
           className="flex flex-column gap-5 p-4" // Define o layout do formulário com espaçamento.
           onSubmit={(e) => e.preventDefault()} // Previne o envio padrão do formulário.
         >
-          <FloatLabel className="w-full">
+          <FloatLabel>
             <InputText
               className="w-full" // Define a largura do campo de entrada como total.
               id="taskName"
@@ -139,7 +139,7 @@ export default function EditActivityComponent(props: {
             />
             <label htmlFor="taskName">Nome da Tarefa</label>
           </FloatLabel>
-          <FloatLabel className="w-full">
+          <FloatLabel>
             <InputText
               className="w-full"
               id="description"
@@ -149,7 +149,7 @@ export default function EditActivityComponent(props: {
             />
             <label htmlFor="description">Descrição</label>
           </FloatLabel>
-          <FloatLabel className="w-full">
+          <FloatLabel>
             <Calendar
               className="w-full"
               id="deliveryDay"

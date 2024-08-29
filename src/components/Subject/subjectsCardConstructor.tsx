@@ -1,6 +1,8 @@
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import formatTime from '../../functions/FormatTime';
+import { Timestamp } from 'firebase/firestore';
+
 
 // Define os tons de cores disponíveis
 const colors = [
@@ -14,6 +16,39 @@ const colors = [
   'purple',
   'red',
 ];
+
+interface ITask {
+  deliveryDay: Timestamp;
+  description: string;
+  status: string;
+  subjectId: string;
+  taskId: string;
+  taskName: string;
+}
+
+interface IExam {
+  code: string;
+  score: string;
+  date: Timestamp;
+  room: string;
+  status: string;
+  id: string;
+  time: Timestamp;
+}
+
+interface ISubject {
+  codeSubject: string;
+  nameSubject: string;
+  professor: string;
+  weekDays: string;
+  startTime: Date;
+  endTime: Date;
+  local: string;
+  status: string;
+  id: string;
+  tasks: ITask[];
+  exams: IExam[];
+}
 
 // Função para gerar uma cor fixa baseada no ID do assunto
 const getColorForSubject = (subjectId: string) => {

@@ -20,7 +20,7 @@ export default function CreateLibrary(props: {
         // Valores iniciais do formulário
         author: '', // Código da matéria
         bookName: '', // Nome do livro
-        deliveryDay: null, // Data de devolução (inicialmente nula)
+        deliveryDay: new Date, // Data de devolução (inicialmente nula)
       }}
       onSubmit={(values, { resetForm }) => {
         // Função chamada ao enviar o formulário
@@ -138,7 +138,7 @@ export default function CreateLibrary(props: {
                   }}
                   onClick={() => props.CreatesetVisible1(false)} // Fecha o modal ao clicar
                 />
-                <Button onClick={handleSubmit} label="Confirmar" />{' '}
+                <Button onClick={() => handleSubmit()} label="Confirmar" />{' '}
                 {/* Botão para confirmar a criação */}
               </div>
             </Dialog>
