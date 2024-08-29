@@ -6,43 +6,8 @@ import EditExamDialog from '../Subject/EditExamDialog';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
+import { ISubject, IExam } from './examInterfaces';
 
-import { Timestamp } from 'firebase/firestore';
-
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
-
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-  codeSubject: string;
-  subjectID: string;
-}
-
-interface ISubject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[];
-  exams: IExam[];
-}
 
 export default function ExamsDataTableConstructorComponent(props: {
   Usersubjects: ISubject[];
