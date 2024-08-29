@@ -1,54 +1,50 @@
-import { useState, useEffect } from 'react'; // Importa os hooks useState e useEffect do React.
-import { Button } from 'primereact/button'; // Importa o componente Button da biblioteca PrimeReact.
-import { Dialog } from 'primereact/dialog'; // Importa o componente Dialog da biblioteca PrimeReact.
-import { FloatLabel } from 'primereact/floatlabel'; // Importa o componente FloatLabel da biblioteca PrimeReact.
-import { InputText } from 'primereact/inputtext'; // Importa o componente InputText da biblioteca PrimeReact.
-import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar da biblioteca PrimeReact.
-import EditActivityFunction from '../../functions/EditActivity'; // Importa a função para editar a atividade.
-import FinalizeActivityFunction from '../../functions/FinalizedActivity'; // Importa a função para finalizar a atividade.
-import DeletedActivityFunction from '../../functions/DeleteActivity'; // Importa a função para excluir a atividade.
+import { useState, useEffect } from 'react'; 
+import { Button } from 'primereact/button'; 
+import { Dialog } from 'primereact/dialog'; 
+import { FloatLabel } from 'primereact/floatlabel'; 
+import { InputText } from 'primereact/inputtext'; 
+import { Calendar } from 'primereact/calendar'; 
+import EditActivityFunction from '../../functions/EditActivity'; 
+import FinalizeActivityFunction from '../../functions/FinalizedActivity'; 
+import DeletedActivityFunction from '../../functions/DeleteActivity'; 
 import { ActiveActivityFunction } from "../../functions/CheckDateActivity";
 
-export default function EditActivityComponent(props: {
-  visibleEdit: boolean; // Propriedade que controla se o diálogo de edição está visível.
-  EditsetVisible: (visibleEdit: boolean) => void; // Função para atualizar a visibilidade do diálogo.
-  activityData: {
-    taskName: string; // Nome da tarefa.
-    deliveryDay: Date | null; // Data de entrega da tarefa.
-    description: string; // Descrição da tarefa.
-  } | null;
+interface ActivityData {
+  taskName: string;
+  deliveryDay: Date | null;
+  description: string;
+}
 
-  onSave: (updatedActivityData: {
-    taskName: string; // Nome atualizado da tarefa.
-    description: string; // Descrição atualizada da tarefa.
-    deliveryDay: Date | null; // Data de entrega atualizada da tarefa.
-  }) => void; // Função chamada ao salvar a atividade.
-  onDelete: () => void; // Função chamada ao excluir a atividade.
-  activityIndex: number; // Índice da atividade.
-}) {
-  const { activityData, visibleEdit, EditsetVisible } = props; // Desestrutura as propriedades do componente.
-  const [isEditing, setIsEditing] = useState(false); // Estado para verificar se o componente está em modo de edição.
+interface EditActivityComponentProps {
+  visibleEdit: boolean;
+  EditsetVisible: (visibleEdit: boolean) => void;
+  activityData: ActivityData | null;
+  onSave: (updatedActivityData: ActivityData) => void;
+  onDelete: () => void;
+  activityIndex: number;
+  subjectId: string; // Adicionei a prop subjectId
+  taskId: string; // Adicionei a prop taskId
+  status: string; // Adicionei a prop status
+}
 
-  const [formData, setFormData] = useState<{
-    taskName: string; // Nome da tarefa no formulário.
-    description: string; // Descrição da tarefa no formulário.
-    deliveryDay: Date | null; // Data de entrega da tarefa no formulário.
-  } | null>(null); // Inicialmente, o estado do formulário é null.
-
-  const [showConfirmDialog, setShowConfirmDialog] = useState(false); // Estado para mostrar ou esconder o diálogo de confirmação de exclusão.
+export default function EditActivityComponent(props: EditActivityComponentProps) {
+  const { activityData, visibleEdit, EditsetVisible } = props;
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState<ActivityData | null>(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   useEffect(() => {
     if (activityData) {
-      setFormData(activityData); // Atualiza o estado do formulário com os dados da atividade recebida via props.
+      setFormData(activityData);
     }
-  }, [activityData]); // O efeito é executado toda vez que activityData muda.
+  }, [activityData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formData) {
-      const { id, value } = e.target; // Obtém o id e valor do campo de entrada.
+      const { id, value } = e.target;
       setFormData((prevData) => ({
-        ...prevData,
-        [id]: value, // Atualiza o estado do formulário com o novo valor do campo.
+        ...prevData!,
+        [id]: value || '', 
       }));
     }
   };
@@ -56,31 +52,31 @@ export default function EditActivityComponent(props: {
   const handleDateChange = (e: { value: Date }) => {
     if (formData) {
       setFormData((prevData) => ({
-        ...prevData,
-        deliveryDay: e.value, // Atualiza a data de entrega no estado do formulário.
+        ...prevData!,
+        deliveryDay: e.value ?? null,
       }));
     }
   };
 
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão.
+    e.preventDefault();
     if (formData) {
       EditActivityFunction(
-        formData,
-        props.subjectId,
-        props.taskId,
-        props.status
-      ); // Chama a função para editar a atividade.
-      setIsEditing(false); // Desativa o modo de edição.
-      EditsetVisible(false); // Fecha o diálogo de edição.
+        formData, // Passa o objeto `formData`
+        props.subjectId, // Passa o `subjectId`
+        props.taskId, // Passa o `taskId`
+        props.status // Passa o `status`
+      );
+      setIsEditing(false);
+      EditsetVisible(false);
     }
   };
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão.
-    setIsEditing(false); // Desativa o modo de edição.
+    e.preventDefault();
+    setIsEditing(false);
     if (activityData) {
-      setFormData(activityData); // Reverte o formulário para os dados iniciais da atividade.
+      setFormData(activityData);
     }
   };
 
@@ -97,45 +93,41 @@ export default function EditActivityComponent(props: {
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Previne o comportamento padrão do botão.
-    setShowConfirmDialog(true); // Mostra o diálogo de confirmação para a exclusão.
+    e.preventDefault();
+    setShowConfirmDialog(true);
   };
 
   const confirmDelete = () => {
-    props.onDelete(); // Chama a função de exclusão fornecida via props.
-    setShowConfirmDialog(false); // Fecha o diálogo de confirmação.
-    DeletedActivityFunction(props.subjectId, props.taskId); // Chama a função para excluir a atividade.
-    EditsetVisible(false); // Fecha o diálogo de edição.
+    props.onDelete();
+    setShowConfirmDialog(false);
+    DeletedActivityFunction(props.subjectId, props.taskId);
+    EditsetVisible(false);
   };
 
-
   const cancelDelete = () => {
-    setShowConfirmDialog(false); // Fecha o diálogo de confirmação sem excluir.
+    setShowConfirmDialog(false);
   };
 
   if (!visibleEdit) {
-    return null; // Se o diálogo não está visível, não renderiza nada.
+    return null;
   }
 
   return (
     <>
       <Dialog
-        header={isEditing ? 'Editar atividade' : 'Visualizar atividade'} // Define o título do diálogo com base no modo de edição.
-        visible={visibleEdit} // Define a visibilidade do diálogo.
-        style={{ width: '40vw', maxWidth: '600px' }} // Define a largura do diálogo.
-        onHide={() => EditsetVisible(false)} // Função chamada ao fechar o diálogo.
+        header={isEditing ? 'Editar atividade' : 'Visualizar atividade'}
+        visible={visibleEdit}
+        style={{ width: '40vw', maxWidth: '600px' }}
+        onHide={() => EditsetVisible(false)}
       >
-        <form
-          className="flex flex-column gap-5 p-4" // Define o layout do formulário com espaçamento.
-          onSubmit={(e) => e.preventDefault()} // Previne o envio padrão do formulário.
-        >
+        <form className="flex flex-column gap-5 p-4" onSubmit={(e) => e.preventDefault()}>
           <FloatLabel>
             <InputText
-              className="w-full" // Define a largura do campo de entrada como total.
+              className="w-full"
               id="taskName"
-              value={formData?.taskName || ''} // Define o valor do campo com base no estado do formulário.
-              onChange={handleChange} // Função chamada ao alterar o valor do campo.
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição.
+              value={formData?.taskName || ''}
+              onChange={handleChange}
+              disabled={!isEditing}
             />
             <label htmlFor="taskName">Nome da Tarefa</label>
           </FloatLabel>
@@ -143,9 +135,9 @@ export default function EditActivityComponent(props: {
             <InputText
               className="w-full"
               id="description"
-              value={formData?.description || ''} // Define o valor do campo com base no estado do formulário.
-              onChange={handleChange} // Função chamada ao alterar o valor do campo.
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição.
+              value={formData?.description || ''}
+              onChange={handleChange}
+              disabled={!isEditing}
             />
             <label htmlFor="description">Descrição</label>
           </FloatLabel>
@@ -153,74 +145,67 @@ export default function EditActivityComponent(props: {
             <Calendar
               className="w-full"
               id="deliveryDay"
-              value={formData?.deliveryDay || null} // Define o valor do campo com base no estado do formulário.
-              onChange={handleDateChange} // Função chamada ao alterar a data.
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição.
-              showIcon // Exibe um ícone de calendário.
-              dateFormat="dd/mm/yy" // Define o formato da data.
+              value={formData?.deliveryDay || null}
+              onChange={handleDateChange}
+              disabled={!isEditing}
+              showIcon
+              dateFormat="dd/mm/yy"
             />
             <label htmlFor="deliveryDay">Dia de Entrega</label>
           </FloatLabel>
           <div className="flex justify-content-between gap-2 mt-4">
-            {' '}
-            {isEditing ? ( // Renderiza botões diferentes dependendo se está em modo de edição ou não.
+            {isEditing ? (
               <>
                 <Button
                   outlined
                   label="Cancelar"
                   style={{
-                    borderColor: '#ff6060', // Define a cor da borda do botão.
-                    color: 'white', // Define a cor do texto do botão.
+                    borderColor: '#ff6060',
+                    color: 'white',
                     backgroundColor: '#ff6060',
                   }}
-                  onClick={handleCancel} // Função chamada ao clicar no botão de cancelar.
+                  onClick={handleCancel}
                 />
-                <Button
-                  label="Salvar"
-                  onClick={handleSave} // Função chamada ao clicar no botão de salvar.
-                />
+                <Button label="Salvar" onClick={handleSave} />
               </>
             ) : (
               <>
                 {props.status === 'Finalized' && (
-                    <Button
-                     label="Restaurar"
-                     onClick={handleRestore}
-                    />
-                    )}
+                  <Button label="Restaurar" onClick={handleRestore} />
+                )}
 
                 {(props.status === 'Active' || props.status === 'Late') && (
-                    <Button
-                     outlined
-                     label="Finalizar"
-                     style={{
-                      borderColor: 'green', // Define a cor da borda do botão.
-                      color: 'white', // Define a cor do texto do botão.
+                  <Button
+                    outlined
+                    label="Finalizar"
+                    style={{
+                      borderColor: 'green',
+                      color: 'white',
                       backgroundColor: 'green',
                     }}
-                     onClick={handleFinalized}
-                    />
-                    )}
-                
+                    onClick={handleFinalized}
+                  />
+                )}
+
                 <Button
                   outlined
                   label="Editar"
                   style={{
-                    borderColor: '#f3d300', // Define a cor da borda do botão.
-                    color: 'white', // Define a cor do texto do botão.
-                    backgroundColor: '#f3d300', 
+                    borderColor: '#f3d300',
+                    color: 'white',
+                    backgroundColor: '#f3d300',
                   }}
-                  onClick={() => setIsEditing(true)} // Ativa o modo de edição ao clicar no botão de editar.
+                  onClick={() => setIsEditing(true)}
                 />
                 <Button
                   outlined
                   label="Excluir"
                   style={{
-                    borderColor: '#ff6060', // Define a cor da borda do botão.
-                    color: 'white', // Define a cor do texto do botão.
-                    backgroundColor: '#ff6060', 
+                    borderColor: '#ff6060',
+                    color: 'white',
+                    backgroundColor: '#ff6060',
                   }}
-                  onClick={handleDelete} // Função chamada ao clicar no botão de excluir.
+                  onClick={handleDelete}
                 />
               </>
             )}
@@ -229,24 +214,23 @@ export default function EditActivityComponent(props: {
       </Dialog>
 
       <Dialog
-        header="Confirmar Exclusão" // Título do diálogo de confirmação.
-        visible={showConfirmDialog} // Define a visibilidade do diálogo de confirmação.
-        style={{ width: '30vw', maxWidth: '400px' }} // Define a largura do diálogo de confirmação.
-        onHide={() => setShowConfirmDialog(false)} // Função chamada ao fechar o diálogo de confirmação.
+        header="Confirmar Exclusão"
+        visible={showConfirmDialog}
+        style={{ width: '30vw', maxWidth: '400px' }}
+        onHide={() => setShowConfirmDialog(false)}
         footer={
           <div className="flex justify-content-center gap-3 p-0">
-            {' '}
             <Button
               label="Cancelar"
-              icon="pi pi-times" // Ícone de cancelamento.
-              className="p-button-text" // Estilo do botão.
-              onClick={cancelDelete} // Função chamada ao clicar no botão de cancelar.
+              icon="pi pi-times"
+              className="p-button-text"
+              onClick={cancelDelete}
             />
             <Button
               label="Confirmar"
-              icon="pi pi-check" // Ícone de confirmação.
-              className="p-button-text p-button-danger" // Estilo do botão.
-              onClick={confirmDelete} // Função chamada ao clicar no botão de confirmar.
+              icon="pi pi-check"
+              className="p-button-text p-button-danger"
+              onClick={confirmDelete}
             />
           </div>
         }
