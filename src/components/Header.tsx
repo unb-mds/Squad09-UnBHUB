@@ -56,13 +56,13 @@ export default function GeneralHeader() {
             // Atualizar livros atrasados em tempo real
             if (data.books){
               if(data.notifications.book.state){ 
-              const overdue = Object.values(data.books).filter((bookData: ICreateBook) => {
+              const overdue = Object.values(data.books as Record<string, ICreateBook>).filter((bookData) => {
                 return bookData.status === 'Late';
               });
               setOverdueBooks(overdue);
               }
               else{
-                const overdue = Object.values(data.books).filter((bookData: ICreateBook) => {
+                const overdue = Object.values(data.books as Record<string, ICreateBook>).filter((bookData) => {
                   return bookData.status === null;
                 });
                 setOverdueBooks(overdue);

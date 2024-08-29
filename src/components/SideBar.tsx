@@ -9,7 +9,7 @@ import { Divider } from 'primereact/divider';
 import NotificationSettingsModal from './NotificationSettingsModal'; // Importe o componente do modal
 
 // Estilos para o Sidebar e Conteúdo Principal
-const sidebarStyle = {
+const sidebarStyle: React.CSSProperties = {
   position: 'fixed',
   top: 0,
   left: 0,
@@ -17,7 +17,7 @@ const sidebarStyle = {
   width: '15rem', // Ajuste conforme necessário
   zIndex: 1000, // Garante que o sidebar fique acima do conteúdo principal
   overflowY: 'auto', // Adiciona rolagem se o conteúdo exceder a altura
-  backgroundColor: 'var(--blue-900)'
+  backgroundColor: 'var(--blue-900)',
 };
 
 const mainContentStyle = {
@@ -61,7 +61,6 @@ export default function SideBarComponent() {
         <div>
           <Link to="/" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
@@ -77,7 +76,6 @@ export default function SideBarComponent() {
           <span className="block " style={smallTextStyle}>Acadêmico</span>
           <Link to="/CalendarPage" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
@@ -91,7 +89,6 @@ export default function SideBarComponent() {
           </Link>
           <Link to="/Subjects" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
@@ -105,7 +102,6 @@ export default function SideBarComponent() {
           </Link>
           <Link to="/Tasks" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
@@ -119,7 +115,6 @@ export default function SideBarComponent() {
           </Link>
           <Link to="/Library" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
@@ -133,7 +128,6 @@ export default function SideBarComponent() {
           </Link>
           <Link to="/Menu" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
@@ -147,7 +141,6 @@ export default function SideBarComponent() {
           </Link>
           <Link to="/Exams" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
@@ -161,7 +154,6 @@ export default function SideBarComponent() {
           </Link>
           <Link to="/Events" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,
@@ -188,7 +180,6 @@ export default function SideBarComponent() {
           </button>
           <Link to="/Profile" style={{ textDecoration: 'none' }}>
             <button
-              onClick={(e) => options.onClick(e)}
               style={sidebarItemStyle}
               className={classNames(
                 options.className,

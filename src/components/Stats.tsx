@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, Timestamp } from 'firebase/firestore';
 import { db, auth } from '../../config/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
-
 
 // Interfaces para dados
 interface ISubject {
   codeSubject: string;
   tasks: Record<string, Task>;
   status: string;
-  exams: [];
+  exams: Record<string, Exam>;  // Tipagem correta para exams
 }
 
 interface ICreateBook {
@@ -27,6 +26,11 @@ interface Task {
   deliveryDay: Timestamp;
   status: string;
   description: string;
+}
+
+interface Exam {
+  date: Timestamp;
+  status: string;
 }
 
 export default function Stats() {
@@ -70,7 +74,7 @@ export default function Stats() {
           const exams = subjectsData.flatMap(subject => Object.values(subject.exams || {}));
           const today = new Date();
           const activeExams = exams.filter(exam => {
-            const examDate = exam.date.toDate();
+            const examDate = exam.date.toDate();  // Corrige o tipo de exam
             return examDate >= today && exam.status !== 'Deleted';
           });
           setActiveExamsCount(activeExams.length);
@@ -113,6 +117,7 @@ export default function Stats() {
 
     return () => unsubscribe();
   }, []);
+
 
   return (
     <div className="surface-ground px-4 py-5 md:px-6 lg:px-8">

@@ -1,8 +1,8 @@
-import { Checkbox } from 'primereact/checkbox';
+import { Checkbox, CheckboxChangeEvent } from 'primereact/checkbox';
 
 interface CheckboxProps {
   checked: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: CheckboxChangeEvent) => void;
   label: string;
 }
 
