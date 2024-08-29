@@ -1,41 +1,9 @@
-import { Timestamp } from 'firebase/firestore';
 import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 
 import ExamsDataTableConstructorComponent from '../Exams/ExamsDataTableConstructor';
+import { ISubject } from '../Exams/examInterfaces';
 
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
-
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-}
-
-interface ISubject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[];
-  exams: IExam[];
-}
 
 export default function DashboardExamsComponent(props: {
   subjects: ISubject[];
