@@ -1,4 +1,4 @@
-import BackgroungImage from '../Backgroung';
+import BackgroungImage from './Backgroung';
 import FeaturesCardapio from './FeaturesCardapio';
 import LinksCardapioGama from './LinksCardapioGama';
 import LinksCardapioDarcy from './linksCardapioDarcy';
