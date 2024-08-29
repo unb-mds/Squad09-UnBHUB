@@ -57,7 +57,7 @@ export default function SignUserCardComponent() {
               <InputComponent
                 label="Nome de Usuário"
                 value={values.userName}
-                setValue={handleChange('userName')}
+                onChange={handleChange('userName')}
                 errors={errors.userName}
                 touched={touched.userName}
               />
@@ -65,7 +65,7 @@ export default function SignUserCardComponent() {
               <InputComponent
                 label="Curso"
                 value={values.course}
-                setValue={handleChange('course')}
+                onChange={handleChange('course')}
                 errors={errors.course}
                 touched={touched.course}
               />
@@ -73,7 +73,7 @@ export default function SignUserCardComponent() {
               <InputComponent
                 label="Semestre Atual"
                 value={values.currentSemester.toString()}
-                setValue={handleChange('currentSemester')}
+                onChange={handleChange('currentSemester')}
                 errors={errors.currentSemester}
                 touched={touched.currentSemester}
                 type="number"
@@ -82,7 +82,7 @@ export default function SignUserCardComponent() {
               <InputComponent
                 label="Semestre Provável de Término"
                 value={values.endSemester.toString()}
-                setValue={handleChange('endSemester')}
+                onChange={handleChange('endSemester')}
                 errors={errors.endSemester}
                 touched={touched.endSemester}
                 type="number"

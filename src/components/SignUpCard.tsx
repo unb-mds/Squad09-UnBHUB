@@ -54,7 +54,7 @@ export default function SignUpCardComponent() {
               <InputComponent
                 label="Endereço de E-mail"
                 value={values.email}
-                setValue={handleChange('email')}
+                onChange={handleChange('email')}
                 errors={errors.email}
                 touched={touched.email}
               />
@@ -62,7 +62,7 @@ export default function SignUpCardComponent() {
               <InputComponent
                 label="Senha"
                 value={values.password}
-                setValue={handleChange('password')}
+                onChange={handleChange('password')}
                 errors={errors.password}
                 touched={touched.password}
                 type="password"
@@ -71,7 +71,7 @@ export default function SignUpCardComponent() {
               <InputComponent
                 label="Senha novamente"
                 value={values.confirm_password}
-                setValue={handleChange('confirm_password')}
+                onChange={handleChange('confirm_password')}
                 errors={errors.confirm_password}
                 touched={touched.confirm_password}
                 type="password"
