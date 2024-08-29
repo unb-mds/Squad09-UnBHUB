@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
@@ -36,6 +37,24 @@ export default function EditExamDialog({
   exam,
   subjectID,
 }: EditExamDialogProps) {
+
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Previne o comportamento padrão do evento
+    setShowConfirmDialog(true); // Exibe o diálogo de confirmação de exclusão
+  };
+
+  const confirmDelete = () => {
+    DeleteExam(subjectID, exam.id);
+    onHide(); 
+    setShowConfirmDialog(false); 
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmDialog(false);
+
+  };
   return (
     <Formik
       enableReinitialize
@@ -172,10 +191,7 @@ export default function EditExamDialog({
                 label="Excluir"
                 icon="pi pi-trash"
                 className="p-button-danger"
-                onClick={() => {
-                  DeleteExam(subjectID, exam.id);
-                  onHide();
-                }}
+                onClick={handleDelete}    
               />
               <Button
                 label="Salvar"
@@ -186,6 +202,34 @@ export default function EditExamDialog({
               />
             </div>
           </Dialog>
+
+        <Dialog
+        header="Confirmar Exclusão" 
+        visible={showConfirmDialog} // Controla a visibilidade do diálogo de confirmação
+        style={{ width: '30vw', maxWidth: '400px' }} // Define a largura do diálogo
+        onHide={() => setShowConfirmDialog(false)} // Fecha o diálogo quando necessário
+        footer={
+          <div className="flex justify-content-center gap-3 p-0">
+            {' '}
+            {/* Contêiner para os botões de confirmação */}
+            <Button
+              label="Cancelar" 
+              icon="pi pi-times" // Ícone do botão
+              className="p-button-text" // Estilos do botão
+              onClick={cancelDelete} 
+            />
+            <Button
+              label="Confirmar" 
+              icon="pi pi-check" // Ícone do botão
+              className="p-button-text p-button-danger" // Estilos do botão
+              onClick={confirmDelete} 
+            />
+          </div>
+        }
+      >
+        <p>Você tem certeza que deseja excluir esta prova?</p>{' '}
+        {/* Mensagem de confirmação */}
+      </Dialog>
         </form>
       )}
     </Formik>
