@@ -3,9 +3,9 @@ import { Button } from 'primereact/button';
 import { Image } from 'primereact/image';
 import * as Yup from 'yup';
 
-import CheckboxComponent from '../components/Checkbox';
-import InputComponent from '../components/Input';
-import SignInFunction from '../functions/SignIn';
+import CheckboxComponent from './Checkbox';
+import InputComponent from '../Input';
+import SignInFunction from '../../functions/SignIn/SignIn';
 
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -27,8 +27,10 @@ export default function SignInCardComponent() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const initialEmail = location.state?.email || localStorage.getItem('email') || '';
-  const initialPassword = location.state?.password || localStorage.getItem('password') || '';
+  const initialEmail =
+    location.state?.email || localStorage.getItem('email') || '';
+  const initialPassword =
+    location.state?.password || localStorage.getItem('password') || '';
   const initialRememberMe = localStorage.getItem('rememberMe') === 'true';
 
   const onSubmitSignIn = (values: InputProps) => {
@@ -56,7 +58,14 @@ export default function SignInCardComponent() {
         rememberMe: initialRememberMe,
       }}
     >
-      {({ handleChange, values, errors, touched, handleSubmit, setFieldValue }) => (
+      {({
+        handleChange,
+        values,
+        errors,
+        touched,
+        handleSubmit,
+        setFieldValue,
+      }) => (
         <div className="flex flex-column surface-card p-4 shadow-2 border-round lg:w-4 absolute h-screen justify-content-center">
           <div className="text-center mb-5">
             <Image
@@ -95,7 +104,9 @@ export default function SignInCardComponent() {
                 <CheckboxComponent
                   label="Lembre-se"
                   checked={values.rememberMe}
-                  onChange={(e) => setFieldValue('rememberMe', e.target.checked)}
+                  onChange={(e) =>
+                    setFieldValue('rememberMe', e.target.checked)
+                  }
                 />
               </div>
               <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">
@@ -112,7 +123,10 @@ export default function SignInCardComponent() {
               <span className="text-600 font-medium ">
                 Ainda não tem uma conta?
               </span>
-              <a href='/signUp' className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">
+              <a
+                href="/signUp"
+                className="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+              >
                 Cadastrar-se
               </a>
             </div>
