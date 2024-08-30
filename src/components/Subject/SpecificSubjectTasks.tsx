@@ -4,40 +4,9 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import CheckDate from '../../functions/CheckDateActivity';
-import { Timestamp } from 'firebase/firestore';
 
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
-
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-}
-
-interface ISubject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[];
-  exams: IExam[];
-}
+import { ISubject } from '../Exams/examInterfaces';
+import { ITask } from '../Exams/examInterfaces';
 
 interface SpecificSubjectTasksProps {
   subject: ISubject | null;
@@ -174,7 +143,10 @@ export default function SpecificSubjectTasks({
               flexDirection: 'column',
             }}
           >
-            <p className="pi pi-book mt-2" style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+            <p
+              className="pi pi-book mt-2"
+              style={{ marginBottom: '0.5rem', fontSize: '0.9rem' }}
+            >
               {truncateText(task.description, 31)}
             </p>
             <p className="pi pi-calendar mt-1" style={{ fontSize: '0.9rem' }}>

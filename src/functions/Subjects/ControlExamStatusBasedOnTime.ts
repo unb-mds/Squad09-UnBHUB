@@ -2,40 +2,8 @@ import ActivateExamFunction from './ActivateExamFunction';
 import DeleteExamFunction from './DeleteExam';
 import FinalizeExamFunction from './FinalizeExam';
 
-import { Timestamp } from 'firebase/firestore';
-
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
-
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-}
-
-interface ISubject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[];
-  exams: IExam[];
-}
+import { IExam } from '../../components/Exams/examInterfaces';
+import { ISubject } from '../../components/Exams/examInterfaces';
 
 export default function ControlExamStatusBasedOnTime(subject: ISubject) {
   const today = new Date();

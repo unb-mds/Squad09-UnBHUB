@@ -16,7 +16,6 @@ export default async function EditExam(
 
   const ExamRef = doc(db, 'Users', auth.currentUser.uid);
 
-  // Constrói o objeto com os campos atualizados
   const updatedFields: { [key: string]: any } = {};
   if (values.code)
     updatedFields[`subjects.${subjectID}.exams.${examID}.code`] = values.code;

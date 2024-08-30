@@ -10,26 +10,14 @@ import GeneralHeader from '../Header';
 
 import SubjectCardConstructorComponent from './subjectsCardConstructor';
 
-interface Subject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: [];
-  exams: [];
-}
+import { ISubject } from '../Exams/examInterfaces';
 
 export default function SubjectsComponent(props: {
-  setSubject: (subject: Subject) => void;
+  setSubject: (subject: ISubject) => void;
   setVisible: (visible: boolean) => void;
   setVisibleSubject: (visibleSubject: boolean) => void;
 }) {
-  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [subjects, setSubjects] = useState<ISubject[]>([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -50,16 +38,19 @@ export default function SubjectsComponent(props: {
   return (
     <div className="flex flex-column mx-3 my-1 w-full">
       <GeneralHeader />
-      <Divider className="mb-2 mt-0" style={{ color: '#4b4b4b'}}/>
+      <Divider className="mb-2 mt-0" style={{ color: '#4b4b4b' }} />
       <div className="flex align-items-center justify-content-between border-round-lg">
-        <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6" style={{ color: '#4b4b4b'}}>
+        <div
+          className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6"
+          style={{ color: '#4b4b4b' }}
+        >
           <i className="pi pi-bookmark text-4xl"> </i>
           <h1>Matérias</h1>
         </div>
       </div>
 
       <div className="flex justify-content-between align-items-center px-2">
-        <div style={{ color: '#4b4b4b'}}>
+        <div style={{ color: '#4b4b4b' }}>
           <i className="pi pi-forward mx-2" style={{ color: '#3498db' }} />
           Em Andamento
         </div>
@@ -85,7 +76,10 @@ export default function SubjectsComponent(props: {
         size="medium"
       />
 
-      <div className="flex align-items-center px-2" style={{ color: '#4b4b4b'}}>
+      <div
+        className="flex align-items-center px-2"
+        style={{ color: '#4b4b4b' }}
+      >
         <i className="pi pi-check my-3 mx-2" style={{ color: 'green' }} />
         Finalizadas
       </div>

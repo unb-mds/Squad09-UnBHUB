@@ -2,27 +2,22 @@ import 'primeicons/primeicons.css';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
 import EditExamDialog from './EditExamDialog';
 import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
 
-import { Timestamp } from 'firebase/firestore';
+import { IExam, ISubject } from '../Exams/examInterfaces';
 
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-}
-
-export default function SubjectSpecificExams({ subject }) {
+export default function SubjectSpecificExams({
+  subject,
+}: {
+  subject: ISubject;
+}) {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [currentExam, setCurrentExam] = useState<IExam | null>(null);
+  const [filteredExams, setFilteredExams] = useState<IExam[]>([]);
 
   const showEditDialog = (exam: IExam) => {
     setCurrentExam(exam);
@@ -34,11 +29,14 @@ export default function SubjectSpecificExams({ subject }) {
     setCurrentExam(null);
   };
 
-  ControlExamStatusBasedOnTime(subject);
-
-  const filteredExams = Object.values(subject.exams).filter(
-    (exam) => exam.status !== 'Deleted'
-  );
+  useEffect(() => {
+    if (subject && subject.exams) {
+      ControlExamStatusBasedOnTime(subject);
+      setFilteredExams(
+        Object.values(subject.exams).filter((exam) => exam.status !== 'Deleted')
+      );
+    }
+  }, [subject]);
 
   return (
     <>
