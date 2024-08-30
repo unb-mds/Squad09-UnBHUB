@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore'; // Importa funções para acessar e atualizar documentos no Firestore
-import { auth, db } from '../../config/firebase'; // Importa configuração do Firebase
+import { auth, db } from '../../../config/firebase'; // Importa configuração do Firebase
 
 export async function FinalizedBookFunction(id: string) {
   // Função assíncrona para marcar um livro como finalizado
