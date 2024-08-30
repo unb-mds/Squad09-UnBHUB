@@ -1,0 +1,29 @@
+name: PR to Main build test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 20.16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.16
+
+      - name: Install Yarn v1.22
+        run: |
+          npm install -g yarn@1.22
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Run build test
+        run: yarn build
