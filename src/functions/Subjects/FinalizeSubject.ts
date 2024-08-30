@@ -1,6 +1,6 @@
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase';
-import FinalizeActivityFunction from '../FinalizedActivity';
+import FinalizeActivityFunction from '../Activities/FinalizedActivity';
 import FinalizeExamFunction from '../Exams/FinalizeExam';
 
 export default async function FinalizeSubjectFunction(id: string) {
