@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { Timestamp } from 'firebase/firestore';
 
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
@@ -12,40 +11,7 @@ import SpecificSubjectTasks from './SpecificSubjectTasks';
 import SubjectDetailsComponent from './SubjectDetailsComponent';
 import SubjectSpecificExams from './SubjectSpecificExams';
 
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
-
-// Interface para definir a estrutura de um objeto Exam (prova)
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-}
-
-// Interface para definir a estrutura de um objeto Subject (matéria)
-interface ISubject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[]; // Ajuste o tipo conforme necessário para suas tarefas
-  exams: IExam[]; // Ajuste o tipo conforme necessário para seus exames
-}
+import { ISubject } from '../Exams/examInterfaces';
 
 // Componente funcional que gerencia e exibe os detalhes de uma matéria específica
 export default function SpecificSubjectComponents() {
@@ -77,29 +43,6 @@ export default function SpecificSubjectComponents() {
     });
   }, []);
 
-  // Função para atualizar as provas de uma matéria específica
-  const refreshExams = () => {
-    if (id) {
-      // Escuta as mudanças no documento da matéria no Firestore
-      const unsub = onSnapshot(doc(db, 'Subjects', id), (doc) => {
-        if (doc.exists()) {
-          const updatedSubject = doc.data() as ISubject;
-          // Atualiza o estado com a matéria atualizada
-          setSubjects((prevSubjects) => {
-            const updatedMap = new Map(prevSubjects);
-            updatedMap.set(id, updatedSubject);
-            return updatedMap;
-          });
-        }
-      });
-
-      // Limpa a escuta quando a função é chamada novamente
-      return () => unsub();
-    }
-  };
-
-  // Defina o tamanho do card aqui (por exemplo, 'small', 'medium', 'large')
-
   return (
     <div className="flex flex-column mx-3 my-0 w-full">
       {/* Renderiza o componente de detalhes da matéria se a matéria existir no estado */}
@@ -113,7 +56,7 @@ export default function SpecificSubjectComponents() {
             <i className="pi pi-file"></i>
             Provas
           </p>
-          {/* Botão para abrir o diálogo de adição de prova */}
+
           <Button
             label="Adicionar"
             icon="pi pi-plus"
@@ -121,24 +64,21 @@ export default function SpecificSubjectComponents() {
             size="small"
             text
             onClick={() => setDialogVisible(true)}
-            className='mb-0'
+            className="mb-0"
           />
         </div>
         <Divider className="mb-1 mt-0"></Divider>
         <div className="pt-3 pb-3">
-          {/* Renderiza a tabela de provas da matéria se a matéria existir no estado */}
           {subjects.has(id) && (
             <SubjectSpecificExams key={id} subject={subjects.get(id)!} />
           )}
         </div>
       </div>
 
-      {/* Componente de diálogo para adicionar nova prova */}
       <ExamDialogComponent
         visible={dialogVisible}
         setVisible={setDialogVisible}
         subjectId={id}
-        refreshExams={refreshExams}
       />
 
       <div className="flex align-items-center mb-6">
@@ -146,7 +86,7 @@ export default function SpecificSubjectComponents() {
         Tarefas
       </div>
 
-      <div style={{ color: '#4b4b4b'}}>
+      <div style={{ color: '#4b4b4b' }}>
         <i className="pi pi-forward mx-2" style={{ color: '#3498db' }} />
         Em Andamento
       </div>
@@ -163,7 +103,7 @@ export default function SpecificSubjectComponents() {
         )}
       </div>
 
-      <div style={{ color: '#4b4b4b'}}>
+      <div style={{ color: '#4b4b4b' }}>
         <i className="pi pi-clock mx-2 mt-3" style={{ color: 'red' }} />
         Atrasadas
       </div>
@@ -181,7 +121,7 @@ export default function SpecificSubjectComponents() {
       </div>
 
       <div className="flex mt-3 align-items-center">
-        <div style={{ color: '#4b4b4b'}}>
+        <div style={{ color: '#4b4b4b' }}>
           <i className="pi pi-check mx-2" style={{ color: 'green' }} />
           Finalizadas
         </div>

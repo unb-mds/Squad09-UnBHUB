@@ -2,6 +2,8 @@ import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import formatTime from '../../functions/FormatTime';
 
+import { ISubject } from '../Exams/examInterfaces';
+
 // Define os tons de cores disponíveis
 const colors = [
   'green',

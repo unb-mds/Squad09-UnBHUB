@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import DeleteSubjectFunction from '../../functions/Subjects/DeleteSubject';
 import FinalizeSubjectFunction from '../../functions/Subjects/FinalizeSubject';
 import ReturnToActiveSubjectFunction from '../../functions/Subjects/ReturnToActiveSubject';
 
+import { ISubject } from '../Exams/examInterfaces';
+
 export default function SubjectDialogComponent(props: {
-  subject: object;
+  subject: ISubject;
   visibleSubject: boolean;
   setVisibleSubject: (visibleSubject: boolean) => void;
   setEditVisible: (editVisible: boolean) => void;
@@ -19,9 +21,9 @@ export default function SubjectDialogComponent(props: {
   };
 
   const confirmDelete = () => {
-    DeleteSubjectFunction(props.subject.id); 
-    setShowConfirmDialog(false); 
-    props.setVisibleSubject(false); 
+    DeleteSubjectFunction(props.subject.id);
+    setShowConfirmDialog(false);
+    props.setVisibleSubject(false);
   };
 
   const cancelDelete = () => {
@@ -78,7 +80,7 @@ export default function SubjectDialogComponent(props: {
         </div>
       </Dialog>
       <Dialog
-        header="Confirmar Exclusão" 
+        header="Confirmar Exclusão"
         visible={showConfirmDialog} // Controla a visibilidade do diálogo de confirmação
         style={{ width: '30vw', maxWidth: '400px' }} // Define a largura do diálogo
         onHide={() => setShowConfirmDialog(false)} // Fecha o diálogo quando necessário
@@ -87,24 +89,22 @@ export default function SubjectDialogComponent(props: {
             {' '}
             {/* Contêiner para os botões de confirmação */}
             <Button
-              label="Cancelar" 
+              label="Cancelar"
               icon="pi pi-times" // Ícone do botão
               className="p-button-text" // Estilos do botão
-              onClick={cancelDelete} 
+              onClick={cancelDelete}
             />
             <Button
-              label="Confirmar" 
+              label="Confirmar"
               icon="pi pi-check" // Ícone do botão
               className="p-button-text p-button-danger" // Estilos do botão
-              onClick={confirmDelete} 
+              onClick={confirmDelete}
             />
           </div>
         }
       >
         <p>Você tem certeza que deseja excluir esta matéria?</p>{' '}
-        {/* Mensagem de confirmação */}
       </Dialog>
     </div>
-    
   );
 }

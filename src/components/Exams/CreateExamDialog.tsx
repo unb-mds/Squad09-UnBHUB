@@ -6,44 +6,25 @@ import SearchDropdownComponent from '../Activities/SearchDropdown';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import CreateExamFunction from '../../functions/Subjects/CreateExam';
+import CreateExamFunction from '../../functions/Exams/CreateExam';
 
 import { Timestamp } from 'firebase/firestore';
 
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
+import { ISubject } from './examInterfaces';
 
-interface IExam {
+type ExamValues = {
   code: string;
   score: string;
-  date: Timestamp;
+  date: Timestamp | null;
+  time: Timestamp | null;
   room: string;
   status: string;
   id: string;
-  time: Timestamp;
-}
-
-interface ISubject {
   codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[];
-  exams: IExam[];
-}
+  subjectID: string;
+};
 
-export default function CrateExamDialogComponent(props: {
+export default function CreateExamDialogComponent(props: {
   userSubjects: ISubject[];
   visibleCreateExam: boolean;
   setVisibleCreateExam: (visible: boolean) => void;
@@ -61,6 +42,9 @@ export default function CrateExamDialogComponent(props: {
         time: null,
         room: '',
         status: '',
+        id: '',
+        codeSubject: '',
+        subjectID: '',
       }}
       validationSchema={Yup.object({
         subject: Yup.object().shape({
@@ -74,7 +58,26 @@ export default function CrateExamDialogComponent(props: {
       })}
       onSubmit={(values, { resetForm }) => {
         const { subject, ...examValues } = values;
-        CreateExamFunction(subject.code, examValues).then(() => {
+        const time = values.time
+          ? Timestamp.fromDate(new Date(values.time))
+          : null;
+        const date = values.date
+          ? Timestamp.fromDate(new Date(values.date))
+          : null;
+
+        const examData: ExamValues = {
+          code: examValues.code,
+          score: examValues.score,
+          date: date,
+          time: time,
+          room: examValues.room,
+          status: examValues.status,
+          id: examValues.id,
+          codeSubject: '',
+          subjectID: '',
+        };
+
+        CreateExamFunction(subject.code, examData).then(() => {
           props.setVisibleCreateExam(false);
           resetForm();
         });
@@ -89,6 +92,12 @@ export default function CrateExamDialogComponent(props: {
         errors,
         touched,
       }) => {
+        const handleButtonClick = (
+          e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+        ) => {
+          e.preventDefault();
+          handleSubmit();
+        };
         return (
           <form onSubmit={handleSubmit}>
             <Dialog
@@ -101,10 +110,10 @@ export default function CrateExamDialogComponent(props: {
                   <label htmlFor="subject">Matéria</label>
                   <SearchDropdownComponent
                     selectedSubject={values.subject}
-                    setSelectedSubject={(props) =>
+                    setSelectedSubject={(selectedSubject) =>
                       setFieldValue('subject', {
-                        name: props.name,
-                        code: props.code,
+                        name: selectedSubject.name,
+                        code: selectedSubject.code,
                       })
                     }
                   />
@@ -180,7 +189,7 @@ export default function CrateExamDialogComponent(props: {
                 label="Confirmar"
                 icon="pi pi-check"
                 type="submit"
-                onClick={handleSubmit}
+                onClick={handleButtonClick}
               />
             </Dialog>
           </form>

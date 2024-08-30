@@ -85,7 +85,7 @@ export default function SignInCardComponent() {
             <InputComponent
               label="Endereço de E-mail"
               value={values.email}
-              setValue={handleChange('email')}
+              onChange={handleChange('email')}
               errors={errors.email}
               touched={touched.email}
               type="text"
@@ -93,7 +93,7 @@ export default function SignInCardComponent() {
             <InputComponent
               label="Senha"
               value={values.password}
-              setValue={handleChange('password')}
+              onChange={handleChange('password')}
               errors={errors.password}
               touched={touched.password}
               type="password"

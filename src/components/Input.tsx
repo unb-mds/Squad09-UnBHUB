@@ -5,7 +5,7 @@ interface InputProps {
   value: string;
   errors: string | undefined;
   touched: boolean | undefined;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;  // Mudança aqui
   type?: string; 
 }
 
@@ -16,7 +16,7 @@ export default function InputComponent(props: InputProps) {
       <InputText
         id={props.label}
         value={props.value ? props.value : ''}
-        onChange={(e) => props.setValue(e.target.value)}
+        onChange={props.onChange}  // Passando diretamente o onChange
         className="w-full"
         type={props.type || 'text'} 
       />

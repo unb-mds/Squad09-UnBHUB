@@ -83,8 +83,8 @@ export default function TasksComponent({
             <p className="pi pi-arrow-right mt-0">
               {' '}
               {/* Exibe a data e hora de entrega formatadas. */}
-              {formatDate(task.deliveryDay.toDate())}{' '}
-              {formatTime(task.deliveryDay.toDate())}
+              {formatDate(task.deliveryDay)}{' '}
+              {formatTime(task.deliveryDay)}
             </p>
             <p className="pi pi-arrow-right mt-0">
               {' '}

@@ -1,14 +1,20 @@
 import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase';
 
+interface IExamValues {
+  code?: string;
+  room?: string;
+  score?: string;
+  date?: Date;
+  time?: Date;
+}
+
+interface IUpdatedFields {
+  [key: string]: string | Date;
+}
+
 export default async function EditExam(
-  values: {
-    code: string;
-    room: string;
-    score: string;
-    date: Date;
-    time: Date;
-  },
+  values: IExamValues,
   examID: string,
   subjectID: string
 ) {
@@ -16,8 +22,8 @@ export default async function EditExam(
 
   const ExamRef = doc(db, 'Users', auth.currentUser.uid);
 
-  // Constrói o objeto com os campos atualizados
-  const updatedFields: { [key: string]: any } = {};
+  const updatedFields: IUpdatedFields = {};
+
   if (values.code)
     updatedFields[`subjects.${subjectID}.exams.${examID}.code`] = values.code;
   if (values.room)

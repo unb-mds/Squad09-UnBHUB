@@ -9,6 +9,7 @@ import * as Yup from 'yup'; // Importa o Yup para validação de esquema de form
 
 import CreateActivityFunction from '../../functions/CreateActivity'; // Importa a função para criar uma nova atividade.
 import SearchDropdownComponent from './SearchDropdown'; // Importa um componente de dropdown para seleção de matéria.
+import { Timestamp } from 'firebase/firestore';
 
 export default function CreateActivityComponent(props: {
   visibleCreate: boolean; // Propriedade que controla se o diálogo de criação está visível.
@@ -24,9 +25,20 @@ export default function CreateActivityComponent(props: {
         taskName: '', // Nome da atividade.
         deliveryDay: null, // Data de entrega da atividade (inicialmente null).
         description: '', // Descrição da atividade.
+        status: 'pending', // Adicione o status aqui (exemplo: 'pending').
       }}
       onSubmit={(values) => {
-        CreateActivityFunction(values).then(() => {
+        if (values.deliveryDay === null) {
+          alert('Por favor, selecione uma data de entrega.');
+          return;
+        }
+
+        const convertedValues = {
+          ...values,
+          deliveryDay: Timestamp.fromDate(values.deliveryDay),
+        };
+
+        CreateActivityFunction(convertedValues).then(() => {
           props.CreatesetVisible(false); // Fecha o diálogo após a criação da atividade.
         });
       }}
@@ -39,6 +51,8 @@ export default function CreateActivityComponent(props: {
         deliveryDay: Yup.date()
           .nullable()
           .required('O dia de entrega é obrigatório'), // Valida que a data de entrega é obrigatória.
+        description: Yup.string().required('A descrição é obrigatória'), // Valida que a descrição é obrigatória.
+        status: Yup.string().required('O status é obrigatório'), // Valida que o status é obrigatório.
       })}
     >
       {({
@@ -107,6 +121,7 @@ export default function CreateActivityComponent(props: {
             {errors.deliveryDay && touched.deliveryDay ? (
               <div className="text-red-500 my-5">{errors.deliveryDay}</div> // Exibe erros de validação para o campo de data de entrega.
             ) : null}
+
             <FloatLabel>
               <InputText
                 className="flex mt-5 mb-5 w-full" // Define o layout do campo de entrada com margem e largura total.
@@ -115,11 +130,13 @@ export default function CreateActivityComponent(props: {
                 onChange={handleChange('description')} // Função chamada ao alterar o valor do campo.
                 onBlur={handleBlur} // Função chamada ao sair do campo.
               />
-              <label htmlFor="description">Descrição (Opcional)</label>
+              <label htmlFor="description">Descrição</label>
             </FloatLabel>
+            {errors.description && touched.description ? (
+              <div className="text-red-500">{errors.description}</div> // Exibe erros de validação para o campo de descrição.
+            ) : null}
 
-            <div className="flex justify-content-between flex-wrap">
-              {' '}
+            <div className="flex justify-content-between flex-wrap mt-5">
               <Button
                 outlined
                 label="Cancelar"

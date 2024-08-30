@@ -7,8 +7,24 @@ import EditSubjectComponent from '../components/Subject/EditSubjectComponent';
 import SubjectDialogComponent from '../components/Subject/SubjectDialogComponent';
 import SubjectsComponent from '../components/Subject/SubjectsComponents';
 
+import { ISubject } from '../components/Exams/examInterfaces';
+
+import { Timestamp } from 'firebase/firestore';
+
 function SubjectsScreen() {
-  const [subject, setSubject] = useState({});
+  const [subject, setSubject] = useState<ISubject>({
+    codeSubject: '',
+    nameSubject: '',
+    professor: '',
+    weekDays: '',
+    startTime: new Timestamp(0, 0), // Inicialize com Timestamp
+    endTime: new Timestamp(0, 0), // Inicialize com Timestamp
+    local: '',
+    status: '',
+    id: '',
+    tasks: [],
+    exams: [],
+  });
   const [visible, setVisible] = useState<boolean>(false);
   const [visibleSubject, setVisibleSubject] = useState<boolean>(false);
   const [editVisible, setEditVisible] = useState<boolean>(false);

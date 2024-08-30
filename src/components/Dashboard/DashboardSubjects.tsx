@@ -1,44 +1,10 @@
 import { Button } from 'primereact/button';
 import { ScrollPanel } from 'primereact/scrollpanel';
-import SubjectCardConstructorComponent from '../Subject/subjectsCardConstructor';
-
-import { Timestamp } from 'firebase/firestore';
 import { Divider } from 'primereact/divider';
 
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
+import SubjectCardConstructorComponent from '../Subject/subjectsCardConstructor';
 
-// Interface para definir a estrutura de um objeto Exam (prova)
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-}
-
-// Interface para definir a estrutura de um objeto Subject (matéria)
-interface ISubject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[]; // Ajuste o tipo conforme necessário para suas tarefas
-  exams: IExam[]; // Ajuste o tipo conforme necessário para seus exames
-}
+import { ISubject } from '../Exams/examInterfaces';
 
 export default function DashboardSubjectsComponent(props: {
   subjects: ISubject[];
@@ -57,12 +23,12 @@ export default function DashboardSubjectsComponent(props: {
             iconPos="right"
             size="small"
             text
-            style={{ marginBottom: '-1.4rem'}}
+            style={{ marginBottom: '-1.4rem' }}
           />
         </a>
       </div>
 
-      <Divider className='mt-0'/>
+      <Divider className="mt-0" />
 
       <ScrollPanel style={{ width: '100%', height: '14rem' }}>
         <div className="flex">

@@ -21,6 +21,9 @@ interface Task {
   deliveryDay: Timestamp;
   status: string; // Status da tarefa (por exemplo, 'Active', 'Late', 'Finalized').
   description: string;
+  subjectId: string;
+  taskId: string;
+  tasks: { [key: string]: Task };
 }
 
 interface ActivitiesComponentProps {
@@ -31,6 +34,7 @@ interface ActivitiesComponentProps {
     deliveryDay: Timestamp;
     description: string;
   }) => void; // Função para atualizar a visibilidade do diálogo de edição.
+  task:object;
 }
 
 const cardButtonStyles: React.CSSProperties = {
@@ -91,18 +95,18 @@ export default function ActivitiesComponent({
                 const tasks = subjectsData.flatMap((item) => {
                   return Object.keys(item.tasks).map((key) => {
                     const task = item.tasks[key];
-                    const deliveryDay = task.deliveryDay.toDate();
-                    const delayDay = deliveryDay.setDate(
-                      deliveryDay.getDate() + 1
-                    );
+                    const deliveryDayDate = task.deliveryDay.toDate(); // Converte Timestamp para Date
+                    const adjustedDeliveryDay = new Date(deliveryDayDate); // Cria nova instância de Date
+                    adjustedDeliveryDay.setDate(deliveryDayDate.getDate() + 1); // Ajusta o dia da data
+
                     let status = '';
                     if (
-                      delayDay < today &&
-                      task.status != 'Finalized' &&
-                      task.status != 'Deleted'
+                      adjustedDeliveryDay < today &&
+                      task.status !== 'Finalized' &&
+                      task.status !== 'Deleted'
                     ) {
                       CheckDate(
-                        delayDay,
+                        adjustedDeliveryDay,
                         today,
                         task.subjectId,
                         task.taskId,
@@ -111,12 +115,12 @@ export default function ActivitiesComponent({
                       status = 'Late';
                     }
                     if (
-                      delayDay >= today &&
-                      task.status != 'Finalized' &&
-                      task.status != 'Deleted'
+                      adjustedDeliveryDay >= today &&
+                      task.status !== 'Finalized' &&
+                      task.status !== 'Deleted'
                     ) {
                       CheckDate(
-                        delayDay,
+                        adjustedDeliveryDay,
                         today,
                         task.subjectId,
                         task.taskId,
@@ -124,10 +128,10 @@ export default function ActivitiesComponent({
                       );
                       status = 'Active';
                     }
-                    if (task.status == 'Finalized') {
+                    if (task.status === 'Finalized') {
                       status = 'Finalized';
                     }
-                    if (task.status == 'Deleted') {
+                    if (task.status === 'Deleted') {
                       status = 'Deleted';
                     }
 
@@ -236,7 +240,7 @@ export default function ActivitiesComponent({
 
   return (
     <div className="flex flex-column mx-3 my-1 w-full">
-      <GeneralHeader className="mb-1 mt-1" />
+      <GeneralHeader />
       <Divider className="mb-2 mt-0" />
       <div className="flex align-items-center justify-content-between border-round-lg">
         <div className="flex h-1rem gap-2 align-items-center px-6 py-5 mb-6">
@@ -268,7 +272,7 @@ export default function ActivitiesComponent({
       <Divider className="mb-2 mt-1" />
 
       <div style={containerStyles} className="my-4">
-        {getTasksByStatus('Active').length == 0 ? (
+        {getTasksByStatus('Active').length === 0 ? (
           <p>Nenhuma tarefa encontrada</p>
         ) : (
           getTasksByStatus('Active').map((task) => (
@@ -321,7 +325,7 @@ export default function ActivitiesComponent({
       <Divider className="mb-2 mt-1" />
 
       <div style={containerStyles} className="my-4">
-        {getTasksByStatus('Late').length == 0 ? (
+        {getTasksByStatus('Late').length === 0 ? (
           <p>Nenhuma tarefa encontrada</p>
         ) : (
           getTasksByStatus('Late').map((task) => (
@@ -374,7 +378,7 @@ export default function ActivitiesComponent({
       <Divider className="mb-2 mt-1" />
 
       <div style={containerStyles} className="my-4">
-        {getTasksByStatus('Finalized').length == 0 ? (
+        {getTasksByStatus('Finalized').length === 0 ? (
           <p>Nenhuma tarefa encontrada</p>
         ) : (
           getTasksByStatus('Finalized').map((task) => (
@@ -413,7 +417,6 @@ export default function ActivitiesComponent({
           ))
         )}
       </div>
-
       {selectedTask && (
         <EditActivityComponent
           visibleEdit={editDialogVisible}
@@ -425,7 +428,7 @@ export default function ActivitiesComponent({
           }}
           {...selectedTask}
           onSave={handleEditSave}
-          onDelete={handleEditDelete}
+          onDelete={handleEditDelete}       
         />
       )}
     </div>

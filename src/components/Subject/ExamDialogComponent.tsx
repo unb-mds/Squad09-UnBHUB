@@ -2,10 +2,11 @@ import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import CreateExamFunction from '../../functions/Subjects/CreateExam';
+import CreateExamFunction from '../../functions/Exams/CreateExam';
+
+import { Timestamp } from 'firebase/firestore';
 
 interface ExamDialogComponentProps {
   visible: boolean;
@@ -21,6 +22,9 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
   return (
     <Formik
       initialValues={{
+        id: '',
+        codeSubject: '',
+        subjectID: '',
         code: '',
         score: '',
         date: null,
@@ -34,11 +38,18 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
         time: Yup.date().required('O horário é obrigatório'),
         room: Yup.string().required('A sala é obrigatória'),
       })}
-      onSubmit={(values, { resetForm }) => {
-        CreateExamFunction(subjectId, values).then(() => {
-          setVisible(false); // Fecha o modal
-          resetForm(); // Reseta os valores do formulário
-        });
+      onSubmit={(values) => {
+        if (values.date && values.time) {
+          const exam = {
+            ...values,
+            date: Timestamp.fromDate(new Date(values.date)),
+            time: Timestamp.fromDate(new Date(values.time)),
+          };
+
+          CreateExamFunction(subjectId, exam).then(() => {
+            setVisible(false);
+          });
+        }
       }}
     >
       {({
@@ -49,15 +60,13 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
         handleSubmit,
         errors,
         touched,
-        resetForm, // Função para resetar o formulário
       }) => {
-        // Reseta o formulário sempre que o modal for fechado ou reaberto
-        useEffect(() => {
-          if (!visible) {
-            resetForm(); // Reseta o formulário quando o modal é fechado
-          }
-        }, [visible, resetForm]);
-
+        const handleButtonClick = (
+          e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+        ) => {
+          e.preventDefault();
+          handleSubmit();
+        };
         return (
           <form onSubmit={handleSubmit}>
             <Dialog
@@ -125,14 +134,14 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
                   ) : null}
                 </div>
               </div>
-
-              <Button
-                label="Confirmar"
-                icon="pi pi-check"
-                type="submit"
-                onClick={handleSubmit}
-                disabled={!Object.keys(errors).length === 0}
-              />
+              <div className="flex justify-content-center">
+                <Button
+                  label="Confirmar"
+                  icon="pi pi-check"
+                  type="submit"
+                  onClick={handleButtonClick}
+                />
+              </div>
             </Dialog>
           </form>
         );

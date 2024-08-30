@@ -32,6 +32,13 @@ interface Exam {
   date: Timestamp;
   room: string;
   status: string;
+  isUpcoming?: boolean;
+}
+
+interface Subject {
+  codeSubject: string;
+  tasks: Record<string, Task>; // tasks como um objeto onde as chaves são strings e os valores são do tipo Task
+  exams: Record<string, Exam>; // exams como um objeto onde as chaves são strings e os valores são do tipo Exam
 }
 
 export default function GeneralHeader() {
@@ -54,15 +61,14 @@ export default function GeneralHeader() {
             setProfileImageUrl(data.UserInfo?.profileImageUrl || null);
 
             // Atualizar livros atrasados em tempo real
-            if (data.books){
-              if(data.notifications.book.state){ 
-              const overdue = Object.values(data.books).filter((bookData: ICreateBook) => {
-                return bookData.status === 'Late';
-              });
-              setOverdueBooks(overdue);
-              }
-              else{
-                const overdue = Object.values(data.books).filter((bookData: ICreateBook) => {
+            if (data.books) {
+              if (data.notifications.book.state) {
+                const overdue = Object.values(data.books as Record<string, ICreateBook>).filter((bookData) => {
+                  return bookData.status === 'Late';
+                });
+                setOverdueBooks(overdue);
+              } else {
+                const overdue = Object.values(data.books as Record<string, ICreateBook>).filter((bookData) => {
                   return bookData.status === null;
                 });
                 setOverdueBooks(overdue);
@@ -71,49 +77,52 @@ export default function GeneralHeader() {
 
             // Atualizar tarefas atrasadas em tempo real
             if (data.subjects) {
-              const subjectsData = Object.values(data.subjects) as Task[];
-              const today = new Date();
+              const subjectsData = Object.values(data.subjects) as Subject[]; // Atualizando a tipagem
 
-              const tasks = subjectsData.flatMap((item) => {
-                return Object.keys(item.tasks).map((key) => {
-                  const task = item.tasks[key];
+              const today = new Date().getTime(); // Converte 'today' para timestamp
+
+              const tasks = subjectsData.flatMap((subject) => {
+                return Object.keys(subject.tasks).map((key) => {
+                  const task = subject.tasks[key];
                   const deliveryDay = task.deliveryDay.toDate();
-                  const delayDay = deliveryDay.setDate(deliveryDay.getDate() + 1);
+                  const delayDay = deliveryDay.setDate(deliveryDay.getDate() + 1); // Mantém delayDay como timestamp
+
                   let status = '';
+
+                  // Comparações corrigidas usando timestamps
                   if (
                     delayDay < today &&
                     task.status !== 'Finalized' &&
-                    data.notifications.task.state == true &&
+                    data.notifications.task.state === true &&
                     task.status !== 'Deleted'
-                  ) 
-                  {
+                  ) {
                     status = 'Late';
                   }
                   if (
                     delayDay >= today &&
-                    data.notifications.task.state == true &&
+                    data.notifications.task.state === true &&
                     task.status !== 'Finalized' &&
                     task.status !== 'Deleted'
                   ) {
                     status = 'Active';
                   }
-                  if (task.status === 'Finalized' &&
-                    data.notifications.task.state == true 
+                  if (
+                    task.status === 'Finalized' &&
+                    data.notifications.task.state === true
                   ) {
                     status = 'Finalized';
                   }
-                  if (task.status === 'Deleted' &&
-                    data.notifications.task.state == true 
-
-                  )
-                  {
+                  if (
+                    task.status === 'Deleted' &&
+                    data.notifications.task.state === true
+                  ) {
                     status = 'Deleted';
                   }
 
                   return {
                     ...task,
                     id: key,
-                    codeSubject: item.codeSubject,
+                    codeSubject: subject.codeSubject,
                     status,
                   } as Task;
                 });
@@ -125,11 +134,11 @@ export default function GeneralHeader() {
 
             // Atualizar provas em tempo real
             if (data.subjects) {
-              const subjectsData = Object.values(data.subjects);
+              const subjectsData = Object.values(data.subjects) as Subject[];
               const today = new Date();
-              const upcomingExams = subjectsData.flatMap((item: any) => {
-                return Object.keys(item.exams).map((key: string) => {
-                  const exam = item.exams[key];
+              const upcomingExams = subjectsData.flatMap((subject) => {
+                return Object.keys(subject.exams).map((key: string) => {
+                  const exam = subject.exams[key];
                   const examDate = exam.date.toDate();
                   const diffDays = Math.floor((examDate.getTime() - today.getTime()) / (1000 * 3600 * 24));
 

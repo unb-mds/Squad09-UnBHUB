@@ -1,11 +1,12 @@
 import { doc, updateDoc } from 'firebase/firestore'; // Importa funções para acessar e atualizar documentos no Firestore
 import { auth, db } from '../../config/firebase'; // Importa configuração do Firebase
+import { Timestamp } from 'firebase/firestore';
 
 interface ICreateBook {
   // Define a interface para os dados do livro
   author: string; // Código da matéria
   bookName: string; // Nome do livro
-  deliveryDay: string; // Data de devolução no formato string
+  deliveryDay: Timestamp; // Data de devolução no formato string
 }
 
 export default async function CreateLibraryFunction(props: ICreateBook) {
