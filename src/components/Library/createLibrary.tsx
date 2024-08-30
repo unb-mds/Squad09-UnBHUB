@@ -18,16 +18,16 @@ export default function CreateLibrary(props: {
     <Formik
       initialValues={{
         // Valores iniciais do formulário
-        author: '', // Código da matéria
+        author: '', // Nome do autor
         bookName: '', // Nome do livro
-        deliveryDay: new Date, // Data de devolução (inicialmente nula)
+        deliveryDay: new Date(), // Data de devolução (inicialmente nova data)
       }}
       onSubmit={(values, { resetForm }) => {
         // Função chamada ao enviar o formulário
         const deliveryDayTimestamp = Timestamp.fromDate(values.deliveryDay); // Converte a data de devolução para Timestamp do Firestore
 
         CreateLibraryFunction({
-          author: values.author, // Passa o código da matéria
+          author: values.author, // Passa o nome do autor
           bookName: values.bookName, // Passa o nome do livro
           deliveryDay: deliveryDayTimestamp, // Passa a data de devolução
         }).then(() => {
@@ -38,9 +38,7 @@ export default function CreateLibrary(props: {
       }}
       validationSchema={Yup.object().shape({
         // Define o esquema de validação usando Yup
-        author: Yup.string().required(
-          'Obrigatório fornecer nome do autor'
-        ), // Validação para código da matéria
+        author: Yup.string().required('Obrigatório fornecer nome do autor'), // Validação para nome do autor
         bookName: Yup.string().required('Obrigatório fornecer nome do livro'), // Validação para nome do livro
         deliveryDay: Yup.date().required('Obrigatório fornecer data'), // Validação para data de devolução
       })}
@@ -73,7 +71,6 @@ export default function CreateLibrary(props: {
               style={{ width: '30vw' }} // Define a largura do modal
               onHide={() => props.CreatesetVisible1(false)} // Fecha o modal quando necessário
             >
-              
               <FloatLabel>
                 <InputText
                   className="flex mt-5 mb-5 w-full" // Estilos do campo de entrada
@@ -106,7 +103,6 @@ export default function CreateLibrary(props: {
                 <div className="text-red-500">{errors.author}</div>
               ) : null}
 
-
               <FloatLabel>
                 <Calendar
                   className="flex mt-5 mb-5 w-full" // Estilos do componente Calendar
@@ -121,8 +117,10 @@ export default function CreateLibrary(props: {
                 <label htmlFor="deliveryDay">Data de devolução</label>{' '}
                 {/* Rótulo para o campo */}
               </FloatLabel>
-              {errors.deliveryDay && touched.deliveryDay ? ( // Verifica e exibe erros de validação para data de devolução
-                <div className="text-red-500 my-5">{errors.deliveryDay}</div>
+              {errors.deliveryDay && touched.deliveryDay ? (
+                <div className="text-red-500 my-5">
+                  {typeof errors.deliveryDay === 'string' ? errors.deliveryDay : ''}
+                </div>
               ) : null}
 
               <div className="flex justify-content-between flex-wrap">
