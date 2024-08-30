@@ -25,14 +25,14 @@ export default function EditBookComponent(props: {
   onSave: (updatedBookData: BookData) => void;
   onDelete: () => void;
 }) {
-  const { bookData, visibleEdit1, EditsetVisible1 } = props;
+  const { bookData, visibleEdit1, EditsetVisible1, onSave, onDelete } = props;
   const [isEditing, setIsEditing] = useState(false);
 
-  // Estado atualizado para garantir que todos os campos sejam sempre definidos
   const [formData, setFormData] = useState<{
     author: string;
     bookName: string;
     deliveryDay: Date | null;
+    status: string;
   } | null>(null);
 
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -46,6 +46,7 @@ export default function EditBookComponent(props: {
           bookData.deliveryDay instanceof Timestamp
             ? bookData.deliveryDay.toDate()
             : null,
+        status: bookData.status
       });
     }
   }, [bookData]);
@@ -57,7 +58,7 @@ export default function EditBookComponent(props: {
         if (prevData) {
           return {
             ...prevData,
-            [id]: value || '', // Garante que o valor seja uma string não nula
+            [id]: value || '',
           };
         }
         return prevData;
@@ -71,7 +72,7 @@ export default function EditBookComponent(props: {
         if (prevData) {
           return {
             ...prevData,
-            deliveryDay: e.value, // Atualiza a data de devolução
+            deliveryDay: e.value,
           };
         }
         return prevData;
@@ -82,7 +83,7 @@ export default function EditBookComponent(props: {
   const handleRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (bookData?.id) {
-      ActiveBookFunction(bookData.id); // Garante que bookData.id é uma string
+      ActiveBookFunction(bookData.id);
       EditsetVisible1(false);
     }
   };
@@ -90,7 +91,7 @@ export default function EditBookComponent(props: {
   const handleFinalized = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (bookData?.id) {
-      FinalizedBookFunction(bookData.id); // Garante que bookData.id é uma string
+      FinalizedBookFunction(bookData.id);
       EditsetVisible1(false);
     }
   };
@@ -99,100 +100,111 @@ export default function EditBookComponent(props: {
     e.preventDefault();
     if (formData && bookData?.id) {
       const deliveryDayTimestamp = formData.deliveryDay
-        ? Timestamp.fromDate(formData.deliveryDay) // Converte a data para Timestamp
+        ? Timestamp.fromDate(formData.deliveryDay)
         : null;
 
       await EditBookFunction({
-        id: bookData.id, // ID do livro
-        author: formData.author, // Autor do livro
-        bookName: formData.bookName, // Nome do livro
-        deliveryDay: deliveryDayTimestamp, // Data de devolução
+        id: bookData.id,
+        author: formData.author,
+        bookName: formData.bookName,
+        deliveryDay: deliveryDayTimestamp,
+        status: formData.status
       });
-      setIsEditing(false); // Sai do modo de edição
-      EditsetVisible1(false); // Fecha o modal de edição
+      setIsEditing(false);
+      EditsetVisible1(false);
+      onSave({
+        id: bookData.id,
+        author: formData.author,
+        bookName: formData.bookName,
+        deliveryDay: deliveryDayTimestamp,
+        status: formData.status
+      });
     }
   };
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsEditing(false); // Sai do modo de edição
+    setIsEditing(false);
     if (bookData) {
       setFormData({
-        author: bookData.author, // Restaura os dados do formulário
+        author: bookData.author,
         bookName: bookData.bookName,
         deliveryDay:
           bookData.deliveryDay instanceof Timestamp
             ? bookData.deliveryDay.toDate()
             : null,
+        status: bookData.status
       });
     }
   };
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setShowConfirmDialog(true); // Exibe o diálogo de confirmação de exclusão
+    setShowConfirmDialog(true);
   };
 
   const confirmDelete = () => {
     if (bookData?.id) {
-      DeleteBookFunction(bookData.id); // Garante que bookData.id é uma string
+      DeleteBookFunction(bookData.id);
+      onDelete();
     }
-    setShowConfirmDialog(false); // Fecha o diálogo de confirmação
-    EditsetVisible1(false); // Fecha o modal de edição
+    setShowConfirmDialog(false);
+    EditsetVisible1(false);
   };
 
   const cancelDelete = () => {
-    setShowConfirmDialog(false); // Fecha o diálogo de confirmação
+    setShowConfirmDialog(false);
   };
 
   if (!visibleEdit1) {
-    return null; // Retorna null se o modal não estiver visível
+    return null;
   }
 
   return (
     <>
       <Dialog
-        header={isEditing ? 'Editar Livro' : 'Visualizar Livro'} // Define o título do modal
-        visible={visibleEdit1} // Controla a visibilidade do modal
-        style={{ width: '40vw', maxWidth: '600px' }} // Define a largura do modal
-        onHide={() => EditsetVisible1(false)} // Fecha o modal quando necessário
+        header={isEditing ? 'Editar Livro' : 'Visualizar Livro'}
+        visible={visibleEdit1}
+        style={{ width: '40vw', maxWidth: '600px' }}
+        onHide={() => EditsetVisible1(false)}
       >
         <form
-          className="flex flex-column gap-5 p-4" // Estilos do formulário
-          onSubmit={(e) => e.preventDefault()} // Previne o envio padrão do formulário
+          className="flex flex-column gap-5 p-4"
+          onSubmit={(e) => e.preventDefault()}
         >
           <FloatLabel>
             <InputText
-              className="w-full" // Estilos do campo de entrada
-              id="bookName" // ID do campo
-              value={formData?.bookName || ''} // Valor atual do campo
-              onChange={handleChange} // Lida com mudanças no campo
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+              className="w-full"
+              id="bookName"
+              value={formData?.bookName || ''}
+              onChange={handleChange}
+              disabled={!isEditing}
             />
             <label htmlFor="bookName">Nome do Livro</label>
           </FloatLabel>
           <FloatLabel>
             <InputText
-              className="w-full" // Estilos do campo de entrada
-              id="author" // ID do campo
-              value={formData?.author || ''} // Valor atual do campo
-              onChange={handleChange} // Lida com mudanças no campo
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
+              className="w-full"
+              id="author"
+              value={formData?.author || ''}
+              onChange={handleChange}
+              disabled={!isEditing}
             />
             <label htmlFor="author">Nome do Autor</label>
           </FloatLabel>
           <FloatLabel>
             <Calendar
-              className="w-full" // Estilos do componente Calendar
-              id="deliveryDay" // ID do campo
-              value={formData?.deliveryDay || null} // Valor atual do campo
-              onChange={handleDateChange} // Lida com mudanças na data
-              disabled={!isEditing} // Desativa o campo se não estiver em modo de edição
-              showIcon // Exibe um ícone no calendário
-              dateFormat="dd/mm/yy" // Formato da data
+              className="w-full"
+              id="deliveryDay"
+              value={formData?.deliveryDay || null}
+              onChange={handleDateChange}
+              disabled={!isEditing}
+              showIcon
+              dateFormat="dd/mm/yy"
             />
             <label htmlFor="deliveryDay">Dia de Entrega</label>
           </FloatLabel>
+        
           <div className="flex justify-content-between gap-2 mt-4">
             {isEditing ? (
               <>
@@ -200,15 +212,15 @@ export default function EditBookComponent(props: {
                   outlined
                   label="Cancelar"
                   style={{
-                    borderColor: '#ff6060', // Cor da borda do botão
-                    color: 'white', // Cor do texto do botão
+                    borderColor: '#ff6060',
+                    color: 'white',
                     backgroundColor: '#ff6060',
                   }}
-                  onClick={handleCancel} // Lida com o clique no botão cancelar
+                  onClick={handleCancel}
                 />
                 <Button
                   label="Salvar"
-                  onClick={handleSave} // Lida com o clique no botão salvar
+                  onClick={handleSave}
                 />
               </>
             ) : (
@@ -216,69 +228,64 @@ export default function EditBookComponent(props: {
                 {bookData?.status === 'Finalized' && (
                   <Button
                     label="Restaurar"
-                    onClick={handleRestore} // Restaura o livro
+                    onClick={handleRestore}
                   />
                 )}
-
                 {(bookData?.status === 'Ongoing' || bookData?.status === 'Late') && (
                   <Button
                     outlined
                     label="Finalizar"
                     style={{
-                      borderColor: 'green', // Define a cor da borda do botão
-                      color: 'white', // Define a cor do texto do botão
+                      borderColor: 'green',
+                      color: 'white',
                       backgroundColor: 'green',
                     }}
-                    onClick={handleFinalized} // Finaliza o livro
+                    onClick={handleFinalized}
                   />
                 )}
-
-                <Button
-                  outlined
-                  label="Editar"
-                  style={{
-                    borderColor: '#f3d300', // Cor da borda do botão
-                    color: 'white', // Cor do texto do botão
-                    backgroundColor: '#f3d300',
-                  }}
-                  onClick={() => setIsEditing(true)} // Habilita o modo de edição
-                />
                 <Button
                   outlined
                   label="Excluir"
                   style={{
-                    borderColor: '#ff6060', // Cor da borda do botão
-                    color: 'white', // Cor do texto do botão
+                    borderColor: '#ff6060',
+                    color: 'white',
                     backgroundColor: '#ff6060',
                   }}
-                  onClick={handleDelete} // Lida com o clique no botão excluir
+                  onClick={handleDelete}
                 />
               </>
             )}
+            <Button
+              icon="pi pi-pencil"
+              className="p-button-rounded p-button-outlined p-button-secondary"
+              onClick={() => setIsEditing((prev) => !prev)}
+            />
           </div>
         </form>
       </Dialog>
       <Dialog
-        header="Confirmar Exclusão" // Título do diálogo de confirmação
-        visible={showConfirmDialog} // Controla a visibilidade do diálogo
-        style={{ width: '30vw' }} // Define a largura do diálogo
-        onHide={cancelDelete} // Fecha o diálogo ao cancelar
-      >
-        <div className="flex flex-column align-items-center">
-          <p>Tem certeza de que deseja excluir este livro?</p> {/* Mensagem de confirmação */}
-          <div className="flex justify-content-between mt-4 gap-2">
-            <Button
-              label="Confirmar"
-              className="p-button-danger" // Estilo do botão de confirmação
-              onClick={confirmDelete} // Lida com o clique na confirmação
-            />
+        header="Confirmar Exclusão"
+        visible={showConfirmDialog}
+        style={{ width: '30vw', maxWidth: '300px' }}
+        modal
+        footer={
+          <div className="flex justify-content-end gap-2">
             <Button
               label="Cancelar"
-              className="p-button-text" // Estilo do botão de cancelamento
-              onClick={cancelDelete} // Lida com o clique no cancelamento
+              icon="pi pi-times"
+              onClick={cancelDelete}
+              className="p-button-text"
+            />
+            <Button
+              label="Excluir"
+              icon="pi pi-check"
+              onClick={confirmDelete}
             />
           </div>
-        </div>
+        }
+        onHide={() => setShowConfirmDialog(false)}
+      >
+        Tem certeza de que deseja excluir este livro?
       </Dialog>
     </>
   );

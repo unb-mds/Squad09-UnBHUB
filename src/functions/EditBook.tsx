@@ -1,34 +1,25 @@
-import { doc, updateDoc } from 'firebase/firestore'; // Importa funções para acessar e atualizar documentos no Firestore
-import { auth, db } from '../../config/firebase'; // Importa configuração do Firebase
-import { Timestamp } from 'firebase/firestore'; // Importa a classe Timestamp do Firestore
+import { doc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../../config/firebase';
+import { Timestamp } from 'firebase/firestore';
 
 interface IEditBook {
-  // Define a interface para os dados do livro a ser editado
-  id: string; // ID do livro
-  author: string; // Código da matéria
-  bookName: string; // Nome do livro
-  deliveryDay: Timestamp; // Data de devolução como Timestamp
+  id: string;
+  author: string;
+  bookName: string;
+  deliveryDay: Timestamp | null; // Torna deliveryDay opcional
+  status: string; // Adiciona status como obrigatório
 }
 
 export default async function EditBookFunction(props: IEditBook) {
-  // Função assíncrona para editar um livro
-  if (!auth.currentUser) return; // Retorna se o usuário não estiver autenticado
+  if (!auth.currentUser) return;
 
-  // Referência ao documento do usuário
   const bookRef = doc(db, 'Users', auth.currentUser.uid);
 
-  // Constrói o objeto com os campos atualizados
-  const updatedFields: { [key: string]: any } = {}; // Objeto para armazenar os campos a serem atualizados
-  if (props.author)
-    // Se o código da matéria estiver presente
-    updatedFields[`books.${props.id}.author`] = props.author; // Adiciona o código da matéria aos campos atualizados
-  if (props.bookName)
-    // Se o nome do livro estiver presente
-    updatedFields[`books.${props.id}.bookName`] = props.bookName; // Adiciona o nome do livro aos campos atualizados
-  if (props.deliveryDay)
-    // Se a data de devolução estiver presente
-    updatedFields[`books.${props.id}.deliveryDay`] = props.deliveryDay; // Adiciona a data de devolução aos campos atualizados
+  const updatedFields: { [key: string]: any } = {};
+  if (props.author) updatedFields[`books.${props.id}.author`] = props.author;
+  if (props.bookName) updatedFields[`books.${props.id}.bookName`] = props.bookName;
+  if (props.deliveryDay) updatedFields[`books.${props.id}.deliveryDay`] = props.deliveryDay;
+  if (props.status) updatedFields[`books.${props.id}.status`] = props.status; // Adiciona status aos campos atualizados
 
-  // Atualiza os campos no Firestore
-  await updateDoc(bookRef, updatedFields); // Atualiza o documento do usuário com os campos modificados
+  await updateDoc(bookRef, updatedFields);
 }
