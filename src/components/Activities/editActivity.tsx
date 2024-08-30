@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase/firestore";
 import { useState, useEffect } from 'react'; 
 import { Button } from 'primereact/button'; 
 import { Dialog } from 'primereact/dialog'; 
@@ -11,7 +12,7 @@ import { ActiveActivityFunction } from "../../functions/CheckDateActivity";
 
 interface ActivityData {
   taskName: string;
-  deliveryDay: Date | null;
+  deliveryDay: Date | null; // Permitir null para deliveryDay
   description: string;
 }
 
@@ -21,10 +22,9 @@ interface EditActivityComponentProps {
   activityData: ActivityData | null;
   onSave: (updatedActivityData: ActivityData) => void;
   onDelete: () => void;
-  activityIndex: number;
-  subjectId: string; // Adicionei a prop subjectId
-  taskId: string; // Adicionei a prop taskId
-  status: string; // Adicionei a prop status
+  subjectId: string; 
+  taskId: string; 
+  status: string; 
 }
 
 export default function EditActivityComponent(props: EditActivityComponentProps) {
@@ -49,11 +49,11 @@ export default function EditActivityComponent(props: EditActivityComponentProps)
     }
   };
 
-  const handleDateChange = (e: { value: Date }) => {
+  const handleDateChange = (e: Date | null) => {
     if (formData) {
       setFormData((prevData) => ({
         ...prevData!,
-        deliveryDay: e.value ?? null,
+        deliveryDay: e || null, // Permite null se necessário
       }));
     }
   };
@@ -61,14 +61,24 @@ export default function EditActivityComponent(props: EditActivityComponentProps)
   const handleSave = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (formData) {
-      EditActivityFunction(
-        formData, // Passa o objeto `formData`
-        props.subjectId, // Passa o `subjectId`
-        props.taskId, // Passa o `taskId`
-        props.status // Passa o `status`
-      );
-      setIsEditing(false);
-      EditsetVisible(false);
+      const updatedFormData = {
+        ...formData,
+        deliveryDay: formData.deliveryDay ? Timestamp.fromDate(formData.deliveryDay) : null,
+      };
+      if(formData.deliveryDay == null){
+        setIsEditing(false);
+        EditsetVisible(false);
+      }
+      else{
+        EditActivityFunction(
+          updatedFormData, 
+          props.subjectId,
+          props.taskId,
+          props.status
+        );
+        setIsEditing(false);
+        EditsetVisible(false);
+      }
     }
   };
 
@@ -146,7 +156,7 @@ export default function EditActivityComponent(props: EditActivityComponentProps)
               className="w-full"
               id="deliveryDay"
               value={formData?.deliveryDay || null}
-              onChange={handleDateChange}
+              onChange={(e) => handleDateChange(e.value as Date | null)}
               disabled={!isEditing}
               showIcon
               dateFormat="dd/mm/yy"

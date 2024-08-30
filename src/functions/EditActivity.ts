@@ -5,7 +5,7 @@ import { Timestamp } from 'firebase/firestore';
 interface IEditActivity {
   taskName: string;
   description: string;
-  deliveryDay: Timestamp;
+  deliveryDay: Timestamp | null;
 }
 
 export default async function EditActivityFunction(
