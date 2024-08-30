@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { doc, getDoc, Timestamp } from 'firebase/firestore';
-import { db, auth } from '../../config/firebase'; 
+import { db, auth } from '../../../config/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
 
 // Interfaces para dados

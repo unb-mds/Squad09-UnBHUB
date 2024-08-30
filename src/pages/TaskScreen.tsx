@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CreateActivityComponent from '../components/Activities/createActivity';
 import EditActivityComponent from '../components/Activities/editActivity';
-import ActivitiesComponent from '../components/ActivitiesComponent';
+import ActivitiesComponent from '../components/Activities/ActivitiesComponent';
 import SideBarComponent from '../components/SideBar';
 import { Timestamp } from 'firebase/firestore';
 

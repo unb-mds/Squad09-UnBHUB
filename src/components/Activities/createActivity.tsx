@@ -7,7 +7,7 @@ import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar
 import { Formik } from 'formik'; // Importa o Formik para gerenciamento de formulários.
 import * as Yup from 'yup'; // Importa o Yup para validação de esquema de formulários.
 
-import CreateActivityFunction from '../../functions/CreateActivity'; // Importa a função para criar uma nova atividade.
+import CreateActivityFunction from '../../functions/Activities/CreateActivity'; // Importa a função para criar uma nova atividade.
 import SearchDropdownComponent from './SearchDropdown'; // Importa um componente de dropdown para seleção de matéria.
 import { Timestamp } from 'firebase/firestore';
 

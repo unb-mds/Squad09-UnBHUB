@@ -1,6 +1,6 @@
 import { Timestamp } from '@firebase/firestore'; // Importa o tipo 'Timestamp' para manipulação de datas e horários.
 import { doc, updateDoc } from 'firebase/firestore'; // Importa as funções 'doc' e 'updateDoc' do Firestore para manipulação de documentos.
-import { auth, db } from '../../config/firebase'; // Importa as instâncias de autenticação e banco de dados do Firebase.
+import { auth, db } from '../../../config/firebase'; // Importa as instâncias de autenticação e banco de dados do Firebase.
 
 interface ICreateSubject {
   subject: {
