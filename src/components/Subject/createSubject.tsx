@@ -7,8 +7,8 @@ import { MultiSelect } from 'primereact/multiselect';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import CreateSubjectFunction from '../../functions/Subjects/CreateSubject';
-import { useEffect } from 'react';
 
+import { Timestamp } from 'firebase/firestore';
 
 export default function CreateSubjectComponent(props: {
   visible: boolean;
@@ -33,13 +33,21 @@ export default function CreateSubjectComponent(props: {
         endTime: null,
         local: '',
       }}
-      onSubmit={(values, { resetForm }) => {
+      onSubmit={(values) => {
+        const startTime = values.startTime
+          ? Timestamp.fromDate(new Date(values.startTime))
+          : null;
+        const endTime = values.endTime
+          ? Timestamp.fromDate(new Date(values.endTime))
+          : null;
+
         CreateSubjectFunction({
           ...values,
           weekDays: values.weekDays.join(', '),
+          startTime: startTime,
+          endTime: endTime,
         }).then(() => {
-          resetForm(); // Reseta o formulário após a submissão.
-          props.setVisible(false); // Fecha o diálogo.
+          props.setVisible(false);
         });
       }}
       validationSchema={Yup.object().shape({
@@ -63,14 +71,13 @@ export default function CreateSubjectComponent(props: {
         errors,
         touched,
         setFieldValue,
-        resetForm, // Obtém a função resetForm do Formik.
       }) => {
-        useEffect(() => {
-          if (props.visible) {
-            resetForm(); // Reseta o formulário toda vez que o diálogo for aberto.
-          }
-        }, [props.visible, resetForm]); // Executa o efeito quando a prop visible muda.
-
+        const handleButtonClick = (
+          e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+        ) => {
+          e.preventDefault();
+          handleSubmit();
+        };
         return (
           <form
             onSubmit={handleSubmit}
@@ -216,7 +223,7 @@ export default function CreateSubjectComponent(props: {
                   }}
                   onClick={() => props.setVisible(false)}
                 />
-                <Button onClick={handleSubmit} label="Confirmar" />
+                <Button onClick={handleButtonClick} label="Confirmar" />
               </div>
             </Dialog>
           </form>

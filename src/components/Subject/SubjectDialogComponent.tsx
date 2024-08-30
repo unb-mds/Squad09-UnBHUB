@@ -5,40 +5,7 @@ import DeleteSubjectFunction from '../../functions/Subjects/DeleteSubject';
 import FinalizeSubjectFunction from '../../functions/Subjects/FinalizeSubject';
 import ReturnToActiveSubjectFunction from '../../functions/Subjects/ReturnToActiveSubject';
 
-import { Timestamp } from 'firebase/firestore';
-
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
-
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-}
-
-interface ISubject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[];
-  exams: IExam[];
-}
+import { ISubject } from '../Exams/examInterfaces';
 
 export default function SubjectDialogComponent(props: {
   subject: ISubject;

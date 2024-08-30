@@ -1,4 +1,4 @@
-import { doc, setDoc } from 'firebase/firestore';
+import { Timestamp, doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase';
 
 interface ICreateSubject {
@@ -6,8 +6,8 @@ interface ICreateSubject {
   nameSubject: string;
   professor: string;
   weekDays: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: Timestamp | null;
+  endTime: Timestamp | null;
   local: string;
 }
 

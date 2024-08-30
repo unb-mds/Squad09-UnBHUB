@@ -2,12 +2,11 @@ import { useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
-import EditExamDialog from '../Subject/EditExamDialog';
+import EditExamDialog from './EditExamDialog';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
-import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
+import ControlExamStatusBasedOnTime from '../../functions/Exams/ControlExamStatusBasedOnTime';
 import { ISubject, IExam } from './examInterfaces';
-
 
 export default function ExamsDataTableConstructorComponent(props: {
   Usersubjects: ISubject[];

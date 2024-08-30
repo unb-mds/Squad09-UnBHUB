@@ -5,8 +5,8 @@ import { DataTable } from 'primereact/datatable';
 import { useState, useEffect } from 'react';
 import formatDate from '../../functions/FormatDate';
 import formatTime from '../../functions/FormatTime';
-import EditExamDialog from './EditExamDialog';
-import ControlExamStatusBasedOnTime from '../../functions/Subjects/ControlExamStatusBasedOnTime';
+import EditExamDialog from '../Exams/EditExamDialog';
+import ControlExamStatusBasedOnTime from '../../functions/Exams/ControlExamStatusBasedOnTime';
 
 import { IExam, ISubject } from '../Exams/examInterfaces';
 

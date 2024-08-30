@@ -1,14 +1,16 @@
 import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../../config/firebase';
 
+import { Timestamp } from 'firebase/firestore';
+
 interface IEditSubject {
   id: string;
   codeSubject?: string;
   nameSubject?: string;
   professor?: string;
   weekDays?: string;
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Timestamp | null;
+  endTime?: Timestamp | null;
   local?: string;
 }
 

@@ -4,7 +4,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import CreateExamFunction from '../../functions/Subjects/CreateExam';
+import CreateExamFunction from '../../functions/Exams/CreateExam';
 
 import { Timestamp } from 'firebase/firestore';
 
@@ -61,7 +61,6 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
         errors,
         touched,
       }) => {
-        // Função para manipular o clique do botão
         const handleButtonClick = (
           e: React.MouseEvent<HTMLButtonElement, MouseEvent>
         ) => {

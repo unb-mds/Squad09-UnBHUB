@@ -7,40 +7,9 @@ import EditSubjectComponent from '../components/Subject/EditSubjectComponent';
 import SubjectDialogComponent from '../components/Subject/SubjectDialogComponent';
 import SubjectsComponent from '../components/Subject/SubjectsComponents';
 
+import { ISubject } from '../components/Exams/examInterfaces';
+
 import { Timestamp } from 'firebase/firestore';
-
-interface ITask {
-  deliveryDay: Timestamp;
-  description: string;
-  status: string;
-  subjectId: string;
-  taskId: string;
-  taskName: string;
-}
-
-interface IExam {
-  code: string;
-  score: string;
-  date: Timestamp;
-  room: string;
-  status: string;
-  id: string;
-  time: Timestamp;
-}
-
-interface ISubject {
-  codeSubject: string;
-  nameSubject: string;
-  professor: string;
-  weekDays: string;
-  startTime: Date;
-  endTime: Date;
-  local: string;
-  status: string;
-  id: string;
-  tasks: ITask[];
-  exams: IExam[];
-}
 
 function SubjectsScreen() {
   const [subject, setSubject] = useState<ISubject>({
@@ -48,8 +17,8 @@ function SubjectsScreen() {
     nameSubject: '',
     professor: '',
     weekDays: '',
-    startTime: new Date(),
-    endTime: new Date(),
+    startTime: new Timestamp(0, 0), // Inicialize com Timestamp
+    endTime: new Timestamp(0, 0), // Inicialize com Timestamp
     local: '',
     status: '',
     id: '',
