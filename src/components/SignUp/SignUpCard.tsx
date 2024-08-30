@@ -2,8 +2,8 @@ import { Formik } from 'formik';
 import { Button } from 'primereact/button';
 import * as Yup from 'yup';
 
-import InputComponent from '../components/Input';
-import SignUpFunction from '../functions/SignUp';
+import InputComponent from '../../components/Input';
+import SignUpFunction from '../../functions/SignUp/SignUp';
 import { useNavigate } from 'react-router-dom';
 
 interface InputProps {
