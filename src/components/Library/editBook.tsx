@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { Timestamp } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
-import { Timestamp } from 'firebase/firestore';
 import EditBookFunction from '../../functions/EditBook';
 import { DeleteBookFunction } from '../../functions/DeleteBook';
 import { FinalizedBookFunction } from "../../functions/FinalizedBook";
@@ -18,23 +18,23 @@ interface BookData {
   status: string;
 }
 
-export default function EditBookComponent(props: {
+interface EditBookComponentProps {
   visibleEdit1: boolean;
   EditsetVisible1: (visibleEdit1: boolean) => void;
   bookData: BookData | null;
   onSave: (updatedBookData: BookData) => void;
   onDelete: () => void;
-}) {
+}
+
+export default function EditBookComponent(props: EditBookComponentProps) {
   const { bookData, visibleEdit1, EditsetVisible1, onSave, onDelete } = props;
   const [isEditing, setIsEditing] = useState(false);
-
   const [formData, setFormData] = useState<{
     author: string;
     bookName: string;
     deliveryDay: Date | null;
     status: string;
   } | null>(null);
-
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   useEffect(() => {
@@ -54,45 +54,19 @@ export default function EditBookComponent(props: {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (formData) {
       const { id, value } = e.target;
-      setFormData((prevData) => {
-        if (prevData) {
-          return {
-            ...prevData,
-            [id]: value || '',
-          };
-        }
-        return prevData;
-      });
+      setFormData((prevData) => ({
+        ...prevData!,
+        [id]: value || '',
+      }));
     }
   };
 
-  const handleDateChange = (e: { value: Date }) => {
+  const handleDateChange = (e: { value: Date | null }) => {
     if (formData) {
-      setFormData((prevData) => {
-        if (prevData) {
-          return {
-            ...prevData,
-            deliveryDay: e.value,
-          };
-        }
-        return prevData;
-      });
-    }
-  };
-
-  const handleRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (bookData?.id) {
-      ActiveBookFunction(bookData.id);
-      EditsetVisible1(false);
-    }
-  };
-
-  const handleFinalized = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (bookData?.id) {
-      FinalizedBookFunction(bookData.id);
-      EditsetVisible1(false);
+      setFormData((prevData) => ({
+        ...prevData!,
+        deliveryDay: e.value || null,
+      }));
     }
   };
 
@@ -138,6 +112,22 @@ export default function EditBookComponent(props: {
     }
   };
 
+  const handleRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (bookData?.id) {
+      ActiveBookFunction(bookData.id);
+      EditsetVisible1(false);
+    }
+  };
+
+  const handleFinalized = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (bookData?.id) {
+      FinalizedBookFunction(bookData.id);
+      EditsetVisible1(false);
+    }
+  };
+
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowConfirmDialog(true);
@@ -168,10 +158,7 @@ export default function EditBookComponent(props: {
         style={{ width: '40vw', maxWidth: '600px' }}
         onHide={() => EditsetVisible1(false)}
       >
-        <form
-          className="flex flex-column gap-5 p-4"
-          onSubmit={(e) => e.preventDefault()}
-        >
+        <form className="flex flex-column gap-5 p-4" onSubmit={(e) => e.preventDefault()}>
           <FloatLabel>
             <InputText
               className="w-full"
@@ -197,14 +184,13 @@ export default function EditBookComponent(props: {
               className="w-full"
               id="deliveryDay"
               value={formData?.deliveryDay || null}
-              onChange={handleDateChange}
+              onChange={(e) => handleDateChange(e as any)} // Ajuste aqui
               disabled={!isEditing}
               showIcon
               dateFormat="dd/mm/yy"
             />
             <label htmlFor="deliveryDay">Dia de Entrega</label>
           </FloatLabel>
-        
           <div className="flex justify-content-between gap-2 mt-4">
             {isEditing ? (
               <>
@@ -218,18 +204,12 @@ export default function EditBookComponent(props: {
                   }}
                   onClick={handleCancel}
                 />
-                <Button
-                  label="Salvar"
-                  onClick={handleSave}
-                />
+                <Button label="Salvar" onClick={handleSave} />
               </>
             ) : (
               <>
                 {bookData?.status === 'Finalized' && (
-                  <Button
-                    label="Restaurar"
-                    onClick={handleRestore}
-                  />
+                  <Button label="Restaurar" onClick={handleRestore} />
                 )}
                 {(bookData?.status === 'Ongoing' || bookData?.status === 'Late') && (
                   <Button

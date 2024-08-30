@@ -34,6 +34,7 @@ interface ActivitiesComponentProps {
     deliveryDay: Timestamp;
     description: string;
   }) => void; // Função para atualizar a visibilidade do diálogo de edição.
+  task:object;
 }
 
 const cardButtonStyles: React.CSSProperties = {
