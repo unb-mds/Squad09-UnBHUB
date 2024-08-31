@@ -1,7 +1,9 @@
 import '@testing-library/jest-dom';
+
 import { render, screen } from '@testing-library/react';
+
 import userEvent from '@testing-library/user-event';
-import Hero from '../../../components/Landing/Hero'; // Ajuste o caminho conforme necessário
+import Hero from '../../../components/Landing/Hero';
 
 describe('Teste no componente Hero', () => {
   test('Renderiza o botão "Saiba Mais"', () => {
