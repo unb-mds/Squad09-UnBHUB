@@ -54,11 +54,11 @@ describe('Teste na Navbar da LandingPage', () => {
       </Router>
     );
 
-    // Simula o clique no botão "Entrar"
+    // Simula o clique no botão "Cadastre-se"
     const enterButton = screen.getByRole('button', { name: /Cadastre-se/i });
     userEvent.click(enterButton);
 
-    // Verifica se o link para a página de sign-in está presente
+    // Verifica se o link para a página de sign-up está presente
     const linkElement = screen.getByRole('link', { name: /Cadastre-se/i });
     expect(linkElement).toHaveAttribute('href', '/signUp');
   });
