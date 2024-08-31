@@ -34,4 +34,32 @@ describe('Teste na Navbar da LandingPage', () => {
     const linkElement = screen.getByRole('link', { name: /Entrar/i });
     expect(linkElement).toHaveAttribute('href', '/SignIn');
   });
+
+  test('Renderiza o botão "Cadastre-se"', () => {
+    render(
+      <Router>
+        <NavbarComponent2 />
+      </Router>
+    );
+
+    // Verifica se o botão "Cadastre-se" está no documento
+    const enterButton = screen.getByRole('button', { name: /Cadastre-se/i });
+    expect(enterButton).toBeInTheDocument();
+  });
+
+  test('Navega para a página de SignUp quando o botão "Cadastre-se" é clicado', async () => {
+    render(
+      <Router>
+        <NavbarComponent2 />
+      </Router>
+    );
+
+    // Simula o clique no botão "Entrar"
+    const enterButton = screen.getByRole('button', { name: /Cadastre-se/i });
+    userEvent.click(enterButton);
+
+    // Verifica se o link para a página de sign-in está presente
+    const linkElement = screen.getByRole('link', { name: /Cadastre-se/i });
+    expect(linkElement).toHaveAttribute('href', '/signUp');
+  });
 });
