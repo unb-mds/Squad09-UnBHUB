@@ -1,4 +1,4 @@
-import SignUserCardComponent from '../components/SignUserCard';
+import SignUserCardComponent from '../components/SignUp/SignUserCard';
 
 export default function SignUserScreen() {
   return (

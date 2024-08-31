@@ -1,13 +1,12 @@
 import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase';
-
+import { auth, db } from '../../../config/firebase';
 
 interface ICreateUser {
-    userName: string;
-    course: string;
-    currentSemester: number; 
-    endSemester: number;
-  }
+  userName: string;
+  course: string;
+  currentSemester: number;
+  endSemester: number;
+}
 
 export default async function CreateSubjectFunction(props: ICreateUser) {
   if (!auth.currentUser) return;
@@ -19,20 +18,19 @@ export default async function CreateSubjectFunction(props: ICreateUser) {
         userName: props.userName,
         course: props.course,
         currentSemester: props.currentSemester,
-        endSemester: props.endSemester, 
+        endSemester: props.endSemester,
       },
-      notifications:{
+      notifications: {
         book: {
-              state:true
-              },
+          state: true,
+        },
         task: {
-              state:true
-              },
+          state: true,
+        },
         exam: {
-              state:true
-              }
-
-      }
+          state: true,
+        },
+      },
     },
     {
       merge: true,

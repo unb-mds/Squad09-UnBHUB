@@ -1,12 +1,11 @@
 import SideBarComponent from '../components/SideBar';
-import User from '../components/UserInfo';
+import User from '../components/Profile/UserInfo';
 import { withAuth } from '../../utils/auth';
 import { Divider } from 'primereact/divider';
 
 import GeneralHeader from '../components/Header';
 
-
- function ProfileScreen() {
+function ProfileScreen() {
   return (
     <div className="flex">
       <SideBarComponent />

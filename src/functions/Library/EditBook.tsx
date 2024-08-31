@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase';
+import { auth, db } from '../../../config/firebase';
 import { Timestamp } from 'firebase/firestore';
 
 interface IEditBook {
@@ -17,8 +17,10 @@ export default async function EditBookFunction(props: IEditBook) {
 
   const updatedFields: { [key: string]: any } = {};
   if (props.author) updatedFields[`books.${props.id}.author`] = props.author;
-  if (props.bookName) updatedFields[`books.${props.id}.bookName`] = props.bookName;
-  if (props.deliveryDay) updatedFields[`books.${props.id}.deliveryDay`] = props.deliveryDay;
+  if (props.bookName)
+    updatedFields[`books.${props.id}.bookName`] = props.bookName;
+  if (props.deliveryDay)
+    updatedFields[`books.${props.id}.deliveryDay`] = props.deliveryDay;
   if (props.status) updatedFields[`books.${props.id}.status`] = props.status; // Adiciona status aos campos atualizados
 
   await updateDoc(bookRef, updatedFields);

@@ -5,10 +5,10 @@ import { Dialog } from 'primereact/dialog';
 import { FloatLabel } from 'primereact/floatlabel';
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
-import EditBookFunction from '../../functions/EditBook';
-import { DeleteBookFunction } from '../../functions/DeleteBook';
-import { FinalizedBookFunction } from "../../functions/FinalizedBook";
-import { ActiveBookFunction } from "../../functions/FinalizedBook";
+import EditBookFunction from '../../functions/Library/EditBook';
+import { DeleteBookFunction } from '../../functions/Library/DeleteBook';
+import { FinalizedBookFunction } from '../../functions/Library/FinalizedBook';
+import { ActiveBookFunction } from '../../functions/Library/FinalizedBook';
 
 interface BookData {
   id: string;
@@ -46,7 +46,7 @@ export default function EditBookComponent(props: EditBookComponentProps) {
           bookData.deliveryDay instanceof Timestamp
             ? bookData.deliveryDay.toDate()
             : null,
-        status: bookData.status
+        status: bookData.status,
       });
     }
   }, [bookData]);
@@ -82,7 +82,7 @@ export default function EditBookComponent(props: EditBookComponentProps) {
         author: formData.author,
         bookName: formData.bookName,
         deliveryDay: deliveryDayTimestamp,
-        status: formData.status
+        status: formData.status,
       });
       setIsEditing(false);
       EditsetVisible1(false);
@@ -91,7 +91,7 @@ export default function EditBookComponent(props: EditBookComponentProps) {
         author: formData.author,
         bookName: formData.bookName,
         deliveryDay: deliveryDayTimestamp,
-        status: formData.status
+        status: formData.status,
       });
     }
   };
@@ -107,7 +107,7 @@ export default function EditBookComponent(props: EditBookComponentProps) {
           bookData.deliveryDay instanceof Timestamp
             ? bookData.deliveryDay.toDate()
             : null,
-        status: bookData.status
+        status: bookData.status,
       });
     }
   };
@@ -158,7 +158,10 @@ export default function EditBookComponent(props: EditBookComponentProps) {
         style={{ width: '40vw', maxWidth: '600px' }}
         onHide={() => EditsetVisible1(false)}
       >
-        <form className="flex flex-column gap-5 p-4" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="flex flex-column gap-5 p-4"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <FloatLabel>
             <InputText
               className="w-full"
@@ -211,7 +214,8 @@ export default function EditBookComponent(props: EditBookComponentProps) {
                 {bookData?.status === 'Finalized' && (
                   <Button label="Restaurar" onClick={handleRestore} />
                 )}
-                {(bookData?.status === 'Ongoing' || bookData?.status === 'Late') && (
+                {(bookData?.status === 'Ongoing' ||
+                  bookData?.status === 'Late') && (
                   <Button
                     outlined
                     label="Finalizar"

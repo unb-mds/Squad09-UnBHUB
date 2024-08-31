@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase';
+import { auth, db } from '../../../config/firebase';
 import { Timestamp } from 'firebase/firestore';
 
 interface IEditActivity {
