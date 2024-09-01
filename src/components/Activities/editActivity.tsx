@@ -131,7 +131,7 @@ export default function EditActivityComponent(
         header={isEditing ? 'Editar atividade' : 'Visualizar atividade'}
         visible={visibleEdit}
         style={{ width: '40vw', maxWidth: '600px' }}
-        onHide={() => EditsetVisible(false)}
+        onHide={() => {EditsetVisible(false);setIsEditing(false)}}
       >
         <form
           className="flex flex-column gap-5 p-4"
