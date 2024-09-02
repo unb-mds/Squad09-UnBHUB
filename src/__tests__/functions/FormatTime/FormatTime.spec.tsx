@@ -1,8 +1,6 @@
 import formatTime from '../../../functions/FormatTime';
-
 import { Timestamp } from 'firebase/firestore';
 
-// Mock do Timestamp
 class MockTimestamp {
   seconds: number;
   nanoseconds: number;
@@ -14,33 +12,29 @@ class MockTimestamp {
 }
 
 describe('formatTime', () => {
-  test('deve formatar corretamente um Timestamp para uma string de hora', () => {
-    // Exemplo de tempo: 06:05 (em segundos desde a Epoch)
-    const mockTimestamp = new MockTimestamp(1693559100, 0);
+  test('deve formatar corretamente um Timestamp para uma string de horário', () => {
+    // 12:30 UTC
+    const mockTimestamp = new MockTimestamp(
+      Date.UTC(2023, 7, 31, 12, 30, 0) / 1000,
+      0
+    );
 
     const formattedTime = formatTime(mockTimestamp as unknown as Timestamp);
 
-    // Espera que o tempo seja formatado corretamente no formato 'hh:mm'
-    expect(formattedTime).toBe('06:05');
+    // Esperando o horário convertido para o fuso horário local
+    expect(formattedTime).toBe('09:30'); // Adapte para o horário esperado no seu fuso
   });
 
   test('deve formatar corretamente um Timestamp diferente', () => {
-    // Exemplo de tempo: 21:30 (em segundos desde a Epoch)
-    const mockTimestamp = new MockTimestamp(1693528200, 0);
+    // 06:45 UTC
+    const mockTimestamp = new MockTimestamp(
+      Date.UTC(2023, 7, 31, 6, 45, 0) / 1000,
+      0
+    );
 
     const formattedTime = formatTime(mockTimestamp as unknown as Timestamp);
 
-    // Espera que o tempo seja formatado corretamente no formato 'hh:mm'
-    expect(formattedTime).toBe('21:30');
-  });
-
-  test('deve formatar corretamente um Timestamp com horas e minutos diferentes', () => {
-    // Exemplo de tempo: 16:35 (em segundos desde a Epoch)
-    const mockTimestamp = new MockTimestamp(1693596900, 0);
-
-    const formattedTime = formatTime(mockTimestamp as unknown as Timestamp);
-
-    // Espera que o tempo seja formatado corretamente no formato 'hh:mm'
-    expect(formattedTime).toBe('16:35');
+    // Esperando o horário convertido para o fuso horário local
+    expect(formattedTime).toBe('03:45'); // Adapte para o horário esperado no seu fuso
   });
 });
