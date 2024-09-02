@@ -1,6 +1,6 @@
 # Sprint 12 - Organização e Correções Críticas
 
-**Período: 21/08/2024 - 29/08/2024**
+**Período: 21/08/2024 - 26/08/2024**
 
 ## Descrição
 
@@ -11,7 +11,7 @@ Nessa Sprint o foco será a estilização geral da plataforma. Iremos alterar o 
 ## Objetivos
 
 - **Estilizar a Plataforma** : Aplicar estilização adequada às cores da plataforma para aprimorar a estética e a consistência visual seguindo os protótipos do figma.
-- **Atualizar a documentação**: Adicionar as novas reuniões e sprints, além de  atualizar a parte de arquitetura para alinhar com o projeto.
+- **Atualizar a documentação**: Adicionar as novas reuniões e sprints, além de atualizar a parte de arquitetura para alinhar com o projeto.
 - **Arrumar Bugs**: Arrumar bugs gerais da plataforma para aprimorar o seu uso.
 
 ---
@@ -28,7 +28,6 @@ Nessa Sprint o foco será a estilização geral da plataforma. Iremos alterar o 
 #### Ata
 
 A reunião teve como objetivo discutir as tarefas da Sprint 12 e organizar a documentação dos processos essenciais, bem como corrigir erros críticos para garantir o bom funcionamento da plataforma. Cada membro discutiu as responsabilidades atribuídas e os seguintes pontos foram abordados:
-
 
 #### Tarefas Gerais
 
