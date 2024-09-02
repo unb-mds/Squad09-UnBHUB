@@ -1,8 +1,6 @@
 import SideBarComponent from '../components/SideBar';
-import GeneralHeader from '../components/Header';
 import ExamsComponents from '../components/Exams/ExamsComponent';
 import CreateExamDialogComponent from '../components/Exams/CreateExamDialog';
-import { Divider } from 'primereact/divider';
 
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -31,9 +29,7 @@ export default function ExamsScreen() {
   return (
     <div className="flex flex-row">
       <SideBarComponent />
-      <div className="flex flex-column pl-1 gap-1 w-full">
-        <GeneralHeader />
-        <Divider className="mb-2 mt-0" />
+      <div className="flex flex-column pr-5 w-full">
         <ExamsComponents
           UserSubjects={subjects}
           setVisibleCreateExam={setVisibleCreateExam}

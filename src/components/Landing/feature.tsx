@@ -73,9 +73,10 @@ export default function Feature() {
             Mantenha-se Atualizado
           </div>
           <span className="text-700 text-sm line-height-3">
-            Nosso site ajuda você a organizar sua vida acadêmica, oferecendo
-            lembretes e atualizações constantes sobre prazos, eventos e
-            atividades importantes.
+            Nosso site proporciona um meio de fácil acesso a informações
+            acadêmicas que são constantemente atualizadas, como as datas 
+            do calendário acadêmico e o cardápio semanal do 
+            restaurante universitário.
           </span>
         </div>
       </div>
