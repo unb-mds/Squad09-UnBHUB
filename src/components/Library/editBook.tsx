@@ -156,7 +156,7 @@ export default function EditBookComponent(props: EditBookComponentProps) {
         header={isEditing ? 'Editar Livro' : 'Visualizar Livro'}
         visible={visibleEdit1}
         style={{ width: '40vw', maxWidth: '600px' }}
-        onHide={() => EditsetVisible1(false)}
+        onHide={() => {EditsetVisible1(false); setIsEditing(false)}}
       >
         <form
           className="flex flex-column gap-5 p-4"
@@ -240,10 +240,15 @@ export default function EditBookComponent(props: EditBookComponentProps) {
               </>
             )}
             <Button
-              icon="pi pi-pencil"
-              className="p-button-rounded p-button-outlined p-button-secondary"
-              onClick={() => setIsEditing((prev) => !prev)}
-            />
+                  outlined
+                  label="Editar"
+                  style={{
+                    borderColor: '#f3d300',
+                    color: 'white',
+                    backgroundColor: '#f3d300',
+                  }}
+                  onClick={() => setIsEditing(true)}
+                />
           </div>
         </form>
       </Dialog>
