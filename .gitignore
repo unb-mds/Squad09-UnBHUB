@@ -25,3 +25,6 @@ dist-ssr
 
 # Environment
 .env
+
+# YARN LOCK TCHAU
+yarn.lock
