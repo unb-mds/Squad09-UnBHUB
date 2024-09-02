@@ -38,7 +38,7 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
         time: Yup.date().required('O horário é obrigatório'),
         room: Yup.string().required('A sala é obrigatória'),
       })}
-      onSubmit={(values) => {
+      onSubmit={(values, { resetForm }) => {
         if (values.date && values.time) {
           const exam = {
             ...values,
@@ -48,6 +48,7 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
 
           CreateExamFunction(subjectId, exam).then(() => {
             setVisible(false);
+            resetForm();
           });
         }
       }}
@@ -60,6 +61,7 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
         handleSubmit,
         errors,
         touched,
+        resetForm,
       }) => {
         const handleButtonClick = (
           e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -72,7 +74,10 @@ const ExamDialogComponent: React.FC<ExamDialogComponentProps> = ({
             <Dialog
               header="Adicionar Prova"
               visible={visible}
-              onHide={() => setVisible(false)}
+              onHide={() => {
+                setVisible(false);
+                resetForm();
+              }}
             >
               <div className="p-fluid">
                 <div className="field">
