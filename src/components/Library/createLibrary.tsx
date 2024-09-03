@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext'; // Importa o componente InputT
 import { Calendar } from 'primereact/calendar'; // Importa o componente Calendar da biblioteca PrimeReact
 import { Formik } from 'formik'; // Importa o Formik para gerenciamento de formulários
 import * as Yup from 'yup'; // Importa Yup para validação de formulários
-import CreateLibraryFunction from '../../functions/CreateLibrary'; // Importa a função para criar um livro na biblioteca
+import CreateLibraryFunction from '../../functions/Library/CreateLibrary'; // Importa a função para criar um livro na biblioteca
 import { Timestamp } from 'firebase/firestore'; // Importa o tipo Timestamp do Firestore
 import { useEffect } from 'react'; // Importa o useEffect para lidar com efeitos colaterais
 
@@ -119,7 +119,9 @@ export default function CreateLibrary(props: {
               </FloatLabel>
               {errors.deliveryDay && touched.deliveryDay ? (
                 <div className="text-red-500 my-5">
-                  {typeof errors.deliveryDay === 'string' ? errors.deliveryDay : ''}
+                  {typeof errors.deliveryDay === 'string'
+                    ? errors.deliveryDay
+                    : ''}
                 </div>
               ) : null}
 

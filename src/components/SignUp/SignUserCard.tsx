@@ -2,8 +2,8 @@ import { Formik } from 'formik';
 import { Button } from 'primereact/button';
 import * as Yup from 'yup';
 
-import InputComponent from './Input';
-import CreateUserInfoFunction from '../functions/CreateUserInfo';
+import InputComponent from '../Input';
+import CreateUserInfoFunction from '../../functions/SignUp/CreateUserInfo';
 import { useNavigate } from 'react-router-dom';
 
 interface InputProps {
@@ -15,10 +15,16 @@ interface InputProps {
 
 export default function SignUserCardComponent() {
   const schema = Yup.object().shape({
-    userName: Yup.string().required('O campo de nome de usuário é obrigatório.'),
+    userName: Yup.string().required(
+      'O campo de nome de usuário é obrigatório.'
+    ),
     course: Yup.string().required('O campo de curso é obrigatório.'),
-    currentSemester: Yup.number().required('O campo de semestre atual é obrigatório.'),
-    endSemester: Yup.number().required('O campo de semestre provável de término é obrigatório.'),
+    currentSemester: Yup.number().required(
+      'O campo de semestre atual é obrigatório.'
+    ),
+    endSemester: Yup.number().required(
+      'O campo de semestre provável de término é obrigatório.'
+    ),
   });
 
   const navigate = useNavigate();

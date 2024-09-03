@@ -33,7 +33,7 @@ export default function CreateSubjectComponent(props: {
         endTime: null,
         local: '',
       }}
-      onSubmit={(values) => {
+      onSubmit={(values, { resetForm }) => {
         const startTime = values.startTime
           ? Timestamp.fromDate(new Date(values.startTime))
           : null;
@@ -48,6 +48,7 @@ export default function CreateSubjectComponent(props: {
           endTime: endTime,
         }).then(() => {
           props.setVisible(false);
+          resetForm();
         });
       }}
       validationSchema={Yup.object().shape({
@@ -71,6 +72,7 @@ export default function CreateSubjectComponent(props: {
         errors,
         touched,
         setFieldValue,
+        resetForm,
       }) => {
         const handleButtonClick = (
           e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -87,7 +89,10 @@ export default function CreateSubjectComponent(props: {
               header="Cadastrar matéria"
               visible={props.visible}
               style={{ width: '30vw' }}
-              onHide={() => props.setVisible(false)}
+              onHide={() => {
+                props.setVisible(false);
+                resetForm();
+              }}
             >
               <FloatLabel>
                 <InputText
@@ -221,7 +226,10 @@ export default function CreateSubjectComponent(props: {
                     color: 'white',
                     backgroundColor: '#ff6060',
                   }}
-                  onClick={() => props.setVisible(false)}
+                  onClick={() => {
+                    props.setVisible(false);
+                    resetForm();
+                  }}
                 />
                 <Button onClick={handleButtonClick} label="Confirmar" />
               </div>

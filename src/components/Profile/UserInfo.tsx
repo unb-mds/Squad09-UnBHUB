@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { onAuthStateChanged, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import {
+  onAuthStateChanged,
+  deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from 'firebase/auth';
 import { Avatar } from 'primereact/avatar';
 import { ProgressBar } from 'primereact/progressbar';
 import { Dialog } from 'primereact/dialog';
@@ -8,10 +13,15 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
-import { FileUpload } from 'primereact/fileupload'; 
-import Stats from '../components/Stats';
-import { auth, db, storage } from '../../config/firebase';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { FileUpload } from 'primereact/fileupload';
+import Stats from './Stats';
+import { auth, db, storage } from '../../../config/firebase';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage';
 
 interface IUserInfo {
   userName: string;
@@ -26,7 +36,8 @@ export default function User() {
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [editDialogVisible, setEditDialogVisible] = useState<boolean>(false);
-  const [passwordDialogVisible, setPasswordDialogVisible] = useState<boolean>(false);
+  const [passwordDialogVisible, setPasswordDialogVisible] =
+    useState<boolean>(false);
   const [imageDialogVisible, setImageDialogVisible] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -49,7 +60,7 @@ export default function User() {
               course: data.course,
               currentSemester: data.currentSemester,
               endSemester: data.endSemester,
-              profileImageUrl: data.profileImageUrl || ''
+              profileImageUrl: data.profileImageUrl || '',
             });
           }
           setLoading(false);
@@ -75,30 +86,33 @@ export default function User() {
 
   const handleDeleteAccount = async () => {
     if (auth.currentUser) {
-        const user = auth.currentUser;
-        const credential = EmailAuthProvider.credential(user.email!, password);
+      const user = auth.currentUser;
+      const credential = EmailAuthProvider.credential(user.email!, password);
 
-        try {
-            await reauthenticateWithCredential(user, credential);
+      try {
+        await reauthenticateWithCredential(user, credential);
 
-            // exclui a imagem de perfil do Storage
-            if (userInfo?.profileImageUrl) {
-                const storageRef = ref(storage, `profileImages/${auth.currentUser.uid}`);
-                await deleteObject(storageRef);
-            }
-
-            // exclui o documento do Firestore e a conta do usuário
-            const userDoc = doc(db, 'Users', auth.currentUser.uid);
-            await deleteDoc(userDoc);
-            await deleteUser(user);
-
-            setPasswordDialogVisible(false);
-        } catch (error) {
-            console.error("Erro ao excluir a conta:", error);
-            setErrorMessage('Senha incorreta');
+        // exclui a imagem de perfil do Storage
+        if (userInfo?.profileImageUrl) {
+          const storageRef = ref(
+            storage,
+            `profileImages/${auth.currentUser.uid}`
+          );
+          await deleteObject(storageRef);
         }
+
+        // exclui o documento do Firestore e a conta do usuário
+        const userDoc = doc(db, 'Users', auth.currentUser.uid);
+        await deleteDoc(userDoc);
+        await deleteUser(user);
+
+        setPasswordDialogVisible(false);
+      } catch (error) {
+        console.error('Erro ao excluir a conta:', error);
+        setErrorMessage('Senha incorreta');
+      }
     }
-};
+  };
 
   const handleFileUpload = (e: any) => {
     const file = e.files[0];
@@ -118,10 +132,12 @@ export default function User() {
         const userDoc = doc(db, 'Users', auth.currentUser.uid);
         await updateDoc(userDoc, { 'UserInfo.profileImageUrl': downloadURL });
 
-        setUserInfo((prevState) => prevState ? { ...prevState, profileImageUrl: downloadURL } : null);
+        setUserInfo((prevState) =>
+          prevState ? { ...prevState, profileImageUrl: downloadURL } : null
+        );
         setImagePreview(downloadURL); // Atualiza a imagem exibida na UI
       } catch (error) {
-        console.error("Erro ao fazer upload da imagem: ", error);
+        console.error('Erro ao fazer upload da imagem: ', error);
       } finally {
         setUploading(false); // Indica que o upload terminou
         setImageDialogVisible(false);
@@ -137,7 +153,10 @@ export default function User() {
     return <div>Informações do usuário não encontradas.</div>;
   }
 
-  const progress = ((userInfo.currentSemester / userInfo.endSemester) * 100).toFixed(2);
+  const progress = (
+    (userInfo.currentSemester / userInfo.endSemester) *
+    100
+  ).toFixed(2);
 
   return (
     <div className="my-1 mx-3 border-round-xl px-3 py-2">
@@ -205,7 +224,9 @@ export default function User() {
           validationSchema={Yup.object({
             userName: Yup.string().required('Nome de usuário é obrigatório'),
             course: Yup.string().required('Curso é obrigatório'),
-            currentSemester: Yup.number().required('Semestre atual é obrigatório'),
+            currentSemester: Yup.number().required(
+              'Semestre atual é obrigatório'
+            ),
             endSemester: Yup.number().required('Semestre final é obrigatório'),
           })}
           onSubmit={updateUserProfile}
@@ -217,7 +238,9 @@ export default function User() {
                   as={InputText}
                   id="userName"
                   name="userName"
-                  className={`w-full ${errors.userName && touched.userName ? 'p-invalid' : ''}`}
+                  className={`w-full ${
+                    errors.userName && touched.userName ? 'p-invalid' : ''
+                  }`}
                 />
                 <label htmlFor="userName">Nome de usuário</label>
                 {errors.userName && touched.userName ? (
@@ -229,7 +252,9 @@ export default function User() {
                   as={InputText}
                   id="course"
                   name="course"
-                  className={`w-full ${errors.course && touched.course ? 'p-invalid' : ''}`}
+                  className={`w-full ${
+                    errors.course && touched.course ? 'p-invalid' : ''
+                  }`}
                 />
                 <label htmlFor="course">Curso</label>
                 {errors.course && touched.course ? (
@@ -242,7 +267,11 @@ export default function User() {
                   id="currentSemester"
                   name="currentSemester"
                   type="number"
-                  className={`w-full ${errors.currentSemester && touched.currentSemester ? 'p-invalid' : ''}`}
+                  className={`w-full ${
+                    errors.currentSemester && touched.currentSemester
+                      ? 'p-invalid'
+                      : ''
+                  }`}
                 />
                 <label htmlFor="currentSemester">Semestre Atual</label>
                 {errors.currentSemester && touched.currentSemester ? (
@@ -255,7 +284,9 @@ export default function User() {
                   id="endSemester"
                   name="endSemester"
                   type="number"
-                  className={`w-full ${errors.endSemester && touched.endSemester ? 'p-invalid' : ''}`}
+                  className={`w-full ${
+                    errors.endSemester && touched.endSemester ? 'p-invalid' : ''
+                  }`}
                 />
                 <label htmlFor="endSemester">Semestre Final</label>
                 {errors.endSemester && touched.endSemester ? (
@@ -313,7 +344,16 @@ export default function User() {
             className="mb-3"
           />
           {imagePreview && (
-            <img src={imagePreview} alt="Imagem de perfil" style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '10px' }} />
+            <img
+              src={imagePreview}
+              alt="Imagem de perfil"
+              style={{
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                marginBottom: '10px',
+              }}
+            />
           )}
           <Button
             type="button"

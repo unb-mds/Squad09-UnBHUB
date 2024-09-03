@@ -1,14 +1,14 @@
-import { Timestamp } from "firebase/firestore";
-import { useState, useEffect } from 'react'; 
-import { Button } from 'primereact/button'; 
-import { Dialog } from 'primereact/dialog'; 
-import { FloatLabel } from 'primereact/floatlabel'; 
-import { InputText } from 'primereact/inputtext'; 
-import { Calendar } from 'primereact/calendar'; 
-import EditActivityFunction from '../../functions/EditActivity'; 
-import FinalizeActivityFunction from '../../functions/FinalizedActivity'; 
-import DeletedActivityFunction from '../../functions/DeleteActivity'; 
-import { ActiveActivityFunction } from "../../functions/CheckDateActivity";
+import { Timestamp } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
+import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { FloatLabel } from 'primereact/floatlabel';
+import { InputText } from 'primereact/inputtext';
+import { Calendar } from 'primereact/calendar';
+import EditActivityFunction from '../../functions/Activities/EditActivity';
+import FinalizeActivityFunction from '../../functions/Activities/FinalizedActivity';
+import DeletedActivityFunction from '../../functions/Activities/DeleteActivity';
+import { ActiveActivityFunction } from '../../functions/CheckDateActivity';
 
 interface ActivityData {
   taskName: string;
@@ -22,12 +22,14 @@ interface EditActivityComponentProps {
   activityData: ActivityData | null;
   onSave: (updatedActivityData: ActivityData) => void;
   onDelete: () => void;
-  subjectId: string; 
-  taskId: string; 
-  status: string; 
+  subjectId: string;
+  taskId: string;
+  status: string;
 }
 
-export default function EditActivityComponent(props: EditActivityComponentProps) {
+export default function EditActivityComponent(
+  props: EditActivityComponentProps
+) {
   const { activityData, visibleEdit, EditsetVisible } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<ActivityData | null>(null);
@@ -44,7 +46,7 @@ export default function EditActivityComponent(props: EditActivityComponentProps)
       const { id, value } = e.target;
       setFormData((prevData) => ({
         ...prevData!,
-        [id]: value || '', 
+        [id]: value || '',
       }));
     }
   };
@@ -63,15 +65,16 @@ export default function EditActivityComponent(props: EditActivityComponentProps)
     if (formData) {
       const updatedFormData = {
         ...formData,
-        deliveryDay: formData.deliveryDay ? Timestamp.fromDate(formData.deliveryDay) : null,
+        deliveryDay: formData.deliveryDay
+          ? Timestamp.fromDate(formData.deliveryDay)
+          : null,
       };
-      if(formData.deliveryDay == null){
+      if (formData.deliveryDay == null) {
         setIsEditing(false);
         EditsetVisible(false);
-      }
-      else{
+      } else {
         EditActivityFunction(
-          updatedFormData, 
+          updatedFormData,
           props.subjectId,
           props.taskId,
           props.status
@@ -91,13 +94,13 @@ export default function EditActivityComponent(props: EditActivityComponentProps)
   };
 
   const handleRestore = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
     ActiveActivityFunction(props.subjectId, props.taskId);
     EditsetVisible(false);
   };
 
   const handleFinalized = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); 
+    e.preventDefault();
     FinalizeActivityFunction(props.subjectId, props.taskId);
     EditsetVisible(false);
   };
@@ -128,9 +131,12 @@ export default function EditActivityComponent(props: EditActivityComponentProps)
         header={isEditing ? 'Editar atividade' : 'Visualizar atividade'}
         visible={visibleEdit}
         style={{ width: '40vw', maxWidth: '600px' }}
-        onHide={() => EditsetVisible(false)}
+        onHide={() => {EditsetVisible(false);setIsEditing(false)}}
       >
-        <form className="flex flex-column gap-5 p-4" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="flex flex-column gap-5 p-4"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <FloatLabel>
             <InputText
               className="w-full"

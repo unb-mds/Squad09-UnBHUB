@@ -91,6 +91,7 @@ export default function CreateExamDialogComponent(props: {
         handleSubmit,
         errors,
         touched,
+        resetForm,
       }) => {
         const handleButtonClick = (
           e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -103,7 +104,10 @@ export default function CreateExamDialogComponent(props: {
             <Dialog
               header="Adicionar Prova"
               visible={props.visibleCreateExam}
-              onHide={() => props.setVisibleCreateExam(false)}
+              onHide={() => {
+                props.setVisibleCreateExam(false);
+                resetForm();
+              }}
             >
               <div className="p-fluid">
                 <div className="field">
