@@ -1,6 +1,6 @@
 # Arquitetura do Projeto
 
-![Architecture](./assets/newArchitecture.png)
+![Architecture](./assets/architecture.png)
 Link para melhor visualização: https://miro.com/app/board/uXjVKoxN9n8=/
 
 ## Visão Geral
