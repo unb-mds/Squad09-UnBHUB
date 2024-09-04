@@ -129,7 +129,7 @@ ESCOPO MÍNIMO DO MVP1: #U1, #U2, #AU1, #U3, #U4, #U5, #U6, #U7, #U8, #U9, #U10,
 - Editar Curso ✅
 - Editar Semestre ✅
 - Trocar Senha ❌
-- Editar notificações ❌
+- Editar notificações ✅
 - Excluir conta ✅
 
 

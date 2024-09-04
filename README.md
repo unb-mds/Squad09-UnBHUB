@@ -74,12 +74,12 @@ yarn
 ```
 > Cadastre os dados do seu aplicativo do FireBase criando um arquivo `.env` preenchendo-o com as seguintes infomações
 ```bash
-VITE_API_KEY=
-VITE_AUTH_DOMAIN=
-VITE_PROJECT_ID=
-VITE_STORAGE_BUCKET=
-VITE_MESSAGING_SENDER_ID=
-VITE_APP_ID=
+VITE_VERCEL_API_KEY=
+VITE_VERCEL_AUTH_DOMAIN=
+VITE_VERCEL_PROJECT_ID=
+VITE_VERCEL_STORAGE_BUCKET=
+VITE_VERCEL_MESSAGING_SENDER_ID=
+VITE_VERCEL_APP_ID=
 ```
 **Obs:** Os dados do cadastro estão localizados em **Configuracoes do projeto > Geral** na página do projeto do Firebase, devendo ser preenchidos sem as aspas nos seus respectivos campos do arquivo .env 
 
